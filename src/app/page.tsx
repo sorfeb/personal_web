@@ -5,10 +5,12 @@ import React, { useEffect, useState } from 'react';
 
 import XboxDashboard from './components/XboxDashboard';
 import XboxCard from './components/XboxCard';
+import ScrollingMenu from './components/ScrollingMenu';
 
 export default function Home() {
   return (
-    <div>
+    <div className="screen">
+      <ScrollingMenu items={["Home", "Games", "Store", "Community", "Profile", "Settings", "Media"]} />
       <XboxDashboard />
     </div>
   );

@@ -10,38 +10,34 @@ interface XboxCardProps {
   }
 
 const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl  }) => {
-    const [isHovering, setIsHovering] = useState(false);
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const cardRef = useRef<HTMLDivElement>(null);
-
-    const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-        if (cardRef.current) {
-        const rect = cardRef.current.getBoundingClientRect();
-        setMousePosition({
-            x: event.clientX - rect.left,
-            y: event.clientY - rect.top,
-        });
-        }
-    };
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
     useEffect(() => {
-        if (isHovering && cardRef.current) {
-        const glowElement = cardRef.current.querySelector(`.${styles.glow}`) as HTMLElement;
-        if (glowElement) {
-            glowElement.style.left = `${mousePosition.x}px`;
-            glowElement.style.top = `${mousePosition.y}px`;
+        const handleMouseMove = (event: MouseEvent) => {
+          if (cardRef.current) {
+            const rect = cardRef.current.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            setMousePosition({ x, y });
+            cardRef.current.style.setProperty('--mouse-x', `${x}px`);
+            cardRef.current.style.setProperty('--mouse-y', `${y}px`);
+          }
+        };
+
+        if (cardRef.current) {
+          cardRef.current.addEventListener('mousemove', handleMouseMove);
         }
-        }
-    }, [isHovering, mousePosition]);
+
+        return () => {
+          if (cardRef.current) {
+              cardRef.current.removeEventListener('mousemove', handleMouseMove);
+          }
+      };
+    }, []);
 
     return (
-        <div 
-          className={`${styles.card} ${isHovering ? styles.hovering : ''}`}
-          onMouseEnter={() => setIsHovering(true)}
-          onMouseLeave={() => setIsHovering(false)}
-          onMouseMove={handleMouseMove}
-          ref={cardRef}
-        >
+        <div className={styles.card} ref={cardRef}>
           <div className={styles.glow}></div>
           <div className={styles.iconWrapper}>
             <Image 
@@ -53,6 +49,9 @@ const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl  }) => {
             />
           </div>
           <h2 className={styles.title}>{title}</h2>
+          <div className={styles.mousePosition}>
+            Mouse Position: {mousePosition.x}, {mousePosition.y}
+          </div>
         </div>
       );
 };

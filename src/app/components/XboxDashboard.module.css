@@ -8,20 +8,3 @@
     min-height: 220px;
     align-items: center;
   }
-  
-  .dashboard::-webkit-scrollbar {
-    height: 8px;
-  }
-  
-  .dashboard::-webkit-scrollbar-track {
-    background: #0e6b0e;
-  }
-  
-  .dashboard::-webkit-scrollbar-thumb {
-    background: #85c585;
-    border-radius: 4px;
-  }
-  
-  .dashboard::-webkit-scrollbar-thumb:hover {
-    background: #9ed89e;
-  }
