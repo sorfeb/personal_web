@@ -7,6 +7,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import XboxDashboard from './components/XboxDashboard';
 import XboxCard from './components/XboxCard';
 import ScrollingMenu from './components/ScrollingMenu';
+import LoadingScreen from "./components/LoadingScreen";
 
 const cards1 = [
   { title: "About", iconUrl: "/public/assets/icons/games-icon.png" },
@@ -39,13 +40,26 @@ const cards4 = [
 ];
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(true);
   const menuItems = ["Home", "Profile", "Gallery", "Misc"];
   const [activeIndex, setActiveIndex] = useState(0);
   const cards = [cards1, cards2, cards3, cards4];
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const handleSelectionChange = (index: number) => {
     setActiveIndex(index);
   };
+
+  if (isLoading) {
+    return <LoadingScreen />
+  }
   
   return (
     <div className={styles.screen}>
