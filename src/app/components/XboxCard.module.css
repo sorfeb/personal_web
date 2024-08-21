@@ -40,7 +40,6 @@
 .card:hover::before {
   top: -30%;
   left: -30%;
-  transform: rotate(0deg);
 }
 
 .card::after {

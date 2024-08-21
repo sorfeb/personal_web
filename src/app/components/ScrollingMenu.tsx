@@ -5,14 +5,16 @@ import styles from './ScrollingMenu.module.css';
 
 interface ScrollingMenuProps {
   items: string[];
+  onSelectionChange: (index: number) => void;
 }
 
-const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items }) => {
+const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items, onSelectionChange }) => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   const handleScroll = (event: React.WheelEvent<HTMLDivElement>) => {
     const newIndex = Math.min(Math.max(selectedIndex + Math.sign(event.deltaY), 0), items.length - 1);
-    setSelectedIndex(newIndex);
+    setSelectedIndex(newIndex); 
+    onSelectionChange(newIndex);
   };
 
   return (

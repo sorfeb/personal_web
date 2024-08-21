@@ -49,9 +49,6 @@ const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl  }) => {
             />
           </div>
           <h2 className={styles.title}>{title}</h2>
-          <div className={styles.mousePosition}>
-            Mouse Position: {mousePosition.x}, {mousePosition.y}
-          </div>
         </div>
       );
 };

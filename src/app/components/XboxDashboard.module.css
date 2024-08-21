@@ -2,8 +2,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100px;
     overflow-x: auto;
+    height: 100vh;
     padding: 20px;
     min-height: 220px;
     align-items: center;
