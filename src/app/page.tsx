@@ -4,10 +4,10 @@ import styles from "./page.module.css";
 import type { GetStaticProps, NextPage } from 'next';
 import React, { useEffect, useRef, useState } from 'react';
 
-import XboxDashboard from './components/XboxDashboard';
-import XboxCard from './components/XboxCard';
-import ScrollingMenu from './components/ScrollingMenu';
-import LoadingScreen from "./components/LoadingScreen";
+import XboxDashboard from './components/XboxDashboard/XboxDashboard';
+import ScrollingMenu from './components/ScrollingMenu/ScrollingMenu';
+import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
+import ProfileCard from "./components/ProfileCard/ProfileCard";
 
 const cards1 = [
   { title: "About", iconUrl: "/public/assets/icons/games-icon.png" },
@@ -67,6 +67,11 @@ export default function Home() {
         items={menuItems}
         onSelectionChange={handleSelectionChange}
         />
+      <ProfileCard 
+        name="John Doe"
+        level="10"
+        gamerscore={1000}
+      />
       <XboxDashboard cards={cards[activeIndex]} />
     </div>
   );
