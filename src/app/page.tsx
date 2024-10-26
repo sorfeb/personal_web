@@ -8,6 +8,7 @@ import XboxDashboard from './components/XboxDashboard/XboxDashboard';
 import ScrollingMenu from './components/ScrollingMenu/ScrollingMenu';
 import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
 import ProfileCard from "./components/ProfileCard/ProfileCard";
+import SpotifyProfile from "./components/SpotifyProfile/SpotifyProfile";
 
 const cards1 = [
   { title: "About", iconUrl: "/public/assets/icons/games-icon.png" },
@@ -57,9 +58,9 @@ export default function Home() {
     setActiveIndex(index);
   };
 
-  if (isLoading) {
-    return <LoadingScreen />
-  }
+  // if (isLoading) {
+  //   return <LoadingScreen />
+  // }
   
   return (
     <div className={styles.screen}>
@@ -73,6 +74,7 @@ export default function Home() {
         gamerscore={1000}
       />
       <XboxDashboard cards={cards[activeIndex]} />
+      <SpotifyProfile></SpotifyProfile>
     </div>
   );
 }
