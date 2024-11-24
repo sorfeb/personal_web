@@ -45,6 +45,7 @@ export default function Home() {
   const menuItems = ["Home", "Profile", "Gallery", "Misc"];
   const [activeIndex, setActiveIndex] = useState(0);
   const cards = [cards1, cards2, cards3, cards4];
+  const [playlists, setPlaylists] = useState([]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -57,6 +58,19 @@ export default function Home() {
   const handleSelectionChange = (index: number) => {
     setActiveIndex(index);
   };
+
+  const fetchPlaylists = async () => {
+      const response = await fetch('/api/playlists');
+      const data = await response.json();
+
+      if (data.error) {
+        throw new Error(data.error.message);
+      }
+
+      setPlaylists(data.items || []);
+    };
+
+  
 
   // if (isLoading) {
   //   return <LoadingScreen />
@@ -76,6 +90,24 @@ export default function Home() {
       <XboxDashboard cards={cards[activeIndex]} />
       <SpotifyProfile></SpotifyProfile>
     </div>
+        <div>
+        <h1>My Spotify Playlists</h1>
+        <ul>
+          {playlists.map((playlist) => (
+            <li key={playlist.id}>
+              <a href={playlist.external_urls.spotify} target="_blank" rel="noopener noreferrer">
+                <img
+                  src={playlist.images[0]?.url || '/placeholder.png'} // Display playlist image
+                  alt={playlist.name}
+                  width={64}
+                  height={64}
+                />
+                <p>{playlist.name}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
   );
 }
 
