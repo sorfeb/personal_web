@@ -1,4 +1,5 @@
 // pages/api/playlists.js
+
 export default async function handler(req, res) {
   const tokenResponse = await fetch('http://localhost:3000/api/token');
   const { access_token } = await tokenResponse.json();
