@@ -4,8 +4,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-height: 100vh;
   padding: 0 2rem;
+  margin-top: 3rem;
+  max-height: 100vh; /* Ensure the height is fully locked to the viewport */
+  overflow: hidden; /* Disable scrolling by hiding overflow */
 }
 
 .screen > :first-child {

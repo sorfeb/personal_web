@@ -112,7 +112,9 @@ export default function Home() {
         level="10"
         gamerscore={1000}
       />
-      <XboxDashboard cards={cards[activeIndex]} />
+      <div className={styles.XboxDashboardContainer}>
+        <XboxDashboard cards={cards[activeIndex]} />
+      </div>
       <div>
         {playlists.map((playlist, index) => (
           <SlideshowXboxCard key={index} title={playlist.title} images={playlist.images} />

@@ -7,7 +7,7 @@
 
 .card {
   display: flex;
-  background-color: #202020;
+  background-color: rgba(0,0,0,0.15);
   border-radius: 10px;
   padding: 12px;
   width: 300px;
