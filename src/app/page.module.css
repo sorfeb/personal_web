@@ -6,7 +6,6 @@
   justify-content: center;
   padding: 0 2rem;
   margin-top: 3rem;
-  max-height: 100vh; /* Ensure the height is fully locked to the viewport */
   overflow: hidden; /* Disable scrolling by hiding overflow */
 }
 

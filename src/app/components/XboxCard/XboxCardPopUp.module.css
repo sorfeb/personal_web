@@ -1,0 +1,79 @@
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background: linear-gradient(145deg, #2e2e2e, #3b3b3b);
+    border: 1px solid #444;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    z-index: 1000;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .popup::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    transform: rotate(30deg);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  
+  .popupContent {
+    padding: 20px;
+  }
+  
+  .popupTitle {
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #dcdcdc;
+  }
+  
+  .menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .menuItem {
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #fff;
+    background: transparent;
+    transition: background 0.3s ease;
+  }
+  
+  .menuItem:not(.active):hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .menuItem.active {
+    background: linear-gradient(90deg, #6cb82b, #4e9c1b);
+    font-weight: bold;
+    border-radius: 5px;
+  }
+  
+  .closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  .closeButton:hover {
+    transform: scale(1.1);
+  }
+  

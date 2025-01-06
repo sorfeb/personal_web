@@ -10,6 +10,7 @@ import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
 import ProfileCard from "./components/ProfileCard/ProfileCard";
 import SpotifyProfile from "./components/SpotifyProfile/SpotifyProfile";
 import SlideshowXboxCard from "./components/SlideshowXboxCard/SlideshowXboxCard";
+import XboxCardPopUp from "./components/XboxCard/XboxCardPopUp";
 
 const cards1 = [
   { title: "About", iconUrl: "/public/assets/icons/games-icon.png" },
@@ -62,7 +63,7 @@ const playlistData = [
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
-  const menuItems = ["Home", "Profile", "Gallery", "Misc"];
+  const menuItems = ["Home", "Misc", "Gallery", "Credits"];
   const [activeIndex, setActiveIndex] = useState(0);
   const cards = [cards1, cards2, cards3, cards4];
 
@@ -120,6 +121,7 @@ export default function Home() {
           <SlideshowXboxCard key={index} title={playlist.title} images={playlist.images} />
         ))}
       </div>
+      <XboxCardPopUp title="Settings" menuItems={["Home", "Profile", "Gallery", "Misc"]} onClose={() => {}} />
     </div>
   );
 }
