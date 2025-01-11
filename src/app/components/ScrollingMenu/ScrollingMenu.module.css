@@ -1,18 +1,14 @@
 .container {
-  width: 300px;
-  height: 400px;
-  overflow: hidden;
   perspective: 1000px;
 }
 
 .menu {
-  margin-left: 12rem;
   transform-style: preserve-3d;
   transition: transform 0.3s ease;
 }
 
 .menuItem {
-  height: 80px;
+  height: 40px;
   display: flex;
   align-items: left;
   justify-content: left;

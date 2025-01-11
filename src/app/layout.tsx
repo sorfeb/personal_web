@@ -8,9 +8,8 @@ export const metadata: Metadata = {
   title: "SorOS",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+export default function RootLayout({children,}: 
+  Readonly<{
   children: React.ReactNode;
 }>) {
   return (
@@ -20,7 +19,11 @@ export default function RootLayout({
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <div className="crt">
+          {children}
+        </div>
+        </body>
     </html>
   );
 }

@@ -19,7 +19,7 @@ const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items, onSelectionChange 
 
   return (
     <div className={styles.container} onWheel={handleScroll}>
-      <div className={styles.menu} style={{ transform: `translateY(-${selectedIndex * 100}px)` }}>
+      <div className={styles.menu} style={{ transform: `translateY(-${selectedIndex * 5}px)` }}>
         {items.map((item, index) => (
           <div
             key={index}

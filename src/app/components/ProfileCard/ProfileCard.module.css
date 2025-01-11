@@ -1,16 +1,8 @@
-.cardContainer {
-  position: fixed;
-  top: 25px;
-  right: 25px;
-  z-index: 1000;
-}
-
 .card {
   display: flex;
   background-color: rgba(0,0,0,0.15);
   border-radius: 10px;
-  padding: 12px;
-  width: 300px;
+  padding: 15px 70px 15px 15px;
   color: white;
   font-family: "Segoe UI", Arial, sans-serif;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1),
@@ -39,8 +31,6 @@
   position: absolute;
   top: var(--mouse-y);
   left: var(--mouse-x);
-  width: 60%;
-  height: 60%;
   background: radial-gradient(
     circle,
     rgba(255, 255, 255, 0.5) 3%,
@@ -128,3 +118,6 @@
 .gamerscore img {
   margin-right: 4px;
 }
+
+
+

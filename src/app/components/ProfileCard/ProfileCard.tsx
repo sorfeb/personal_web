@@ -10,7 +10,6 @@ interface ProfileCardProps {
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ name, level, gamerscore }) => {
   return (
-    <div className={styles.cardContainer}>
       <div className={styles.card}>
         <div className={styles.avatarContainer}>
           <div className={styles.avatarWrapper}>
@@ -38,7 +37,6 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ name, level, gamerscore }) =>
           </p>
         </div>
       </div>
-    </div>
   );
 };
 
