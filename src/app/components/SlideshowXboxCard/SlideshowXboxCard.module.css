@@ -1,17 +1,27 @@
 .card {
+  font-family: 'Segoe UI', 'Frutiger', 'Helvetica', sans-serif;
+  color: white;
+
   width: 200px;
-  height: 200px;
+  height: 160px;
+  border-radius: 12px;
+
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-end;
-  border-radius: 12px;
+  
   background-size: cover; /* Ensure the background fills the card */
   background-position: center; /* Center the background image */
-  position: relative;
-  overflow: hidden;
+
+  border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
   transition: transform 0.3s ease, box-shadow 0.3s ease, background-image 0.5s ease-in-out;
+
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
 }
 
 .card::before {

@@ -8,3 +8,7 @@
     min-height: 220px;
     align-items: center;
   }
+
+  .card {
+    height: 300px;
+  }

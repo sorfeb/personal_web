@@ -12,9 +12,24 @@ const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items, onSelectionChange 
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   const handleScroll = (event: React.WheelEvent<HTMLDivElement>) => {
+    const direction = Math.sign(event.deltaY); // 1 for down, -1 for up
     const newIndex = Math.min(Math.max(selectedIndex + Math.sign(event.deltaY), 0), items.length - 1);
-    setSelectedIndex(newIndex); 
-    onSelectionChange(newIndex);
+
+    if (newIndex !== selectedIndex) {
+      setSelectedIndex(newIndex);
+      onSelectionChange(newIndex);
+
+      playSound(direction > 0 ? 'down' : 'up');
+    }
+  };
+
+  const playSound = (direction: 'up' | 'down') => {
+    const soundPath =
+      direction === 'down'
+        ? '/assets/audio/snd_channeldown.wav'
+        : '/assets/audio/snd_channelup.wav';
+    const audio = new Audio(soundPath);
+    audio.play();
   };
 
   return (

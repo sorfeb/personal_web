@@ -10,6 +10,16 @@ interface PopupProps {
 }
 
 const Popup: React.FC<PopupProps> = ({ title, menuItems, onClose }) => {
+  const handleClose = () => {
+    playSound();
+    onClose(); 
+  };
+
+  const playSound = () => {
+    const audio = new Audio('/assets/audio/snd_buttonback.wav'); // Path to your sound file
+    audio.play();
+  };
+  
   return (
     <div className={styles.popup}>
       <div className={styles.popupContent}>
@@ -21,7 +31,7 @@ const Popup: React.FC<PopupProps> = ({ title, menuItems, onClose }) => {
             </li>
           ))}
         </ul>
-        <button className={styles.closeButton} onClick={onClose}>
+        <button className={styles.closeButton} onClick={handleClose}>
           ✕
         </button>
       </div>

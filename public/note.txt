@@ -20,3 +20,6 @@ https://geojson.io/
 https://beat.noomoagency.com/
 https://hype4.academy/tools/glassmorphism-generator
 https://aleclownes.com/2017/02/01/crt-display.html
+https://codepen.io/
+https://svgl.app/
+https://www.svgrepo.com/

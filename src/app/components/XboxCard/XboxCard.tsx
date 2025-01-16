@@ -16,7 +16,20 @@ const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl  }) => {
     const [isPopupVisible, setIsPopupVisible] = useState(false);
 
     const togglePopup = () => {
+      if (!isPopupVisible) {
+        playSound(); 
+      }
       setIsPopupVisible(!isPopupVisible);
+    };
+
+    const playSound = () => {
+      const audio = new Audio('/assets/audio/snd_buttonselect.wav'); 
+      audio.play();
+    };
+
+    const playHoverSound = () => {
+      const audio = new Audio('/assets/audio/snd_panelleft.wav'); 
+      audio.play();
     };
 
     useEffect(() => {
@@ -44,9 +57,14 @@ const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl  }) => {
 
     return (
       <>
-        <div className={styles.card} ref={cardRef} onClick={togglePopup}>
+        <div 
+          className={styles.card} 
+          ref={cardRef} 
+          onClick={togglePopup}
+          onMouseEnter={playHoverSound}
+          >
           <div className={styles.glow}></div>
-          <div className={styles.iconWrapper}>
+          <div className={`${styles.iconWrapper} ${styles.reflection}`}>
             <Image 
               src={iconUrl} 
               alt={title} 
