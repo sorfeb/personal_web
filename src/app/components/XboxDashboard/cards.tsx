@@ -8,13 +8,13 @@ const data = {
       { title: "Settings", iconUrl: "assets/icons/certificate.svg" },
     ],
     misc: [
-      { title: "Github", iconUrl: "assets/icons/github-logo.svg"},
-      { title: "Leetcode", iconUrl: "assets/icons/github-logo.svg" },
-      { title: "Cool Sites", iconUrl: "assets/icons/github-logo.svg" },
-      { title: "Movies", iconUrl: "assets/icons/github-logo.svg" },
-      { title: "Books", iconUrl: "assets/icons/github-logo.svg"},
-      { title: "Last.fm", iconUrl: "assets/icons/github-logo.svg" },
-      { title: "Media", iconUrl: "assets/icons/github-logo.svg" },
+      { title: "Github", iconUrl: "assets/icons/github.svg"},
+      { title: "Leetcode", iconUrl: "assets/icons/github.svg" },
+      { title: "Cool Sites", iconUrl: "assets/icons/github.svg" },
+      { title: "Movies", iconUrl: "assets/icons/github.svg" },
+      { title: "Books", iconUrl: "assets/icons/github.svg"},
+      { title: "Last.fm", iconUrl: "assets/icons/github.svg" },
+      { title: "Media", iconUrl: "assets/icons/github.svg" },
     ],
     gallery: [
       { title: "Photos", iconUrl: "assets/icons/gallery.svg" },
@@ -23,7 +23,7 @@ const data = {
       { title: "Media", iconUrl: "assets/icons/gallery.svg" },
     ],
     credits: [
-      { title: "Music", iconUrl: "/public/assets/icons/games-icon.png" },
+      { title: "Music", iconUrl: "assets/icons/music.svg" },
       { title: "Store", iconUrl: "/public/assets/icons/store-icon.png" },
     ],
   };

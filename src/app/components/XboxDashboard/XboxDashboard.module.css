@@ -1,14 +1,24 @@
 .section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow-x: auto;
-    height: 50vh;
-    padding: 20px;
-    min-height: 220px;
-    align-items: center;
-  }
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  height: 50vh;
+  width: 90%;
+  padding: 20px;
+  min-height: 220px;
+  position: relative;
+}
 
-  .card {
-    height: 300px;
-  }
+.card {
+  height: 300px;
+  position: absolute; 
+  left: 0;
+  right: 0;
+  transform-origin: center;
+  transition: transform 0.3s ease, z-index 0.3s ease;
+}
+
+.card:first-child {
+  z-index: 1; 
+  transform: scale(1.1); 
+}

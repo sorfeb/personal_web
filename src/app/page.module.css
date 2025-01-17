@@ -29,6 +29,13 @@
   align-items: center;
 }
 
+.DashboardContainer {
+  width: 90%;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+}
+
 @keyframes flicker {
   0% {
     opacity: 0.27861;

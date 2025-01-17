@@ -23,3 +23,15 @@
   transform: translateZ(100px);
   opacity: 1;
 }
+
+.menuItem.selected::after {
+  content: ''; 
+  position: absolute;
+  top: 50%; 
+  right: 90px; 
+  transform: translateY(-100%); 
+  width: 9px; 
+  height: 9px; 
+  background-color: white;
+  border-radius: 2px; 
+}

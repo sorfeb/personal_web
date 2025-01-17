@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import XboxCard from '../XboxCard/XboxCard';
 import SlideshowXboxCard from '../SlideshowXboxCard/SlideshowXboxCard';
 import styles from './XboxDashboard.module.css';
-import data from './cards';
 
 interface XboxDashboardProps {
   activeIndex: number;
@@ -15,6 +14,25 @@ interface XboxDashboardProps {
 }
 
 const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
+  useEffect(() => {
+    const section = document.querySelector(`.${styles.section}`);
+    const cards = section?.querySelectorAll(`.${styles.card}`);
+    
+    let cumulativeTranslation = 0;
+    let decrement = 250; // Initial increment
+
+    cards?.forEach((card, index) => {
+      const cardElement = card as HTMLElement; 
+
+      cardElement.style.zIndex = `${cards.length - index}`;
+      cardElement.style.transform = `translateX(${cumulativeTranslation}px) scale(${1 - index * 0.1})`; // Apply cumulative translation and scaling
+      cardElement.style.transformOrigin = 'center';
+  
+      cumulativeTranslation += decrement; // Incrementally translate
+      decrement *= 0.78;
+    });
+  }, [activeIndex]);
+  
   const componentMapping: Record<number, JSX.Element> = {
     0: (
       <div className={styles.section}>

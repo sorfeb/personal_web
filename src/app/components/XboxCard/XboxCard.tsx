@@ -63,6 +63,7 @@ const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl  }) => {
           onClick={togglePopup}
           onMouseEnter={playHoverSound}
           >
+          <div className={styles.shadowWrapper}></div>
           <div className={styles.glow}></div>
           <div className={`${styles.iconWrapper} ${styles.reflection}`}>
             <Image 
