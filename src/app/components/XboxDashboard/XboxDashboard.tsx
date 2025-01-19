@@ -27,6 +27,11 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
       cardElement.style.zIndex = `${cards.length - index}`;
       cardElement.style.transform = `translateX(${cumulativeTranslation}px) scale(${1 - index * 0.1})`; // Apply cumulative translation and scaling
       cardElement.style.transformOrigin = 'center';
+
+      cardElement.classList.remove(styles.selected); // Remove previous selection
+      if (index != activeIndex) {
+        cardElement.classList.add(styles.selected); // Add selection to active card
+      }
   
       cumulativeTranslation += decrement; // Incrementally translate
       decrement *= 0.78;
