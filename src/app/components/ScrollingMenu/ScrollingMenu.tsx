@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import styles from './ScrollingMenu.module.css';
+import { useVolume } from '../../context/VolumeContext';
 
 interface ScrollingMenuProps {
   items: string[];
@@ -10,7 +11,7 @@ interface ScrollingMenuProps {
 
 const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items, onSelectionChange }) => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
-
+  const { volume } = useVolume();
   const handleScroll = (event: React.WheelEvent<HTMLDivElement>) => {
     const direction = Math.sign(event.deltaY); // 1 for down, -1 for up
     const newIndex = Math.min(Math.max(selectedIndex + Math.sign(event.deltaY), 0), items.length - 1);
@@ -29,6 +30,7 @@ const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items, onSelectionChange 
         ? '/assets/audio/snd_channeldown.wav'
         : '/assets/audio/snd_channelup.wav';
     const audio = new Audio(soundPath);
+    audio.volume = volume;
     audio.play();
   };
 

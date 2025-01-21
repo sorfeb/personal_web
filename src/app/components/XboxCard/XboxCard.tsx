@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './XboxCard.module.css';
 import Image from 'next/image';
 import Popup from './XboxCardPopUp';
+import { useVolume } from '../../context/VolumeContext';
 
 interface XboxCardProps {
     title: string;
@@ -14,6 +15,7 @@ const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl  }) => {
     const cardRef = useRef<HTMLDivElement>(null);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [isPopupVisible, setIsPopupVisible] = useState(false);
+    const { volume } = useVolume();
 
     const togglePopup = () => {
       if (!isPopupVisible) {
@@ -24,11 +26,13 @@ const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl  }) => {
 
     const playSound = () => {
       const audio = new Audio('/assets/audio/snd_buttonselect.wav'); 
+      audio.volume = volume;
       audio.play();
     };
 
     const playHoverSound = () => {
       const audio = new Audio('/assets/audio/snd_panelleft.wav'); 
+      audio.volume = volume;
       audio.play();
     };
 

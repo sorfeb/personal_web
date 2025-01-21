@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import XboxCard from '../XboxCard/XboxCard';
 import SlideshowXboxCard from '../SlideshowXboxCard/SlideshowXboxCard';
 import styles from './XboxDashboard.module.css';
+import { useVolume } from '../../context/VolumeContext';
 
 interface XboxDashboardProps {
   activeIndex: number;
@@ -14,29 +15,68 @@ interface XboxDashboardProps {
 }
 
 const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const { volume } = useVolume();
+
   useEffect(() => {
     const section = document.querySelector(`.${styles.section}`);
     const cards = section?.querySelectorAll(`.${styles.card}`);
-    
-    let cumulativeTranslation = 0;
-    let decrement = 250; // Initial increment
-
-    cards?.forEach((card, index) => {
-      const cardElement = card as HTMLElement; 
-
-      cardElement.style.zIndex = `${cards.length - index}`;
-      cardElement.style.transform = `translateX(${cumulativeTranslation}px) scale(${1 - index * 0.1})`; // Apply cumulative translation and scaling
-      cardElement.style.transformOrigin = 'center';
-
-      cardElement.classList.remove(styles.selected); // Remove previous selection
-      if (index != activeIndex) {
-        cardElement.classList.add(styles.selected); // Add selection to active card
-      }
   
-      cumulativeTranslation += decrement; // Incrementally translate
-      decrement *= 0.78;
+    if (!cards) return;
+  
+    let cumulativeTranslation = 0;
+    let decrement = 250; //increment, actually
+
+    const playUnfoldSound = () => {
+      if (isAudioPlaying) return;
+      setIsAudioPlaying(true);
+
+      const audio = new Audio('/assets/audio/snd_panelunfold.wav');
+      audio.volume = volume/4;
+      audio.play();
+
+      setTimeout(() => setIsAudioPlaying(false), 600);
+    };
+    
+    playUnfoldSound();
+
+    // Reset cards to a consistent state
+    cards.forEach((card) => {
+      const cardElement = card as HTMLElement;
+   
+      cardElement.style.transition = 'none';
+      cardElement.style.opacity = '0';
+      cardElement.style.transform = `translateX(-100px) scale(0.9)`;
     });
+  
+    // Start animations after a short delay to allow reset
+    const animationTimeouts: NodeJS.Timeout[] = [];
+    cards.forEach((card, index) => {
+      const cardElement = card as HTMLElement;
+  
+      const timeout = setTimeout(() => {
+        cardElement.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+        cardElement.style.opacity = '1';
+        cardElement.style.transform = `translateX(${cumulativeTranslation}px) scale(${1 - index * 0.1})`;
+        cardElement.style.zIndex = `${cards.length - index}`;
+
+        cumulativeTranslation += decrement;
+        decrement *= 0.78;
+      }, index * 80); 
+  
+      animationTimeouts.push(timeout);
+    });
+  
+    // Cleanup previous animations if `activeIndex` changes rapidly
+    return () => {
+      animationTimeouts.forEach((timeout) => clearTimeout(timeout));
+      cards.forEach((card) => {
+        const cardElement = card as HTMLElement;
+        cardElement.style.transition = 'none';
+      });
+    };
   }, [activeIndex]);
+  
   
   const componentMapping: Record<number, JSX.Element> = {
     0: (

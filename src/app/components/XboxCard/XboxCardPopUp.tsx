@@ -2,6 +2,7 @@
 
 import React from 'react';
 import styles from './XboxCardPopUp.module.css';
+import { useVolume } from '../../context/VolumeContext';
 
 interface PopupProps {
   title: string;
@@ -10,13 +11,15 @@ interface PopupProps {
 }
 
 const Popup: React.FC<PopupProps> = ({ title, menuItems, onClose }) => {
+  const { volume } = useVolume();
   const handleClose = () => {
     playSound();
     onClose(); 
   };
 
   const playSound = () => {
-    const audio = new Audio('/assets/audio/snd_buttonback.wav'); // Path to your sound file
+    const audio = new Audio('/assets/audio/snd_buttonback.wav');
+    audio.volume = volume;
     audio.play();
   };
   

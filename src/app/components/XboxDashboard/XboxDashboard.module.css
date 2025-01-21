@@ -1,12 +1,13 @@
 .section {
   display: flex;
   align-items: center;
-  overflow-x: auto;
+  overflow-x: hidden;
   height: 50vh;
   width: 90%;
   padding: 20px;
   min-height: 220px;
   position: relative;
+  scroll-snap-type: x mandatory;
 }
 
 .card {
@@ -16,6 +17,7 @@
   right: 0;
   transform-origin: center;
   transition: transform 0.3s ease, z-index 0.3s ease;
+  scroll-snap-align: center;
 }
 
 .card:first-child {
