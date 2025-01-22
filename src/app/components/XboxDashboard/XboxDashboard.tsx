@@ -62,7 +62,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
 
         cumulativeTranslation += decrement;
         decrement *= 0.78;
-      }, index * 80); 
+      }, index * 80); //Unfolding delay
   
       animationTimeouts.push(timeout);
     });

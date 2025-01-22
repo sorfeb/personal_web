@@ -1,22 +1,42 @@
 .section {
+  position: relative;
   display: flex;
   align-items: center;
-  overflow-x: hidden;
+  overflow: hidden;
   height: 50vh;
   width: 90%;
   padding: 20px;
   min-height: 220px;
-  position: relative;
-  scroll-snap-type: x mandatory;
+}
+
+.section::after {
+  content: ''; /* Empty content for the pseudo-element */
+  position: absolute;
+  right: 0;
+  width: 10px; /* Width of the pulsating edge */
+  height: 30%; 
+  top: 50%; /* Start at the middle of the container */
+  transform: translateY(-50%); /* Center the pseudo-element vertically */
+  pointer-events: none;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)); /* Fading gradient effect */
+  box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.7), 
+              0 0 40px 20px rgba(255, 255, 255, 0.5), 
+              0 0 60px 30px rgba(255, 255, 255, 0.3);
+  animation: pulse 1.5s infinite ease-in-out;
 }
 
 .card {
   height: 300px;
+
   position: absolute; 
   left: 0;
   right: 0;
+
   transform-origin: center;
   transition: transform 0.3s ease, z-index 0.3s ease;
+  opacity: 0;
+  z-index: 0;
+  
   scroll-snap-align: center;
 }
 
