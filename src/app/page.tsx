@@ -4,6 +4,8 @@ import styles from "./page.module.css";
 import data from './components/XboxDashboard/cardsList';
 
 import React, { useEffect, useRef, useState } from 'react';
+import $ from 'jquery';
+import 'jquery.ripples';
 
 import XboxDashboard from './components/XboxDashboard/XboxDashboard';
 import ScrollingMenu from './components/ScrollingMenu/ScrollingMenu';
@@ -14,16 +16,34 @@ import VolumeControl from "./components/VolumeControl/VolumeControl";
 export default function Home() {
   const menuItems = ["Home", "Misc", "Gallery", "Credits"];
   const [activeIndex, setActiveIndex] = useState(0);
-
+  const waterHolderRef = useRef<HTMLDivElement>(null); 
+  
   const handleSelectionChange = (index: number) => {
     setActiveIndex(index);
   };
 
+    // 👇 Add this useEffect to initialize the ripple effect
+    useEffect(() => {
+      if (waterHolderRef.current) {
+        $(waterHolderRef.current).ripples({
+          resolution: 512,
+          dropRadius: 20,
+          perturbance: 0.04,
+        });
+  
+        // Cleanup function to destroy the ripples effect when the component unmounts
+        return () => {
+          if (waterHolderRef.current) {
+            $(waterHolderRef.current).ripples('destroy');
+          }
+        };
+      }
+    }, []);
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.crt}>
-        <div id="waterHolder" className={styles.waterCanvasContainer}></div>
+        <div id="waterHolder" ref={waterHolderRef} className={styles.waterCanvasContainer}>
           <div className={styles.container}>
             {/* Background Music */}
             {/* <audio autoPlay loop>
@@ -62,5 +82,6 @@ export default function Home() {
           </div>
         </div>
       </div>
+    </div>
   );
 }

@@ -1,6 +1,14 @@
+.waterCanvasContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
 .screen {
-  /* align-items: center;
-  justify-content: center; */
 }
 
 .topContainer {
@@ -199,12 +207,7 @@
   animation: textShadow 1.6s infinite;
 }
 
-.rippleContainer {
-  position: relative;
-  overflow: hidden; /* Confine ripples to the container */
-  width: 100%;
-  height: 100vh; /* Full height of the viewport */
-}
+
 
 
 
