@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+
 import XboxCard from '../XboxCard/XboxCard';
 import SlideshowXboxCard from '../SlideshowXboxCard/SlideshowXboxCard';
 import styles from './XboxDashboard.module.css';
+
 import { useVolume } from '../../context/VolumeContext';
 
 interface XboxDashboardProps {
@@ -82,7 +84,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
     0: (
       <div className={styles.section}>
         {data.home.map((card, index) => (
-          <div className={styles.card}>
+          <div className={styles.card} key={index}>
             <XboxCard key={index} title={card.title} iconUrl={card.iconUrl} />
           </div>
         ))}
@@ -91,7 +93,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
     1: (
       <div className={styles.section}>
         {data.misc.map((card, index) => (
-          <div className={styles.card}>
+          <div className={styles.card} key={index}>
           <XboxCard key={index} title={card.title} iconUrl={card.iconUrl} />
           </div>
         ))}
@@ -110,7 +112,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
     2: (
       <div className={styles.section}>
         {data.gallery.map((card, index) => (
-          <div className={styles.card}>
+          <div className={styles.card} key={index}>
             <XboxCard key={index} title={card.title} iconUrl={card.iconUrl} />
           </div>
         ))}
@@ -119,7 +121,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
     3: (
       <div className={styles.section}>
         {data.credits.map((card, index) => (
-          <div className={styles.card}>
+          <div className={styles.card} key={index}>
             <XboxCard key={index} title={card.title} iconUrl={card.iconUrl} />
           </div>
         ))}

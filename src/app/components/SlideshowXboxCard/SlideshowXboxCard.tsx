@@ -25,24 +25,27 @@ const SlideshowXboxCard: React.FC<SlideshowXboxCardProps> = ({ title, images }) 
 
   // Track mouse movement for hover effects
   useEffect(() => {
+    const element = cardRef.current; // Capture the current value of the ref
+
     const handleMouseMove = (event: MouseEvent) => {
-      if (cardRef.current) {
-        const rect = cardRef.current.getBoundingClientRect();
+      if (element) {
+        const rect = element.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
         setMousePosition({ x, y });
-        cardRef.current.style.setProperty('--mouse-x', `${x}px`);
-        cardRef.current.style.setProperty('--mouse-y', `${y}px`);
+        element.style.setProperty('--mouse-x', `${x}px`);
+        element.style.setProperty('--mouse-y', `${y}px`);
       }
     };
 
-    if (cardRef.current) {
+    if (element) {
       cardRef.current.addEventListener('mousemove', handleMouseMove);
     }
 
+    // Cleanup function
     return () => {
-      if (cardRef.current) {
-        cardRef.current.removeEventListener('mousemove', handleMouseMove);
+      if (element) {
+        element.removeEventListener('mousemove', handleMouseMove);
       }
     };
   }, []);
