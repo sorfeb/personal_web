@@ -1,4 +1,7 @@
-interface JQuery {
+import * as $ from 'jquery';
+
+declare module 'jquery' {
+  interface JQuery {
     ripples(options?: {
       resolution?: number;
       dropRadius?: number;
@@ -7,3 +10,4 @@ interface JQuery {
     ripples(action: 'drop', x: number, y: number, radius: number, strength: number): JQuery;
     ripples(action: 'destroy'): JQuery;
   }
+}

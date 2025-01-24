@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 
 import XboxCard from '../XboxCard/XboxCard';
@@ -18,8 +20,15 @@ interface XboxDashboardProps {
 
 const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const { volume } = useVolume();
+
+  const cardsData = [
+    data.home,
+    data.misc,
+    data.gallery,
+    data.credits,
+  ][activeIndex];
 
   useEffect(() => {
     const section = document.querySelector(`.${styles.section}`);
@@ -79,32 +88,67 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
       });
     };
   }, [activeIndex]);
+
+  const handleArrowClick = () => {
+    let cumulativeTranslation = 0;
+    let decrement = 250; //increment, actually
+
+    if (currentCardIndex >= cardsData.length - 1) return; // Stop if at the last card
+
+    const section = document.querySelector(`.${styles.section}`);
+    const cards = section?.querySelectorAll(`.${styles.card}`);
+
+    if (!cards) return;
+
+    // Animate the first card
+    const firstCard = cards[0] as HTMLElement;
+    firstCard.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+    firstCard.style.transform = `translateX(-100%)`;
+    firstCard.style.opacity = '0';
+
+    // Move the remaining cards to the left
+    for (let i = 1; i < cards.length; i++) {
+      const card = cards[i] as HTMLElement;
+      card.style.transition = 'transform 0.5s ease';
+      card.style.transform = `translateX(${cumulativeTranslation}px) scale(${1 - i * 0.1})`;
+      card.style.zIndex = `${cards.length - i}`;
+
+      cumulativeTranslation += decrement;
+      decrement *= 0.78;
+    }
+
+    setTimeout(() => {
+      setCurrentCardIndex((prev) => prev + 1);
+    }, 500); // Match the duration of the animation
+  };
   
   
   const componentMapping: Record<number, JSX.Element> = {
     0: (
-      <div>
+      <div className={styles.dashboardContainer}>
         <div className={styles.arrowContainer}>
-          <button className={styles.leftArrow}>
+          <button className={styles.leftArrow} onClick={handleArrowClick}>
             ◀
           </button>
         </div>
-        <div className={styles.section}>
-          {data.home.map((card, index) => (
-            <div className={styles.card} key={index}>
-              <XboxCard key={index} title={card.title} iconUrl={card.iconUrl} />
-            </div>
-          ))}
-        </div>
-        <div className={styles.cardPosition}>
-            {`1 of ${data.home.length}`}
+        <div className={styles.sectionContainer}>
+          <div className={styles.section}>
+            {data.home.map((card, index) => (
+              <div className={styles.card} key={index}>
+                <XboxCard key={index} title={card.title} iconUrl={card.iconUrl} />
+              </div>
+            ))}
+          </div>
+          <div className={styles.position}>
+          {`1 of ${data.home.length}`}
+          </div>
         </div>
       </div>
     ),
     1: (
-      <div>
+      <div className={styles.dashboardContainer}>
         <div className={styles.arrowContainer}>
-          <button className={styles.leftArrow}>
+          <button className={styles.leftArrow} onClick={handleArrowClick}>
             ◀
           </button>
         </div>
@@ -126,15 +170,15 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
           </div>
         </div>       
       
-        <div className={styles.cardPosition}>
+        <div className={styles.position}>
             {`1 of ${data.misc.length}`}
         </div>
       </div>
     ),
     2: (
-      <div>
+      <div className={styles.dashboardContainer}>
         <div className={styles.arrowContainer}>
-          <button className={styles.leftArrow}>
+          <button className={styles.leftArrow} onClick={handleArrowClick}>
             ◀
           </button>
         </div>
@@ -145,15 +189,15 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
             </div>
           ))}
         </div>
-            <div className={styles.cardPosition}>
+            <div className={styles.position}>
               {`1 of ${data.gallery.length}`}
           </div>
       </div>
     ),
     3: (
-      <div>
+      <div className={styles.dashboardContainer}>
         <div className={styles.arrowContainer}>
-          <button className={styles.leftArrow}>
+          <button className={styles.leftArrow} onClick={handleArrowClick}>
             ◀
           </button>
         </div>
@@ -164,7 +208,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
             </div>
           ))}
         </div>
-          <div className={styles.cardPosition}>
+          <div className={styles.position}>
             {`1 of ${data.credits.length}`}
           </div>
       </div>

@@ -1,10 +1,49 @@
+.dashboardContainer {
+  display: flex;
+  align-items: center; 
+  justify-content: flex-start; 
+  position: relative; 
+}
+
+.arrowContainer {
+  display: flex;
+  align-items: center; /* Center the arrow within its container */
+  justify-content: center;
+  margin-right: 10px; /* Add spacing between arrow and section */
+}
+
+.leftArrow {
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+  z-index: 100; /* Ensure it stays above other elements */
+}
+
+.leftArrow:hover {
+  background: rgba(0, 0, 0, 0.8);
+  transform: scale(1.1); /* Add hover effect */
+}
+
+.sectionContainer {
+  display: flex;
+  flex-direction: column; /* Stack section and cardPosition vertically */
+  width: 100%; /* Ensure it takes full width */
+}
+
 .section {
+  flex: 1; /* Allow the section to take up remaining space */
   position: relative;
   display: flex;
   align-items: center;
   overflow: hidden;
   height: 50vh;
-  width: 90%;
+  width: auto;
   padding: 20px;
   min-height: 220px;
 }
@@ -25,14 +64,13 @@
   animation: pulse 1.5s infinite ease-in-out;
 }
 
-.cardPosition {
-  position: relative; 
-  display: flex;
-  align-items: center;
-  justify-content: flex-start; 
-  margin-top: 10px; 
-  font-size: 14px; 
-  color: #fff;
+.position {
+  margin-top: 10px;
+  height:100px;
+  text-align: left;
+  font-size: 14px;
+  color: #fff; 
+  backgroundColor: white;
 }
 
 
@@ -82,23 +120,3 @@
   }
 }
 
-.leftArrow {
-  position: absolute; 
-  top: 55%; 
-  transform: translateY(-50%) translateX(-100%);
-  background: rgba(0, 0, 0, 0.6);
-  border: none;
-  border-radius: 50%;
-  color: white;
-  width: 50px;
-  height: 50px;
-  font-size: 20px;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.3s;
-  z-index: 100;
-}
-
-.leftArrow:hover {
-  background: rgba(0, 0, 0, 0.8);
-  transform:scale(1.1); /* Add hover effect */
-}

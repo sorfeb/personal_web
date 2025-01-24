@@ -4,13 +4,15 @@ import styles from "./page.module.css";
 import data from './components/XboxDashboard/cardsList';
 
 import React, { useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
+
 import $ from 'jquery';
 import 'jquery.ripples';
 
-import XboxDashboard from './components/XboxDashboard/XboxDashboard';
-import ScrollingMenu from './components/ScrollingMenu/ScrollingMenu';
-import ProfileCard from "./components/ProfileCard/ProfileCard";
-import VolumeControl from "./components/VolumeControl/VolumeControl";
+const XboxDashboard = dynamic(() => import('./components/XboxDashboard/XboxDashboard'), { ssr: false });
+const ScrollingMenu = dynamic(() => import('./components/ScrollingMenu/ScrollingMenu'), { ssr: false });
+const ProfileCard = dynamic(() => import("./components/ProfileCard/ProfileCard"), { ssr: false });
+const VolumeControl = dynamic(() => import("./components/VolumeControl/VolumeControl"), { ssr: false });
 
 
 export default function Home() {
@@ -22,41 +24,47 @@ export default function Home() {
     setActiveIndex(index);
   };
 
-    useEffect(() => {
-      if (waterHolderRef.current) {
-        $(waterHolderRef.current).ripples({
-          resolution: 256,
-          dropRadius: 20,
-          perturbance: 0.04,
+  useEffect(() => {
+    if (typeof window !== 'undefined' && waterHolderRef.current) {
+      // Dynamically import jQuery and jQuery Ripples
+      import('jquery').then(({ default: $ }) => {
+        import('jquery.ripples').then(() => {
+          // Initialize ripples effect
+          $(waterHolderRef.current!).ripples({
+            resolution: 256,
+            dropRadius: 20,
+            perturbance: 0.04,
+          });
+          
+          const createRainDrop = () => {
+            if (waterHolderRef.current) {
+              const $ripple = $(waterHolderRef.current);
+
+              const containerWidth = waterHolderRef.current.clientWidth; 
+              const containerHeight = waterHolderRef.current.clientHeight;
+
+              const x = Math.random() * containerWidth; 
+              const y = Math.random() * containerHeight; 
+              const dropRadius = 20;
+              const strength = 0.04 + Math.random() * 0.04;
+
+              $ripple.ripples('drop', x, y, dropRadius, strength);
+            }
+          };
+
+          const rainInterval = setInterval(createRainDrop, 600); 
+
+          // Cleanup function
+          return () => {
+            clearInterval(rainInterval);
+            if (waterHolderRef.current) {
+              $(waterHolderRef.current).ripples('destroy');
+            }
+          };
         });
-        
-      const createRainDrop = () => {
-        if (waterHolderRef.current) {
-          const $ripple = $(waterHolderRef.current);
-
-          const containerWidth = waterHolderRef.current.clientWidth; 
-          const containerHeight = waterHolderRef.current.clientHeight;
-
-          const x = Math.random() * containerWidth; 
-          const y = Math.random() * containerHeight; 
-          var dropRadius = 20;
-		      var strength = 0.04 + Math.random() * 0.04;
-
-          $ripple.ripples('drop', x, y, dropRadius, strength);
-        }
-      };
-
-      const rainInterval = setInterval(createRainDrop, 600); 
-
-      // Cleanup function
-        return () => {
-          clearInterval(rainInterval);
-          if (waterHolderRef.current) {
-            $(waterHolderRef.current).ripples('destroy');
-          }
-        };
-      }
-    }, []);
+      });
+    }
+  }, []);
 
   return (
     <div className={styles.backgroundWrapper}>

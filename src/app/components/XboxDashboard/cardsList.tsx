@@ -1,7 +1,7 @@
 const data = {
     home: [
       { title: "About", iconUrl: "assets/icons/about.svg" },
-      { title: "Profile", iconUrl: "assets/icons/certificate.svg" },
+      { title: "Profile", iconUrl: "/assets/icons/myface.png" },
       { title: "Certifications", iconUrl: "assets/icons/certificate.svg" },
       { title: "Projects", iconUrl: "assets/icons/project.svg" },
       { title: "Settings", iconUrl: "assets/icons/certificate.svg" },
