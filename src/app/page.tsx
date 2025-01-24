@@ -22,17 +22,35 @@ export default function Home() {
     setActiveIndex(index);
   };
 
-    // 👇 Add this useEffect to initialize the ripple effect
     useEffect(() => {
       if (waterHolderRef.current) {
         $(waterHolderRef.current).ripples({
-          resolution: 512,
+          resolution: 256,
           dropRadius: 20,
           perturbance: 0.04,
         });
-  
-        // Cleanup function to destroy the ripples effect when the component unmounts
+        
+      const createRainDrop = () => {
+        if (waterHolderRef.current) {
+          const $ripple = $(waterHolderRef.current);
+
+          const containerWidth = waterHolderRef.current.clientWidth; 
+          const containerHeight = waterHolderRef.current.clientHeight;
+
+          const x = Math.random() * containerWidth; 
+          const y = Math.random() * containerHeight; 
+          var dropRadius = 20;
+		      var strength = 0.04 + Math.random() * 0.04;
+
+          $ripple.ripples('drop', x, y, dropRadius, strength);
+        }
+      };
+
+      const rainInterval = setInterval(createRainDrop, 600); 
+
+      // Cleanup function
         return () => {
+          clearInterval(rainInterval);
           if (waterHolderRef.current) {
             $(waterHolderRef.current).ripples('destroy');
           }
@@ -41,16 +59,20 @@ export default function Home() {
     }, []);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.backgroundWrapper}>
       <div className={styles.crt}>
         <div id="waterHolder" ref={waterHolderRef} className={styles.waterCanvasContainer}>
+          {/* Add the SVG mountain curve */}
+          <svg className={styles.mountainCurve} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="mountainGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="rgba(200, 200, 200, 0.5)" />
+                <stop offset="100%" stop-color="rgba(150, 150, 150, 1)" />
+              </linearGradient>
+            </defs>
+            <path d="M0,15 Q50,0 100,15 V30 H0 Z" fill="url(#mountainGradient)" />
+          </svg>
           <div className={styles.container}>
-            {/* Background Music */}
-            {/* <audio autoPlay loop>
-              <source src="/assets/audio/Xbox 360 Initial Setup.mp3" type="audio/mpeg" />
-              Your browser does not support the audio element.
-            </audio> */}
-
             {/* Main Content */}
             <div className={styles.screen}>
               <div className={styles.topContainer}>
@@ -60,7 +82,6 @@ export default function Home() {
                     onSelectionChange={handleSelectionChange}
                     />
                 </div>
-                  
                 <div className={styles.ProfileCardContainer}>
                   <ProfileCard 
                     name="John Doe"
@@ -69,15 +90,12 @@ export default function Home() {
                   />
                 </div>
               </div>
-
               <div className={styles.DashboardContainer}>
                 <XboxDashboard activeIndex={activeIndex} data={data} />
               </div>
-              
-              <div className="VolumeControlContainer">
+              <div className={styles.VolumeControlContainer}>
                 <VolumeControl/>
               </div>
-
             </div>
           </div>
         </div>

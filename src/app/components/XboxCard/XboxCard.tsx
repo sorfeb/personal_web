@@ -63,7 +63,7 @@ const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl  }) => {
     return (
       <>
         <div 
-          className={styles.card} 
+          className={`${styles.card} ${styles.cardReflection}`}
           ref={cardRef} 
           onClick={togglePopup}
           onMouseEnter={playHoverSound}
