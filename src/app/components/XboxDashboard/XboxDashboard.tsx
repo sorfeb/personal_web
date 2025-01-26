@@ -28,6 +28,18 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
     data.credits,
   ][activeIndex];
 
+  const playLeftSound = () => {
+    const audio = new Audio('/assets/audio/snd_panelleft.wav'); 
+    audio.volume = volume;
+    audio.play();
+  };
+
+  const playRightSound = () => {
+    const audio = new Audio('/assets/audio/snd_panelright.wav'); 
+    audio.volume = volume;
+    audio.play();
+  }
+
   // Reset currentCardIndex when activeIndex changes
   useEffect(() => {
     setCurrentCardIndex(0); // Reset to the first card when the section changes
@@ -93,6 +105,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
   }, [activeIndex]);
 
   const handleLeftArrowClick = () => {
+    playLeftSound();
     if (currentCardIndex <= 0) return; // Stop if at the first card
   
     const section = document.querySelector(`.${styles.section}`);
@@ -134,6 +147,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
 
   //PROGRESS
   const handleRightArrowClick = () => {
+    playRightSound();
     if (currentCardIndex >= cardsData.length - 1) return; // Stop if at the last card
   
     const section = document.querySelector(`.${styles.section}`);

@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './ProfileCard.module.css';
 import Image from 'next/image';
+import { useVolume } from '../../context/VolumeContext';
+
 
 interface ProfileCardProps {
   name: string;
@@ -9,8 +11,25 @@ interface ProfileCardProps {
 }
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ name, level, gamerscore }) => {
+  const { volume } = useVolume();
+
+  const playSelectSound = () => {
+    const audio = new Audio('/assets/audio/ps2_zing.wav');
+    audio.volume = volume;
+    audio.play();
+  };
+
+  const playHoverSound = () => {
+    const audio = new Audio('/assets/audio/ps2_owawa.wav');
+    audio.volume = volume;
+    audio.play();
+  };
+
   return (
-      <div className={styles.card}>
+      <div className={styles.card}
+        onClick={playSelectSound}
+        onMouseEnter={playHoverSound}
+      >
         <div className={styles.infoContainer}>
           <h2 className={styles.name}>{name}</h2>
           <p className={styles.gamerscore}>

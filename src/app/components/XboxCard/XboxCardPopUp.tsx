@@ -6,15 +6,17 @@ import { useVolume } from '../../context/VolumeContext';
 
 interface PopupProps {
   title: string;
-  menuItems: string[];
   onClose: () => void;
+  children: React.ReactNode;
+  className?: string; // Optional className for custom styling
 }
 
-const Popup: React.FC<PopupProps> = ({ title, menuItems, onClose }) => {
+const Popup: React.FC<PopupProps> = ({ title, onClose, children, className }) => {
   const { volume } = useVolume();
+
   const handleClose = () => {
     playSound();
-    onClose(); 
+    onClose();
   };
 
   const playSound = () => {
@@ -22,18 +24,12 @@ const Popup: React.FC<PopupProps> = ({ title, menuItems, onClose }) => {
     audio.volume = volume;
     audio.play();
   };
-  
+
   return (
     <div className={styles.popup}>
       <div className={styles.popupContent}>
         <h3 className={styles.popupTitle}>{title}</h3>
-        <ul className={styles.menu}>
-          {menuItems.map((item, index) => (
-            <li key={index} className={`${styles.menuItem} ${index === 0 ? styles.active : ''}`}>
-              {item}
-            </li>
-          ))}
-        </ul>
+        <div className={styles.popupBody}>{children}</div>
         <button className={styles.closeButton} onClick={handleClose}>
           ✕
         </button>
