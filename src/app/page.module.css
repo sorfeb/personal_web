@@ -47,7 +47,6 @@
 
 .ScrollingMenuContainer {
   width: 20%; /* Define a fixed width for the menu */
-  max-width: 300px; /* Limit maximum width */
   display: flex; /* Optional: For content alignment inside */
   justify-content: center;
   align-items: center;
@@ -55,7 +54,6 @@
 
 .ProfileCardContainer {
   width: 25%; /* Define a fixed width for the profile card */
-  max-width: 350px; /* Limit maximum width */
   display: flex; /* Optional: For content alignment inside */
   justify-content: center;
   align-items: center;
@@ -229,6 +227,8 @@
 }
 .crt {
   animation: textShadow 1.6s infinite;
+  height: 100%;
+  width: 100%;
 }
 
 

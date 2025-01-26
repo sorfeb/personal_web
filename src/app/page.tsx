@@ -5,15 +5,14 @@ import data from './components/XboxDashboard/cardsList';
 
 import React, { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
-
-import $ from 'jquery';
 import 'jquery.ripples';
 
-const XboxDashboard = dynamic(() => import('./components/XboxDashboard/XboxDashboard'), { ssr: false });
-const ScrollingMenu = dynamic(() => import('./components/ScrollingMenu/ScrollingMenu'), { ssr: false });
-const ProfileCard = dynamic(() => import("./components/ProfileCard/ProfileCard"), { ssr: false });
-const VolumeControl = dynamic(() => import("./components/VolumeControl/VolumeControl"), { ssr: false });
-
+// const ProfileCard = dynamic(() => import("./components/ProfileCard/ProfileCard"), { ssr: false });
+// const VolumeControl = dynamic(() => import("./components/VolumeControl/VolumeControl"), { ssr: false });
+import XboxDashboard from "./components/XboxDashboard/XboxDashboard";
+import ScrollingMenu from "./components/ScrollingMenu/ScrollingMenu";
+import ProfileCard from "./components/ProfileCard/ProfileCard";
+import VolumeControl from "./components/VolumeControl/VolumeControl";
 
 export default function Home() {
   const menuItems = ["Home", "Misc", "Gallery", "Credits"];
@@ -70,40 +69,38 @@ export default function Home() {
     <div className={styles.backgroundWrapper}>
       <div className={styles.crt}>
         <div id="waterHolder" ref={waterHolderRef} className={styles.waterCanvasContainer}>
-          {/* Add the SVG mountain curve */}
-          <svg className={styles.mountainCurve} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="mountainGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="rgba(200, 200, 200, 0.5)" />
-                <stop offset="100%" stop-color="rgba(150, 150, 150, 1)" />
-              </linearGradient>
-            </defs>
-            <path d="M0,15 Q50,0 100,15 V30 H0 Z" fill="url(#mountainGradient)" />
-          </svg>
-          <div className={styles.container}>
             {/* Main Content */}
-            <div className={styles.screen}>
-              <div className={styles.topContainer}>
-                <div className={styles.ScrollingMenuContainer}>
-                  <ScrollingMenu 
-                    items={menuItems}
-                    onSelectionChange={handleSelectionChange}
-                    />
-                </div>
-                <div className={styles.ProfileCardContainer}>
-                  <ProfileCard 
-                    name="John Doe"
-                    level="10"
-                    gamerscore={1000}
+          <div className={styles.screen}>
+            {/* Add the SVG mountain curve */}
+            <svg className={styles.mountainCurve} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="mountainGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="rgba(200, 200, 200, 0.5)" />
+                  <stop offset="100%" stop-color="rgba(150, 150, 150, 1)" />
+                </linearGradient>
+              </defs>
+              <path d="M0,15 Q50,0 100,15 V30 H0 Z" fill="url(#mountainGradient)" />
+            </svg>
+            <div className={styles.topContainer}>
+              <div className={styles.ScrollingMenuContainer}>
+                <ScrollingMenu 
+                  items={menuItems}
+                  onSelectionChange={handleSelectionChange}
                   />
-                </div>
               </div>
-              <div className={styles.DashboardContainer}>
-                <XboxDashboard activeIndex={activeIndex} data={data} />
+              <div className={styles.ProfileCardContainer}>
+                <ProfileCard 
+                  name="John Doe"
+                  level="10"
+                  gamerscore={1000}
+                />
               </div>
-              <div className={styles.VolumeControlContainer}>
-                <VolumeControl/>
-              </div>
+            </div>
+            <div className={styles.DashboardContainer}>
+              <XboxDashboard activeIndex={activeIndex} data={data} />
+            </div>
+            <div className={styles.VolumeControlContainer}>
+              <VolumeControl/>
             </div>
           </div>
         </div>
