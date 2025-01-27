@@ -3,8 +3,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './XboxCard.module.css';
 import Image from 'next/image';
-import Popup from './XboxCardPopUp';
-import { useVolume } from '../../context/VolumeContext';
+import Popup from '../popup/XboxCardPopUp';
+import { useVolume } from '../../../context/VolumeContext';
 
 interface XboxCardProps {
   title: string;
@@ -12,7 +12,15 @@ interface XboxCardProps {
   popupContent?: React.ReactNode; // Optional custom content for the popup
 }
 
-const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl, popupContent }) => {
+const defaultPopupContent = (
+  <ul className={styles.menu}>
+    <li className={styles.menuItem}>One</li>
+    <li className={styles.menuItem}>Two</li>
+    <li className={styles.menuItem}>Three</li>
+  </ul>
+);
+
+const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl, popupContent = defaultPopupContent }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -78,6 +86,7 @@ const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl, popupContent }) => 
             width={40}
             height={40}
             className={styles.icon}
+            priority 
           />
         </div>
         <h2 className={styles.title}>{title}</h2>
@@ -85,13 +94,7 @@ const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl, popupContent }) => 
 
       {isPopupVisible && (
         <Popup title={title} onClose={togglePopup}>
-          {popupContent || ( // Render custom content if provided, otherwise fallback to default
-            <ul className={styles.menu}>
-              <li className={styles.menuItem}>Play Game</li>
-              <li className={styles.menuItem}>Downloads</li>
-              <li className={styles.menuItem}>Install to Hard Drive</li>
-            </ul>
-          )}
+          {popupContent}
         </Popup>
       )}
     </>

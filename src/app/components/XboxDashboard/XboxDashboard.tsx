@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import XboxCard from '../XboxCard/XboxCard';
+import XboxCard from '../XboxCard/card/XboxCard';
 import SlideshowXboxCard from '../SlideshowXboxCard/SlideshowXboxCard';
 import styles from './XboxDashboard.module.css';
 import { useVolume } from '../../context/VolumeContext';
@@ -9,10 +9,10 @@ import { useVolume } from '../../context/VolumeContext';
 interface XboxDashboardProps {
   activeIndex: number;
   data: {
-    home: { title: string; iconUrl: string }[];
-    misc: { title: string; iconUrl: string }[];
-    gallery: { title: string; iconUrl: string }[];
-    credits: { title: string; iconUrl: string }[];
+    home: { title: string; iconUrl: string; popupContent?: React.ReactNode }[];
+    misc: { title: string; iconUrl: string; popupContent?: React.ReactNode }[];
+    gallery: { title: string; iconUrl: string; popupContent?: React.ReactNode }[];
+    credits: { title: string; iconUrl: string; popupContent?: React.ReactNode }[];
   };
 }
 
@@ -104,6 +104,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
     };
   }, [activeIndex]);
 
+  //REGRESS
   const handleLeftArrowClick = () => {
     playLeftSound();
     if (currentCardIndex <= 0) return; // Stop if at the first card
@@ -183,27 +184,29 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
   const componentMapping: Record<number, JSX.Element> = {
     0: (
       <div className={styles.dashboardContainer}>
-        <div className={styles.arrowContainer}>
+        <div className={styles.leftArrowContainer}>
           <button
             className={styles.leftArrow}
             onClick={handleLeftArrowClick}
-            disabled={currentCardIndex === 0} // Disable if at the first card
+            disabled={currentCardIndex === 0}
           >
-            ◀
-          </button>
-          <button
-            className={styles.rightArrow}
-            onClick={handleRightArrowClick}
-            disabled={currentCardIndex === data.home.length - 1} // Disable if at the last card
-          >
-            ▶
+            <img
+              src="./assets/icons/buttonLeft.png"
+              alt="Left Arrow"
+              className={styles.leftArrow}
+            />
           </button>
         </div>
         <div className={styles.sectionContainer}>
           <div className={styles.section}>
             {data.home.map((card, index) => (
               <div className={styles.card} key={index}>
-                <XboxCard key={index} title={card.title} iconUrl={card.iconUrl} />
+                <XboxCard 
+                  key={index} 
+                  title={card.title} 
+                  iconUrl={card.iconUrl}
+                  popupContent={card.popupContent}
+                />
               </div>
             ))}
           </div>
@@ -211,31 +214,45 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
             {`${currentCardIndex + 1} of ${data.home.length}`}
           </div>
         </div>
+        <div className={styles.rightArrowContainer}>
+          <button
+            className={styles.rightArrow}
+            onClick={handleRightArrowClick}
+            disabled={currentCardIndex === data.home.length-1}>
+          <img
+              src="./assets/icons/buttonRight.png"
+              alt="Right Arrow"
+              className={styles.rightArrow}
+            />
+          </button>
+        </div>
       </div>
     ),
     1: (
       <div className={styles.dashboardContainer}>
-        <div className={styles.arrowContainer}>
+        <div className={styles.leftArrowContainer}>
           <button
             className={styles.leftArrow}
             onClick={handleLeftArrowClick}
             disabled={currentCardIndex === 0} // Disable if at the first card
           >
-            ◀
-          </button>
-          <button
-            className={styles.rightArrow}
-            onClick={handleRightArrowClick}
-            disabled={currentCardIndex === data.misc.length} // Disable if at the last card
-          >
-            ▶
+            <img
+              src="./assets/icons/buttonLeft.png"
+              alt="Left Arrow"
+              className={styles.leftArrow}
+            />
           </button>
         </div>
         <div className={styles.sectionContainer}>
           <div className={styles.section}>
             {data.misc.map((card, index) => (
               <div className={styles.card} key={index}>
-                <XboxCard key={index} title={card.title} iconUrl={card.iconUrl} />
+                <XboxCard 
+                  key={index} 
+                  title={card.title} 
+                  iconUrl={card.iconUrl}
+                  popupContent={card.popupContent}
+                />
               </div>
             ))}
             <div className={styles.card}>
@@ -250,46 +267,62 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
             </div>
           </div>
           <div className={styles.position}>
-            {`${currentCardIndex + 1} of ${data.misc.length + 1}`} {/* +1 for the SlideshowXboxCard */}
+            {`${currentCardIndex + 1} of ${data.home.length}`}
           </div>
+        </div>
+        <div className={styles.rightArrowContainer}>
+          <button
+            className={styles.rightArrow}
+            onClick={handleRightArrowClick}
+            disabled={currentCardIndex === data.misc.length} // Disable if at the last card
+          >
+            ▶
+          </button>
         </div>
       </div>
     ),
     2: (
       <div className={styles.dashboardContainer}>
-        <div className={styles.arrowContainer}>
+        <div className={styles.leftArrowContainer}>
           <button
             className={styles.leftArrow}
             onClick={handleLeftArrowClick}
             disabled={currentCardIndex === 0} // Disable if at the first card
           >
             ◀
-          </button>
-          <button
-            className={styles.rightArrow}
-            onClick={handleRightArrowClick}
-            disabled={currentCardIndex === data.gallery.length - 1} // Disable if at the last card
-          >
-            ▶
           </button>
         </div>
         <div className={styles.sectionContainer}>
           <div className={styles.section}>
             {data.gallery.map((card, index) => (
               <div className={styles.card} key={index}>
-                <XboxCard key={index} title={card.title} iconUrl={card.iconUrl} />
+                <XboxCard 
+                  key={index} 
+                  title={card.title} 
+                  iconUrl={card.iconUrl}
+                  popupContent={card.popupContent}
+                />
               </div>
             ))}
           </div>
           <div className={styles.position}>
-            {`${currentCardIndex + 1} of ${data.gallery.length}`}
+            {`${currentCardIndex + 1} of ${data.home.length}`}
           </div>
+        </div>
+        <div className={styles.rightArrowContainer}>
+          <button
+            className={styles.rightArrow}
+            onClick={handleRightArrowClick}
+            disabled={currentCardIndex === data.misc.length} // Disable if at the last card
+          >
+            ▶
+          </button>
         </div>
       </div>
     ),
     3: (
       <div className={styles.dashboardContainer}>
-        <div className={styles.arrowContainer}>
+        <div className={styles.leftArrowContainer}>
           <button
             className={styles.leftArrow}
             onClick={handleLeftArrowClick}
@@ -297,25 +330,32 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
           >
             ◀
           </button>
-          <button
-            className={styles.rightArrow}
-            onClick={handleRightArrowClick}
-            disabled={currentCardIndex === data.credits.length - 1} // Disable if at the last card
-          >
-            ▶
-          </button>
         </div>
         <div className={styles.sectionContainer}>
           <div className={styles.section}>
             {data.credits.map((card, index) => (
               <div className={styles.card} key={index}>
-                <XboxCard key={index} title={card.title} iconUrl={card.iconUrl} />
+                <XboxCard 
+                  key={index} 
+                  title={card.title} 
+                  iconUrl={card.iconUrl}
+                  popupContent={card.popupContent}
+                />
               </div>
             ))}
           </div>
           <div className={styles.position}>
-            {`${currentCardIndex + 1} of ${data.credits.length}`}
+            {`${currentCardIndex + 1} of ${data.home.length}`}
           </div>
+        </div>
+        <div className={styles.rightArrowContainer}>
+          <button
+            className={styles.rightArrow}
+            onClick={handleRightArrowClick}
+            disabled={currentCardIndex === data.misc.length} // Disable if at the last card
+          >
+            ▶
+          </button>
         </div>
       </div>
     ),

@@ -13,40 +13,40 @@
   margin-right: 10px; /* Add spacing between arrow and section */
 }
 
-.leftArrow {
-  background: rgba(0, 0, 0, 0.6);
-  border: none;
-  border-radius: 50%;
-  color: white;
-  width: 50px;
-  height: 50px;
-  font-size: 20px;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.3s;
-  z-index: 100; /* Ensure it stays above other elements */
-}
-
-.leftArrow:hover {
-  background: rgba(0, 0, 0, 0.8);
-  transform: scale(1.1); /* Add hover effect */
-}
-
+.leftArrow,
 .rightArrow {
-  background: rgba(0, 0, 0, 0.6);
+  background: none;
   border: none;
-  border-radius: 50%;
-  color: white;
   width: 50px;
   height: 50px;
-  font-size: 20px;
   cursor: pointer;
   transition: background 0.3s, transform 0.3s;
-  z-index: 100; /* Ensure it stays above other elements */
+  z-index: 100;
+  margin-right: 40px;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
 }
 
+.leftArrow:hover,
 .rightArrow:hover {
-  background: rgba(0, 0, 0, 0.8);
-  transform: scale(1.1); /* Add hover effect */
+  transform: scale(1.6); 
+  animation: jiggle 0.5s ease-in-out infinite;
+  opacity: 8;
+}
+
+@keyframes jiggle {
+  0%, 100% {
+    transform: scale(1.2) rotate(0deg); /* Normal hover size */
+  }
+  25% {
+    transform: scale(1.2) rotate(-10deg); /* Rotate left */
+  }
+  50% {
+    transform: scale(1.2) rotate(10deg); /* Rotate right */
+  }
+  75% {
+    transform: scale(1.2) rotate(-5deg); /* Subtle adjustment */
+  }
 }
 
 .sectionContainer {
@@ -67,22 +67,6 @@
   padding-top: 50px;
   padding-bottom:100px;
   min-height: 220px;
-}
-
-.section::after {
-  content: ''; 
-  position: absolute;
-  right: 0;
-  width: 10px; /* Width of the pulsating edge */
-  height: 30%; 
-  top: 50%; /* Start at the middle of the container */
-  transform: translateY(-50%); /* Center the pseudo-element vertically */
-  pointer-events: none;
-  background: linear-gradient(to left, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)); /* Fading gradient effect */
-  box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.7), 
-              0 0 40px 20px rgba(255, 255, 255, 0.5), 
-              0 0 60px 30px rgba(255, 255, 255, 0.3);
-  animation: pulse 1.5s infinite ease-in-out;
 }
 
 .position {

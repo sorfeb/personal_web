@@ -1,7 +1,7 @@
 'use client';
 
 import styles from "./page.module.css";
-import data from './components/XboxDashboard/cardsList';
+import data from './components/XboxDashboard/data';
 
 import React, { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
@@ -75,11 +75,11 @@ export default function Home() {
             <svg className={styles.mountainCurve} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="mountainGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="rgba(200, 200, 200, 0.5)" />
-                  <stop offset="100%" stop-color="rgba(150, 150, 150, 1)" />
+                  <stop offset="0%" stop-color="rgba(98, 98, 98, 0.5)" />
+                  <stop offset="100%" stop-color="rgb(230, 230, 230)" />
                 </linearGradient>
               </defs>
-              <path d="M0,15 Q50,0 100,15 V30 H0 Z" fill="url(#mountainGradient)" />
+              <path d="M0,8 Q50,2 100,15 V30 H0 Z" fill="url(#mountainGradient)" />
             </svg>
             <div className={styles.topContainer}>
               <div className={styles.ScrollingMenuContainer}>

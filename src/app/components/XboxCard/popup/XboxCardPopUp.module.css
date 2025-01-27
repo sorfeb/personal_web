@@ -1,0 +1,68 @@
+/* Overlay to cover the background */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6); /* Grey film with transparency */
+  z-index: 999; /* Behind the popup */
+  animation: fadeIn 0.3s ease;
+}
+
+/* Popup styling */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: auto;
+  width: auto;
+  background: linear-gradient(145deg, #2e2e2e, #3b3b3b);
+  border: 1px solid #444;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  z-index: 1000; /* Above the overlay */
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+  animation: fadeIn 0.3s ease; /* Add fade-in animation */
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Popup content styling */
+.popupContent {
+  padding: 20px;
+}
+
+.popupTitle {
+  font-size: 18px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #dcdcdc;
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.closeButton:hover {
+  transform: scale(1.1);
+}
