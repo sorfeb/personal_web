@@ -1,0 +1,28 @@
+/* Additional styles for About page */
+.pageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #1e1e1e, 0.6;
+  }
+  
+  .aboutButton {
+    padding: 10px 20px;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .aboutButton:hover {
+    background-color: #555;
+  }
+  
+  .aboutContent {
+    text-align: center;
+    line-height: 1.6;
+  }

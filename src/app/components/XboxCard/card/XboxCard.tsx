@@ -3,34 +3,35 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './XboxCard.module.css';
 import Image from 'next/image';
-import Popup from '../popup/XboxCardPopUp';
 import { useVolume } from '../../../context/VolumeContext';
+import { useRouter } from 'next/navigation';
 
 interface XboxCardProps {
   title: string;
   iconUrl: string;
-  popupContent?: React.ReactNode; // Optional custom content for the popup
+  route: string;
 }
 
-const defaultPopupContent = (
-  <ul className={styles.menu}>
-    <li className={styles.menuItem}>One</li>
-    <li className={styles.menuItem}>Two</li>
-    <li className={styles.menuItem}>Three</li>
-  </ul>
-);
-
-const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl, popupContent = defaultPopupContent }) => {
+const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl, route}) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isPageVisible, setIsPageVisible] = useState(false);
   const { volume } = useVolume();
+  const router = useRouter()
 
-  const togglePopup = () => {
-    if (!isPopupVisible) {
+  const togglePage = () => {
+    if (!isPageVisible) {
       playSound();
     }
-    setIsPopupVisible(!isPopupVisible);
+    setIsPageVisible(!isPageVisible);
+  };
+
+  const handleCardClick = () => {
+    if (route) {
+      router.push(route);
+    } else {
+      console.log('No route specified');
+    }
   };
 
   const playSound = () => {
@@ -74,7 +75,7 @@ const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl, popupContent = defa
       <div
         className={`${styles.card} ${styles.cardReflection}`}
         ref={cardRef}
-        onClick={togglePopup}
+        onClick={handleCardClick}
         onMouseEnter={playHoverSound}
       >
         <div className={styles.shadowWrapper}></div>
@@ -91,12 +92,6 @@ const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl, popupContent = defa
         </div>
         <h2 className={styles.title}>{title}</h2>
       </div>
-
-      {isPopupVisible && (
-        <Popup title={title} onClose={togglePopup}>
-          {popupContent}
-        </Popup>
-      )}
     </>
   );
 };

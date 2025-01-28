@@ -4,11 +4,8 @@ import styles from "./page.module.css";
 import data from './components/XboxDashboard/data';
 
 import React, { useEffect, useRef, useState } from 'react';
-import dynamic from 'next/dynamic';
 import 'jquery.ripples';
 
-// const ProfileCard = dynamic(() => import("./components/ProfileCard/ProfileCard"), { ssr: false });
-// const VolumeControl = dynamic(() => import("./components/VolumeControl/VolumeControl"), { ssr: false });
 import XboxDashboard from "./components/XboxDashboard/XboxDashboard";
 import ScrollingMenu from "./components/ScrollingMenu/ScrollingMenu";
 import ProfileCard from "./components/ProfileCard/ProfileCard";
@@ -67,20 +64,9 @@ export default function Home() {
 
   return (
     <div className={styles.backgroundWrapper}>
-      <div className={styles.crt}>
         <div id="waterHolder" ref={waterHolderRef} className={styles.waterCanvasContainer}>
-            {/* Main Content */}
+          {/* Main Content */}
           <div className={styles.screen}>
-            {/* Add the SVG mountain curve */}
-            <svg className={styles.mountainCurve} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="mountainGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="rgba(98, 98, 98, 0.5)" />
-                  <stop offset="100%" stop-color="rgb(230, 230, 230)" />
-                </linearGradient>
-              </defs>
-              <path d="M0,8 Q50,2 100,15 V30 H0 Z" fill="url(#mountainGradient)" />
-            </svg>
             <div className={styles.topContainer}>
               <div className={styles.ScrollingMenuContainer}>
                 <ScrollingMenu 
@@ -105,6 +91,5 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </div>
   );
 }

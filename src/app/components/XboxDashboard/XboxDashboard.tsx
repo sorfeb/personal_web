@@ -9,10 +9,10 @@ import { useVolume } from '../../context/VolumeContext';
 interface XboxDashboardProps {
   activeIndex: number;
   data: {
-    home: { title: string; iconUrl: string; popupContent?: React.ReactNode }[];
-    misc: { title: string; iconUrl: string; popupContent?: React.ReactNode }[];
-    gallery: { title: string; iconUrl: string; popupContent?: React.ReactNode }[];
-    credits: { title: string; iconUrl: string; popupContent?: React.ReactNode }[];
+    home: { route: string; title: string; iconUrl: string;}[];
+    misc: { route: string; title: string; iconUrl: string;}[];
+    gallery: { route: string; title: string; iconUrl: string;}[];
+    credits: { route: string; title: string; iconUrl: string;}[];
   };
 }
 
@@ -39,6 +39,12 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
     audio.volume = volume;
     audio.play();
   }
+
+  const playHoverSound = () => {
+    const audio = new Audio('/assets/audio/ps2_ting.wav');
+    audio.volume = volume;
+    audio.play();
+  };
 
   // Reset currentCardIndex when activeIndex changes
   useEffect(() => {
@@ -189,6 +195,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
             className={styles.leftArrow}
             onClick={handleLeftArrowClick}
             disabled={currentCardIndex === 0}
+            onMouseEnter={playHoverSound}
           >
             <img
               src="./assets/icons/buttonLeft.png"
@@ -205,7 +212,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
                   key={index} 
                   title={card.title} 
                   iconUrl={card.iconUrl}
-                  popupContent={card.popupContent}
+                  route={card.route}
                 />
               </div>
             ))}
@@ -218,7 +225,8 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
           <button
             className={styles.rightArrow}
             onClick={handleRightArrowClick}
-            disabled={currentCardIndex === data.home.length-1}>
+            disabled={currentCardIndex === data.home.length-1}
+            onMouseEnter={playHoverSound}>
           <img
               src="./assets/icons/buttonRight.png"
               alt="Right Arrow"
@@ -234,7 +242,8 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
           <button
             className={styles.leftArrow}
             onClick={handleLeftArrowClick}
-            disabled={currentCardIndex === 0} // Disable if at the first card
+            disabled={currentCardIndex === 0}
+            onMouseEnter={playHoverSound}
           >
             <img
               src="./assets/icons/buttonLeft.png"
@@ -251,7 +260,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
                   key={index} 
                   title={card.title} 
                   iconUrl={card.iconUrl}
-                  popupContent={card.popupContent}
+                  route={card.route}
                 />
               </div>
             ))}
@@ -271,12 +280,16 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
           </div>
         </div>
         <div className={styles.rightArrowContainer}>
-          <button
+        <button
             className={styles.rightArrow}
             onClick={handleRightArrowClick}
-            disabled={currentCardIndex === data.misc.length} // Disable if at the last card
-          >
-            ▶
+            disabled={currentCardIndex === data.home.length-1}
+            onMouseEnter={playHoverSound}>
+          <img
+              src="./assets/icons/buttonRight.png"
+              alt="Right Arrow"
+              className={styles.rightArrow}
+            />
           </button>
         </div>
       </div>
@@ -285,12 +298,17 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
       <div className={styles.dashboardContainer}>
         <div className={styles.leftArrowContainer}>
           <button
-            className={styles.leftArrow}
-            onClick={handleLeftArrowClick}
-            disabled={currentCardIndex === 0} // Disable if at the first card
-          >
-            ◀
-          </button>
+              className={styles.leftArrow}
+              onClick={handleLeftArrowClick}
+              disabled={currentCardIndex === 0}
+              onMouseEnter={playHoverSound}
+            >
+              <img
+                src="./assets/icons/buttonLeft.png"
+                alt="Left Arrow"
+                className={styles.leftArrow}
+              />
+            </button>
         </div>
         <div className={styles.sectionContainer}>
           <div className={styles.section}>
@@ -300,7 +318,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
                   key={index} 
                   title={card.title} 
                   iconUrl={card.iconUrl}
-                  popupContent={card.popupContent}
+                  route={card.route}
                 />
               </div>
             ))}
@@ -310,12 +328,16 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
           </div>
         </div>
         <div className={styles.rightArrowContainer}>
-          <button
+        <button
             className={styles.rightArrow}
             onClick={handleRightArrowClick}
-            disabled={currentCardIndex === data.misc.length} // Disable if at the last card
-          >
-            ▶
+            disabled={currentCardIndex === data.home.length-1}
+            onMouseEnter={playHoverSound}>
+          <img
+              src="./assets/icons/buttonRight.png"
+              alt="Right Arrow"
+              className={styles.rightArrow}
+            />
           </button>
         </div>
       </div>
@@ -324,12 +346,17 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
       <div className={styles.dashboardContainer}>
         <div className={styles.leftArrowContainer}>
           <button
-            className={styles.leftArrow}
-            onClick={handleLeftArrowClick}
-            disabled={currentCardIndex === 0} // Disable if at the first card
-          >
-            ◀
-          </button>
+              className={styles.leftArrow}
+              onClick={handleLeftArrowClick}
+              disabled={currentCardIndex === 0}
+              onMouseEnter={playHoverSound}
+            >
+              <img
+                src="./assets/icons/buttonLeft.png"
+                alt="Left Arrow"
+                className={styles.leftArrow}
+              />
+            </button>
         </div>
         <div className={styles.sectionContainer}>
           <div className={styles.section}>
@@ -339,7 +366,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
                   key={index} 
                   title={card.title} 
                   iconUrl={card.iconUrl}
-                  popupContent={card.popupContent}
+                  route={card.route}
                 />
               </div>
             ))}
@@ -352,9 +379,13 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
           <button
             className={styles.rightArrow}
             onClick={handleRightArrowClick}
-            disabled={currentCardIndex === data.misc.length} // Disable if at the last card
-          >
-            ▶
+            disabled={currentCardIndex === data.home.length-1}
+            onMouseEnter={playHoverSound}>
+          <img
+              src="./assets/icons/buttonRight.png"
+              alt="Right Arrow"
+              className={styles.rightArrow}
+            />
           </button>
         </div>
       </div>

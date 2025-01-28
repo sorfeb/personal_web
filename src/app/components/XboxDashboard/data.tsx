@@ -1,111 +1,95 @@
-import React from 'react';
-
 const data = {
   home: [
-    {
-      title: "About",
+    { 
+      title: "About", 
       iconUrl: "assets/icons/about.svg",
-      popupContent: <p>This is the About section. Here you can learn more about me.</p>,
+      route: "/about" // Route to the About page
     },
-    {
-      title: "Profile",
+    { 
+      title: "Profile", 
       iconUrl: "/assets/icons/myface.png",
-      popupContent: <img src="/assets/icons/myface.png" alt="Profile" />,
+      route: "/profile" // Route to the Profile page
     },
-    {
-      title: "Certifications",
+    { 
+      title: "Certifications", 
       iconUrl: "assets/icons/certificate.svg",
-      popupContent: (
-        <ul>
-          <li>Certification 1</li>
-          <li>Certification 2</li>
-        </ul>
-      ),
+      route: "/certifications" // Route to the Certifications page
     },
-    {
-      title: "Projects",
+    { 
+      title: "Projects", 
       iconUrl: "assets/icons/project.svg",
-      popupContent: (
-        <div>
-          <h4>My Projects</h4>
-          <p>Here are some of my projects:</p>
-          <ul>
-            <li>Project 1</li>
-            <li>Project 2</li>
-          </ul>
-        </div>
-      ),
+      route: "/projects" // Route to the Projects page
     },
-    {
-      title: "Settings",
+    { 
+      title: "Settings", 
       iconUrl: "assets/icons/settings.svg",
-      popupContent: <p>Customize your settings here.</p>,
+      route: "/settings" // Route to the Settings page
     },
   ],
   misc: [
-    {
-      title: "Blog",
+    { 
+      title: "Blog", 
       iconUrl: "assets/icons/blog.svg",
-      popupContent: "...",
+      route: "/blog" // Route to the Blog page
     },
-    {
-      title: "Github",
+    { 
+      title: "Github", 
       iconUrl: "assets/icons/github.svg",
-      popupContent: <a href="https://github.com/your-username">Visit my GitHub</a>,
+      route: "https://github.com" // External link to GitHub
     },
-    {
-      title: "Leetcode",
+    { 
+      title: "Leetcode", 
       iconUrl: "assets/icons/leetcode.svg",
-      popupContent: <p>Check out my Leetcode profile.</p>,
+      route: "https://leetcode.com" // External link to LeetCode
     },
-    {
-      title: "Letterboxd",
+    { 
+      title: "Letterboxd", 
       iconUrl: "assets/icons/letterboxd.svg",
-      popupContent: <p>Explore my Letterboxd reviews.</p>,
+      route: "https://letterboxd.com" // External link to Letterboxd
     },
-    {
-      title: "Last.fm",
+    { 
+      title: "Last.fm", 
       iconUrl: "assets/icons/lastfm.svg",
-      popupContent: <p>See what I'm listening to on Last.fm.</p>,
+      route: "https://last.fm" // External link to Last.fm
     },
   ],
   gallery: [
-    {
-      title: "Photos",
+    { 
+      title: "Photos", 
       iconUrl: "assets/icons/camera.svg",
-      popupContent: <img src="/assets/icons/camera.svg" alt="Photos" />,
+      route: "/photos" // Route to the Photos page
     },
-    {
-      title: "Music",
+    { 
+      title: "Music", 
       iconUrl: "assets/icons/music.svg",
-      popupContent: <audio controls src="/assets/audio/sample.mp3" />,
+      route: "/music" // Route to the Music page
     },
-    {
-      title: "Books",
+    { 
+      title: "Books", 
       iconUrl: "assets/icons/books.svg",
-      popupContent: <p>Here are some of my favorite books.</p>,
+      route: "/books" // Route to the Books page
     },
-    {
-      title: "Digital Gems",
+    { 
+      title: "Digital Gems", 
       iconUrl: "assets/icons/gemstone.svg",
-      popupContent: <p>Explore my collection of digital gems.</p>,
+      route: "/digital-gems" // Route to the Digital Gems page
     },
-    {
-      title: "Media",
+    { 
+      title: "Media", 
       iconUrl: "assets/icons/gallery.svg",
-      popupContent: <video controls src="/assets/videos/sample.mp4" />,
+      route: "/media" // Route to the Media page
     },
   ],
   credits: [
-    {
-      title: "Jomok",
+    { 
+      title: "Jomok", 
       iconUrl: "assets/icons/music.svg",
-      popupContent: <p>Credits to Jomok for their contributions.</p>,
+      route: "/jomok" // Route to the Jomok page
     },
-    {
-      title: "Jomok",
+    { 
+      title: "Jomok", 
       iconUrl: "/public/assets/icons/store-icon.png",
-      popupContent: <p>More credits to Jomok.</p>,
+      route: "/jomok" // Route to the Jomok page
     },
   ],
 };
