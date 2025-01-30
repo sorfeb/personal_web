@@ -1,17 +1,61 @@
+'use client';
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { VolumeProvider } from './context/VolumeContext';
+import { VolumeProvider } from '../context/VolumeContext';
+import { useEffect, useRef } from "react";
 
 import "./globals.css";
+import 'jquery.ripples';
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "SorOS",
-};
-
 
 export default function RootLayout({children,}: { children: React.ReactNode }) {
+  const waterHolderRef = useRef<HTMLDivElement>(null); 
+  
+  useEffect(() => {
+    if (typeof window !== 'undefined' && waterHolderRef.current) {
+      // Dynamically import jQuery and jQuery Ripples
+      import('jquery').then(({ default: $ }) => {
+        import('jquery.ripples').then(() => {
+          // Initialize ripples effect
+          $(waterHolderRef.current!).ripples({
+            resolution: 256,
+            dropRadius: 20,
+            perturbance: 0.04,
+          });
+          
+          const createRainDrop = () => {
+            if (waterHolderRef.current) {
+              const $ripple = $(waterHolderRef.current);
+
+              const containerWidth = waterHolderRef.current.clientWidth; 
+              const containerHeight = waterHolderRef.current.clientHeight;
+
+              const x = Math.random() * containerWidth; 
+              const y = Math.random() * containerHeight; 
+              const dropRadius = 20;
+              const strength = 0.04 + Math.random() * 0.04;
+
+              $ripple.ripples('drop', x, y, dropRadius, strength);
+            }
+          };
+
+          const rainInterval = setInterval(createRainDrop, 600); 
+
+          // Cleanup function
+          return () => {
+            clearInterval(rainInterval);
+            if (waterHolderRef.current) {
+              $(waterHolderRef.current).ripples('destroy');
+            }
+          };
+        });
+      });
+    }
+  }, []);
+
   return (
     <html lang="en">
       <head>
@@ -31,9 +75,11 @@ export default function RootLayout({children,}: { children: React.ReactNode }) {
               </defs>
               <path d="M0,8 Q50,2 100,15 V30 H0 Z" fill="url(#mountainGradient)" />
             </svg>
-          <VolumeProvider>
-            {children}
-          </VolumeProvider>
+          <div id="waterHolder" ref={waterHolderRef} className='waterCanvasContainer'>
+            <VolumeProvider>
+              {children}
+            </VolumeProvider>
+          </div>
         </div>
       </body>
     </html>

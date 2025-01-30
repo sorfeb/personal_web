@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import styles from "./page.module.css";
-import { useVolume } from '../context/VolumeContext';
+import { useVolume } from '../../context/VolumeContext';
 
 
 const AboutPage: React.FC = () => {

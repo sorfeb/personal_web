@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import styles from "./page.module.css";
-import { useVolume } from '../context/VolumeContext';
+import { useVolume } from '../../context/VolumeContext';
 
 
-const AboutPage: React.FC = () => {
+const CertificationsPage: React.FC = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const { volume } = useVolume();
 
@@ -26,4 +26,4 @@ const AboutPage: React.FC = () => {
   );
 };
 
-export default AboutPage;
+export default CertificationsPage;

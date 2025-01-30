@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-hook/media-query": "^1.1.1",
     "@types/styled-components": "^5.1.34",
+    "framer-motion": "^12.0.6",
     "jquery": "^3.7.1",
     "jquery.ripples": "^0.6.3",
     "letterboxd-client": "^1.0.1",
