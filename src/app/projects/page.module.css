@@ -1,14 +1,14 @@
 .container {
+    width: 100%;
     padding: 20px;
     overflow: hidden;
   }
   
-  .carouselWrapper {
+.carouselWrapper {
     width: 100%;
-    overflow: hidden;
     white-space: nowrap;
     position: relative;
-  }
+}
   
   .carousel {
     display: flex;
