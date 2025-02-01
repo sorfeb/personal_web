@@ -1,5 +1,5 @@
 .card {
-  font-family: 'Segoe UI', 'Frutiger', 'Helvetica', sans-serif;
+
   color: white;
 
   height: 100%; 
@@ -130,7 +130,6 @@
       color-stop(85%, transparent),
       to(rgba(250, 250, 250, 0.5))
     );
-
 }
 
 .title {

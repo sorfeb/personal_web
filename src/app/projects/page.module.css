@@ -1,0 +1,32 @@
+.container {
+    padding: 20px;
+    overflow: hidden;
+  }
+  
+  .carouselWrapper {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+  }
+  
+  .carousel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+    width: max-content;
+  }
+  
+  .techItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+  }
+  
+  .techLogo {
+    height: 100%;
+    object-fit: contain;
+  }
+  

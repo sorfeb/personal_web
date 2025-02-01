@@ -1,28 +1,113 @@
-/* Additional styles for About page */
-.pageContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #1e1e1e, 0.6;
+.profileContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.textSection {
+  flex: 1;
+  padding: 2rem;
+}
+
+.imageSection {
+  max-width: 250px;
+  text-align: center;
+}
+
+.profileImage {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  filter: blur(1.5px);
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+.contactSection {
+  margin-top: 2rem;
+}
+
+.contactSection h2 {
+  margin-bottom: 0.5rem;
+}
+
+.contactLinks {
+  display: flex;
+  gap: 1rem;
+}
+
+.reflection img {
+  display: block; 
+  margin: 0 auto;
+  -webkit-box-reflect: below -1px
+    -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      from(transparent),
+      color-stop(67%, transparent),
+      to(rgba(250, 250, 250, 0.5))
+    );
+}
+
+
+.icon {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  object-fit: contain;
+}
+
+.shineText {
+  animation: textGlow 2s infinite ease-in-out;
+}
+
+@keyframes textGlow {
+  0%, 100% {
+    filter: brightness(100%);
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3), 
+                 0 0 10px rgba(255, 255, 255, 0.2);
   }
-  
-  .aboutButton {
-    padding: 10px 20px;
-    background-color: #444;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
+  50% {
+    filter: brightness(140%);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 
+                 0 0 20px rgba(255, 255, 255, 0.6);
   }
-  
-  .aboutButton:hover {
-    background-color: #555;
+}
+
+.linkedinIcon {
+  animation: iconPulse 3s infinite ease-in-out textGlow;
+}
+
+@keyframes iconPulse {
+  0%, 100% {
+    filter: brightness(100%);
   }
-  
-  .aboutContent {
-    text-align: center;
-    line-height: 1.6;
+  50% {
+    filter: brightness(110%);
   }
+}
+
+.linkedinIcon:hover {
+  animation: iconPulseHover 1.5s infinite ease-in-out, bop 0.3s ease-in-out;
+}
+
+@keyframes iconPulseHover {
+  0%, 100% {
+    filter: brightness(120%);
+  }
+  50% {
+    filter: brightness(160%);
+  }
+}
+
+@keyframes bop {
+  0%, 100% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.2);
+  }
+}

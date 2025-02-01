@@ -1,14 +1,14 @@
 'use client';
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Roboto } from "next/font/google";
 import { VolumeProvider } from '../context/VolumeContext';
 import { useEffect, useRef } from "react";
 
 import "./globals.css";
 import 'jquery.ripples';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Roboto({weight: "300", subsets: ["latin"]});
 
 
 export default function RootLayout({children,}: { children: React.ReactNode }) {

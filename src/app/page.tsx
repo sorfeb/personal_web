@@ -1,9 +1,9 @@
 'use client';
 
 import styles from "./page.module.css";
-import data from '../components/XboxDashboard/data';
+import data from '../data/cardsList';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import XboxDashboard from "../components/XboxDashboard/XboxDashboard";
