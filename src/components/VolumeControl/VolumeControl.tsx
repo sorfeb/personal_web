@@ -14,9 +14,11 @@ const VolumeControl: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.controls}>
-        <span className={styles.icon} role="img" aria-label="Speaker">
-          🔊
-        </span>
+        <img
+          src="assets/icons/volume.svg"
+          alt="speaker_icon"
+          className={styles.icon}
+        />
         <input
           type="range"
           min="0"

@@ -30,17 +30,17 @@ const data = {
     { 
       title: "Blog", 
       iconUrl: "assets/icons/dashboard/misc/blog.svg",
-      route: "/blog" // Route to the Blog page
+      route: "/blog" 
     },
     { 
       title: "Github", 
       iconUrl: "assets/icons/dashboard/misc/github.svg",
-      route: "https://github.com" // External link to GitHub
+      route: "/github"
     },
     { 
       title: "Leetcode", 
       iconUrl: "assets/icons/dashboard/misc/leetcode.svg",
-      route: "https://leetcode.com" // External link to LeetCode
+      route: "/leetcode"
     },
     { 
       title: "Letterboxd", 
@@ -82,14 +82,9 @@ const data = {
   ],
   credits: [
     { 
-      title: "Jomok", 
-      iconUrl: "assets/icons/system/linkedin.svg",
-      route: "/jomok" // Route to the Jomok page
-    },
-    { 
-      title: "Jomok", 
-      iconUrl: "/public/assets/icons/dashboard/credits/store-icon.png",
-      route: "/jomok" // Route to the Jomok page
+      title: "Credits", 
+      iconUrl: "assets/icons/dashboard/gallery/gallery.svg",
+      route: "/credits" // Route to the Media page
     },
   ],
 };

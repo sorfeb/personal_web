@@ -40,8 +40,8 @@ export default function Home() {
                 </div>
                 <div className={styles.ProfileCardContainer}>
                   <ProfileCard
-                    name="John Doe"
-                    level="10"
+                    name="Soros F"
+                    level="20"
                     gamerscore={1000}
                   />
                 </div>

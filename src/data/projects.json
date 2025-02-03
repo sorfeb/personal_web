@@ -1,0 +1,37 @@
+[
+    {
+      "projectName": "ReadNRate",
+      "role": "Developer",
+      "date": "08/2023 - 11/2023",
+      "description": "Built a fully functional Django-based book logging app integrated with data scraping from Kaggle book list, designed with Tailwind and Bootstrap, and published the production-ready app with automation from a GitHub repository into the Adaptable PaaS Web Deployment platform.",
+      "keyTechnologies": ["Git", "Github", "Tailwind CSS", "HTML5", "JavaScript", "JQuery", "AJAX", "Django", "Python", "Kaggle", "Bootstrap CSS", "VSCode", "Adobe Photoshop"]
+    },
+    {
+      "projectName": "ReadNRate Mobile",
+      "role": "Developer",
+      "date": "08/2023 - 11/2023",
+      "description": "Built a fully functional Flutter-based Android book logging mobile app integrated with REST API from the ReadNRate Web App and published the production-ready app with automation from a GitHub repository into the Microsoft App Center.",
+      "keyTechnologies": ["Git", "Github", "Microsoft App Center", "Flutter", "Dart", "VSCode", "Android Studio", "REST API"]
+    },
+    {
+      "projectName": "Pacilflix",
+      "role": "Developer",
+      "date": "03/2024 - 06/2024",
+      "description": "Built a fully functional Netflix-inspired movie streaming logging site that stores user details and activities in a PostgreSQL-based database on Neon, designed from scratch and integrated with REST API into the Django app with automatic Railway deployment.",
+      "keyTechnologies": ["Python", "Django", "PostgreSQL", "Neon DB", "Railway", "Bootstrap CSS", "JQuery", "HTML5", "CSS", "AJAX", "DBMS"]
+    },
+    {
+      "projectName": "EpicArcade",
+      "role": "Developer",
+      "date": "03/2024 - 06/2024",
+      "description": "Built a game e-commerce app with microservices architecture through the Google Cloud Platform built on Spring Boot with automated unit and functional testing, GCP and Vercel deployment, JSON Web Token authentication technology, and PostgreSQL-based database on Supabase.",
+      "keyTechnologies": ["Tailwind CSS", "CSS", "HTML", "Next.JS", "React.JS", "Vercel", "Java", "Jakarta Persistence", "Supabase", "PostgreSQL", "JWT", "Grafana", "GCP", "Docker", "Gradle", "Postman", "JMeter", "Jacoco", "Spring Boot", "Selenium", "JUnit", "Lombok"]
+    },
+    {
+      "projectName": "Evaluation of Three ASR Models for Vietnamese Language: Whisper Multilingual vs. PhoWhisper vs. Fine-Tuned PhoWhisper",
+      "role": "Developer",
+      "date": "08/2024 - 12/2024",
+      "description": "Responsible for coding a Kaggle notebook that mainly involves training and inferencing with Whisper-based Vietnamese ASR, PhoWhisper. Made an IEEE-formatted scientific paper with my team about the performance of Vietnamese ASR Models.",
+      "keyTechnologies": ["Kaggle", "Python", "Jupyter Notebook", "Whisper", "Github", "Google Docs"]
+    }
+]

@@ -20,8 +20,8 @@
 }
 
 .VolumeControlContainer {
-  transform: translateY(-100%);
-  margin-right: 100px;
+  transform: translateY(-10%);
+  margin-right: 150px;
   display: flex;
   justify-content: flex-end;
 }

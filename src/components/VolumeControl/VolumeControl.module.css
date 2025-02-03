@@ -1,56 +1,101 @@
 .container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    width: fit-content;
-  }
-  
-  .controls {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .icon {
-    font-size: 24px;
-    color: white;
-  }
-  
-  .slider {
-    width: 150px;
-    appearance: none;
-    height: 4px;
-    background: #ccc;
-    border-radius: 4px;
-    outline: none;
-    transition: background 0.3s ease;
-  }
-  
-  .slider::-webkit-slider-thumb {
-    appearance: none;
-    width: 12px;
-    height: 12px;
-    background: #fff;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    transition: transform 0.2s ease;
-  }
-  
-  .slider::-webkit-slider-thumb:hover {
-    transform: scale(1.2);
-  }
-  
-  .slider::-moz-range-thumb {
-    width: 12px;
-    height: 12px;
-    background: #fff;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 20px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.2) 0%, /* Light top edge */
+    rgba(0, 0, 0, 0.3) 100% /* Dark bottom edge */
+  );
+  border-radius: 8px;
+  box-shadow: 
+    inset 3px 3px 6px rgba(255, 255, 255, 0.2), /* Inner highlight */
+    inset -3px -3px 6px rgba(0, 0, 0, 0.6), /* Inner shadow */
+    0 4px 8px rgba(0, 0, 0, 0.5); /* Outer shadow for depth */
+  width: fit-content;
+  transition: box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.container:hover {
+  box-shadow: 
+    inset 5px 5px 10px rgba(255, 255, 255, 0.4), /* inner highlight */
+    inset -5px -5px 10px rgba(0, 0, 0, 0.7), /* inner shadow */
+    0 6px 12px rgba(0, 0, 0, 0.6); /* outer shadow */
+  transform: scale(1.01);
+}
+
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon {
+  width: 24px;
+  display: inline-block;
+  opacity: 0.5;
+  transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+
+/* Beveled and Embossed Slider Track */
+.slider {
+  width: 150px;
+  appearance: none;
+  height: 6px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.6) 5%, /* Light top edge */
+    rgba(180, 180, 180, 0.8) 50%, /* Middle section */
+    rgba(50, 50, 50, 0.8) 95% /* Dark bottom edge */
+  );
+  border-radius: 6px;
+  outline: none;
+  transition: background 0.3s ease;
+  box-shadow: inset 2px 2px 4px rgba(255, 255, 255, 0.2), /* Embossed light */
+              inset -2px -2px 4px rgba(0, 0, 0, 0.4); /* Beveled dark */
+}
+
+/* (Webkit - Chrome, Safari, Edge) */
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.8) 10%, /* Highlight top */
+    rgba(200, 200, 200, 0.8) 50%, /* Middle */
+    rgba(80, 80, 80, 0.8) 90% /* Shadow bottom */
+  );
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 
+    inset 1px 1px 2px rgba(255, 255, 255, 0.6), /* Inner highlight */
+    inset -1px -1px 2px rgba(0, 0, 0, 0.5), /* Inner shadow */
+    0 2px 4px rgba(0, 0, 0, 0.4); /* Outer shadow */
+  transition: transform 0.2s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.9) 10%, 
+    rgba(200, 200, 200, 0.9) 50%, 
+    rgba(80, 80, 80, 0.9) 90% 
+  );
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 
+    inset 1px 1px 2px rgba(255, 255, 255, 0.7), 
+    inset -1px -1px 2px rgba(0, 0, 0, 0.6), 
+    0 2px 4px rgba(0, 0, 0, 0.5);
+}

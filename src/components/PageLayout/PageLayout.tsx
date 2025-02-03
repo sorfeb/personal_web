@@ -69,7 +69,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ title, children }) => {
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.5 }}
           >
-            <div className={styles.windowContent}>{children}</div>
+              {children}
           </motion.div>
         </motion.div>
       )}

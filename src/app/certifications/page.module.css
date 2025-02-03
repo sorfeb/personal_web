@@ -1,69 +1,70 @@
 .container {
     padding: 20px;
     overflow-y: auto;
-    max-height: 500px;
-    scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
-}
-
-.container::-webkit-scrollbar {
+    max-height: 380px; /* Scrollable height for the container */
+    width: 95%;
+    background-color: transparent; /* Transparent background for the container */
+  }
+  
+  .container::-webkit-scrollbar {
     width: 8px;
-}
-
-.container::-webkit-scrollbar-track {
+  }
+  
+  .container::-webkit-scrollbar-track {
     background: transparent;
-}
-
-.container::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.3);
+  }
+  
+  .container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3); /* Bevel scrollbar base color */
     border-radius: 10px;
-}
-
-.container::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.5);
-}
-
-.grid {
+    box-shadow: inset -1px -1px 2px rgba(0, 0, 0, 0.5), /* Inner shadow for bevel */
+                inset 1px 1px 2px rgba(255, 255, 255, 0.7); /* Highlight for emboss */
+  }
+  
+  .container::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5); /* Hover effect for scrollbar */
+    box-shadow: inset -1px -1px 2px rgba(0, 0, 0, 0.7), /* Stronger shadow on hover */
+                inset 1px 1px 2px rgba(255, 255, 255, 0.9); /* Stronger highlight on hover */
+  }
+  
+  .grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-}
-
-.card {
+    grid-template-columns: 1fr; /* Single column for cards */
+    gap: 0; /* No gap, separators provide spacing */
+  }
+  
+  .card {
     padding: 20px;
-    border-radius: 8px;
-    background: rgb(47,46,46);
-    background: linear-gradient(0deg, rgba(47,46,46,1) 2%, rgb(77, 77, 77) 100%);
-    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur( 14px );
-    -webkit-backdrop-filter: blur( 14px );
-    border-radius: 20px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: transparent; /* Transparent background for cards */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3); /* Separator line */
     transition: transform 0.2s ease-in-out;
-}
-
-.card:hover {
-    transform: scale(1.05);
-}
-
-.card h3 {
+  }
+  
+  .card:last-child {
+    border-bottom: none; /* Remove separator for the last card */
+  }
+  
+  .card h3 {
     margin: 0 0 10px;
     font-size: 18px;
-}
-
-.card p {
+    color: #fff;
+  }
+  
+  .card p {
     margin: 5px 0;
     font-size: 14px;
-}
-
-.card a {
+    color: #ccc; /* Muted text for descriptions */
+  }
+  
+  .card a {
     display: inline-block;
     margin-top: 10px;
-    color:rgb(134, 190, 255);
+    color: rgb(134, 190, 255);
     text-decoration: none;
     font-weight: bold;
-}
-
-.card a:hover {
+  }
+  
+  .card a:hover {
     text-decoration: underline;
-}
+  }
   

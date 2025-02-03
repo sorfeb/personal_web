@@ -1,0 +1,17 @@
+.LeetcodeCard {
+  margin: 2rem auto;
+}
+
+.container {
+  display: flex; 
+  margin: 0 auto;
+  border-radius: 5px;
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.container:hover {
+  box-shadow: 0 0 50px rgba(255, 255, 255, 0.8), 
+              0 0 50px rgba(255, 255, 255, 0.5);
+  transform: scale(1.05);
+}
