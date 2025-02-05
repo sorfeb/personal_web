@@ -5,7 +5,19 @@ import PageLayout from '../../components/PageLayout/PageLayout';
 import styles from './page.module.css';
 import { useVolume } from '@/context/VolumeContext';
 import { CldImage } from 'next-cloudinary';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const modalVariants = {
+  hidden: { scale: 0, rotateY: 0 },
+  visible: { scale: 1, rotateY: 180 },
+  exit: { scale: 0, rotateY: 0 }, // Reverse animation on close
+};
+
+const backgroundVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 0.9 },
+  exit: { opacity: 0 }, // Reverse fade on close
+};
 
 const PhotosPage = () => {
   const [imageList, setImageList] = useState<string[]>([]);
@@ -49,53 +61,58 @@ const PhotosPage = () => {
           <motion.div
             key={src}
             className={styles.imageContainer}
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.02 }}
             onMouseEnter={playHoverSound}
             onClick={() => {
               playSelectSound();
               setSelectedImage(src);
             }}
           >
-            <CldImage 
-              src={src} 
-              alt={src} 
-              width={300}
-              height={200} 
-            />
-            <div className={styles.overlay}></div>
+            <div className={styles.squareThumbnail}>
+              <CldImage src={src} alt={src} fill />
+            </div>
+            <p className={styles.imageTitle}>{src}</p>
           </motion.div>
         ))}
       </div>
 
-      {/* Enlarged Image View */}
-      {selectedImage && (
-        <motion.div
-          // Modal Container
-          className={styles.modal}
-          initial={{ scale: 0 }}
-          animate={{ scale: 1, rotateY: 180 }}
-          exit={{ scale: 0, rotateY: 0 }}
-          onClick={() => setSelectedImage(null)}
-        >
-          <motion.div
-            // Background
-            className={styles.modalBackground}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.9 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1 }}
-          />
-          <motion.div
-            // Photo
-            initial={{ scale: 0 }}
-            animate={{ scale: 0.8, rotateY: 180 }}
-            exit={{ scale: 0, rotateY: 0 }}
-            transition={{ duration: 1 }}
-          >
-            <CldImage src={selectedImage} alt={selectedImage} width={800} height={600} />
-          </motion.div>
-        </motion.div>
-      )}
+      {/* AnimatePresence handles exit animations properly */}
+      <AnimatePresence>
+        {selectedImage && (
+          <>
+            {/* Background fading separately */}
+            <motion.div
+              className={styles.modalBackground}
+              variants={backgroundVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              transition={{ duration: 0.5 }} // Background fades separately
+            />
+
+            {/* Image container rotates separately */}
+            <motion.div
+              className={styles.modal}
+              variants={modalVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              transition={{ duration: 0.6 }} // Image has its own transition
+              onClick={() => setSelectedImage(null)}
+            >
+              <motion.div
+                variants={modalVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                transition={{ duration: 0.6 }}
+              >
+                <CldImage src={selectedImage} alt={selectedImage} width={800} height={600} />
+              </motion.div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </PageLayout>
   );
 };

@@ -7,52 +7,43 @@
   overflow-y: auto;
 }
 
-.imageGrid::-webkit-scrollbar {
-  width: 8px;
-}
-
-.imageGrid::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.imageGrid::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3); /* Bevel scrollbar base color */
-  border-radius: 10px;
-  box-shadow: inset -1px -1px 2px rgba(0, 0, 0, 0.5), /* Inner shadow for bevel */
-              inset 1px 1px 2px rgba(255, 255, 255, 0.7); /* Highlight for emboss */
-}
-
-.imageGrid::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5); /* Hover effect for scrollbar */
-  box-shadow: inset -1px -1px 2px rgba(0, 0, 0, 0.7), /* Stronger shadow on hover */
-              inset 1px 1px 2px rgba(255, 255, 255, 0.9); /* Stronger highlight on hover */
-}
-
 .imageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.squareThumbnail {
   position: relative;
   width: 100%;
-  border-radius: 10px;
+  padding-top: 100%; /* Ensures a square aspect ratio */
   overflow: hidden;
+  border-radius: 10px;
 }
 
-.imageContainer img {
-  width: 100%;
-  height: auto; /* Keeps the original aspect ratio */
-  object-fit: contain;
-}
-
-.imageContainer:hover .overlay {
-  background: rgba(0, 255, 0, 0.4); /* Shiny green effect */
-}
-
-.overlay {
+.squareThumbnail img {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: transparent;
-  transition: background 0.3s ease-in-out;
+  object-fit: cover;
+  transition: box-shadow 1s ease-in-out, transform 1s ease-in-out;
+}
+
+.squareThumbnail:hover {
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(137, 255, 59, 0.8);
+  transform: scale(1.05);
+}
+
+.imageTitle {
+  margin-top: 3px;
+  font-size: 0.8rem;
+  color: #ffffff;
+  text-transform: capitalize;
 }
 
 /* Modal styles */
@@ -68,7 +59,6 @@
   z-index: 1000;
 }
 
-/* Light black modal background with fade-in effect */
 .modalBackground {
   position: fixed;
   top: 0;

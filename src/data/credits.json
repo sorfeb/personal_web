@@ -1,0 +1,16 @@
+{ "assets" : [
+    "https://pngimg.com/",
+    "https://codepen.io/",
+    "svgrepo.com/vectors/"
+    ], 
+    "technologies" : [
+        "nextjs",
+        "framer-motion",
+        "html",
+        "css",
+        "javascript",
+        "react",
+        "jquery",
+        "nodejs"
+    ]
+}

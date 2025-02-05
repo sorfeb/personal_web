@@ -20,11 +20,6 @@ const data = {
       iconUrl: "assets/icons/dashboard/home/project.svg",
       route: "/projects" // Route to the Projects page
     },
-    { 
-      title: "Settings", 
-      iconUrl: "assets/icons/dashboard/home/settings.svg",
-      route: "/settings" // Route to the Settings page
-    },
   ],
   misc: [
     { 
@@ -82,9 +77,14 @@ const data = {
   ],
   credits: [
     { 
-      title: "Credits", 
+      title: "Technologies", 
+      iconUrl: "assets/icons/dashboard/home/settings.svg",
+      route: "/credits-tech"
+    },
+    { 
+      title: "Assets", 
       iconUrl: "assets/icons/dashboard/gallery/gallery.svg",
-      route: "/credits" // Route to the Media page
+      route: "/credits-assets"
     },
   ],
 };
