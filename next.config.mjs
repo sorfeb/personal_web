@@ -15,6 +15,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'leetcard.jacoblin.cool',
       },
+      {
+        protocol: 'https',
+        hostname: 'sorosfebria.co',
+      },
     ],
   },
 };

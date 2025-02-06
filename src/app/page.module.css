@@ -41,6 +41,7 @@
 }
 
 .DashboardContainer {
+  margin-top: 1.5rem;
   width: 90%;
   margin-left: 10%;
   justify-content: center;

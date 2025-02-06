@@ -1,0 +1,21 @@
+.scatteredContainer {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+  overflow: hidden;
+}
+
+.scatteredItem {
+  position: absolute;
+  font-size: 14px;
+  padding: 5px 10px;
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.scatteredItem:hover {
+  background: rgba(255, 255, 255, 0.3);
+}

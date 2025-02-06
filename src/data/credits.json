@@ -1,8 +1,12 @@
-{ "assets" : [
+{ 
+    "assets" : [
     "https://pngimg.com/",
     "https://codepen.io/",
-    "svgrepo.com/vectors/"
+    "svgrepo.com/vectors/",
+    "https://www.freepik.com/free-photo/carton-boxes_10323318.htm",
+    "https://www.youtube.com/watch?v=Ot4nZ6UjJLE"
     ], 
+
     "technologies" : [
         "nextjs",
         "framer-motion",

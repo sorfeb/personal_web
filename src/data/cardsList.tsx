@@ -72,7 +72,7 @@ const data = {
     { 
       title: "Media", 
       iconUrl: "assets/icons/dashboard/gallery/gallery.svg",
-      route: "/media" // Route to the Media page
+      route: "/media" 
     },
   ],
   credits: [
@@ -83,7 +83,7 @@ const data = {
     },
     { 
       title: "Assets", 
-      iconUrl: "assets/icons/dashboard/gallery/gallery.svg",
+      iconUrl: "/assets/icons/dashboard/credits/media.png",
       route: "/credits-assets"
     },
   ],

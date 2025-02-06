@@ -276,14 +276,14 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
             </div>
           </div>
           <div className={styles.position}>
-            {`${currentCardIndex + 1} of ${data.home.length}`}
+            {`${currentCardIndex + 1} of ${data.misc.length}`}
           </div>
         </div>
         <div className={styles.rightArrowContainer}>
         <button
             className={styles.rightArrow}
             onClick={handleRightArrowClick}
-            disabled={currentCardIndex === data.home.length-1}
+            disabled={currentCardIndex === data.misc.length-1}
             onMouseEnter={playHoverSound}>
           <img
               src="./assets/icons/buttonRight.png"
@@ -324,14 +324,14 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
             ))}
           </div>
           <div className={styles.position}>
-            {`${currentCardIndex + 1} of ${data.home.length}`}
+            {`${currentCardIndex + 1} of ${data.gallery.length}`}
           </div>
         </div>
         <div className={styles.rightArrowContainer}>
         <button
             className={styles.rightArrow}
             onClick={handleRightArrowClick}
-            disabled={currentCardIndex === data.home.length-1}
+            disabled={currentCardIndex === data.gallery.length-1}
             onMouseEnter={playHoverSound}>
           <img
               src="./assets/icons/buttonRight.png"
@@ -372,14 +372,14 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
             ))}
           </div>
           <div className={styles.position}>
-            {`${currentCardIndex + 1} of ${data.home.length}`}
+            {`${currentCardIndex + 1} of ${data.credits.length}`}
           </div>
         </div>
         <div className={styles.rightArrowContainer}>
           <button
             className={styles.rightArrow}
             onClick={handleRightArrowClick}
-            disabled={currentCardIndex === data.home.length-1}
+            disabled={currentCardIndex === data.credits.length-1}
             onMouseEnter={playHoverSound}>
           <img
               src="./assets/icons/buttonRight.png"
