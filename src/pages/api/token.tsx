@@ -1,50 +1,46 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-interface SpotifyToken {
-  access_token: string;
-  token_type: string;
-  expires_in: number;
-}
-
-interface SpotifyError {
-  error: string;
-  error_description: string;
-}
+let accessToken: string | null = null;
+let expiresAt: number | null = null;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  try {
-    const tokenUrl = 'https://accounts.spotify.com/api/token';
-    const clientId = process.env.SPOTIFY_CLIENT_ID;
-    const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+  // Check for a secret key in headers
+  const secretKey = req.headers['x-api-key'];
+  const serverSecret = process.env.INTERNAL_API_SECRET; // Store this in .env
 
-    if (!clientId || !clientSecret) {
-      res.status(500).json({ error: 'Missing Spotify client credentials' });
-      return;
-    }
+  if (!serverSecret || secretKey !== serverSecret) {
+    return res.status(403).json({ error: 'Unauthorized request' });
+  }
 
-    const authString = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
+  const clientId = process.env.SPOTIFY_CLIENT_ID;
+  const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 
-    const response = await fetch(tokenUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Basic ${authString}`,
-      },
-      body: new URLSearchParams({
-        grant_type: 'client_credentials',
-      }),
-    });
+  if (!clientId || !clientSecret) {
+    return res.status(500).json({ error: 'Missing Spotify client credentials' });
+  }
 
-    const data: SpotifyToken | SpotifyError = await response.json();
+  const now = Date.now();
 
-    if (response.ok) {
-      const tokenData = data as SpotifyToken;
-      res.status(200).json(tokenData);
-    } else {
-      const errorData = data as SpotifyError;
-      res.status(response.status).json({ error: errorData.error_description });
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
+  if (accessToken && expiresAt && now < expiresAt) {
+    return res.status(200).json({ access_token: accessToken });
+  }
+
+  const response = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString('base64')}`,
+    },
+    body: new URLSearchParams({ grant_type: 'client_credentials' }),
+  });
+
+  const data = await response.json();
+
+  if (response.ok) {
+    accessToken = data.access_token;
+    expiresAt = now + data.expires_in * 1000;
+    return res.status(200).json({ access_token: accessToken });
+  } else {
+    return res.status(response.status).json({ error: data.error });
   }
 }
