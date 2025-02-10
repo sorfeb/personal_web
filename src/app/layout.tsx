@@ -1,6 +1,5 @@
 'use client';
 
-import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { VolumeProvider } from '../context/VolumeContext';
 import { useEffect, useRef } from "react";
@@ -16,45 +15,46 @@ export default function RootLayout({children,}: { children: React.ReactNode }) {
   
   useEffect(() => {
     if (typeof window !== 'undefined' && waterHolderRef.current) {
-      // Dynamically import jQuery and jQuery Ripples
+      // Dynamically import jQuery
       import('jquery').then(({ default: $ }) => {
         import('jquery.ripples').then(() => {
-          // Initialize ripples effect
-          $(waterHolderRef.current!).ripples({
+          // Initialize ripples effect with type assertion
+          ( $(waterHolderRef.current!) as any ).ripples({
             resolution: 256,
             dropRadius: 20,
             perturbance: 0.04,
           });
-          
+  
           const createRainDrop = () => {
             if (waterHolderRef.current) {
-              const $ripple = $(waterHolderRef.current);
-
-              const containerWidth = waterHolderRef.current.clientWidth; 
+              const $ripple = $(waterHolderRef.current) as any;
+  
+              const containerWidth = waterHolderRef.current.clientWidth;
               const containerHeight = waterHolderRef.current.clientHeight;
-
-              const x = Math.random() * containerWidth; 
-              const y = Math.random() * containerHeight; 
+  
+              const x = Math.random() * containerWidth;
+              const y = Math.random() * containerHeight;
               const dropRadius = 20;
               const strength = 0.04 + Math.random() * 0.04;
-
+  
               $ripple.ripples('drop', x, y, dropRadius, strength);
             }
           };
-
-          const rainInterval = setInterval(createRainDrop, 600); 
-
+  
+          const rainInterval = setInterval(createRainDrop, 600);
+  
           // Cleanup function
           return () => {
             clearInterval(rainInterval);
             if (waterHolderRef.current) {
-              $(waterHolderRef.current).ripples('destroy');
+              ( $(waterHolderRef.current!) as any ).ripples('destroy');
             }
           };
         });
       });
     }
   }, []);
+  
 
   return (
     <html lang="en">
