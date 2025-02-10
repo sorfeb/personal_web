@@ -8,10 +8,10 @@ import { useVolume } from '../../context/VolumeContext';
 interface XboxDashboardProps {
   activeIndex: number;
   data: {
-    home: { route: string; title: string; iconUrl: string;}[];
-    misc: { route: string; title: string; iconUrl: string; images: string[];}[];
-    gallery: { route: string; title: string; iconUrl: string;}[];
-    credits: { route: string; title: string; iconUrl: string;}[];
+    home: { route: string; title: string; iconUrl: string; images?: string[]}[];
+    misc: { route: string; title: string; iconUrl: string; images?: string[]}[];
+    gallery: { route: string; title: string; iconUrl: string; images?: string[]}[];
+    credits: { route: string; title: string; iconUrl: string; images?: string[]}[];
   };
 }
 
@@ -212,6 +212,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
                   title={card.title} 
                   iconUrl={card.iconUrl}
                   route={card.route}
+                  images={card.images}
                 />
               </div>
             ))}
@@ -309,6 +310,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
                   title={card.title} 
                   iconUrl={card.iconUrl}
                   route={card.route}
+                  images={card.images}
                 />
               </div>
             ))}
@@ -357,6 +359,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
                   title={card.title} 
                   iconUrl={card.iconUrl}
                   route={card.route}
+                  images={card.images}
                 />
               </div>
             ))}

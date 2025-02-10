@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    // Securely fetch the token using the internal API key
     const tokenResponse = await fetch('http://localhost:3000/api/token', {
       headers: { 'x-api-key': process.env.INTERNAL_API_SECRET || '' }
     });

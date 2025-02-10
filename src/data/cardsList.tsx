@@ -8,17 +8,17 @@ const data = {
     { 
       title: "Profile", 
       iconUrl: "/assets/icons/dashboard/home/myface.png",
-      route: "/profile" // Route to the Profile page
+      route: "/profile"
     },
     { 
       title: "Certifications", 
       iconUrl: "assets/icons/dashboard/home/certificate.svg",
-      route: "/certifications" // Route to the Certifications page
+      route: "/certifications"
     },
     { 
       title: "Projects", 
       iconUrl: "assets/icons/dashboard/home/project.svg",
-      route: "/projects" // Route to the Projects page
+      route: "/projects"
     },
   ],
   misc: [

@@ -4,9 +4,9 @@ let accessToken: string | null = null;
 let expiresAt: number | null = null;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  // Check for a secret key in headers
+
   const secretKey = req.headers['x-api-key'];
-  const serverSecret = process.env.INTERNAL_API_SECRET; // Store this in .env
+  const serverSecret = process.env.INTERNAL_API_SECRET; 
 
   if (!serverSecret || secretKey !== serverSecret) {
     return res.status(403).json({ error: 'Unauthorized request' });

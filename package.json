@@ -21,6 +21,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-use-measure": "^2.1.7",
+    "react-water-wave": "^2.0.1",
     "styled-components": "^6.1.12"
   },
   "devDependencies": {
@@ -30,6 +31,8 @@
     "@types/react-dom": "^18",
     "eslint": "^9.19.0",
     "eslint-config-next": "^15.1.6",
+    "stylelint": "^16.14.1",
+    "stylelint-config-standard": "^37.0.0",
     "typescript": "^5"
   },
   "overrides": {
