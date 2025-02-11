@@ -7,11 +7,11 @@
   margin: 0 auto;
   border-radius: 5px;
   transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 10px rgb(255 255 255 / 30%);
 }
 
 .container:hover {
-  box-shadow: 0 0 50px rgba(255, 255, 255, 0.8), 
-              0 0 50px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 50px rgb(255 255 255 / 80%), 
+              0 0 50px rgb(255 255 255 / 50%);
   transform: scale(1.05);
 }

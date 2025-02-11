@@ -1,10 +1,9 @@
-/* Additional styles for About page */
 .pageContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #1e1e1e, 0.6;
+    background-color: #1e1e1e
   }
   
   .aboutButton {

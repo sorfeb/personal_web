@@ -35,6 +35,7 @@
   from {
     transform: translateX(0);
   }
+
   to {
     transform: translateX(-50%);
   }
@@ -57,22 +58,22 @@
 }
 
 .projects::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3); 
+  background: rgb(255 255 255 / 30%); 
   border-radius: 10px;
-  box-shadow: inset -1px -1px 2px rgba(0, 0, 0, 0.5), /* bevel */
-              inset 1px 1px 2px rgba(255, 255, 255, 0.7); /* emboss */
+  box-shadow: inset -1px -1px 2px rgb(0 0 0 / 50%), /* bevel */
+              inset 1px 1px 2px rgb(255 255 255 / 70%); /* emboss */
 }
 
 .projects::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
-  box-shadow: inset -1px -1px 2px rgba(0, 0, 0, 0.7), /* inner shadow */
-              inset 1px 1px 2px rgba(255, 255, 255, 0.9); /* highlight */
+  background: rgb(255 255 255 / 50%);
+  box-shadow: inset -1px -1px 2px rgb(0 0 0 / 70%), /* inner shadow */
+              inset 1px 1px 2px rgb(255 255 255 / 90%); /* highlight */
 }
 
 .projectCard {
   background-color: transparent; /* Transparent background for cards */
   padding: 15px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3); /* Thin separator line */
+  border-bottom: 1px solid rgb(255 255 255 / 30%); /* Thin separator line */
   margin-bottom: 0; /* Remove bottom margin */
 }
 

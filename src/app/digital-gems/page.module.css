@@ -10,12 +10,12 @@
   font-size: 14px;
   padding: 5px 10px;
   color: white;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgb(255 255 255 / 10%);
   border-radius: 5px;
   text-decoration: none;
   transition: background 0.3s;
 }
 
 .scatteredItem:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgb(255 255 255 / 30%);
 }

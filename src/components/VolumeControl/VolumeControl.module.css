@@ -6,23 +6,25 @@
   padding: 10px 20px;
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.2) 0%, /* Light top edge */
-    rgba(0, 0, 0, 0.3) 100% /* Dark bottom edge */
+    rgb(255 255 255 / 20%) 0%, /* Light top edge */
+    rgb(0 0 0 / 30%) 100% /* Dark bottom edge */
   );
   border-radius: 8px;
   box-shadow: 
-    inset 3px 3px 6px rgba(255, 255, 255, 0.2), /* Inner highlight */
-    inset -3px -3px 6px rgba(0, 0, 0, 0.6), /* Inner shadow */
-    0 4px 8px rgba(0, 0, 0, 0.5); /* Outer shadow for depth */
+    inset 3px 3px 6px rgb(255 255 255 / 20%), /* Inner highlight */
+    inset -3px -3px 6px rgb(0 0 0 / 60%), /* Inner shadow */
+    0 4px 8px rgb(0 0 0 / 50%); /* Outer shadow for depth */
+
   width: fit-content;
   transition: box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
 .container:hover {
   box-shadow: 
-    inset 5px 5px 10px rgba(255, 255, 255, 0.4), /* inner highlight */
-    inset -5px -5px 10px rgba(0, 0, 0, 0.7), /* inner shadow */
-    0 6px 12px rgba(0, 0, 0, 0.6); /* outer shadow */
+    inset 5px 5px 10px rgb(255 255 255 / 40%), /* inner highlight */
+    inset -5px -5px 10px rgb(0 0 0 / 70%), /* inner shadow */
+    0 6px 12px rgb(0 0 0 / 60%); /* outer shadow */
+
   transform: scale(1.01);
 }
 
@@ -48,15 +50,15 @@
   height: 6px;
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.6) 5%, /* Light top edge */
-    rgba(180, 180, 180, 0.8) 50%, /* Middle section */
-    rgba(50, 50, 50, 0.8) 95% /* Dark bottom edge */
+    rgb(255 255 255 / 60%) 5%, /* Light top edge */
+    rgb(180 180 180 / 80%) 50%, /* Middle section */
+    rgb(50 50 50 / 80%) 95% /* Dark bottom edge */
   );
   border-radius: 6px;
   outline: none;
   transition: background 0.3s ease;
-  box-shadow: inset 2px 2px 4px rgba(255, 255, 255, 0.2), /* Embossed light */
-              inset -2px -2px 4px rgba(0, 0, 0, 0.4); /* Beveled dark */
+  box-shadow: inset 2px 2px 4px rgb(255 255 255 / 20%), /* Embossed light */
+              inset -2px -2px 4px rgb(0 0 0 / 40%); /* Beveled dark */
 }
 
 /* (Webkit - Chrome, Safari, Edge) */
@@ -66,16 +68,17 @@
   height: 14px;
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.8) 10%, /* Highlight top */
-    rgba(200, 200, 200, 0.8) 50%, /* Middle */
-    rgba(80, 80, 80, 0.8) 90% /* Shadow bottom */
+    rgb(255 255 255 / 80%) 10%, /* Highlight top */
+    rgb(200 200 200 / 80%) 50%, /* Middle */
+    rgb(80 80 80 / 80%) 90% /* Shadow bottom */
   );
   border-radius: 50%;
   cursor: pointer;
   box-shadow: 
-    inset 1px 1px 2px rgba(255, 255, 255, 0.6), /* Inner highlight */
-    inset -1px -1px 2px rgba(0, 0, 0, 0.5), /* Inner shadow */
-    0 2px 4px rgba(0, 0, 0, 0.4); /* Outer shadow */
+    inset 1px 1px 2px rgb(255 255 255 / 60%), /* Inner highlight */
+    inset -1px -1px 2px rgb(0 0 0 / 50%), /* Inner shadow */
+    0 2px 4px rgb(0 0 0 / 40%); /* Outer shadow */
+
   transition: transform 0.2s ease;
 }
 
@@ -88,14 +91,14 @@
   height: 14px;
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.9) 10%, 
-    rgba(200, 200, 200, 0.9) 50%, 
-    rgba(80, 80, 80, 0.9) 90% 
+    rgb(255 255 255 / 90%) 10%, 
+    rgb(200 200 200 / 90%) 50%, 
+    rgb(80 80 80 / 90%) 90% 
   );
   border-radius: 50%;
   cursor: pointer;
   box-shadow: 
-    inset 1px 1px 2px rgba(255, 255, 255, 0.7), 
-    inset -1px -1px 2px rgba(0, 0, 0, 0.6), 
-    0 2px 4px rgba(0, 0, 0, 0.5);
+    inset 1px 1px 2px rgb(255 255 255 / 70%), 
+    inset -1px -1px 2px rgb(0 0 0 / 60%), 
+    0 2px 4px rgb(0 0 0 / 50%);
 }

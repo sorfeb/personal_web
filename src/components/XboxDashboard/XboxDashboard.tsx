@@ -8,10 +8,10 @@ import { useVolume } from '../../context/VolumeContext';
 interface XboxDashboardProps {
   activeIndex: number;
   data: {
-    home: { route: string; title: string; iconUrl: string; images?: string[]}[];
-    misc: { route: string; title: string; iconUrl: string; images?: string[]}[];
-    gallery: { route: string; title: string; iconUrl: string; images?: string[]}[];
-    credits: { route: string; title: string; iconUrl: string; images?: string[]}[];
+    home: { route: string; title: string; iconUrl?: string; images?: string[]}[];
+    misc: { route: string; title: string; iconUrl?: string; images?: string[]}[];
+    gallery: { route: string; title: string; iconUrl?: string; images?: string[]}[];
+    credits: { route: string; title: string; iconUrl?: string; images?: string[]}[];
   };
 }
 

@@ -20,7 +20,6 @@
   width: 50px;
   height: 50px;
   cursor: pointer;
-  transition: background 0.3s, transform 0.3s;
   z-index: 100;
   margin-right: 40px;
   opacity: 0.6;
@@ -38,12 +37,15 @@
   0%, 100% {
     transform: scale(1.2) rotate(0deg); /* Normal hover size */
   }
+
   25% {
     transform: scale(1.2) rotate(-10deg); /* Rotate left */
   }
+
   50% {
     transform: scale(1.2) rotate(10deg); /* Rotate right */
   }
+
   75% {
     transform: scale(1.2) rotate(-5deg); /* Subtle adjustment */
   }
@@ -82,16 +84,13 @@
 
 .card {
   height: 300px;
-
   position: absolute; 
   left: 0;
   right: 0;
-
   transform-origin: center;
   transition: transform 0.3s ease, z-index 0.3s ease;
   opacity: 0;
   z-index: 0;
-  
   scroll-snap-align: center;
 }
 
@@ -101,28 +100,30 @@
 }
 
 .card.selected {
-  border: 2px solid rgba(255, 255, 255, 0.5); /* Subtle border */
-  box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.7), 
-              0 0 40px 20px rgba(255, 255, 255, 0.5), 
-              0 0 60px 30px rgba(255, 255, 255, 0.3);
+  border: 2px solid rgb(255 255 255 / 50%); /* Subtle border */
+  box-shadow: 0 0 20px 10px rgb(255 255 255 / 70%), 
+              0 0 40px 20px rgb(255 255 255 / 50%), 
+              0 0 60px 30px rgb(255 255 255 / 30%);
   animation: pulse 1.5s infinite ease-in-out;
 }
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.6), 
-                0 0 20px 10px rgba(255, 255, 255, 0.4), 
-                0 0 30px 15px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 10px 5px rgb(255 255 255 / 60%), 
+                0 0 20px 10px rgb(255 255 255 / 40%), 
+                0 0 30px 15px rgb(255 255 255 / 20%);
   }
+
   50% {
-    box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.8), 
-                0 0 40px 20px rgba(255, 255, 255, 0.6), 
-                0 0 60px 30px rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 20px 10px rgb(255 255 255 / 80%), 
+                0 0 40px 20px rgb(255 255 255 / 60%), 
+                0 0 60px 30px rgb(255 255 255 / 40%);
   }
+
   100% {
-    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.6), 
-                0 0 20px 10px rgba(255, 255, 255, 0.4), 
-                0 0 30px 15px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 10px 5px rgb(255 255 255 / 60%), 
+                0 0 20px 10px rgb(255 255 255 / 40%), 
+                0 0 30px 15px rgb(255 255 255 / 20%);
   }
 }
 

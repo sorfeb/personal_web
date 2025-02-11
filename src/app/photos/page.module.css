@@ -35,14 +35,14 @@
 
 .squareThumbnail:hover {
   cursor: pointer;
-  box-shadow: 0 0 10px rgba(137, 255, 59, 0.8);
+  box-shadow: 0 0 10px rgb(137 255 59 / 80%);
   transform: scale(1.05);
 }
 
 .imageTitle {
   margin-top: 3px;
   font-size: 0.8rem;
-  color: #ffffff;
+  color: #fff;
   text-transform: capitalize;
 }
 
@@ -65,12 +65,12 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgb(0 0 0 / 90%);
   z-index: -1;
 }
 
 .modal img {
   border-radius: 10px;
-  box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 20px rgb(255 255 255 / 50%);
   cursor: pointer;
 }

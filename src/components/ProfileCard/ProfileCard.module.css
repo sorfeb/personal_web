@@ -1,22 +1,22 @@
 .card {
   display: flex;
   border-radius: 10px;
-  padding: 15px 15px 15px 15px;
+  padding: 15px;
   color: white;
   font-family: "Segoe UI", Arial, sans-serif;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px rgb(0 0 0 / 10%),
+    inset 0 1px 0 rgb(255 255 255 / 10%);
   transition: all 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .card:hover {
   transform: translateY(-5px) scale(1.03);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 15px rgb(0 0 0 / 20%),
+    inset 0 1px 0 rgb(255 255 255 / 20%);
   background: linear-gradient(
     145deg,
-    rgba(255, 255, 255, 0.7),
-    rgba(111, 175, 68, 0.7)
+    rgb(255 255 255 / 70%),
+    rgb(111 175 68 / 70%)
   );
 }
 
@@ -27,9 +27,6 @@
 
 .card:hover::after {
   opacity: 1;
-}
-
-.avatarContainer {
 }
 
 .avatarWrapper {
@@ -53,13 +50,12 @@
 
 .name {
   font-size: 18px;
-  margin: 0 0 4px 0;
+  margin: 0 0 4px;
 }
 
 
 .gamerscore {
   display: flex;
-  align-items: left;
   font-size: 20px;
   color: white;
   margin: 0;
