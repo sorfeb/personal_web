@@ -68,8 +68,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </svg>
 
           {/* Water Ripple Effect (Lazy Loaded) */}
-          <div id="waterHolder" ref={waterHolderRef} className="waterCanvasContainer" />
-          <VolumeProvider>{children}</VolumeProvider>
+          <div id="waterHolder" ref={waterHolderRef} className="waterCanvasContainer">
+            <VolumeProvider>{children}</VolumeProvider>
+          </div>
         </div>
       </body>
     </html>
