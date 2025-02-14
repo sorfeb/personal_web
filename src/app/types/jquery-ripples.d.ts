@@ -7,10 +7,10 @@ declare module 'jquery.ripples' {
   }
 
   interface JQuery {
-      ripples(options?: RipplesOptions): JQuery;
+      ripples(options?: any): JQuery;
       ripples(method: 'drop', x: number, y: number, radius: number, strength: number): JQuery;
       ripples(method: 'destroy'): JQuery;
   }
 
-  export default function ripples(options?: RipplesOptions): void;
+  export {};
 }
