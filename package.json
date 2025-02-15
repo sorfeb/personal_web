@@ -20,8 +20,10 @@
     "next-cloudinary": "^6.16.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-shepherd": "^6.1.7",
     "react-use-measure": "^2.1.7",
     "react-water-wave": "^2.0.1",
+    "shepherd.js": "^14.4.0",
     "styled-components": "^6.1.12"
   },
   "devDependencies": {
