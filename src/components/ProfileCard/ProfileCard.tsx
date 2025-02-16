@@ -1,8 +1,9 @@
-import React from 'react';
 import styles from './ProfileCard.module.css';
 import Image from 'next/image';
 import { useVolume } from '../../context/VolumeContext';
+import { useShepherdTour } from '../../context/ShepherdTourContext';
 
+import Shepherd from 'shepherd.js';
 
 interface ProfileCardProps {
   name: string;
@@ -12,6 +13,7 @@ interface ProfileCardProps {
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ name, level, gamerscore }) => {
   const { volume } = useVolume();
+  const { startTour } = useShepherdTour();
 
   const playSelectSound = () => {
     const audio = new Audio('/assets/audio/ps2_zing.wav');
@@ -26,8 +28,12 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ name, level, gamerscore }) =>
   };
 
   return (
-      <div className={styles.card}
-        onClick={playSelectSound}
+      <div 
+        className={styles.card}
+        onClick={() => {
+          playSelectSound();
+          startTour();
+        }}
         onMouseEnter={playHoverSound}
       >
         <div className={styles.infoContainer}>
