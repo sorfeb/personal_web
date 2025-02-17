@@ -23,6 +23,16 @@ const data = {
   ],
   misc: [
     { 
+      title: "My Playlists", 
+      images: [
+        'https://mosaic.scdn.co/640/ab67616d00001e0237e36bb8b1efe88f9c84200aab67616d00001e0259eaf2f9fca6f4c449fc9fc0ab67616d00001e02b2ac8e98b0fe410e0bd9fd52ab67616d00001e02d421c7b2de6846831a2c3814',
+        'https://mosaic.scdn.co/640/ab67616d00001e0270622da427271b0203d7ce79ab67616d00001e0284426b19844492cccbe23876ab67616d00001e02d6be58f07b858364845c13b9ab67616d00001e02e5234dab5a91ec9e75564184',
+        'https://mosaic.scdn.co/640/ab67616d00001e024564cbd2bfb31e7fab8e5e46ab67616d00001e02a3bd2d6bfae0b5cb0e9dac57ab67616d00001e02bcd8da1b2a1e5ad92dcca135ab67616d00001e02e49806ff277ac693976caa97',
+        'https://mosaic.scdn.co/640/ab67616d00001e023d15323e148511fc307d95bdab67616d00001e0245643f5cf119cbc9d2811c22ab67616d00001e028cc1e0b31aade5ecbad2af4aab67616d00001e02d990653ea71f3ef4bf46d27b'
+      ],
+      route: "/my-playlists"
+    },
+    { 
       title: "Blog", 
       iconUrl: "assets/icons/dashboard/misc/blog.svg",
       route: "/blog" 
@@ -40,21 +50,12 @@ const data = {
     { 
       title: "Letterboxd", 
       iconUrl: "assets/icons/dashboard/misc/letterboxd.svg",
-      route: "https://letterboxd.com" // External link to Letterboxd
+      route: "https://letterboxd.com/21watchingeyes/"
     },
     { 
       title: "Last.fm", 
       iconUrl: "assets/icons/dashboard/misc/lastfm.svg",
       route: "https://last.fm" // External link to Last.fm
-    },
-    { 
-      title: "My Playlists", 
-      images: [
-        'https://mosaic.scdn.co/640/ab67616d00001e02512219d757d294b1b8ceb6fdab67616d00001e02b95dc41b1ea299b71415c870ab67616d00001e02d6ebb6f586a549c57189f2f9ab67616d00001e02e82b9063af74c25efea29973',
-        'https://mosaic.scdn.co/640/ab67616d00001e0259eaf2f9fca6f4c449fc9fc0ab67616d00001e02aec44761574de2a7e8784f11ab67616d00001e02cb9172e927b9f4a7eba3e992ab67616d00001e02d421c7b2de6846831a2c3814',
-        'https://mosaic.scdn.co/640/ab67616d00001e0209835613d695644fbc99cf9cab67616d00001e021d1ff8b3a6fe52ee3123078eab67616d00001e023607a6aab3a44e9d6cb71e41ab67616d00001e0278eea627fe9c77256adea633',
-      ],
-      route: "/my-playlists"
     },
   ],
   gallery: [

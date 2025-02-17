@@ -30,15 +30,15 @@ export const ShepherdTourProvider: React.FC<{ children: React.ReactNode }> = ({ 
         id: "scroll-menu",
         text: `
           <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
-          <dotlottie-player src="https://lottie.host/7a4189d9-6ae7-4389-a50b-a039e3b50abf/Bt6j1vtDs8.lottie" background="transparent" speed="1" style="width: 150px; height: 150px" loop autoplay></dotlottie-player>
-          <p>Use this menu to navigate.</p>
+          <dotlottie-player src="https://lottie.host/432e3b4d-c6d3-41de-aa92-fca208f50f53/1Chx97pe5i.lottie" background="transparent" speed="1" style="width: 150px; height: 150px" loop autoplay></dotlottie-player>
+          <p>Scroll the area of this menu to navigate through sections.</p>
         `,
         attachTo: { element: "#scrolling-menu-container", on: "bottom" },
         buttons: [{ text: "Next", action: () => newTour.next() }, { text: "Exit", action: () => newTour.cancel() }],
       },
       {
         id: "volume-control",
-        text: "Adjust the volume here.",
+        text: "Adjust the volume on this slider here.",
         attachTo: { element: "#volume-control-container", on: "top" },
         buttons: [{ text: "Finish", action: () => newTour.complete() }],
       },
