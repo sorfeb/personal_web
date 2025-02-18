@@ -16,6 +16,9 @@ const getRandomDuration = () => Math.random() * 5 + 3; // Between 3s - 8s
 const DigitalGemsPage = () => {
   return (
     <PageLayout title="Digital Gems">
+      <div className={styles.textContainer}>
+        <p><i>Check these websites out!</i></p>
+      </div>
       <div className={styles.scatteredContainer}>
         {linksData.links.map((link, index) => {
           const initialPos = getRandomPosition();

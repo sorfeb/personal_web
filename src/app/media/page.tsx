@@ -10,16 +10,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 const modalVariants = {
   hidden: { scale: 0, rotateY: 0 },
   visible: { scale: 1, rotateY: 180 },
-  exit: { scale: 0, rotateY: 0 }, // Reverse animation on close
+  exit: { scale: 0, rotateY: 0 },
 };
 
+ // Reverse animation on close
 const backgroundVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 0.9 },
-  exit: { opacity: 0 }, // Reverse fade on close
+  exit: { opacity: 0 }, 
 };
 
-const PhotosPage = () => {
+const MediaPage = () => {
   const [imageList, setImageList] = useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -30,7 +31,7 @@ const PhotosPage = () => {
   const selectSound = '/assets/audio/snd_buttonselect.wav';
 
   useEffect(() => {
-    import('@/data/photos.json')
+    import('@/data/medias.json')
       .then((data) => setImageList(data.images))
       .catch((error) => console.error('Error loading images:', error));
   }, []);
@@ -52,11 +53,11 @@ const PhotosPage = () => {
   };
 
   return (
-    <PageLayout title="Photos">
+    <PageLayout title="Media">
       <audio ref={audioRef} src={hoverSound} />
       <audio ref={selectAudioRef} src={selectSound} />
       <div className={styles.textContainer}>
-        <p><i>Just several photos from my camera roll. Click on a thumbnail to view it in full size.</i></p>
+        <p><i>Intriguing medias I found or made</i></p>
       </div>
       <div className={styles.imageGrid}>
         {imageList.map((src) => (
@@ -119,4 +120,4 @@ const PhotosPage = () => {
   );
 };
 
-export default PhotosPage;
+export default MediaPage;

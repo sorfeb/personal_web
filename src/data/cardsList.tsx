@@ -40,7 +40,7 @@ const data = {
     { 
       title: "Github", 
       iconUrl: "assets/icons/dashboard/misc/github.svg",
-      route: "/github"
+      route: "https://github.com/sorfeb"
     },
     { 
       title: "Leetcode", 
@@ -52,37 +52,32 @@ const data = {
       iconUrl: "assets/icons/dashboard/misc/letterboxd.svg",
       route: "https://letterboxd.com/21watchingeyes/"
     },
-    { 
-      title: "Last.fm", 
-      iconUrl: "assets/icons/dashboard/misc/lastfm.svg",
-      route: "https://last.fm" // External link to Last.fm
-    },
   ],
   gallery: [
     { 
       title: "Photos", 
       iconUrl: "assets/icons/dashboard/gallery/camera.svg",
-      route: "/photos" // Route to the Photos page
-    },
-    { 
-      title: "Music", 
-      iconUrl: "assets/icons/dashboard/gallery/music.svg",
-      route: "/music" // Route to the Music page
-    },
-    { 
-      title: "Books", 
-      iconUrl: "assets/icons/dashboard/gallery/books.svg",
-      route: "/books" // Route to the Books page
-    },
-    { 
-      title: "Digital Gems", 
-      iconUrl: "assets/icons/dashboard/gallery/gemstone.svg",
-      route: "/digital-gems" // Route to the Digital Gems page
+      route: "/photos"
     },
     { 
       title: "Media", 
       iconUrl: "assets/icons/dashboard/gallery/gallery.svg",
       route: "/media" 
+    },
+    { 
+      title: "Music", 
+      iconUrl: "assets/icons/dashboard/gallery/music.svg",
+      route: "/music"
+    },
+    { 
+      title: "Books", 
+      iconUrl: "assets/icons/dashboard/gallery/books.svg",
+      route: "/books" 
+    },
+    { 
+      title: "Digital Gems", 
+      iconUrl: "assets/icons/dashboard/gallery/gemstone.svg",
+      route: "/digital-gems"
     },
   ],
   credits: [
