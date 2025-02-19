@@ -3,8 +3,6 @@ import Image from 'next/image';
 import { useVolume } from '../../context/VolumeContext';
 import { useShepherdTour } from '../../context/ShepherdTourContext';
 
-import Shepherd from 'shepherd.js';
-
 interface ProfileCardProps {
   name: string;
   level: string;

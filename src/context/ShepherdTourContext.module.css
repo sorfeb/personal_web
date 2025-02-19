@@ -1,0 +1,25 @@
+.customShepherdStep {
+    color: white;
+    background: linear-gradient(145deg, rgb(108 184 43 / 60%), rgb(78 156 27 / 60%));
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgb(0 0 0 / 10%), inset 0 1px 0 rgb(255 255 255 / 10%);
+    text-shadow: 1px 1px 2px rgb(0 0 0 / 20%);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+    
+  .customShepherdStep:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 8px 15px rgb(0 0 0 / 20%), inset 0 1px 0 rgb(255 255 255 / 20%);
+    background: linear-gradient(145deg, rgb(124 217 58 / 70%), rgb(94 172 43 / 70%));
+  }
+
+.customShepherdStep p,
+.customShepherdStep h3 {
+    color: white;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+    position: relative;
+    text-align: center;
+}

@@ -42,7 +42,7 @@ export default function Home() {
                 </div>
                 <div className={styles.ProfileCardContainer}>
                   <ProfileCard
-                    name="Onboard"
+                    name="Click Me!"
                     level="20"
                     gamerscore={2222}
                   />
@@ -51,8 +51,10 @@ export default function Home() {
               <div className={styles.DashboardContainer}>
                 <XboxDashboard activeIndex={activeIndex} data={data} />
               </div>
-              <div id="volume-control-container" className={styles.VolumeControlContainer}>
-                <VolumeControl/>
+              <div className={styles.VolumeControlContainer}>
+                <div id="volume-control-container"className={styles.VolumeControlWrapper}>
+                  <VolumeControl/>
+                </div>
               </div>
             </div>
           </motion.div>

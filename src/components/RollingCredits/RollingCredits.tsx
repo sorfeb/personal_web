@@ -7,7 +7,7 @@ interface CreditsData {
 }
 
 interface RollingCreditsProps {
-  displayType: number; // 0 for assets, 1 for technologies
+  displayType: number;
 }
 
 const RollingCredits: React.FC<RollingCreditsProps> = ({ displayType }) => {
@@ -30,7 +30,13 @@ const RollingCredits: React.FC<RollingCreditsProps> = ({ displayType }) => {
       <div className={styles.creditsContent}>
         <h2>{displayType === 0 ? 'Assets' : 'Technologies'}</h2>
         {itemsToDisplay.map((item, index) => (
-          <p key={index}>{item}</p>
+            <p key={index}>
+            {item.startsWith('http://') || item.startsWith('https://') ? (
+              <a href={item} target="_blank" rel="noopener noreferrer">{item}</a>
+            ) : (
+              item
+            )}
+            </p>
         ))}
       </div>
     </div>

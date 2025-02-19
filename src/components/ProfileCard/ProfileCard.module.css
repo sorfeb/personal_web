@@ -1,3 +1,17 @@
+@keyframes card-glow {
+  0%, 100% {
+    filter: brightness(100%);
+    text-shadow: 0 0 5px rgb(255 255 255 / 30%), 
+                 0 0 10px rgb(255 255 255 / 20%);
+  }
+
+  50% {
+    filter: brightness(130%);
+    text-shadow: 0 0 10px rgb(255 255 255 / 80%), 
+                 0 0 20px rgb(255 255 255 / 60%);
+  }
+}
+
 .card {
   display: flex;
   border-radius: 10px;
@@ -12,6 +26,7 @@
     rgb(255 255 255 / 30%),
     rgb(111 175 68 / 40%)
   );
+  animation: card-glow 2s infinite ease-in-out;
 }
 
 .card:hover {
@@ -69,6 +84,7 @@
 .gamerscore img {
   margin: 4px;
 }
+
 
 
 

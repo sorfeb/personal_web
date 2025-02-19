@@ -2,10 +2,14 @@
     "assets" : [
     "https://pngimg.com/",
     "https://codepen.io/",
-    "svgrepo.com/vectors/",
+    "https://www.svgrepo.com/vectors/",
     "https://www.freepik.com/free-photo/carton-boxes_10323318.htm",
     "https://www.youtube.com/watch?v=Ot4nZ6UjJLE",
-    "https://www.deviantart.com/sambox436/art/XBOX-360-Spectrum-Green-Wallpaper-949030097"
+    "https://www.deviantart.com/sambox436/art/XBOX-360-Spectrum-Green-Wallpaper-949030097",
+    "https://codepen.io/wodniack/pen/rNPrQry",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6qEVyKcfe51cGOtWViM2yhRYcWF5l8DQvhg&s",
+    "https://www.sounds-resource.com/playstation_2/systembiosps2/sound/36577/",
+    "https://www.sounds-resource.com/xbox_360/systembiosx360/"
     ], 
 
     "technologies" : [
@@ -16,6 +20,17 @@
         "javascript",
         "react",
         "jquery",
-        "nodejs"
+        "nodejs",
+        "jquery.ripples",
+        "next-cloudinary",
+        "shepherd.js",
+        "figma",
+        "Adobe Photoshop",
+        "Post CSS",
+        "vercel",
+        "ChatGPT",
+        "DeepSeek",
+        "Github Copilot",
+        "Spotify for Developers"
     ]
 }
