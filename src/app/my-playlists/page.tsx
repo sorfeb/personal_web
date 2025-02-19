@@ -23,7 +23,7 @@ const PlaylistsPage = () => {
   useEffect(() => {
     const fetchPlaylists = async () => {
       try {
-        const res = await fetch('http://localhost:3000/api/playlists');
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/playlists`);
         const data = await res.json();
         setPlaylists(data.items);
         setTotalPages(Math.ceil(data.items.length / PAGE_SIZE));
