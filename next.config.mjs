@@ -17,7 +17,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'sorosfebria.co',
+        hostname: 'www.sorosfebria.co',
       },
     ],
   },
