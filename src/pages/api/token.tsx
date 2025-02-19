@@ -4,7 +4,6 @@ let accessToken: string | null = null;
 let expiresAt: number | null = null;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-
   const secretKey = req.headers['x-api-key'];
   const serverSecret = process.env.INTERNAL_API_SECRET; 
 
@@ -25,7 +24,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(200).json({ access_token: accessToken });
   }
 
-  const response = await fetch('https://accounts.spotify.com/api/token', {
+  const tokenUrl = process.env.SPOTIFY_TOKEN_URL;
+  if (!tokenUrl) {
+    return res.status(500).json({ error: 'Missing Spotify token URL' });
+  }
+
+  const response = await fetch(tokenUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',

@@ -2,7 +2,12 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const tokenResponse = await fetch('http://localhost:3000/api/token', {
+    const tokenUrl = process.env.TOKEN_URL;
+    if (!tokenUrl) {
+      return res.status(500).json({ error: 'TOKEN_URL is not defined' });
+    }
+    
+    const tokenResponse = await fetch(tokenUrl, {
       headers: { 'x-api-key': process.env.INTERNAL_API_SECRET || '' }
     });
 
