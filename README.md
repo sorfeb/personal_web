@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# PERSONAL WEB v1.0 
+![thumbnail-sorOS](https://github.com/user-attachments/assets/743b0bc7-2527-442c-81a2-9b011db61341)
 
-## Getting Started
+## SYSTEM REQUIREMENTS
 
-First, run the development server:
+- Modern web browser (Chrome, Firefox, Safari, Edge)
+- JavaScript enabled
+- Internet connection required for optimal experience
+
+## INSTALLATION
 
 ```bash
+# INSTALL REQUIRED DEPENDENCIES:
+npm install
+
+# LAUNCH THE DASHBOARD:
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then navigate your web browser to [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ★ FEATURES ★
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### ⚡ NEXT.JS POWERED ENGINE ⚡
 
-## Learn More
+Built on the high-performance Next.js framework with lightning-fast page transitions and server-side rendering capabilities!
 
-To learn more about Next.js, take a look at the following resources:
+### ⚡ INTERACTIVE SOUND SYSTEM ⚡
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Complete with click sounds and volume controls for the authentic dashboard experience!
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### ⚡ FRAMER MOTION ANIMATIONS ⚡
 
-## Deploy on Vercel
+Smooth, responsive animations bring the interface to life with every interaction!
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### ⚡ RESPONSIVE DESIGN ⚡
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Automatically adapts to any screen resolution for maximum compatibility across devices!
+
+## ★ DASHBOARD SECTIONS ★
+
+### == HOME WORLD ==
+
+Central hub with intuitive navigation controls to all other sections.
+
+### == ABOUT ==
+
+Information about the NXE Dashboard inspiration and technical details of this web experience.
+
+### == PROFILE ==
+
+Your digital identity center with customizable options.
+
+### == MEDIA COLLECTION ==
+
+• **Photos** - Visual gallery of captured moments
+• **Media** - Mixed media content browser
+• **Music** - Audio experience center
+• **Books** - Literary collection interface
+• **Digital Gems** - Special collection of digital artifacts
+
+### == ENTERTAINMENT CENTER ==
+
+• **Leetcode** - Coding challenges and solutions
+• **Letterboxd** - Film rating and review portal
+• **My Playlists** - Spotify playlist integration with pagination controls
+• **Blog** - Latest thoughts and updates
+
+### == PROFESSIONAL HUB ==
+
+• **Certifications** - Professional achievements showcase
+
+### == CONNECTION PORTALS ==
+
+• **Github** - Direct link to code repositories
+• **External Services** - Seamless integration with third-party platforms
+
+### == CREDITS ==
+
+• **Technologies** - Technical specifications used in development
+• **Assets** - Attribution for media elements and resources
+
+## ★ TECHNICAL SPECIFICATIONS ★
+
+Built with cutting-edge web technologies:
+• Next.js Framework
+• Framer Motion
+• jQuery
+• CSS Modules
+• React Context API
+• RESTful API Integration
+
+Inspired by the groundbreaking "New Xbox Experience" dashboard update from 2008, this web experience recreates the revolutionary interface that changed how users interact with digital content.
+
+© 2025 Soros Febriano
+All Rights Reserved.
