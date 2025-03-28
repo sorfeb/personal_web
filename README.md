@@ -1,4 +1,5 @@
-# PERSONAL WEB v1.0
+# PERSONAL WEB v1.0 
+![thumbnail-sorOS](https://github.com/user-attachments/assets/743b0bc7-2527-442c-81a2-9b011db61341)
 
 ## SYSTEM REQUIREMENTS
 
@@ -89,13 +90,7 @@ Built with cutting-edge web technologies:
 • React Context API
 • RESTful API Integration
 
-## ★ SPECIAL NOTES ★
-
 Inspired by the groundbreaking "New Xbox Experience" dashboard update from 2008, this web experience recreates the revolutionary interface that changed how users interact with digital content.
-
-## LEGAL
 
 © 2025 Soros Febriano
 All Rights Reserved.
-
-*For optimal experience, enable JavaScript and cookies. Best viewed with an adventurous spirit and nostalgia for 2000s-era gaming interfaces.*
