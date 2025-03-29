@@ -1,6 +1,5 @@
 'use client';
 
-import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { VolumeProvider } from "../context/VolumeContext";
 import { useEffect, useRef } from "react";
@@ -13,7 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const waterHolderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (typeof window === "undefined") return; // Prevents SSR issues
+    if (typeof window === "undefined") return;
 
     import("jquery")
       .then(({ default: $ }) => import("jquery.ripples").then(() => $))
@@ -56,24 +55,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/favicon.svg" />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <script type="application/ld+json">{`
-        {
-          "@context": "https://schema.org",
-          "@type": "Person",
-          "name": "Soros Febriano",
-          "url": "https://www.sorosfebria.co",
-          "sameAs": [
-            "https://www.linkedin.com/in/soros-febriano/",
-            "https://github.com/sorfeb"
-          ],
-          "jobTitle": "Computer Science Student",
-          "worksFor": {
-            "@type": "Organization",
-            "name": "Universitas Indonesia"
-          },
-          "description": "Computer Science student passionate about the fusion of technology and art."
-        }
-        `}</script>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Soros Febriano",
+              "url": "https://www.sorosfebria.co",
+              "sameAs": [
+                "https://www.linkedin.com/in/soros-febriano/",
+                "https://github.com/sorfeb"
+              ],
+              "jobTitle": "Computer Science Student",
+              "worksFor": {
+                "@type": "Organization",
+                "name": "Universitas Indonesia"
+              },
+              "description": "Computer Science student passionate about the fusion of technology and art."
+            }),
+          }}
+        />
       </head>
       <body className={inter.className}>
         <div className="crt">
