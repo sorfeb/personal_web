@@ -31,31 +31,41 @@ export default function Home() {
             exit={{ opacity: 0 }} // Fade out when leaving
             transition={{ duration: 1.5 }}
           >
-            {/* Main Content */}
             <div className={styles.screen}>
-              <div className={styles.topContainer}>
-                <div id="scrolling-menu-container" className={styles.ScrollingMenuContainer}>
-                  <ScrollingMenu
-                    items={menuItems}
-                    onSelectionChange={handleSelectionChange}
+              {/* Header Section */}
+              <header className={styles.header}>
+                <div className={styles.topContainer}>
+                  <div id="scrolling-menu-container" className={styles.ScrollingMenuContainer}>
+                    <ScrollingMenu
+                      items={menuItems}
+                      onSelectionChange={handleSelectionChange}
                     />
+                  </div>
+                  <div className={styles.ProfileCardContainer}>
+                    <ProfileCard
+                      name="Click Me!"
+                      level="20"
+                      gamerscore={2222}
+                    />
+                  </div>
                 </div>
-                <div className={styles.ProfileCardContainer}>
-                  <ProfileCard
-                    name="Click Me!"
-                    level="20"
-                    gamerscore={2222}
-                  />
+              </header>
+
+              {/* Main Content Section */}
+              <main className={styles.main}>
+                <div className={styles.DashboardContainer}>
+                  <XboxDashboard activeIndex={activeIndex} data={data} />
                 </div>
-              </div>
-              <div className={styles.DashboardContainer}>
-                <XboxDashboard activeIndex={activeIndex} data={data} />
-              </div>
-              <div className={styles.VolumeControlContainer}>
-                <div id="volume-control-container"className={styles.VolumeControlWrapper}>
-                  <VolumeControl/>
+              </main>
+
+              {/* Footer */}
+              <footer className={styles.footer}>
+                <div className={styles.VolumeControlContainer}>
+                  <div id="volume-control-container"className={styles.VolumeControlWrapper}>
+                    <VolumeControl/>
+                  </div>
                 </div>
-              </div>
+              </footer>
             </div>
           </motion.div>
         </AnimatePresence>

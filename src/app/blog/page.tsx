@@ -24,7 +24,7 @@ const BlogPage = async () => {
   const articles = await fetchArticles();
 
   return (
-    <PageLayout title="Blog">
+    <PageLayout title="Blog" showWindow={false}>
       <div className={styles.container}>
         {articles.map((article, index) => (
           <div key={index} className={styles.articleCard}>

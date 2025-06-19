@@ -38,3 +38,6 @@ next-env.d.ts
 # Sitemap files
 public/sitemap*.xml
 public/robots.txt
+
+*storybook.log
+storybook-static

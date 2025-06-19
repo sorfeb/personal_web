@@ -9,9 +9,10 @@ import { useVolume } from '../../context/VolumeContext';
 interface PageLayoutProps {
   title: string;
   children: ReactNode;
+  showWindow?: boolean;
 }
 
-const PageLayout: React.FC<PageLayoutProps> = ({ title, children }) => {
+const PageLayout: React.FC<PageLayoutProps> = ({ title, children, showWindow = true }) => {
   const { volume } = useVolume();
   const router = useRouter();
   const [isExiting, setIsExiting] = useState(false);
@@ -62,15 +63,26 @@ const PageLayout: React.FC<PageLayoutProps> = ({ title, children }) => {
               </svg>
             </button>
           </div>
-          <motion.div
-            className={`${styles.window} ${styles.windowReflection}`}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.5 }}
-          >
+          {showWindow ? (
+            <motion.div
+              className={`${styles.window} ${styles.windowReflection}`}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.5 }}
+            >
               {children}
-          </motion.div>
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.5 }}
+            >
+              {children}
+            </motion.div>
+          )}
         </motion.div>
       )}
     </AnimatePresence>

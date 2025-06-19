@@ -1,52 +1,12 @@
-'use client';
-
 import { Roboto } from "next/font/google";
 import { VolumeProvider } from "../context/VolumeContext";
 import { useEffect, useRef } from "react";
-
+import RipplesEffect from "../components/RipplesEffect/RipplesEffect";
 import "./globals.css";
 
 const inter = Roboto({ weight: "300", subsets: ["latin"] });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const waterHolderRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    import("jquery")
-      .then(({ default: $ }) => import("jquery.ripples").then(() => $))
-      .then(($) => {
-        if (!waterHolderRef.current) return;
-        
-        $(waterHolderRef.current).ripples({
-          resolution: 256,
-          dropRadius: 20,
-          perturbance: 0.04,
-          interactive: true,
-        });
-
-        const createRainDrop = () => {
-          if (waterHolderRef.current) {
-            const $ripple = $(waterHolderRef.current);
-            const x = Math.random() * waterHolderRef.current.clientWidth;
-            const y = Math.random() * waterHolderRef.current.clientHeight;
-            $ripple.ripples("drop", x, y, 20, 0.04 + Math.random() * 0.04);
-          }
-        };
-
-        const rainInterval = setInterval(createRainDrop, 300);
-
-        return () => {
-          clearInterval(rainInterval);
-          if (waterHolderRef.current) {
-            $(waterHolderRef.current).ripples("destroy");
-          }
-        };
-      })
-      .catch((err) => console.error("Error loading jQuery Ripples:", err));
-  }, []);
-
   return (
     <html lang="en">
       <head>
@@ -88,11 +48,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </defs>
             <path d="M0,8 Q50,2 100,15 V30 H0 Z" fill="url(#mountainGradient)" />
           </svg>
-
-          {/* Water Ripple Effect (Lazy Loaded) */}
-          <div id="waterHolder" ref={waterHolderRef} className="waterCanvasContainer">
+          <RipplesEffect>
             <VolumeProvider>{children}</VolumeProvider>
-          </div>
+          </RipplesEffect>
         </div>
       </body>
     </html>

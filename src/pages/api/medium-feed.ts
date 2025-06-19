@@ -7,8 +7,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const feed = await parser.parseURL('https://medium.com/feed/@soros21febriano');
     const articles = feed.items.map((item) => {
-      // Extract the first image from the content:encoded field
-      const content = item['content:encoded'] || '';
+
+      const content = item['content:encoded'] ?? '';
       const imageMatch = content.match(/<img[^>]+src="([^">]+)"/);
       const coverImage = imageMatch ? imageMatch[1] : null;
 
@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         link: item.link,
         pubDate: item.pubDate,
         contentSnippet: item.contentSnippet,
-        coverImage, // Add the extracted image URL
+        coverImage,
       };
     });
 

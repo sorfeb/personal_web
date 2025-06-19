@@ -9,7 +9,7 @@ interface ProfileCardProps {
   gamerscore: number;
 }
 
-const ProfileCard: React.FC<ProfileCardProps> = ({ name, level, gamerscore }) => {
+export const ProfileCard: React.FC<ProfileCardProps> = ({ name, level, gamerscore }) => {
   const { volume } = useVolume();
   const { startTour } = useShepherdTour();
 

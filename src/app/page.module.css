@@ -5,8 +5,19 @@
 
 .screen {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   filter: contrast(120%) saturate(110%);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100; /* Keep header above other content */
+  background: transparent; /* Maintain your design aesthetic */
 }
 
 .topContainer {
@@ -16,14 +27,7 @@
   margin-top: 4%;
   margin-left: 8%;
   margin-right: 8%;
-  height: 30%;
-}
-
-.VolumeControlContainer {
-  transform: translateY(-10%);
-  margin-right: 150px;
-  display: flex;
-  justify-content: flex-end;
+  height: 30vh; /* Use viewport height for consistency */
 }
 
 .ScrollingMenuContainer {
@@ -40,16 +44,80 @@
   align-items: center;
 }
 
+.main {
+  flex: 1; /* Takes up all available space between header and footer */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 30vh; /* Account for fixed header height */
+  padding-bottom: 10vh; /* Account for fixed footer height */
+}
+
 .DashboardContainer {
-  margin-top: 1.5rem;
   width: 90%;
   margin-left: 10%;
   justify-content: center;
   align-items: center;
 }
 
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100; /* Keep footer above other content */
+  background: transparent; /* Maintain your design aesthetic */
+}
 
+.VolumeControlContainer {
+  transform: translateY(-10%);
+  margin-right: 150px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 0;
+}
 
+.VolumeControlWrapper {
+}
 
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .topContainer {
+    margin-left: 4%;
+    margin-right: 4%;
+    flex-direction: column;
+    height: auto;
+    gap: 20px;
+  }
+  
+  .ScrollingMenuContainer,
+  .ProfileCardContainer {
+    width: 100%;
+  }
+  
+  .main {
+    padding-top: 40vh;
+    padding-bottom: 15vh;
+  }
+  
+  .DashboardContainer {
+    width: 95%;
+    margin-left: 2.5%;
+  }
+  
+  .VolumeControlContainer {
+    margin-right: 20px;
+    justify-content: center;
+  }
+}
 
-
+@media (max-width: 480px) {
+  .topContainer {
+    margin-top: 8%;
+  }
+  
+  .main {
+    padding-top: 50vh;
+    padding-bottom: 20vh;
+  }
+}
