@@ -2,20 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import VolumeControl from './VolumeControl';
 
-// Mock context providers for Storybook
-const MockVolumeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [volume, setVolume] = React.useState(0.5);
-  const VolumeContext = React.createContext({
-    volume,
-    setVolume,
-  });
-  
-  return (
-    <VolumeContext.Provider value={{ volume, setVolume }}>
-      {children}
-    </VolumeContext.Provider>
-  );
-};
+// Import the actual providers
+import { VolumeProvider } from '../../context/VolumeContext';
 
 /**
  * VolumeControl component provides an interactive volume slider
@@ -32,12 +20,11 @@ const meta: Meta<typeof VolumeControl> = {
       },
     },
   },
-  tags: ['autodocs'],
-  decorators: [
+  tags: ['autodocs'],  decorators: [
     (Story) => (
-      <MockVolumeProvider>
+      <VolumeProvider>
         <Story />
-      </MockVolumeProvider>
+      </VolumeProvider>
     ),
   ],
 };
@@ -56,11 +43,11 @@ export const Default: Story = {};
 export const InDarkContainer: Story = {
   decorators: [
     (Story) => (
-      <MockVolumeProvider>
+      <VolumeProvider>
         <div style={{ backgroundColor: '#1a1a1a', padding: '20px', borderRadius: '8px' }}>
           <Story />
         </div>
-      </MockVolumeProvider>
+      </VolumeProvider>
     ),
   ],
 };

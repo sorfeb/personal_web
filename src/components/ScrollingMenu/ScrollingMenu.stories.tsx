@@ -2,19 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import ScrollingMenu from './ScrollingMenu';
 
-// Mock context providers for Storybook
-const MockVolumeProvider = ({ children }: { children: React.ReactNode }) => {
-  const VolumeContext = React.createContext({
-    volume: 0.5,
-    setVolume: () => {},
-  });
-  
-  return (
-    <VolumeContext.Provider value={{ volume: 0.5, setVolume: () => {} }}>
-      {children}
-    </VolumeContext.Provider>
-  );
-};
+// Import the actual providers
+import { VolumeProvider } from '../../context/VolumeContext';
 
 /**
  * ScrollingMenu component provides a vertical scrollable menu with sound effects
@@ -31,14 +20,13 @@ const meta: Meta<typeof ScrollingMenu> = {
       },
     },
   },
-  tags: ['autodocs'],
-  decorators: [
+  tags: ['autodocs'],  decorators: [
     (Story) => (
-      <MockVolumeProvider>
+      <VolumeProvider>
         <div style={{ height: '300px', width: '200px' }}>
           <Story />
         </div>
-      </MockVolumeProvider>
+      </VolumeProvider>
     ),
   ],
   argTypes: {

@@ -2,19 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import PageLayout from './PageLayout';
 
-// Mock context providers for Storybook
-const MockVolumeProvider = ({ children }: { children: React.ReactNode }) => {
-  const VolumeContext = React.createContext({
-    volume: 0.5,
-    setVolume: () => {},
-  });
-  
-  return (
-    <VolumeContext.Provider value={{ volume: 0.5, setVolume: () => {} }}>
-      {children}
-    </VolumeContext.Provider>
-  );
-};
+// Import the actual providers
+import { VolumeProvider } from '../../context/VolumeContext';
 
 /**
  * PageLayout component provides a consistent layout structure for pages
@@ -31,12 +20,11 @@ const meta: Meta<typeof PageLayout> = {
       },
     },
   },
-  tags: ['autodocs'],
-  decorators: [
+  tags: ['autodocs'],  decorators: [
     (Story) => (
-      <MockVolumeProvider>
+      <VolumeProvider>
         <Story />
-      </MockVolumeProvider>
+      </VolumeProvider>
     ),
   ],
   argTypes: {
