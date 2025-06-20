@@ -1,5 +1,4 @@
 import type { Preview } from '@storybook/nextjs';
-import { themes } from '@storybook/theming';
 import theme from './theme';
 
 const preview: Preview = {
@@ -13,7 +12,7 @@ const preview: Preview = {
     },
     docs: {
       autodocs: true,
-      theme: theme, // Apply theme to docs
+      theme: theme,
     },
     backgrounds: {
       default: 'xbox-dark',
