@@ -2,19 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import XboxDashboard from './XboxDashboard';
 
-// Mock context providers for Storybook
-const MockVolumeProvider = ({ children }: { children: React.ReactNode }) => {
-  const VolumeContext = React.createContext({
-    volume: 0.5,
-    setVolume: () => {},
-  });
-  
-  return (
-    <VolumeContext.Provider value={{ volume: 0.5, setVolume: () => {} }}>
-      {children}
-    </VolumeContext.Provider>
-  );
-};
+// Import the actual providers
+import { VolumeProvider } from '../../context/VolumeContext';
 
 // Sample data for the dashboard
 const sampleData = {
@@ -54,14 +43,13 @@ const meta: Meta<typeof XboxDashboard> = {
       },
     },
   },
-  tags: ['autodocs'],
-  decorators: [
+  tags: ['autodocs'],  decorators: [
     (Story) => (
-      <MockVolumeProvider>
+      <VolumeProvider>
         <div style={{ height: '100vh', backgroundColor: '#0a0a0a' }}>
           <Story />
         </div>
-      </MockVolumeProvider>
+      </VolumeProvider>
     ),
   ],
   argTypes: {
