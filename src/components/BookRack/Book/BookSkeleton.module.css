@@ -1,0 +1,181 @@
+/* Book Skeleton - Loading state with dotted outline */
+.bookSkeleton {
+  position: relative;
+  width: 140px;
+  height: 200px;
+  margin-bottom: 25px;
+  display: block;
+  justify-self: center;
+  align-self: end;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+/* Skeleton Cover - Dotted outline */
+.skeletonCover {
+  width: 100%;
+  height: 100%;
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer effect */
+.skeletonCover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+/* Username skeleton */
+.skeletonUsername {
+  height: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  margin-bottom: 6px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+}
+
+/* Cover Image skeleton */
+.skeletonImageSection {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  margin-bottom: 8px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skeletonImageSection::after {
+  content: '📷';
+  font-size: 24px;
+  opacity: 0.3;
+}
+
+/* Title skeleton */
+.skeletonTitleSection {
+  min-height: 40px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+}
+
+.skeletonTitleLine {
+  height: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+}
+
+.skeletonTitleLine:first-child {
+  width: 100%;
+}
+
+.skeletonTitleLine:last-child {
+  width: 70%;
+  align-self: center;
+}
+
+/* Logo skeleton */
+.skeletonLogoSection {
+  height: 24px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skeletonLogoSection::after {
+  content: 'M';
+  font-size: 12px;
+  font-weight: bold;
+  opacity: 0.3;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Shadow skeleton */
+.skeletonShadow {
+  position: absolute;
+  bottom: -20px;
+  left: 10%;
+  right: 10%;
+  height: 8px;
+  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.1), transparent);
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 0.6; 
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.8; 
+    transform: scale(1.02);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .bookSkeleton {
+    width: 130px;
+    height: 185px;
+    margin-bottom: 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .bookSkeleton {
+    width: 120px;
+    height: 170px;
+    margin-bottom: 20px;
+  }
+  
+  .skeletonImageSection::after {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bookSkeleton {
+    width: 110px;
+    height: 155px;
+    margin-bottom: 18px;
+  }
+  
+  .skeletonImageSection::after {
+    font-size: 18px;
+  }
+}
