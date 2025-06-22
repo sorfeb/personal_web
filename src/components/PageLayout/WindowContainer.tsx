@@ -6,7 +6,57 @@ import styles from './PageLayout.module.css';
 
 /**
  * WindowContainer component - Handles window styling and responsive behavior
- * Follows Single Responsibility Principle by focusing only on container logic
+ * 
+ * @description
+ * A specialized container component that follows the Single Responsibility Principle
+ * by focusing solely on window container logic and styling. Uses CSS custom properties
+ * for dynamic styling as an alternative to CSS-in-JS for better performance.
+ * 
+ * **Key Responsibilities:**
+ * - Apply responsive window styling based on size configuration
+ * - Handle custom dimensions through CSS custom properties
+ * - Provide smooth animations for window appearance
+ * - Maintain consistent window appearance across different content types
+ * 
+ * **Design Patterns:**
+ * - **Single Responsibility**: Only handles container presentation logic
+ * - **Composition**: Wraps children without modifying their behavior
+ * - **Strategy Pattern**: Uses configuration-driven styling approach
+ * 
+ * The component uses CSS custom properties to dynamically set layout dimensions,
+ * allowing for better performance compared to inline styles while maintaining
+ * the flexibility of runtime customization.
+ * 
+ * @example
+ * ```tsx
+ * // Standard window with default size
+ * <WindowContainer size="default">
+ *   <ContentComponent />
+ * </WindowContainer>
+ * 
+ * // Wide window for content-heavy layouts
+ * <WindowContainer size="wide" className="special-styling">
+ *   <Gallery />
+ * </WindowContainer>
+ * 
+ * // Custom dimensions
+ * <WindowContainer 
+ *   size="custom" 
+ *   customDimensions={{ width: '80%', maxWidth: '1200px' }}
+ * >
+ *   <Dashboard />
+ * </WindowContainer>
+ * ```
+ * 
+ * @param props - The component props
+ * @returns JSX element representing the window container with applied styling
+ * 
+ * @since 1.0.0
+ * @author Soros Febriano
+ * 
+ * @see {@link PageLayout} - Parent component that uses this container
+ * @see {@link getLayoutDimensions} - Configuration function for layout dimensions
+ * @see {@link WindowContainerProps} - Type definitions for props
  */
 export const WindowContainer: React.FC<WindowContainerProps> = ({
   children,
@@ -14,9 +64,26 @@ export const WindowContainer: React.FC<WindowContainerProps> = ({
   customDimensions,
   className = '',
 }) => {
+  /**
+   * Get computed layout dimensions based on size and custom overrides
+   * 
+   * @description
+   * Retrieves the appropriate layout configuration for the given size,
+   * with optional custom dimension overrides. This follows the Strategy
+   * pattern by selecting configuration based on the size parameter.
+   */
   const dimensions = getLayoutDimensions(size, customDimensions);
   
-  // CSS custom properties for dynamic styling (CSS-in-JS alternative)
+  /**
+   * CSS custom properties for dynamic styling
+   * 
+   * @description
+   * Uses CSS custom properties as an alternative to CSS-in-JS for better
+   * performance. Properties are applied to the element and referenced
+   * in the CSS file, allowing for responsive behavior and easy customization.
+   * 
+   * @since 1.0.0
+   */
   const customStyle = {
     '--layout-width': dimensions.width,
     '--layout-max-width': dimensions.maxWidth,

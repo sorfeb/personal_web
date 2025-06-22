@@ -4,26 +4,75 @@ import styles from './Book.module.css';
 import { Article } from '../BookRack';
 
 /**
- * Book component props
+ * Props for the Book component
+ * 
+ * @interface BookProps
+ * @since 1.0.0
  */
 export interface BookProps {
   /** Article data to display as a book */
   article: Article;
-  /** Author username to display at top */
+  /** Author username to display at top of book cover
+   * @default 'soros21febriano'
+   */
   username?: string;
-  /** Book color based on title hash */
+  /** Book color based on title hash - used for placeholder covers */
   bookColor: string;
-  /** Animation delay for staggered appearance */
+  /** Animation delay for staggered appearance in CSS format (e.g., "0.1s") */
   animationDelay: string;
-  /** Click handler for book interaction */
+  /** Click handler for book interaction - typically opens article link */
   onClick: () => void;
-  /** Hover sound handler */
+  /** Hover sound handler - plays audio feedback on mouse enter */
   onMouseEnter: () => void;
 }
 
 /**
  * Individual Book component representing a Medium article
- * Follows the design: username → cover_image → title → medium_logo
+ * 
+ * @description
+ * Renders a single book with 3D skeumorphic styling that represents a Medium article.
+ * Features hover effects, click interactions, and displays article metadata in a
+ * book-like format. Follows the visual hierarchy: username → cover_image → title → medium_logo.
+ * 
+ * Key features:
+ * - 3D hover animations with perspective transforms
+ * - Dynamic color generation for placeholder covers
+ * - Responsive design with breakpoint-based sizing
+ * - Accessibility support with keyboard navigation
+ * - Audio feedback integration
+ * - Shimmer effects on hover
+ * 
+ * @example
+ * ```tsx
+ * // Basic usage
+ * <Book
+ *   article={articleData}
+ *   username="soros21febriano"
+ *   bookColor="#8B4513"
+ *   animationDelay="0.2s"
+ *   onClick={() => window.open(article.link, '_blank')}
+ *   onMouseEnter={() => playHoverSound()}
+ * />
+ * 
+ * // With custom styling
+ * <Book
+ *   article={article}
+ *   bookColor={generateBookColor(article.title)}
+ *   animationDelay={`${index * 0.1}s`}
+ *   onClick={handleBookClick}
+ *   onMouseEnter={playHoverSound}
+ * />
+ * ```
+ * 
+ * @param props - The component props
+ * @returns JSX element representing a 3D book with article content
+ * 
+ * @since 1.0.0
+ * @author Soros Febriano
+ * 
+ * @see {@link BookRack} - Parent component that renders multiple books
+ * @see {@link BookSkeleton} - Loading state component
+ * @see {@link Article} - Data structure for article information
  */
 export const Book: React.FC<BookProps> = ({
   article,

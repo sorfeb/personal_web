@@ -2,7 +2,30 @@ import React from 'react';
 import styles from './BookSkeleton.module.css';
 
 /**
- * BookSkeleton component - Shows a book-shaped dotted outline during loading
+ * BookSkeleton component - Loading state placeholder for Book components
+ * 
+ * @description
+ * Displays a book-shaped dotted outline with shimmer effects during loading states.
+ * Maintains the same dimensions and layout as the actual Book component to prevent
+ * layout shifts when content loads. Features animated pulse and shimmer effects
+ * to provide visual feedback during data fetching.
+ * 
+ * @example
+ * ```tsx
+ * // Basic usage in loading state
+ * {loading && <BookSkeleton />}
+ * 
+ * // Multiple skeletons for a shelf
+ * {Array.from({ length: 6 }, (_, index) => (
+ *   <BookSkeleton key={`skeleton-${index}`} />
+ * ))}
+ * ```
+ * 
+ * @since 1.0.0
+ * @author Soros Febriano
+ * 
+ * @see {@link Book} - The actual component this skeleton represents
+ * @see {@link BookRack} - Parent component that uses this skeleton
  */
 export const BookSkeleton: React.FC = () => {
   return (

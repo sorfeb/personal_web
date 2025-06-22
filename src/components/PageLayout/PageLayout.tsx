@@ -10,12 +10,74 @@ import styles from './PageLayout.module.css';
 
 /**
  * PageLayout component - Modular layout system using Composition pattern
- *
- * Principles applied:
- * 1. Composition over Inheritance - Uses WindowContainer for flexible layouts
- * 2. Inversion of Control - Consumers control layout through props
- * 3. Single Responsibility - Each component has one clear purpose
- * 4. Open/Closed - Open for extension through size variants
+ * 
+ * @description
+ * A sophisticated layout component that provides consistent page structure across
+ * the application. Implements multiple design patterns for flexibility and maintainability:
+ * 
+ * **Design Patterns Applied:**
+ * - **Composition over Inheritance**: Uses WindowContainer for flexible layouts
+ * - **Inversion of Control**: Consumers control layout through props
+ * - **Single Responsibility**: Each component has one clear purpose
+ * - **Strategy Pattern**: Different rendering strategies based on variant
+ * - **Open/Closed Principle**: Open for extension through size variants
+ * 
+ * **Key Features:**
+ * - Multiple layout variants (windowed, fullscreen, minimal)
+ * - Responsive sizing with predefined breakpoints
+ * - Smooth animations with Framer Motion
+ * - Audio feedback integration
+ * - Customizable dimensions and behavior
+ * - Accessibility support with proper focus management
+ * 
+ * **Layout Variants:**
+ * - `windowed`: Standard windowed layout with container styling
+ * - `fullscreen`: Full viewport coverage for immersive content
+ * - `minimal`: Lightweight layout with minimal styling
+ * 
+ * **Size Options:**
+ * - `compact`: Small forms and dialogs (50% width, 600px max)
+ * - `default`: Standard content pages (70% width, 900px max)
+ * - `wide`: Content-heavy pages (90% width, 1400px max)
+ * - `full`: Dashboards and data displays (98% width, no max)
+ * - `custom`: Custom dimensions via customDimensions prop
+ * 
+ * @example
+ * ```tsx
+ * // Standard windowed layout
+ * <PageLayout title="About" size="default" variant="windowed">
+ *   <p>Page content here</p>
+ * </PageLayout>
+ * 
+ * // Wide layout for content-heavy pages
+ * <PageLayout title="Gallery" size="wide" variant="windowed">
+ *   <ImageGallery />
+ * </PageLayout>
+ * 
+ * // Fullscreen layout
+ * <PageLayout title="Game" variant="fullscreen" showCloseButton={false}>
+ *   <GameComponent />
+ * </PageLayout>
+ * 
+ * // Custom dimensions
+ * <PageLayout 
+ *   title="Dashboard"
+ *   size="custom"
+ *   customDimensions={{ width: '95%', maxWidth: '1600px' }}
+ * >
+ *   <Dashboard />
+ * </PageLayout>
+ * ```
+ * 
+ * @param props - The component props
+ * @returns JSX element representing the page layout
+ * 
+ * @since 1.0.0
+ * @author Soros Febriano
+ * 
+ * @see {@link WindowContainer} - Handles window styling and behavior
+ * @see {@link PageLayoutProps} - Type definitions for props
+ * @see {@link useVolume} - Audio volume context hook
  */
 const PageLayout: React.FC<PageLayoutProps> = ({
   title,
@@ -30,12 +92,31 @@ const PageLayout: React.FC<PageLayoutProps> = ({
   const router = useRouter();
   const [isExiting, setIsExiting] = useState(false);
 
+  /**
+   * Plays the close button sound effect
+   * 
+   * @description
+   * Uses the Xbox-style button back sound with volume control from context.
+   * Provides audio feedback for navigation actions.
+   * 
+   * @since 1.0.0
+   */
   const playSound = () => {
     const audio = new Audio('/assets/audio/snd_buttonback.wav');
     audio.volume = volume;
     audio.play();
   };
 
+  /**
+   * Handles page close interaction
+   * 
+   * @description
+   * Plays sound feedback, sets exit animation state, and either calls the
+   * custom onClose handler or navigates back to home after a delay.
+   * The delay allows the exit animation to complete before navigation.
+   * 
+   * @since 1.0.0
+   */
   const handleClose = () => {
     playSound();
     setIsExiting(true);
@@ -49,7 +130,21 @@ const PageLayout: React.FC<PageLayoutProps> = ({
     }
   };
 
-  // Render content based on variant (Strategy pattern)
+  /**
+   * Renders content based on layout variant using Strategy pattern
+   * 
+   * @description
+   * Selects the appropriate rendering strategy based on the variant prop.
+   * Each variant has its own animation and styling approach:
+   * 
+   * - windowed: Uses WindowContainer with customizable sizing
+   * - fullscreen: Direct fullscreen overlay with scale animation
+   * - minimal: Lightweight container with slide animation
+   * 
+   * @returns JSX element with variant-specific rendering
+   * 
+   * @since 1.0.0
+   */
   const renderContent = () => {
     switch (variant) {
       case 'windowed':
