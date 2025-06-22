@@ -16,11 +16,22 @@
   transform: translateZ(50px);
   transition: all 0.3s ease;
   opacity: 0.6;
+  cursor: pointer;
+}
+
+.menuItem:hover {
+  opacity: 0.8;
+  transform: translateZ(75px) scale(1.05);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
 .menuItem.selected {
   transform: translateZ(100px);
   opacity: 1;
+}
+
+.menuItem.selected:hover {
+  transform: translateZ(100px) scale(1.05);
 }
 
 .menuItem.selected::after {

@@ -135,10 +135,9 @@ export const BookRack: React.FC<BookRackProps> = ({
     audio.play().catch(() => console.log('Audio failed'));
   };
 
-  // Filter articles based on search
+  /** Filter articles based on search */
   const filteredArticles = articles.filter(article => 
-    article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    article.contentSnippet.toLowerCase().includes(searchTerm.toLowerCase())
+    article.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   /**
