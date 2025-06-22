@@ -72,6 +72,28 @@ export const BookRack: React.FC<BookRackProps> = ({
     return colors[Math.abs(hash) % colors.length];
   };
 
+  // Group books into rows for responsive layout
+  const booksPerRow = () => {
+    if (typeof window !== 'undefined') {
+      const width = window.innerWidth;
+      if (width >= 1400) return 6;
+      if (width >= 1200) return 5;
+      if (width >= 992) return 4;
+      if (width >= 768) return 3;
+      return 2;
+    }
+    return 4; // Default for SSR
+  };
+
+  const groupBooksIntoRows = (books: Article[]) => {
+    const perRow = booksPerRow();
+    const rows = [];
+    for (let i = 0; i < books.length; i += perRow) {
+      rows.push(books.slice(i, i + perRow));
+    }
+    return rows;
+  };
+
   const handleBookClick = (article: Article) => {
     playClickSound();
     window.open(article.link, '_blank', 'noopener noreferrer');
@@ -111,28 +133,6 @@ export const BookRack: React.FC<BookRackProps> = ({
     );
   }
 
-  // Group books into rows for responsive layout
-  const booksPerRow = () => {
-    if (typeof window !== 'undefined') {
-      const width = window.innerWidth;
-      if (width >= 1400) return 6;
-      if (width >= 1200) return 5;
-      if (width >= 992) return 4;
-      if (width >= 768) return 3;
-      return 2;
-    }
-    return 4; // Default for SSR
-  };
-
-  const groupBooksIntoRows = (books: Article[]) => {
-    const perRow = booksPerRow();
-    const rows = [];
-    for (let i = 0; i < books.length; i += perRow) {
-      rows.push(books.slice(i, i + perRow));
-    }
-    return rows;
-  };
-
   const bookRows = groupBooksIntoRows(filteredArticles);  return (
     <div className={styles.bookRack}>
       {/* Search */}
@@ -155,7 +155,7 @@ export const BookRack: React.FC<BookRackProps> = ({
             <div className={styles.emptyShelf}>
               <div className={styles.shelfWood}></div>
               <div className={styles.emptyMessage}>
-                <p>📚 No articles found</p>
+                <p>No articles found</p>
                 <small>Try adjusting your search terms</small>
               </div>
             </div>

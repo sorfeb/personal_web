@@ -32,7 +32,8 @@ export const Book: React.FC<BookProps> = ({
   animationDelay,
   onClick,
   onMouseEnter,
-}) => {  return (
+}) => {
+  return (
     <motion.div
       className={styles.book}
       style={{ 
@@ -71,14 +72,15 @@ export const Book: React.FC<BookProps> = ({
               src={article.coverImage} 
               alt={article.title}
               className={styles.coverImage}
-            />        ) : (
-          <div 
-            className={styles.placeholderCover}
-            data-book-color={bookColor}
-          >
-            <div className={styles.placeholderPattern}></div>
-          </div>
-        )}
+            />
+          ) : (
+            <div 
+              className={styles.placeholderCover}
+              data-book-color={bookColor}
+            >
+              <div className={styles.placeholderPattern}></div>
+            </div>
+          )}
         </div>
 
         {/* Title Section */}
@@ -100,15 +102,6 @@ export const Book: React.FC<BookProps> = ({
 
         {/* Book spine shadow for depth */}
         <div className={styles.bookSpine}></div>
-        
-        {/* Hover overlay with details */}
-        <div className={styles.bookOverlay}>
-          <div className={styles.overlayContent}>
-            <h4>{article.title}</h4>
-            <p>{article.contentSnippet}</p>
-            <small>{new Date(article.pubDate).toLocaleDateString()}</small>
-          </div>
-        </div>
       </div>      
       {/* Book shadow on shelf */}
       <div className={styles.bookShadow}></div>
