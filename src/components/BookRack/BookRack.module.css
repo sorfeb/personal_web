@@ -1,7 +1,7 @@
 .bookRack {
   width: 100%;
   color: white;
-  padding: 20px;
+  padding: 10px; /* Reduced from 20px */
   max-height: 70vh;
   overflow-y: auto;
 }
@@ -215,10 +215,10 @@
 /* Books Row - sits on the shelf plank */
 .booksRow {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Reduced from 140px to 120px */
+  gap: 12px; /* Reduced from 15px */
   justify-items: center;
-  padding: 0 10px 5px 10px;
+  padding: 0 5px 5px 5px; /* Reduced side padding */
   min-height: 200px;
   align-items: end;
   position: relative;
@@ -327,18 +327,18 @@
 /* Responsive adjustments */
 @media (max-width: 1200px) {
   .booksRow {
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); /* Further reduced */
+    gap: 10px;
   }
 }
 
 @media (max-width: 768px) {
   .bookshelfContainer {
-    padding: 15px;
+    padding: 10px; /* Reduced from 15px */
   }
   
   .bookshelf {
-    padding: 25px 15px 0 15px;
+    padding: 20px 10px 0 10px; /* Reduced from 25px 15px */
   }
   
   .shelfPlank {
@@ -351,15 +351,15 @@
   }
   
   .booksRow {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 10px;
-    padding: 0 5px 22px 5px;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Further reduced */
+    gap: 8px;
+    padding: 0 2px 20px 2px; /* Reduced padding */
   }
 }
 
 @media (max-width: 480px) {
   .booksRow {
-    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-    gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); /* Further reduced */
+    gap: 6px;
   }
 }

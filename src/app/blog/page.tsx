@@ -1,6 +1,8 @@
-import React from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import PageLayout from '../../components/PageLayout/PageLayout';
-import styles from './page.module.css';
+import { BookRack } from '../../components/BookRack/BookRack';
 
 interface Article {
   title: string;
@@ -10,40 +12,72 @@ interface Article {
   coverImage: string | null;
 }
 
-async function fetchArticles(): Promise<Article[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/medium-feed`, {
-    next: { revalidate: 120 },
-  });
-  if (!res.ok) {
-    throw new Error('Failed to fetch articles');
-  }
-  return res.json();
-}
+const BlogPage = () => {
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-const BlogPage = async () => {
-  const articles = await fetchArticles();
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch('/api/medium-feed');
+        if (!res.ok) {
+          throw new Error('Failed to fetch articles');
+        }
+        const data = await res.json();
+        setArticles(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load articles');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchArticles();
+  }, []);
+
+  if (error) {
+    return (
+      <PageLayout 
+        title="Blog" 
+        size = "wide"
+        variant="windowed"
+      >
+        <div style={{ padding: '20px', textAlign: 'center', color: 'white' }}>
+          <h2>📚 Oops! Something went wrong</h2>
+          <p>{error}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            style={{
+              padding: '10px 20px',
+              marginTop: '10px',
+              backgroundColor: '#8B4513',
+              border: 'none',
+              borderRadius: '5px',
+              color: 'white',
+              cursor: 'pointer'
+            }}
+          >
+            Try Again
+          </button>
+        </div>
+      </PageLayout>
+    );
+  }
 
   return (
-    <PageLayout title="Blog" showWindow={false}>
-      <div className={styles.container}>
-        {articles.map((article, index) => (
-          <div key={index} className={styles.articleCard}>
-            <h3>{article.title}</h3>
-            {article.coverImage && (
-              <img
-                src={article.coverImage}
-                alt={article.title}
-                className={styles.coverImage}
-              />
-            )}
-            <p>{article.contentSnippet}</p>
-            <p><small>{new Date(article.pubDate).toLocaleDateString()}</small></p>
-            <a href={article.link} target="_blank" rel="noopener noreferrer">
-              Read More
-            </a>
-          </div>
-        ))}
-      </div>
+    <PageLayout 
+      title="Blog" 
+      size="wide"           // Optimized for BookRack content
+      variant="fullscreen"  // Remove window constraints
+      showCloseButton={true}
+    >
+      <BookRack 
+        articles={articles}
+        loading={loading}
+        showSearch={true}
+      />
     </PageLayout>
   );
 };
