@@ -3,8 +3,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './XboxCard.module.css';
 import Image from 'next/image';
-import { useVolume } from '../../../context/VolumeContext';
-import { useRouter } from 'next/navigation';
+import { useAudioManager } from '../../../hooks/useAudioManager';
+import { useNavigationSound } from '../../../hooks/useNavigationSound';
 
 interface XboxCardProps {
   title: string;
@@ -17,8 +17,8 @@ const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl, route, images }) =>
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const { volume } = useVolume();
-  const router = useRouter();
+  const { playSound } = useAudioManager();
+  const { navigateWithSound } = useNavigationSound();
 
   useEffect(() => {
     const element = cardRef.current;
@@ -56,17 +56,13 @@ const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl, route, images }) =>
 
   const handleCardClick = () => {
     if (route) {
-      router.push(route);
+      navigateWithSound(route);
     } else {
       console.log('No route specified');
     }
   };
 
-  const playHoverSound = () => {
-    const audio = new Audio('/assets/audio/ps2_ding.wav');
-    audio.volume = volume;
-    audio.play();
-  };
+  const playHoverSound = () => playSound('hover');
 
   return (
     <div

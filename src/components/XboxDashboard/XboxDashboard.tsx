@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import XboxCard from '../XboxCard/card/XboxCard';
 import styles from './XboxDashboard.module.css';
+import { useAudioManager } from '../../hooks/useAudioManager';
 import { useVolume } from '../../context/VolumeContext';
 
 interface XboxDashboardProps {
@@ -18,6 +19,7 @@ interface XboxDashboardProps {
 const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const { playSound } = useAudioManager();
   const { volume } = useVolume();
 
   const cardsData = [
@@ -27,23 +29,9 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
     data.credits,
   ][activeIndex];
 
-  const playLeftSound = () => {
-    const audio = new Audio('/assets/audio/snd_panelleft.wav'); 
-    audio.volume = volume;
-    audio.play();
-  };
-
-  const playRightSound = () => {
-    const audio = new Audio('/assets/audio/snd_panelright.wav'); 
-    audio.volume = volume;
-    audio.play();
-  }
-
-  const playHoverSound = () => {
-    const audio = new Audio('/assets/audio/ps2_ting.wav');
-    audio.volume = volume;
-    audio.play();
-  };
+  const playLeftSound = () => playSound('panelLeft');
+  const playRightSound = () => playSound('panel');
+  const playHoverSound = () => playSound('ting');
 
   // Reset currentCardIndex when activeIndex changes
   useEffect(() => {

@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useVolume } from '../../context/VolumeContext';
+import { useNavigationSound } from '../../hooks/useNavigationSound';
 import { PageLayoutProps } from './types';
 import { WindowContainer } from './WindowContainer';
 import styles from './PageLayout.module.css';
@@ -88,24 +87,8 @@ const PageLayout: React.FC<PageLayoutProps> = ({
   showCloseButton = true,
   onClose,
 }) => {
-  const { volume } = useVolume();
-  const router = useRouter();
+  const { playBackSound } = useNavigationSound();
   const [isExiting, setIsExiting] = useState(false);
-
-  /**
-   * Plays the close button sound effect
-   * 
-   * @description
-   * Uses the Xbox-style button back sound with volume control from context.
-   * Provides audio feedback for navigation actions.
-   * 
-   * @since 1.0.0
-   */
-  const playSound = () => {
-    const audio = new Audio('/assets/audio/snd_buttonback.wav');
-    audio.volume = volume;
-    audio.play();
-  };
 
   /**
    * Handles page close interaction
@@ -118,14 +101,15 @@ const PageLayout: React.FC<PageLayoutProps> = ({
    * @since 1.0.0
    */
   const handleClose = () => {
-    playSound();
+    playBackSound();
     setIsExiting(true);
 
     if (onClose) {
       onClose();
     } else {
       setTimeout(() => {
-        router.push('/');
+        // Navigation handled by useNavigationSound hook
+        window.location.href = '/';
       }, 500);
     }
   };

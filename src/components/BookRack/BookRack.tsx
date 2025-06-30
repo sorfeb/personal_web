@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import styles from './BookRack.module.css';
-import { useVolume } from '../../context/VolumeContext';
+import { useAudioManager } from '../../hooks/useAudioManager';
 import { Book } from './Book';
 import { BookSkeleton } from './Book/BookSkeleton';
 import { motion, AnimatePresence } from 'framer-motion';
+import { generateBookColor } from '../../utils/colorUtils';
+import { groupItemsIntoRows, calculateItemsPerRow } from '../../utils/responsiveUtils';
 
 /**
  * Article data structure matching Medium RSS feed format
@@ -102,136 +104,28 @@ export const BookRack: React.FC<BookRackProps> = ({
   showSearch = true,
   loading = false,
 }) => {
-  const { volume } = useVolume();
+  const { playSound } = useAudioManager();
   const [searchTerm, setSearchTerm] = useState('');
 
-  /**
-   * Plays hover sound effect when user hovers over a book
-   * 
-   * @description
-   * Uses the PS2-style hover sound with volume control from context.
-   * Fails silently if audio cannot be played (e.g., autoplay restrictions).
-   * 
-   * @since 1.0.0
-   */
-  const playHoverSound = () => {
-    const audio = new Audio('/assets/audio/ps2_owawa.wav');
-    audio.volume = volume;
-    audio.play().catch(() => console.log('Audio failed'));
-  };
-
-  /**
-   * Plays click sound effect when user clicks a book
-   * 
-   * @description
-   * Uses the PS2-style selection sound with volume control from context.
-   * Provides audio feedback for user interactions.
-   * 
-   * @since 1.0.0
-   */
-  const playClickSound = () => {
-    const audio = new Audio('/assets/audio/ps2_zing.wav');
-    audio.volume = volume;
-    audio.play().catch(() => console.log('Audio failed'));
-  };
+  const playHoverSound = () => playSound('owawa');
+  const playClickSound = () => playSound('click');
 
   /** Filter articles based on search */
   const filteredArticles = articles.filter(article => 
     article.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  /**
-   * Generates consistent book cover colors based on article title
-   * 
-   * @description
-   * Uses a simple hash function on the article title to generate a consistent
-   * color from a predefined palette. Ensures the same title always gets the
-   * same color across renders.
-   * 
-   * @param title - The article title to hash
-   * @returns Hex color string from the predefined palette
-   * 
-   * @since 1.0.0
-   */
-  const generateBookColor = (title: string) => {
-    const colors = [
-      '#8B4513', '#A0522D', '#CD853F', '#DEB887', '#D2691E', 
-      '#B22222', '#DC143C', '#8B0000', '#228B22', '#006400',
-      '#4682B4', '#1E90FF', '#191970', '#4B0082', '#800080'
-    ];
-    const hash = title.split('').reduce((a, b) => {
-      a = ((a << 5) - a) + b.charCodeAt(0);
-      return a & a;
-    }, 0);
-    return colors[Math.abs(hash) % colors.length];
-  };
-
-  /**
-   * Calculates optimal number of books per row based on viewport width
-   * 
-   * @description
-   * Implements responsive design by returning different book counts for
-   * different screen sizes. Provides fallback for SSR environments.
-   * 
-   * @returns Number of books that should fit per shelf row
-   * 
-   * @since 1.0.0
-   */
-  const booksPerRow = () => {
-    if (typeof window !== 'undefined') {
-      const width = window.innerWidth;
-      if (width >= 1400) return 6;
-      if (width >= 1200) return 5;
-      if (width >= 992) return 4;
-      if (width >= 768) return 3;
-      return 2;
-    }
-    return 4; // Default for SSR
-  };
-
-  /**
-   * Groups articles into rows for shelf layout
-   * 
-   * @description
-   * Takes the filtered articles array and chunks it into rows based on
-   * the current responsive breakpoint. Each row becomes a separate shelf.
-   * 
-   * @param books - Array of articles to group
-   * @returns Array of article arrays, each representing a shelf row
-   * 
-   * @since 1.0.0
-   */
-  const groupBooksIntoRows = (books: Article[]) => {
-    const perRow = booksPerRow();
-    const rows = [];
-    for (let i = 0; i < books.length; i += perRow) {
-      rows.push(books.slice(i, i + perRow));
-    }
-    return rows;
-  };
-
-  /**
-   * Handles book click interactions
-   * 
-   * @description
-   * Plays click sound and opens the article in a new tab/window.
-   * Uses noopener and noreferrer for security.
-   * 
-   * @param article - The article data containing the link
-   * 
-   * @since 1.0.0
-   */
   const handleBookClick = (article: Article) => {
     playClickSound();
     window.open(article.link, '_blank', 'noopener noreferrer');
   };
 
   if (loading) {
-    // Generate skeleton books for visual consistency
+    const booksPerRow = calculateItemsPerRow();
     const skeletonRows = Array.from({ length: 3 }, (_, rowIndex) => (
       <div key={`skeleton-row-${rowIndex}`} className={styles.bookshelf}>
         <div className={styles.booksRow}>
-          {Array.from({ length: booksPerRow() }, (_, bookIndex) => (
+          {Array.from({ length: booksPerRow }, (_, bookIndex) => (
             <BookSkeleton key={`skeleton-${rowIndex}-${bookIndex}`} />
           ))}
         </div>
@@ -262,7 +156,8 @@ export const BookRack: React.FC<BookRackProps> = ({
     );
   }
 
-  const bookRows = groupBooksIntoRows(filteredArticles);
+  const bookRows = groupItemsIntoRows(filteredArticles);
+  const booksPerRow = calculateItemsPerRow();
 
   return (
     <div className={styles.bookRack}>
@@ -307,7 +202,7 @@ export const BookRack: React.FC<BookRackProps> = ({
                 {/* Books on this shelf */}              
                 <div className={styles.booksRow}>
                   {row.map((article, bookIndex) => {
-                    const globalIndex = rowIndex * booksPerRow() + bookIndex;
+                    const globalIndex = rowIndex * booksPerRow + bookIndex;
                     return (
                       <Book
                         key={`${article.link}-${globalIndex}`}

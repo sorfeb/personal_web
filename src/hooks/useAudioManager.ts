@@ -11,6 +11,13 @@ const AUDIO_FILES = {
   navigation: '/assets/audio/snd_buttonselect.wav',
   back: '/assets/audio/snd_buttonback.wav',
   panel: '/assets/audio/snd_panelright.wav',
+  panelLeft: '/assets/audio/snd_panelleft.wav',
+  ting: '/assets/audio/ps2_ting.wav',
+  owawa: '/assets/audio/ps2_owawa.wav',
+  divine: '/assets/audio/ps2_divine.wav',
+  unfold: '/assets/audio/snd_panelunfold.wav',
+  channelUp: '/assets/audio/snd_channelup.wav',
+  channelDown: '/assets/audio/snd_channeldown.wav',
 } as const;
 
 export const useAudioManager = () => {
