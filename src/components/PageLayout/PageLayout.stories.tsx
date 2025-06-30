@@ -32,10 +32,6 @@ const meta: Meta<typeof PageLayout> = {
       description: 'The page title displayed at the top',
       control: 'text',
     },
-    showWindow: {
-      description: 'Whether to show the content in a window container',
-      control: 'boolean',
-    },
     children: {
       description: 'The content to be displayed within the layout',
       control: false,
@@ -52,7 +48,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     title: 'Sample Page',
-    showWindow: true,
     children: (
       <div style={{ padding: '20px', color: 'white' }}>
         <h2>Page Content</h2>
@@ -68,7 +63,6 @@ export const Default: Story = {
 export const WithoutWindow: Story = {
   args: {
     title: 'No Window Layout',
-    showWindow: false,
     children: (
       <div style={{ padding: '20px', color: 'white' }}>
         <h2>Direct Content</h2>
@@ -84,7 +78,6 @@ export const WithoutWindow: Story = {
 export const WithRichContent: Story = {
   args: {
     title: 'Rich Content Page',
-    showWindow: true,
     children: (
       <div style={{ padding: '20px', color: 'white' }}>
         <h2>Rich Content Example</h2>
