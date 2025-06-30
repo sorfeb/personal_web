@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import styles from './Book.module.css';
 import { Article } from '../BookRack';
+import Image from 'next/image';
 
 /**
  * Props for the Book component
@@ -117,10 +118,12 @@ export const Book: React.FC<BookProps> = ({
         {/* Cover Image Section */}
         <div className={styles.coverImageSection}>
           {article.coverImage ? (
-            <img 
+            <Image 
               src={article.coverImage} 
               alt={article.title}
               className={styles.coverImage}
+              width={140}
+              height={120}
             />
           ) : (
             <div 

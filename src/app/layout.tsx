@@ -1,7 +1,9 @@
 import { Roboto } from "next/font/google";
 import { VolumeProvider } from "../context/VolumeContext";
-import { useEffect, useRef } from "react";
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import RipplesEffect from "../components/RipplesEffect/RipplesEffect";
+import ConsoleEasterEgg from "../components/ConsoleEasterEgg/ConsoleEasterEgg";
 import "./globals.css";
 
 const inter = Roboto({ weight: "300", subsets: ["latin"] });
@@ -49,10 +51,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <path d="M0,8 Q50,2 100,15 V30 H0 Z" fill="url(#mountainGradient)" />
           </svg>
           <RipplesEffect>
-            <VolumeProvider>{children}</VolumeProvider>
+            <VolumeProvider>
+            <ConsoleEasterEgg />
+              {children}
+            </VolumeProvider>
           </RipplesEffect>
         </div>
       </body>
+      <Analytics />
+      <SpeedInsights />
     </html>
   );
 }

@@ -1,4 +1,5 @@
-# PERSONAL WEB v1.0 
+# PERSONAL WEB v1.0
+
 ![thumbnail-sorOS](https://github.com/user-attachments/assets/743b0bc7-2527-442c-81a2-9b011db61341)
 
 ## SYSTEM REQUIREMENTS
@@ -19,25 +20,21 @@ npm run dev
 
 Then navigate your web browser to [http://localhost:3000](http://localhost:3000)
 
-## ★ FEATURES ★
+## FEATURES ★
 
-### ⚡ NEXT.JS POWERED ENGINE ⚡
+### NEXT.JS POWERED ENGINE
 
 Built on the high-performance Next.js framework with lightning-fast page transitions and server-side rendering capabilities!
 
-### ⚡ INTERACTIVE SOUND SYSTEM ⚡
+### INTERACTIVE SOUND SYSTEM
 
 Complete with click sounds and volume controls for the authentic dashboard experience!
 
-### ⚡ FRAMER MOTION ANIMATIONS ⚡
+### FRAMER MOTION ANIMATIONS ⚡
 
 Smooth, responsive animations bring the interface to life with every interaction!
 
-### ⚡ RESPONSIVE DESIGN ⚡
-
-Automatically adapts to any screen resolution for maximum compatibility across devices!
-
-## ★ DASHBOARD SECTIONS ★
+## DASHBOARD SECTIONS
 
 ### == HOME WORLD ==
 
