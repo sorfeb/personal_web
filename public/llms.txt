@@ -1,0 +1,144 @@
+# Soros Febriano Personal Website - LLM Context
+
+## Project Overview
+This is a personal portfolio website built with Next.js 14, featuring an Xbox 360-inspired design with skeumorphic elements, 3D effects, and interactive components. The site showcases projects, blog posts, photos, and includes integrations with Spotify and Medium.
+
+## Tech Stack
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: CSS Modules with PostCSS
+- **Animations**: Framer Motion
+- **State Management**: React Context
+- **Image Handling**: Cloudinary via next-cloudinary
+- **Documentation**: Storybook
+- **Testing**: Jest (planned)
+- **Deployment**: Vercel
+
+## Key Dependencies
+- react, react-dom, next
+- framer-motion (animations)
+- next-cloudinary (image optimization)
+- shepherd.js (user tours)
+- @storybook/nextjs (component documentation)
+- typescript, @types packages
+
+## Architecture Patterns
+- **Composition over Inheritance**: Components use composition patterns
+- **Context Pattern**: VolumeContext, ShepherdTourContext for global state
+- **Strategy Pattern**: Different rendering strategies in PageLayout
+- **Module Pattern**: CSS Modules for scoped styling
+- **Custom Hook Pattern**: useVolume for audio management
+
+## Folder Structure
+```
+src/
+├── app/                 # Next.js App Router pages
+├── components/          # Reusable React components
+├── context/            # React Context providers
+├── data/               # Static JSON data files
+├── stories/            # Storybook stories
+└── types/              # TypeScript type definitions
+
+public/
+├── assets/             # Static assets (audio, images, icons)
+├── robots.txt          # SEO configuration
+└── sitemap.xml         # Generated sitemap
+```
+
+## Design System
+- **Theme**: Xbox 360-inspired skeumorphism
+- **Colors**: Green gradients (rgb(108 184 43), rgb(78 156 27))
+- **Typography**: Segoe UI, Arial fallbacks
+- **Sound**: PS2/Xbox audio feedback on interactions
+- **Layout**: Responsive grid with CSS custom properties
+
+## Component Guidelines
+- Use TypeScript interfaces for all props
+- Include comprehensive JSDoc comments
+- Implement audio feedback via useVolume hook
+- Use CSS Modules for styling with BEM-like naming
+- Include Storybook stories for complex components
+- Follow accessibility best practices
+
+## Audio System
+- Volume controlled via VolumeContext
+- Consistent sound files in /assets/audio/
+- Sound effects: hover, click, navigation, ambient
+- Graceful fallback for autoplay restrictions
+
+## Data Sources
+- **Blog**: Medium RSS feed via /api/medium-feed
+- **Music**: Spotify API via /api/playlists
+- **Images**: Cloudinary with local JSON manifests
+- **Projects**: Static JSON data
+
+## Styling Conventions
+- CSS Modules with `.module.css` suffix
+- CSS custom properties for theming
+- Responsive design with mobile-first approach
+- Skeumorphic effects: gradients, shadows, reflections
+- Smooth transitions and hover states
+
+## Performance Optimizations
+- Next.js Image component for optimized loading
+- Cloudinary for image transformation
+- CSS-in-JS avoided in favor of CSS Modules
+- Lazy loading for heavy components
+- Static generation where possible
+
+## SEO Configuration
+- robots.txt with proper directives
+- Dynamic sitemap generation
+- Meta tags via Next.js metadata API
+- Structured data for rich snippets
+
+## Development Workflow
+- TypeScript strict mode enabled
+- ESLint and Prettier for code quality
+- Storybook for component development
+- Git hooks for pre-commit validation
+- Vercel for continuous deployment
+
+## Browser Support
+- Modern browsers (ES2020+)
+- Mobile-responsive design
+- Progressive enhancement approach
+- Graceful degradation for audio features
+
+## Known Issues & Constraints
+- Audio autoplay limited by browser policies
+- Cloudinary free tier limitations
+- Medium RSS parsing complexity
+- Spotify API rate limiting
+
+## Future Enhancements
+- Dark/light theme toggle
+- WebGL effects for enhanced visuals
+- PWA capabilities
+- Advanced animations with Lottie
+- CMS integration for content management
+
+## Code Style Preferences
+- Functional components with hooks
+- Explicit return types for functions
+- Comprehensive error handling
+- Descriptive variable and function names
+- Single responsibility principle
+- Composition over inheritance
+- Immutable state updates
+
+## Testing Strategy
+- Component testing with Jest/React Testing Library
+- Storybook for visual regression testing
+- Manual testing across devices
+- Performance monitoring with Lighthouse
+- Accessibility testing with axe-core
+
+## Documentation Standards
+- JSDoc comments for all public APIs
+- README files for complex components
+- Storybook stories with examples
+- Type definitions with descriptions
+- Inline comments for complex logic
+
+This file helps AI assistants understand the codebase structure, patterns, and preferences when suggesting changes or new features.

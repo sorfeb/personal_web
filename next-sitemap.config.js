@@ -23,6 +23,7 @@ module.exports = {
       { loc: '/photos', priority: 0.7, changefreq: 'monthly' },
       { loc: '/media', priority: 0.7, changefreq: 'monthly' },
       { loc: '/blog', priority: 0.7, changefreq: 'weekly' },
+      { loc: '/llms.txt', priority: 0.3, changefreq: 'monthly' },
     ]
   },
 }
