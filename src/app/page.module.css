@@ -16,8 +16,8 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100; /* Keep header above other content */
-  background: transparent; /* Maintain your design aesthetic */
+  z-index: 100;
+  background: transparent;
 }
 
 .topContainer {
@@ -45,12 +45,12 @@
 }
 
 .main {
-  flex: 1; /* Takes up all available space between header and footer */
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 30vh; /* Account for fixed header height */
-  padding-bottom: 10vh; /* Account for fixed footer height */
+  margin-top: 30vh;
+  margin-bottom: 15vh;
 }
 
 .DashboardContainer {
@@ -65,8 +65,9 @@
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 100; /* Keep footer above other content */
-  background: transparent; /* Maintain your design aesthetic */
+  z-index: 100;
+  margin-bottom: 30px;
+  background: transparent
 }
 
 .VolumeControlContainer {
