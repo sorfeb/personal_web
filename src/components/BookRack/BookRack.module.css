@@ -1,0 +1,365 @@
+.bookRack {
+  width: 100%;
+  color: white;
+  padding: 10px; /* Reduced from 20px */
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+/* Search Container */
+.searchContainer {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.searchInput {
+  width: 300px;
+  padding: 12px 16px;
+  background: linear-gradient(145deg, #2a1f1a, #3d2e26);
+  border: 2px solid #654321;
+  border-radius: 8px;
+  color: white;
+  font-size: 14px;
+  box-shadow: 
+    inset 2px 2px 4px rgba(0, 0, 0, 0.3),
+    inset -2px -2px 4px rgba(101, 67, 33, 0.1);
+}
+
+.searchInput::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #CD853F;
+  box-shadow: 
+    0 0 10px rgba(205, 133, 63, 0.3),
+    inset 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Wooden Bookshelf Container - Now a unified structure */
+.bookshelfContainer {
+  position: relative;
+  padding: 20px;
+  background: 
+    url('/assets/patterns/wood-pattern.png'),
+    linear-gradient(145deg, 
+      rgba(101, 67, 33, 0.3),
+      rgba(139, 69, 19, 0.3),
+      rgba(93, 78, 55, 0.3)
+    );
+  background-size: 400px 400px, cover;
+  background-repeat: repeat, no-repeat;
+  background-blend-mode: multiply, normal;
+  border-radius: 15px;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.5),
+    inset 0 3px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -3px 0 rgba(0, 0, 0, 0.4),
+    inset 3px 0 0 rgba(139, 69, 19, 0.3),
+    inset -3px 0 0 rgba(139, 69, 19, 0.3);
+  overflow: visible;
+}
+
+/* Back panel wood grain */
+.bookshelfContainer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 4px,
+      rgba(101, 67, 33, 0.1) 4px,
+      rgba(101, 67, 33, 0.1) 8px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 25px,
+      rgba(93, 78, 55, 0.08) 25px,
+      rgba(93, 78, 55, 0.08) 50px
+    );
+  border-radius: 15px;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Individual shelf row - now part of connected bookshelf */
+.bookshelf {
+  position: relative;
+  margin-bottom: 0; /* Remove gap between shelves */
+  padding: 30px 20px 0 20px; /* Remove bottom padding */
+  background: transparent; /* Remove individual backgrounds */
+  border-radius: 0; /* Remove individual border radius */
+  box-shadow: none; /* Remove individual shadows */
+  overflow: visible;
+}
+
+/* First shelf gets top padding and top plank */
+.bookshelf:first-child {
+  padding-top: 25px;
+}
+
+.bookshelf:first-child::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: 
+    url('/assets/patterns/wood-pattern.png'),
+    linear-gradient(145deg, 
+      rgba(81, 54, 27, 0.9),
+      rgba(75, 47, 24, 0.9),
+      rgba(69, 42, 21, 0.9)
+    );
+  background-size: 300px 300px, cover;
+  background-repeat: repeat, no-repeat;
+  background-blend-mode: multiply, normal;
+  box-shadow: 
+    0 -2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+/* Last shelf gets bottom padding and extends bottom plank */
+.bookshelf:last-child {
+  padding-bottom: 25px;
+}
+
+.bookshelf:last-child .shelfPlank {
+  bottom: 0;
+}
+
+.bookshelf:last-child .shelfFront {
+  bottom: -8px;
+}
+
+/* Horizontal shelf plank - the surface books rest on */
+.shelfPlank {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: 
+    url('/assets/patterns/wood-pattern.png'),
+    linear-gradient(145deg, 
+      rgba(81, 54, 27, 0.9),    /* Darker than main shelf */
+      rgba(75, 47, 24, 0.9),    /* Even darker middle */
+      rgba(69, 42, 21, 0.9)     /* Darkest bottom */
+    );
+  background-size: 300px 300px, cover;
+  background-repeat: repeat, no-repeat;
+  background-blend-mode: multiply, normal;
+  border-radius: 0;
+  box-shadow: 
+    0 -2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Add wood grain pattern to shelf plank */
+.shelfPlank::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.1) 2px,
+      rgba(0, 0, 0, 0.1) 4px
+    );
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+/* Shelf front edge - gives thickness appearance */
+.shelfFront {
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: 
+    url('/assets/patterns/wood-pattern.png'),
+    linear-gradient(145deg, 
+      rgba(69, 42, 21, 1),      /* Darkest front edge */
+      rgba(60, 36, 18, 1)       /* Even darker for depth */
+    );
+  background-size: 200px 200px, cover;
+  background-repeat: repeat, no-repeat;
+  background-blend-mode: multiply, normal;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  z-index: 2;
+}
+
+/* Books Row - sits on the shelf plank */
+.booksRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Reduced from 140px to 120px */
+  gap: 12px; /* Reduced from 15px */
+  justify-items: center;
+  padding: 0 5px 5px 5px; /* Reduced side padding */
+  min-height: 200px;
+  align-items: end;
+  position: relative;
+  z-index: 3; /* Above shelf planks */
+}
+
+/* Side panels for bookshelf structure */
+.bookshelfContainer::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 0;
+  width: 15px;
+  background: 
+    url('/assets/patterns/wood-pattern.png'),
+    linear-gradient(90deg, 
+      rgba(101, 67, 33, 0.8),
+      rgba(83, 55, 28, 0.8)
+    );
+  background-size: 200px 200px, cover;
+  background-repeat: repeat, no-repeat;
+  background-blend-mode: multiply, normal;
+  border-radius: 15px 0 0 15px;
+  box-shadow: 
+    inset 2px 0 0 rgba(255, 255, 255, 0.1),
+    inset -2px 0 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Right side panel */
+.rightPanel {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  right: 0;
+  width: 15px;
+  background: 
+    url('/assets/patterns/wood-pattern.png'),
+    linear-gradient(90deg, 
+      rgba(83, 55, 28, 0.8),
+      rgba(101, 67, 33, 0.8)
+    );
+  background-size: 200px 200px, cover;
+  background-repeat: repeat, no-repeat;
+  background-blend-mode: multiply, normal;
+  border-radius: 0 15px 15px 0;
+  box-shadow: 
+    inset 2px 0 0 rgba(0, 0, 0, 0.3),
+    inset -2px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Remove the old shelf edge styles */
+.shelfEdge {
+  display: none;
+}
+
+/* Adjust book shadows to sit properly on shelf */
+.bookShadow {
+  position: absolute;
+  bottom: -20px; /* Adjust to sit on shelf plank */
+  left: 10%;
+  right: 10%;
+  height: 8px;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.4), transparent);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  z-index: 2; /* Above shelf plank, below books */
+}
+
+.book:hover .bookShadow {
+  bottom: -25px;
+  left: 5%;
+  right: 5%;
+  height: 12px;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.5), transparent);
+}
+
+/* Empty State */
+.emptyLibrary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.emptyShelf {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+  background: linear-gradient(145deg, #8B4513, #A0522D);
+  padding: 40px;
+  border-radius: 12px;
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+}
+
+.emptyMessage p {
+  font-size: 18px;
+  margin: 0 0 10px 0;
+}
+
+.emptyMessage small {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .booksRow {
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); /* Further reduced */
+    gap: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .bookshelfContainer {
+    padding: 10px; /* Reduced from 15px */
+  }
+  
+  .bookshelf {
+    padding: 20px 10px 0 10px; /* Reduced from 25px 15px */
+  }
+  
+  .shelfPlank {
+    height: 18px;
+  }
+  
+  .shelfFront {
+    height: 6px;
+    bottom: -6px;
+  }
+  
+  .booksRow {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Further reduced */
+    gap: 8px;
+    padding: 0 2px 20px 2px; /* Reduced padding */
+  }
+}
+
+@media (max-width: 480px) {
+  .booksRow {
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); /* Further reduced */
+    gap: 6px;
+  }
+}

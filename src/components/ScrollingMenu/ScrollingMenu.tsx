@@ -1,28 +1,39 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './ScrollingMenu.module.css';
 import { useVolume } from '../../context/VolumeContext';
 
 interface ScrollingMenuProps {
   items: string[];
   onSelectionChange: (index: number) => void;
+  onItemClick?: (index: number) => void;
 }
 
-const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items, onSelectionChange }) => {
+const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items, onSelectionChange, onItemClick }) => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const { volume } = useVolume();
-  const handleScroll = (event: React.WheelEvent<HTMLDivElement>) => {
-    const direction = Math.sign(event.deltaY); // 1 for down, -1 for up
-    const newIndex = Math.min(Math.max(selectedIndex + Math.sign(event.deltaY), 0), items.length - 1);
 
-    if (newIndex !== selectedIndex) {
-      setSelectedIndex(newIndex);
-      onSelectionChange(newIndex);
+  useEffect(() => {
+    const handleScroll = (event: WheelEvent) => {
+      const direction = Math.sign(event.deltaY); // 1 for down, -1 for up
+      const newIndex = Math.min(Math.max(selectedIndex + direction, 0), items.length - 1);
 
-      playSound(direction > 0 ? 'down' : 'up');
-    }
-  };
+      if (newIndex !== selectedIndex) {
+        setSelectedIndex(newIndex);
+        onSelectionChange(newIndex);
+
+        playSound(direction > 0 ? 'down' : 'up');
+      }
+    };
+
+    // Attach to window instead of container
+    window.addEventListener('wheel', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('wheel', handleScroll);
+    };
+  }, [selectedIndex, items.length, onSelectionChange, volume]);
 
   const playSound = (direction: 'up' | 'down') => {
     const soundPath =
@@ -34,8 +45,27 @@ const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items, onSelectionChange 
     audio.play();
   };
 
+  const playHoverSound = () => {
+    const audio = new Audio('/assets/audio/ps2_ting.wav');
+    audio.volume = volume;
+    audio.play();
+  };
+
+  const playClickSound = () => {
+    const audio = new Audio('/assets/audio/snd_buttonselect.wav');
+    audio.volume = volume;
+    audio.play();
+  };
+
+  const handleItemClick = (index: number) => {
+    playClickSound();
+    setSelectedIndex(index);
+    onSelectionChange(index);
+    onItemClick?.(index);
+  };
+
   return (
-    <div className={styles.container} onWheel={handleScroll}>
+    <div className={styles.container}>
       <div 
         className={styles.menu} 
         style={{ transform: `translateY(-${selectedIndex * 5}px)` }}
@@ -44,6 +74,8 @@ const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items, onSelectionChange 
           <div
             key={index}
             className={`${styles.menuItem} ${index === selectedIndex ? styles.selected : ''}`}
+            onClick={() => handleItemClick(index)}
+            onMouseEnter={playHoverSound}
           >
             {item}
           </div>

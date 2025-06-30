@@ -19,6 +19,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'www.sorosfebria.co',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn-images-1.medium.com',
+      },
     ],
   },
 };

@@ -4,13 +4,22 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color:rgb(30 30 30 / 30%);
+    background-color: rgb(30 30 30 / 30%);
     position: relative;
     transition: background-color 0.5s ease-in-out;
   }
   
   .pageContainer.exiting {
     background-color: rgb(30 30 30 / 0%);
+  }
+  
+  /* Variant-specific container styles */
+  .pageContainer--fullscreen {
+    padding: 0;
+  }
+  
+  .pageContainer--minimal {
+    background-color: transparent;
   }
   
   .animationContainer {
@@ -29,24 +38,48 @@
     position: absolute;
     top: 0;
     left: 0;
-    margin: 3rem auto auto 10rem; ;
+    margin: 3rem auto auto 10rem;
   }
   
+  /* Base window styles using CSS custom properties */
   .window {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    width: 50%;
-    height: auto;
-    background: linear-gradient(135deg, #222C33,rgb(70 83 88));
+    width: var(--layout-width, 70%);
+    max-width: var(--layout-max-width, 900px);
+    height: var(--layout-height, auto);
+    background: linear-gradient(135deg, #222C33, rgb(70 83 88));
     border-radius: 10px;
     border: 3px solid rgb(255 255 255 / 10%);
     box-shadow: 0 0 15px rgb(0 0 0 / 20%);
-    padding: 20px;
+    padding: var(--layout-padding, 20px);
     color: white;
   }
-
+  
+  /* Size-specific window variants */
+  .window--compact {
+    /* Optimized for forms, dialogs */
+  }
+  
+  .window--default {
+    /* Standard content pages */
+  }
+  
+  .window--wide {
+    /* Content-heavy pages like BookRack */
+  }
+  
+  .window--full {
+    /* Dashboards, data displays */
+    border-radius: 5px;
+  }
+  
+  .window--custom {
+    /* Custom dimensions handled via CSS properties */
+  }
+  
   .windowReflection {
     -webkit-box-reflect: below 15px
       -webkit-gradient(
@@ -59,6 +92,24 @@
       );
   }
   
+  /* Fullscreen content variant */
+  .fullscreenContent {
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+  
+  /* Minimal content variant */
+  .minimalContent {
+    width: 90%;
+    max-width: 1200px;
+    padding: 20px;
+  }
+  
   .closeButtonWrapper {
     position: absolute;
     top: 80px;
@@ -67,7 +118,7 @@
   }
   
   .closeButton {
-    background: rgb(0 0 0 / 0%); /* Transparent background */
+    background: rgb(0 0 0 / 0%);
     border: none;
     cursor: pointer;
     height: 50px;
@@ -83,7 +134,7 @@
     fill: rgb(255 255 255 / 50%);
     width: 100%;
     height: 100%;
-    filter: drop-shadow(0 0 8px rgb(255 255 255 / 50%)); /* White glow effect */
+    filter: drop-shadow(0 0 8px rgb(255 255 255 / 50%));
     transition: stroke-width 0.3s ease-in-out, filter 0.3s ease-in-out, fill 0.3s ease-in-out;
     stroke-width: 1.5;
   }
@@ -91,4 +142,42 @@
   .closeButton:hover .closeIcon {
     filter: drop-shadow(0 0 15px rgb(255 255 255 / 100%));
     stroke-width: 3;
+  }
+  
+  /* Responsive Design using CSS custom properties */
+  @media (max-width: 1400px) {
+    .window {
+      width: var(--layout-width-xl, calc(var(--layout-width, 70%) + 5%));
+    }
+  }
+  
+  @media (max-width: 1200px) {
+    .window {
+      width: var(--layout-width-lg, calc(var(--layout-width, 70%) + 10%));
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .window {
+      width: var(--layout-width-md, 98%);
+      padding: calc(var(--layout-padding, 20px) * 0.75);
+    }
+    
+    .closeButtonWrapper {
+      right: 20px;
+      top: 60px;
+    }
+    
+    .titleContainer {
+      margin: 2rem auto auto 2rem;
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .window {
+      width: var(--layout-width-sm, 100%);
+      padding: calc(var(--layout-padding, 20px) * 0.5);
+      border-radius: 5px;
+    }
   }
