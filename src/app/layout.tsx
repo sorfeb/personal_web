@@ -22,8 +22,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta property="og:url" content="https://www.sorosfebria.co/" />
         {/* Twitter Card tags */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Your Site Title" />
-        <meta name="twitter:description" content="A short description of your site." />
+        <meta name="twitter:title" content="Soros Febriano" />
+        <meta name="twitter:description" content="Personal website and portfolio of Soros Febriano, a passionate learner about the fusion of technology and art. Explore projects, photos, media and more." />
         <meta name="twitter:image" content="https://www.sorosfebria.co/assets/images/thumbnail-sorOS.jpg" />
         <link rel="icon" href="/favicon.svg" />
         <meta charSet="utf-8" />
