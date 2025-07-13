@@ -14,6 +14,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <title>Soros Febriano</title>
         <meta name="description" content="Personal website and portfolio of Soros Febriano, a passionate learner about the fusion of technology and art. Explore projects, photos, media and more." />
+        {/* Open Graph tags */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Soros Febriano" />
+        <meta property="og:description" content="Personal website and portfolio of Soros Febriano, a passionate learner about the fusion of technology and art. Explore projects, photos, media and more." />
+        <meta property="og:image" content="https://www.sorosfebria.co/assets/images/thumbnail-sorOS.jpg" />
+        <meta property="og:url" content="https://www.sorosfebria.co/" />
+        {/* Twitter Card tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Soros Febriano" />
+        <meta name="twitter:description" content="Personal website and portfolio of Soros Febriano, a passionate learner about the fusion of technology and art. Explore projects, photos, media and more." />
+        <meta name="twitter:image" content="https://www.sorosfebria.co/assets/images/thumbnail-sorOS.jpg" />
         <link rel="icon" href="/favicon.svg" />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
