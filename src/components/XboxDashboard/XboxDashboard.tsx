@@ -185,7 +185,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
             onMouseEnter={playHoverSound}
           >
             <img
-              src="./assets/icons/buttonLeft.png"
+              src="./assets/icons/buttonLeft.webp"
               alt="Left Arrow"
               className={styles.leftArrow}
             />
@@ -216,7 +216,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
             disabled={currentCardIndex === data.home.length-1}
             onMouseEnter={playHoverSound}>
           <img
-              src="./assets/icons/buttonRight.png"
+              src="./assets/icons/buttonRight.webp"
               alt="Right Arrow"
               className={styles.rightArrow}
             />
@@ -234,7 +234,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
             onMouseEnter={playHoverSound}
           >
             <img
-              src="./assets/icons/buttonLeft.png"
+              src="./assets/icons/buttonLeft.webp"
               alt="Left Arrow"
               className={styles.leftArrow}
             />
@@ -265,7 +265,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
             disabled={currentCardIndex === data.misc.length-1}
             onMouseEnter={playHoverSound}>
           <img
-              src="./assets/icons/buttonRight.png"
+              src="./assets/icons/buttonRight.webp"
               alt="Right Arrow"
               className={styles.rightArrow}
             />
@@ -283,7 +283,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
               onMouseEnter={playHoverSound}
             >
               <img
-                src="./assets/icons/buttonLeft.png"
+                src="./assets/icons/buttonLeft.webp"
                 alt="Left Arrow"
                 className={styles.leftArrow}
               />
@@ -314,7 +314,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
             disabled={currentCardIndex === data.gallery.length-1}
             onMouseEnter={playHoverSound}>
           <img
-              src="./assets/icons/buttonRight.png"
+              src="./assets/icons/buttonRight.webp"
               alt="Right Arrow"
               className={styles.rightArrow}
             />
@@ -332,7 +332,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
               onMouseEnter={playHoverSound}
             >
               <img
-                src="./assets/icons/buttonLeft.png"
+                src="./assets/icons/buttonLeft.webp"
                 alt="Left Arrow"
                 className={styles.leftArrow}
               />
@@ -363,7 +363,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
             disabled={currentCardIndex === data.credits.length-1}
             onMouseEnter={playHoverSound}>
           <img
-              src="./assets/icons/buttonRight.png"
+              src="./assets/icons/buttonRight.webp"
               alt="Right Arrow"
               className={styles.rightArrow}
             />
