@@ -84,9 +84,10 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .topContainer {
+    margin-top: 15%;
     margin-left: 4%;
-    margin-right: 4%;
-    flex-direction: column;
+    margin-right: 10%;
+    flex-direction: row;
     height: auto;
     gap: 20px;
   }
@@ -95,30 +96,14 @@
   .ProfileCardContainer {
     width: 100%;
   }
-  
-  .main {
-    padding-top: 40vh;
-    padding-bottom: 15vh;
-  }
+
   
   .DashboardContainer {
-    width: 95%;
-    margin-left: 2.5%;
+    width: 100%;
   }
   
   .VolumeControlContainer {
     margin-right: 20px;
     justify-content: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .topContainer {
-    margin-top: 8%;
-  }
-  
-  .main {
-    padding-top: 50vh;
-    padding-bottom: 20vh;
   }
 }
