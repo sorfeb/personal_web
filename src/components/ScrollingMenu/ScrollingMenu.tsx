@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import styles from './ScrollingMenu.module.css';
-import { useVolume } from '../../context/VolumeContext';
+import { useAudioManager } from '../../hooks/useAudioManager';
 
 interface ScrollingMenuProps {
   items: string[];
@@ -12,7 +12,7 @@ interface ScrollingMenuProps {
 
 const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items, onSelectionChange, onItemClick }) => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
-  const { volume } = useVolume();
+  const { playSound } = useAudioManager();
 
   useEffect(() => {
     const handleScroll = (event: WheelEvent) => {
@@ -23,7 +23,7 @@ const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items, onSelectionChange,
         setSelectedIndex(newIndex);
         onSelectionChange(newIndex);
 
-        playSound(direction > 0 ? 'down' : 'up');
+        playSound(direction > 0 ? 'channelDown' : 'channelUp');
       }
     };
 
@@ -33,29 +33,10 @@ const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items, onSelectionChange,
     return () => {
       window.removeEventListener('wheel', handleScroll);
     };
-  }, [selectedIndex, items.length, onSelectionChange, volume]);
+  }, [selectedIndex, items.length, onSelectionChange, playSound]);
 
-  const playSound = (direction: 'up' | 'down') => {
-    const soundPath =
-      direction === 'down'
-        ? '/assets/audio/snd_channeldown.wav'
-        : '/assets/audio/snd_channelup.wav';
-    const audio = new Audio(soundPath);
-    audio.volume = volume;
-    audio.play();
-  };
-
-  const playHoverSound = () => {
-    const audio = new Audio('/assets/audio/ps2_ting.wav');
-    audio.volume = volume;
-    audio.play();
-  };
-
-  const playClickSound = () => {
-    const audio = new Audio('/assets/audio/snd_buttonselect.wav');
-    audio.volume = volume;
-    audio.play();
-  };
+  const playHoverSound = () => playSound('ting');
+  const playClickSound = () => playSound('navigation');
 
   const handleItemClick = (index: number) => {
     playClickSound();

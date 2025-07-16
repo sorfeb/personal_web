@@ -5,7 +5,7 @@ import { Book } from './Book';
 import { BookSkeleton } from './Book/BookSkeleton';
 import { motion, AnimatePresence } from 'framer-motion';
 import { generateBookColor } from '../../utils/colorUtils';
-import { groupItemsIntoRows, calculateItemsPerRow } from '../../utils/responsiveUtils';
+import { groupItemsIntoRows, useResponsiveItemsPerRow } from '../../utils/responsiveUtils';
 
 /**
  * Article data structure matching Medium RSS feed format
@@ -14,15 +14,10 @@ import { groupItemsIntoRows, calculateItemsPerRow } from '../../utils/responsive
  * @since 1.0.0
  */
 export interface Article {
-  /** Article title from Medium */
   title: string;
-  /** Direct link to the Medium article */
   link: string;
-  /** Publication date in ISO string format */
   pubDate: string;
-  /** Brief content excerpt for preview */
   contentSnippet: string;
-  /** Cover image URL extracted from article content, null if none */
   coverImage: string | null;
 }
 
@@ -67,27 +62,6 @@ export interface BookRackProps {
  * - Tablet (≥768px): 3 books per row
  * - Mobile (<768px): 2 books per row
  * 
- * @example
- * ```tsx
- * // Basic usage with articles
- * <BookRack 
- *   articles={mediumArticles}
- *   showSearch={true}
- *   loading={false}
- * />
- * 
- * // Loading state
- * <BookRack 
- *   articles={[]}
- *   loading={true}
- * />
- * 
- * // Without search
- * <BookRack 
- *   articles={articles}
- *   showSearch={false}
- * />
- * ```
  * 
  * @param props - The component props
  * @returns JSX element representing a wooden bookshelf with article books
@@ -106,6 +80,7 @@ export const BookRack: React.FC<BookRackProps> = ({
 }) => {
   const { playSound } = useAudioManager();
   const [searchTerm, setSearchTerm] = useState('');
+  const itemsPerRow = useResponsiveItemsPerRow();
 
   const playHoverSound = () => playSound('owawa');
   const playClickSound = () => playSound('click');
@@ -121,11 +96,10 @@ export const BookRack: React.FC<BookRackProps> = ({
   };
 
   if (loading) {
-    const booksPerRow = calculateItemsPerRow();
     const skeletonRows = Array.from({ length: 3 }, (_, rowIndex) => (
       <div key={`skeleton-row-${rowIndex}`} className={styles.bookshelf}>
         <div className={styles.booksRow}>
-          {Array.from({ length: booksPerRow }, (_, bookIndex) => (
+          {Array.from({ length: itemsPerRow }, (_, bookIndex) => (
             <BookSkeleton key={`skeleton-${rowIndex}-${bookIndex}`} />
           ))}
         </div>
@@ -157,7 +131,6 @@ export const BookRack: React.FC<BookRackProps> = ({
   }
 
   const bookRows = groupItemsIntoRows(filteredArticles);
-  const booksPerRow = calculateItemsPerRow();
 
   return (
     <div className={styles.bookRack}>
@@ -202,7 +175,7 @@ export const BookRack: React.FC<BookRackProps> = ({
                 {/* Books on this shelf */}              
                 <div className={styles.booksRow}>
                   {row.map((article, bookIndex) => {
-                    const globalIndex = rowIndex * booksPerRow + bookIndex;
+                    const globalIndex = rowIndex * itemsPerRow + bookIndex;
                     return (
                       <Book
                         key={`${article.link}-${globalIndex}`}
