@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import ResponsiveCardGrid from './ResponsiveCardGrid/ResponsiveCardGrid';
 import XboxCard from '../XboxCard/card/XboxCard';
 import styles from './XboxDashboard.module.css';
 import { useAudioManager } from '../../hooks/useAudioManager';
@@ -19,6 +20,7 @@ interface XboxDashboardProps {
 const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const { playSound } = useAudioManager();
   const { volume } = useVolume();
 
@@ -29,16 +31,29 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
     data.credits,
   ][activeIndex];
 
+  const sectionNames = ['home', 'misc', 'gallery', 'credits'];
+
   const playLeftSound = () => playSound('panelLeft');
   const playRightSound = () => playSound('panel');
   const playHoverSound = () => playSound('ting');
 
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   // Reset currentCardIndex when activeIndex changes
   useEffect(() => {
-    setCurrentCardIndex(0); // Reset to the first card when the section changes
+    setCurrentCardIndex(0);
   }, [activeIndex]);
 
-  //Initial animation for the cards
+  // Initial animation for the cards (desktop only)
   useEffect(() => {
     const section = document.querySelector(`.${styles.section}`);
     const cards = section?.querySelectorAll(`.${styles.card}`);
@@ -51,15 +66,12 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
     const playUnfoldSound = () => {
       if (isAudioPlaying) return;
       setIsAudioPlaying(true);
-
       playSound('unfold');
-
       setTimeout(() => setIsAudioPlaying(false), 600);
     };
 
     playUnfoldSound();
 
-    // Reset cards to a consistent state
     cards.forEach((card) => {
       const cardElement = card as HTMLElement;
       cardElement.style.transition = 'none';
@@ -67,7 +79,6 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
       cardElement.style.transform = `translateX(-100px) scale(0.9)`;
     });
 
-    // Start animations after a short delay to allow reset
     const animationTimeouts: NodeJS.Timeout[] = [];
     cards.forEach((card, index) => {
       const cardElement = card as HTMLElement;
@@ -80,12 +91,11 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
 
         cumulativeTranslation += decrement;
         decrement *= 0.78;
-      }, index * 80); // Unfolding delay
+      }, index * 80);
 
       animationTimeouts.push(timeout);
     });
 
-    // Cleanup previous animations if `activeIndex` changes rapidly
     return () => {
       animationTimeouts.forEach((timeout) => clearTimeout(timeout));
       cards.forEach((card) => {
@@ -370,6 +380,21 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
       </div>
     ),
   };
+
+  // If mobile, render ResponsiveCardGrid
+  if (isMobile) {
+    return (
+      <ResponsiveCardGrid
+        cards={cardsData}
+        sectionName={sectionNames[activeIndex]}
+        currentCardIndex={currentCardIndex}
+        onCardIndexChange={setCurrentCardIndex}
+        playHoverSound={playHoverSound}
+        playLeftSound={playLeftSound}
+        playRightSound={playRightSound}
+      />
+    );
+  }
 
   return componentMapping[activeIndex] || <div>No content available</div>;
 };

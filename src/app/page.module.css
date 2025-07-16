@@ -78,9 +78,6 @@
   padding: 20px 0;
 }
 
-.VolumeControlWrapper {
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .topContainer {
@@ -100,10 +97,37 @@
   
   .DashboardContainer {
     width: 100%;
+    margin-left: 0%;
   }
   
   .VolumeControlContainer {
     margin-right: 20px;
     justify-content: center;
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    margin-bottom: 10px;
+    background: transparent
+  }
+
+  .VolumeControlContainer {
+    justify-content: center;
+    align-items: center;
+    margin-right: 0;
+    margin-bottom: 5px;
+  }
+
+  .main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 25vh;
+    margin-bottom: 15vh;
   }
 }
