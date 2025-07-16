@@ -63,7 +63,7 @@
   flex: 1;
   display: flex;
   align-items: center;
-  overflow: hidden;
+  z-index: 0;
   height: 50vh;
   width: auto;
   padding-top: 50px;
@@ -83,7 +83,7 @@
 
 
 .card {
-  height: 300px;
+  height: 40vh;
   position: absolute; 
   left: 0;
   right: 0;

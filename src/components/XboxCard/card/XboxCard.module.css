@@ -83,8 +83,8 @@
 
 
 .iconWrapper {
-  width: 9rem; /* Increased size */
-  height: 9rem; /* Increased size */
+  width: 19vh;
+  height:19vh;
   margin-bottom: 10px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
