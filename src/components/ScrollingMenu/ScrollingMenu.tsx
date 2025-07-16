@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './ScrollingMenu.module.css';
 import { useVolume } from '../../context/VolumeContext';
+import { useAudioManager } from '@/hooks/useAudioManager';
 
 interface ScrollingMenuProps {
   items: string[];
