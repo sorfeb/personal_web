@@ -24,21 +24,17 @@ const AUDIO_FILES = {
 export const useAudioManager = () => {
   const { volume } = useVolume();
   const audioPoolRef = useRef<AudioPool>({});
-  const initializedRef = useRef(false);
 
   // Preload and pool audio files
   useEffect(() => {
-    if (!initializedRef.current) {
-      Object.entries(AUDIO_FILES).forEach(([key, src]) => {
-        audioPoolRef.current[key] = Array.from({ length: 3 }, () => {
-          const audio = new Audio(src);
-          audio.preload = 'auto';
-          audio.volume = volume;
-          return audio;
-        });
+    Object.entries(AUDIO_FILES).forEach(([key, src]) => {
+      audioPoolRef.current[key] = Array.from({ length: 3 }, () => {
+        const audio = new Audio(src);
+        audio.preload = 'auto';
+        audio.volume = volume;
+        return audio;
       });
-      initializedRef.current = true;
-    }
+    });
   }, []);
 
   // Update volume for all pooled audio
@@ -54,9 +50,8 @@ export const useAudioManager = () => {
 
     const availableAudio = pool.find(audio => audio.paused) || pool[0];
     availableAudio.currentTime = 0;
-    availableAudio.play().catch((error) => {
-      console.debug('Audio play prevented:', error);
-    });  }, []);
+    availableAudio.play().catch(() => {});
+  }, []);
 
   return { playSound };
 };
