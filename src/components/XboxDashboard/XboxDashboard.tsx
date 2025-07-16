@@ -192,9 +192,9 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
         <div className={styles.sectionContainer}>
           <div className={styles.section}>
             {data.home.map((card, index) => (
-              <div className={styles.card} key={index}>
+              <div className={styles.card} key={`home-${index}-${card.title}`}>
                 <XboxCard 
-                  key={index} 
+                  key={`home-${index}-${card.title}`}
                   title={card.title} 
                   iconUrl={card.iconUrl}
                   route={card.route}
@@ -241,9 +241,9 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
         <div className={styles.sectionContainer}>
           <div className={styles.section}>
             {data.misc.map((card, index) => (
-              <div className={styles.card} key={index}>
+              <div className={styles.card} key={`misc-${index}-${card.title}`}>
                 <XboxCard 
-                  key={index} 
+                  key={`misc-${index}-${card.title}`}
                   title={card.title} 
                   iconUrl={card.iconUrl}
                   route={card.route}
@@ -290,9 +290,9 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
         <div className={styles.sectionContainer}>
           <div className={styles.section}>
             {data.gallery.map((card, index) => (
-              <div className={styles.card} key={index}>
+              <div className={styles.card} key={`gallery-${index}-${card.title}`}>
                 <XboxCard 
-                  key={index} 
+                  key={`gallery-${index}-${card.title}`}
                   title={card.title} 
                   iconUrl={card.iconUrl}
                   route={card.route}
@@ -339,9 +339,9 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
         <div className={styles.sectionContainer}>
           <div className={styles.section}>
             {data.credits.map((card, index) => (
-              <div className={styles.card} key={index}>
+              <div className={styles.card} key={`credits-${index}-${card.title}`}>
                 <XboxCard 
-                  key={index} 
+                  key={`credits-${index}-${card.title}`}
                   title={card.title} 
                   iconUrl={card.iconUrl}
                   route={card.route}

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import styles from './XboxCard.module.css';
 import Image from 'next/image';
 import { useAudioManager } from '../../../hooks/useAudioManager';
@@ -13,7 +13,7 @@ interface XboxCardProps {
   images?: string[];
 }
 
-const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl, route, images }) => {
+const XboxCard: React.FC<XboxCardProps> = memo(({ title, iconUrl, route, images }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -54,15 +54,15 @@ const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl, route, images }) =>
     }
   }, [images]);
 
-  const handleCardClick = () => {
+  const handleCardClick = useCallback(() => {
     if (route) {
       navigateWithSound(route);
     } else {
       console.log('No route specified');
     }
-  };
+  }, [route, navigateWithSound]);
 
-  const playHoverSound = () => playSound('hover');
+  const playHoverSound = useCallback(() => playSound('hover'), [playSound]);
 
   return (
     <div
@@ -93,6 +93,6 @@ const XboxCard: React.FC<XboxCardProps> = ({ title, iconUrl, route, images }) =>
       {!images && <h2 className={styles.title}>{title}</h2>}
     </div>
   );
-};
+});
 
 export default XboxCard;

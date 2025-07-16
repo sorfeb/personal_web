@@ -21,23 +21,32 @@ const AUDIO_FILES = {
   swing: '/assets/audio/ps2_swing.wav',
 } as const;
 
+// Global audio pool - only initialize on client
+let globalAudioPool: AudioPool = {};
+let isInitialized = false;
+
+const initializeAudioPool = () => {
+  if (typeof window === 'undefined' || isInitialized) {
+    return globalAudioPool;
+  }  
+
+  Object.entries(AUDIO_FILES).forEach(([key, src]) => {
+    globalAudioPool[key] = Array.from({ length: 3 }, () => {
+      const audio = new Audio(src);
+      audio.preload = 'auto';
+      return audio;
+    });
+  });
+  
+  isInitialized = true;
+  return globalAudioPool;
+};
+
 export const useAudioManager = () => {
   const { volume } = useVolume();
-  const audioPoolRef = useRef<AudioPool>({});
+  const audioPoolRef = useRef<AudioPool>(initializeAudioPool());
 
-  // Preload and pool audio files
-  useEffect(() => {
-    Object.entries(AUDIO_FILES).forEach(([key, src]) => {
-      audioPoolRef.current[key] = Array.from({ length: 3 }, () => {
-        const audio = new Audio(src);
-        audio.preload = 'auto';
-        audio.volume = volume;
-        return audio;
-      });
-    });
-  }, []);
-
-  // Update volume for all pooled audio
+  // Only update volume, don't recreate audio
   useEffect(() => {
     Object.values(audioPoolRef.current).flat().forEach(audio => {
       audio.volume = volume;
