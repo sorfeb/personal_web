@@ -26,7 +26,7 @@ export type LayoutSize = 'compact' | 'default' | 'wide' | 'full' | 'custom';
  * 
  * @since 1.0.0
  */
-export type LayoutVariant = 'windowed' | 'fullscreen' | 'minimal';
+export type LayoutVariant = 'windowed' | 'fullscreen' | 'minimal' | 'custom' | 'wide';
 
 /**
  * Layout dimensions configuration interface

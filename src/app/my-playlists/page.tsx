@@ -44,7 +44,7 @@ const PlaylistsPage = () => {
   const paginatedPlaylists = playlists.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
   return (
-    <PageLayout title="My Playlists">
+    <PageLayout title="My Playlists" variant="wide">
       <div className={styles.container}>
         {loading ? (
           <div className={styles.loadingContainer}>
