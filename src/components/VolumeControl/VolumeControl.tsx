@@ -1,11 +1,16 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './VolumeControl.module.css';
 import { useVolume } from '../../context/VolumeContext';
 
 const VolumeControl: React.FC = () => {
   const { volume, setVolume } = useVolume();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setVolume(parseFloat(event.target.value));
@@ -27,6 +32,7 @@ const VolumeControl: React.FC = () => {
           value={volume}
           onChange={handleVolumeChange}
           className={styles.slider}
+          suppressHydrationWarning={true}
         />
       </div>
     </div>
