@@ -101,5 +101,7 @@ Smooth, responsive animations bring the interface to life with every interaction
 
 <img width="1742" height="907" alt="image" src="https://github.com/user-attachments/assets/31f65e55-df59-4e28-b981-ee58b78bcb02" />
 
+<img width="372" height="828" alt="image" src="https://github.com/user-attachments/assets/e8295ce8-8c73-4434-9a06-d805a503085f" />
+
 © 2025 Soros Febriano
 All Rights Reserved.
