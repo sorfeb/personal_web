@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import PageLayout from '../../components/PageLayout/PageLayout';
 import styles from './page.module.css';
-import { useVolume } from '@/context/VolumeContext';
+import { useAudioManager } from '../../hooks/useAudioManager';
 
 interface Playlist {
   id: string;
@@ -19,6 +19,7 @@ const PlaylistsPage = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const { playSound } = useAudioManager();
 
   useEffect(() => {
     const fetchPlaylists = async () => {
@@ -37,18 +38,8 @@ const PlaylistsPage = () => {
     fetchPlaylists();
   }, []);
 
-    const { volume } = useVolume();
-    const playSound = () => {
-      const audio = new Audio('/assets/audio/ps2_divine.wav');
-      audio.volume = volume;
-      audio.play();
-    };  
-
-    const playClickSound = () => {
-      const audio = new Audio('/assets/audio/ps2_ting.wav');
-      audio.volume = volume;
-      audio.play();
-    };  
+  const playHoverSound = () => playSound('divine');
+  const playClickSound = () => playSound('ting');
 
   const paginatedPlaylists = playlists.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
@@ -71,7 +62,7 @@ const PlaylistsPage = () => {
                 <div 
                     key={playlist.id} 
                     className={styles.playlistCard} 
-                    onMouseEnter={() => playSound()}>
+                    onMouseEnter={playHoverSound}>
                   <a
                     href={playlist.external_urls.spotify}
                     target="_blank"

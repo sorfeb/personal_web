@@ -3,23 +3,17 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { useVolume } from '@/context/VolumeContext';
+import { useAudioManager } from '../../hooks/useAudioManager';
 import RollingCredits from '../../components/RollingCredits/RollingCredits';
 import styles from './page.module.css';
 
 const CreditsTechPage = () => {
-  const { volume } = useVolume();
+  const { playSound } = useAudioManager();
   const router = useRouter();
   const [isExiting, setIsExiting] = useState(false);
 
-  const playSound = () => {
-    const audio = new Audio('/assets/audio/snd_buttonback.wav');
-    audio.volume = volume;
-    audio.play();
-  };
-
   const handleClose = () => {
-    playSound();
+    playSound('back');
     setIsExiting(true);
     setTimeout(() => {
       router.push('/');

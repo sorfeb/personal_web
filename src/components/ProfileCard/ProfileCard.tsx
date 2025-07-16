@@ -1,6 +1,6 @@
 import styles from './ProfileCard.module.css';
 import Image from 'next/image';
-import { useVolume } from '../../context/VolumeContext';
+import { useAudioManager } from '../../hooks/useAudioManager';
 import { useShepherdTour } from '../../context/ShepherdTourContext';
 
 interface ProfileCardProps {
@@ -10,20 +10,11 @@ interface ProfileCardProps {
 }
 
 export const ProfileCard: React.FC<ProfileCardProps> = ({ name, level, gamerscore }) => {
-  const { volume } = useVolume();
+  const { playSound } = useAudioManager();
   const { startTour } = useShepherdTour();
 
-  const playSelectSound = () => {
-    const audio = new Audio('/assets/audio/ps2_zing.wav');
-    audio.volume = volume;
-    audio.play();
-  };
-
-  const playHoverSound = () => {
-    const audio = new Audio('/assets/audio/ps2_owawa.wav');
-    audio.volume = volume;
-    audio.play();
-  };
+  const playSelectSound = () => playSound('click');
+  const playHoverSound = () => playSound('owawa');
 
   return (
       <div 

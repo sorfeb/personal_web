@@ -46,15 +46,13 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
     if (!cards) return;
 
     let cumulativeTranslation = 0;
-    let decrement = 250; //increment, actually
+    let decrement = 250;
 
     const playUnfoldSound = () => {
       if (isAudioPlaying) return;
       setIsAudioPlaying(true);
 
-      const audio = new Audio('/assets/audio/snd_panelunfold.wav');
-      audio.volume = volume / 4;
-      audio.play();
+      playSound('unfold');
 
       setTimeout(() => setIsAudioPlaying(false), 600);
     };
@@ -95,7 +93,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
         cardElement.style.transition = 'none';
       });
     };
-  }, [activeIndex]);
+  }, [activeIndex, playSound]);
 
   //REGRESS
   const handleLeftArrowClick = () => {
