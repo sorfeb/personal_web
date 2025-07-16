@@ -26,12 +26,12 @@ export default function Home() {
         <AnimatePresence>
           <motion.div
             key="home"
-            initial={{ opacity: 0 }} // Fade in
+            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }} // Fade out when leaving
+            exit={{ opacity: 0 }}
             transition={{ duration: 1.5 }}
           >
-            <div className={styles.screen}>
+            <div className={styles.screen} data-layout="responsive">
               {/* Header Section */}
               <header className={styles.header}>
                 <div className={styles.topContainer}>

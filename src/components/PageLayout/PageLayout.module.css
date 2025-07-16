@@ -1,4 +1,4 @@
-.pageContainer {
+  .pageContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -49,7 +49,7 @@
     align-items: flex-start;
     width: var(--layout-width, 70%);
     max-width: var(--layout-max-width, 900px);
-    height: var(--layout-height, auto);
+    height: var(--layout-height, 65%);
     background: linear-gradient(135deg, #222C33, rgb(70 83 88));
     border-radius: 10px;
     border: 3px solid rgb(255 255 255 / 10%);
@@ -144,7 +144,6 @@
     stroke-width: 3;
   }
   
-  /* Responsive Design using CSS custom properties */
   @media (max-width: 1400px) {
     .window {
       width: var(--layout-width-xl, calc(var(--layout-width, 70%) + 5%));
@@ -176,7 +175,7 @@
   
   @media (max-width: 480px) {
     .window {
-      width: var(--layout-width-sm, 100%);
+      width: var(--layout-width-sm, 80%);
       padding: calc(var(--layout-padding, 20px) * 0.5);
       border-radius: 5px;
     }

@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PageLayout from '../../components/PageLayout/PageLayout';
 import styles from './page.module.css';
-import { useVolume } from '@/context/VolumeContext';
+import { useAudioManager } from '../../hooks/useAudioManager';
 import { CldImage } from 'next-cloudinary';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -22,12 +22,7 @@ const backgroundVariants = {
 const PhotosPage = () => {
   const [imageList, setImageList] = useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const selectAudioRef = useRef<HTMLAudioElement | null>(null);
-  const { volume } = useVolume();
-
-  const hoverSound = '/assets/audio/ps2_divine.wav';
-  const selectSound = '/assets/audio/snd_buttonselect.wav';
+  const { playSound } = useAudioManager();
 
   useEffect(() => {
     import('@/data/photos.json')
@@ -35,26 +30,11 @@ const PhotosPage = () => {
       .catch((error) => console.error('Error loading images:', error));
   }, []);
 
-  const playHoverSound = () => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-      audioRef.current.volume = volume;
-      audioRef.current.play();
-    }
-  };
-
-  const playSelectSound = () => {
-    if (selectAudioRef.current) {
-      selectAudioRef.current.currentTime = 0;
-      selectAudioRef.current.volume = volume;
-      selectAudioRef.current.play();
-    }
-  };
+  const playHoverSound = () => playSound('divine');
+  const playSelectSound = () => playSound('navigation');
 
   return (
     <PageLayout title="Photos">
-      <audio ref={audioRef} src={hoverSound} />
-      <audio ref={selectAudioRef} src={selectSound} />
       <div className={styles.textContainer}>
         <p><i>Just several photos from my camera roll. Click on a thumbnail to view it in full size.</i></p>
       </div>

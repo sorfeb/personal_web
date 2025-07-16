@@ -83,8 +83,8 @@
 
 
 .iconWrapper {
-  width: 9rem; /* Increased size */
-  height: 9rem; /* Increased size */
+  width: 19vh;
+  height: 19vh;
   margin-bottom: 10px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
@@ -137,4 +137,36 @@
 .card:hover .iconWrapper,
 .card:hover .title {
   transform: translateY(-8px);
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .card {
+    margin: 0;
+    aspect-ratio: 1 / 1;
+  }
+  
+  .iconWrapper {
+    width: 8vh;
+    height: 8vh;
+    margin-bottom: 8px;
+  }
+  
+  .title {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .iconWrapper {
+    width: 6vh;
+    height: 6vh;
+    margin-bottom: 6px;
+  }
+  
+  .title {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
 }

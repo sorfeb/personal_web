@@ -1,6 +1,7 @@
 'use client';
 
 import React, { JSX, useEffect, useState } from 'react';
+import ResponsiveCardGrid from './ResponsiveCardGrid/ResponsiveCardGrid';
 import XboxCard from '../XboxCard/card/XboxCard';
 import styles from './XboxDashboard.module.css';
 import { useAudioManager } from '../../hooks/useAudioManager';
@@ -19,6 +20,7 @@ interface XboxDashboardProps {
 const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const { playSound } = useAudioManager();
   const { volume } = useVolume();
 
@@ -29,16 +31,29 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
     data.credits,
   ][activeIndex];
 
+  const sectionNames = ['home', 'misc', 'gallery', 'credits'];
+
   const playLeftSound = () => playSound('panelLeft');
   const playRightSound = () => playSound('panel');
   const playHoverSound = () => playSound('ting');
 
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   // Reset currentCardIndex when activeIndex changes
   useEffect(() => {
-    setCurrentCardIndex(0); // Reset to the first card when the section changes
+    setCurrentCardIndex(0);
   }, [activeIndex]);
 
-  //Initial animation for the cards
+  // Initial animation for the cards (desktop only)
   useEffect(() => {
     const section = document.querySelector(`.${styles.section}`);
     const cards = section?.querySelectorAll(`.${styles.card}`);
@@ -46,22 +61,17 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
     if (!cards) return;
 
     let cumulativeTranslation = 0;
-    let decrement = 250; //increment, actually
+    let decrement = 250;
 
     const playUnfoldSound = () => {
       if (isAudioPlaying) return;
       setIsAudioPlaying(true);
-
-      const audio = new Audio('/assets/audio/snd_panelunfold.wav');
-      audio.volume = volume / 4;
-      audio.play();
-
+      playSound('unfold');
       setTimeout(() => setIsAudioPlaying(false), 600);
     };
 
     playUnfoldSound();
 
-    // Reset cards to a consistent state
     cards.forEach((card) => {
       const cardElement = card as HTMLElement;
       cardElement.style.transition = 'none';
@@ -69,7 +79,6 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
       cardElement.style.transform = `translateX(-100px) scale(0.9)`;
     });
 
-    // Start animations after a short delay to allow reset
     const animationTimeouts: NodeJS.Timeout[] = [];
     cards.forEach((card, index) => {
       const cardElement = card as HTMLElement;
@@ -82,12 +91,11 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
 
         cumulativeTranslation += decrement;
         decrement *= 0.78;
-      }, index * 80); // Unfolding delay
+      }, index * 80);
 
       animationTimeouts.push(timeout);
     });
 
-    // Cleanup previous animations if `activeIndex` changes rapidly
     return () => {
       animationTimeouts.forEach((timeout) => clearTimeout(timeout));
       cards.forEach((card) => {
@@ -95,7 +103,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
         cardElement.style.transition = 'none';
       });
     };
-  }, [activeIndex]);
+  }, [activeIndex, playSound]);
 
   //REGRESS
   const handleLeftArrowClick = () => {
@@ -185,7 +193,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
             onMouseEnter={playHoverSound}
           >
             <img
-              src="./assets/icons/buttonLeft.png"
+              src="./assets/icons/buttonLeft.webp"
               alt="Left Arrow"
               className={styles.leftArrow}
             />
@@ -194,9 +202,9 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
         <div className={styles.sectionContainer}>
           <div className={styles.section}>
             {data.home.map((card, index) => (
-              <div className={styles.card} key={index}>
+              <div className={styles.card} key={`home-${index}-${card.title}`}>
                 <XboxCard 
-                  key={index} 
+                  key={`home-${index}-${card.title}`}
                   title={card.title} 
                   iconUrl={card.iconUrl}
                   route={card.route}
@@ -216,7 +224,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
             disabled={currentCardIndex === data.home.length-1}
             onMouseEnter={playHoverSound}>
           <img
-              src="./assets/icons/buttonRight.png"
+              src="./assets/icons/buttonRight.webp"
               alt="Right Arrow"
               className={styles.rightArrow}
             />
@@ -234,7 +242,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
             onMouseEnter={playHoverSound}
           >
             <img
-              src="./assets/icons/buttonLeft.png"
+              src="./assets/icons/buttonLeft.webp"
               alt="Left Arrow"
               className={styles.leftArrow}
             />
@@ -243,9 +251,9 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
         <div className={styles.sectionContainer}>
           <div className={styles.section}>
             {data.misc.map((card, index) => (
-              <div className={styles.card} key={index}>
+              <div className={styles.card} key={`misc-${index}-${card.title}`}>
                 <XboxCard 
-                  key={index} 
+                  key={`misc-${index}-${card.title}`}
                   title={card.title} 
                   iconUrl={card.iconUrl}
                   route={card.route}
@@ -265,7 +273,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
             disabled={currentCardIndex === data.misc.length-1}
             onMouseEnter={playHoverSound}>
           <img
-              src="./assets/icons/buttonRight.png"
+              src="./assets/icons/buttonRight.webp"
               alt="Right Arrow"
               className={styles.rightArrow}
             />
@@ -283,7 +291,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
               onMouseEnter={playHoverSound}
             >
               <img
-                src="./assets/icons/buttonLeft.png"
+                src="./assets/icons/buttonLeft.webp"
                 alt="Left Arrow"
                 className={styles.leftArrow}
               />
@@ -292,9 +300,9 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
         <div className={styles.sectionContainer}>
           <div className={styles.section}>
             {data.gallery.map((card, index) => (
-              <div className={styles.card} key={index}>
+              <div className={styles.card} key={`gallery-${index}-${card.title}`}>
                 <XboxCard 
-                  key={index} 
+                  key={`gallery-${index}-${card.title}`}
                   title={card.title} 
                   iconUrl={card.iconUrl}
                   route={card.route}
@@ -314,7 +322,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
             disabled={currentCardIndex === data.gallery.length-1}
             onMouseEnter={playHoverSound}>
           <img
-              src="./assets/icons/buttonRight.png"
+              src="./assets/icons/buttonRight.webp"
               alt="Right Arrow"
               className={styles.rightArrow}
             />
@@ -332,7 +340,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
               onMouseEnter={playHoverSound}
             >
               <img
-                src="./assets/icons/buttonLeft.png"
+                src="./assets/icons/buttonLeft.webp"
                 alt="Left Arrow"
                 className={styles.leftArrow}
               />
@@ -341,9 +349,9 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
         <div className={styles.sectionContainer}>
           <div className={styles.section}>
             {data.credits.map((card, index) => (
-              <div className={styles.card} key={index}>
+              <div className={styles.card} key={`credits-${index}-${card.title}`}>
                 <XboxCard 
-                  key={index} 
+                  key={`credits-${index}-${card.title}`}
                   title={card.title} 
                   iconUrl={card.iconUrl}
                   route={card.route}
@@ -363,7 +371,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
             disabled={currentCardIndex === data.credits.length-1}
             onMouseEnter={playHoverSound}>
           <img
-              src="./assets/icons/buttonRight.png"
+              src="./assets/icons/buttonRight.webp"
               alt="Right Arrow"
               className={styles.rightArrow}
             />
@@ -372,6 +380,21 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
       </div>
     ),
   };
+
+  // If mobile, render ResponsiveCardGrid
+  if (isMobile) {
+    return (
+      <ResponsiveCardGrid
+        cards={cardsData}
+        sectionName={sectionNames[activeIndex]}
+        currentCardIndex={currentCardIndex}
+        onCardIndexChange={setCurrentCardIndex}
+        playHoverSound={playHoverSound}
+        playLeftSound={playLeftSound}
+        playRightSound={playRightSound}
+      />
+    );
+  }
 
   return componentMapping[activeIndex] || <div>No content available</div>;
 };

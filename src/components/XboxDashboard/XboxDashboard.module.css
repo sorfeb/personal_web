@@ -33,23 +33,6 @@
   opacity: 8;
 }
 
-@keyframes jiggle {
-  0%, 100% {
-    transform: scale(1.2) rotate(0deg); /* Normal hover size */
-  }
-
-  25% {
-    transform: scale(1.2) rotate(-10deg); /* Rotate left */
-  }
-
-  50% {
-    transform: scale(1.2) rotate(10deg); /* Rotate right */
-  }
-
-  75% {
-    transform: scale(1.2) rotate(-5deg); /* Subtle adjustment */
-  }
-}
 
 .sectionContainer {
   display: flex;
@@ -63,7 +46,7 @@
   flex: 1;
   display: flex;
   align-items: center;
-  overflow: hidden;
+  z-index: 0;
   height: 50vh;
   width: auto;
   padding-top: 50px;
@@ -83,7 +66,7 @@
 
 
 .card {
-  height: 300px;
+  height: 40vh;
   position: absolute; 
   left: 0;
   right: 0;
@@ -107,23 +90,68 @@
   animation: pulse 1.5s infinite ease-in-out;
 }
 
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 10px 5px rgb(255 255 255 / 60%), 
-                0 0 20px 10px rgb(255 255 255 / 40%), 
-                0 0 30px 15px rgb(255 255 255 / 20%);
+@keyframes jiggle {
+  0%, 100% {
+    transform: scale(1.2) rotate(0deg); /* Normal hover size */
+  }
+
+  25% {
+    transform: scale(1.2) rotate(-10deg); /* Rotate left */
   }
 
   50% {
-    box-shadow: 0 0 20px 10px rgb(255 255 255 / 80%), 
-                0 0 40px 20px rgb(255 255 255 / 60%), 
-                0 0 60px 30px rgb(255 255 255 / 40%);
+    transform: scale(1.2) rotate(10deg); /* Rotate right */
   }
 
+  75% {
+    transform: scale(1.2) rotate(-5deg); /* Subtle adjustment */
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 10px 5px rgb(255 255 255 / 60%), 
+    0 0 20px 10px rgb(255 255 255 / 40%), 
+                0 0 30px 15px rgb(255 255 255 / 20%);
+              }
+
+  50% {
+    box-shadow: 0 0 20px 10px rgb(255 255 255 / 80%), 
+    0 0 40px 20px rgb(255 255 255 / 60%), 
+                0 0 60px 30px rgb(255 255 255 / 40%);
+              }
+              
   100% {
     box-shadow: 0 0 10px 5px rgb(255 255 255 / 60%), 
                 0 0 20px 10px rgb(255 255 255 / 40%), 
                 0 0 30px 15px rgb(255 255 255 / 20%);
   }
+}
+
+@media (max-width: 768px) {
+  .leftArrow,
+  .rightArrow {
+    background: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 999;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+
+  .section {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    z-index: 0;
+    height: 100%;
+    width: auto;
+    padding-top: 50px;
+    padding-bottom:100px;
+  }
+  
 }
 

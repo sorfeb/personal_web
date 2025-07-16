@@ -2,6 +2,8 @@
  * Utility functions for responsive design calculations
  */
 
+import { useEffect, useState } from "react";
+
 export interface ResponsiveBreakpoints {
   mobile: number;
   tablet: number;
@@ -20,13 +22,12 @@ export const DEFAULT_BREAKPOINTS: ResponsiveBreakpoints = {
 
 /**
  * Calculates optimal number of items per row based on viewport width
+ * This should only be used in useEffect or event handlers, not during initial render
  */
 export const calculateItemsPerRow = (
   breakpoints: ResponsiveBreakpoints = DEFAULT_BREAKPOINTS
 ): number => {
-  if (typeof window === 'undefined') return 4; // SSR fallback
-  
-  const width = window.innerWidth;
+    const width = window.innerWidth;
   
   if (width >= breakpoints.desktop) return 6;
   if (width >= breakpoints.large) return 5;
@@ -37,17 +38,42 @@ export const calculateItemsPerRow = (
 
 /**
  * Groups items into rows based on items per row calculation
+ * Use a default itemsPerRow value to avoid hydration issues
  */
 export const groupItemsIntoRows = <T>(
   items: T[], 
-  itemsPerRow?: number
+  itemsPerRow: number = 4 
 ): T[][] => {
-  const perRow = itemsPerRow || calculateItemsPerRow();
   const rows: T[][] = [];
   
-  for (let i = 0; i < items.length; i += perRow) {
-    rows.push(items.slice(i, i + perRow));
+  for (let i = 0; i < items.length; i += itemsPerRow) {
+    rows.push(items.slice(i, i + itemsPerRow));
   }
   
   return rows;
+};
+
+/**
+ * Hook for responsive calculations that avoids hydration issues
+ */
+export const useResponsiveItemsPerRow = (
+  breakpoints: ResponsiveBreakpoints = DEFAULT_BREAKPOINTS
+) => {
+  const [itemsPerRow, setItemsPerRow] = useState(4); // Default for SSR
+  
+  useEffect(() => {
+    const updateItemsPerRow = () => {
+      setItemsPerRow(calculateItemsPerRow(breakpoints));
+    };
+    
+    // Set initial value
+    updateItemsPerRow();
+    
+    // Listen for resize events
+    window.addEventListener('resize', updateItemsPerRow);
+    
+    return () => window.removeEventListener('resize', updateItemsPerRow);
+  }, [breakpoints]);
+  
+  return itemsPerRow;
 };

@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import Shepherd from "shepherd.js";
-import {} from 'react-shepherd';
 import "shepherd.js/dist/css/shepherd.css";
 import styles from './ShepherdTourContext.module.css';
 

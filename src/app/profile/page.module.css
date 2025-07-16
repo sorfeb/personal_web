@@ -4,16 +4,22 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 1rem;
+  max-height: 100%;
 }
 
 .textSection {
   flex: 1;
-  padding: 2rem;
+  padding: 1rem;
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
+.textSectionContainer {
+  flex: 1;
 }
 
 .imageSection {
-  max-width: 250px;
-  text-align: center;
+  max-width: 20%;
 }
 
 .profileImage {
