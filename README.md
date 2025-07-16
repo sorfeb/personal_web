@@ -1,4 +1,4 @@
-# PERSONAL WEB v1.0
+# PERSONAL WEB v1.5
 
 ![thumbnail-sorOS](https://github.com/user-attachments/assets/743b0bc7-2527-442c-81a2-9b011db61341)
 
@@ -59,6 +59,9 @@ Then navigate your web browser to [http://localhost:3000](http://localhost:3000)
 
 Storybook provides an isolated environment to develop, test, and review UI components.
 
+<img width="1909" height="918" alt="screenshot-1752667940051" src="https://github.com/user-attachments/assets/8ed818e3-bdc4-4dec-a0ee-51d339f3dd66" />
+
+
 ### Launch Storybook
 
 ```bash
@@ -75,11 +78,10 @@ Then open [http://localhost:6006](http://localhost:6006) in your browser.
 - **Controls Panel:** Adjust component props dynamically to preview different states.
 - **Toolbar:** Use addons like Viewports to test responsiveness or switch between light/dark themes.
 
-Storybook is ideal for visually testing components, reviewing UI states, and sharing component libraries with your team.
 
 ## Features
 
-### Next.js Powered Engine
+### Next.js 15 Powered Engine
 
 Built on the high-performance Next.js framework with lightning-fast page transitions and server-side rendering capabilities!
 
@@ -91,58 +93,13 @@ Complete with click sounds and volume controls for the authentic dashboard exper
 
 Smooth, responsive animations bring the interface to life with every interaction!
 
-## Dashboard Sections
+## Snapshots
 
-### Home World
+<img width="1806" height="915" alt="screenshot-1752668049924" src="https://github.com/user-attachments/assets/046b7ce1-2b21-4a7d-960c-10b0137ffeba" />
 
-Central hub with intuitive navigation controls to all other sections.
+<img width="1803" height="917" alt="image" src="https://github.com/user-attachments/assets/f73f62ef-c502-4c1d-b8d8-fc01284beeb9" />
 
-### About
-
-Information about the NXE Dashboard inspiration and technical details of this web experience.
-
-### Profile
-
-Your digital identity center with customizable options.
-
-### Media Collection
-
-* **Photos** - Visual gallery of captured moments
-* **Media** - Mixed media content browser
-* **Music** - Audio experience center
-* **Books** - Literary collection interface
-* **Digital Gems** - Special collection of digital artifacts
-
-### Entertainment Center
-
-* **Leetcode** - Coding challenges and solutions
-* **Letterboxd** - Film rating and review portal
-* **My Playlists** - Spotify playlist integration with pagination controls
-* **Blog** - Latest thoughts and updates
-
-### Professional Hub
-
-* **Certifications** - Professional achievements showcase
-
-### Connection Portals
-
-* **Github** - Direct link to code repositories
-* **External Services** - Seamless integration with third-party platforms
-
-### Credits
-
-* **Technologies** - Technical specifications used in development
-* **Assets** - Attribution for media elements and resources
-
-## Technical Specifications
-
-* Built with cutting-edge web technologies:
-* Next.js Framework
-* Framer Motion
-* jQuery
-* CSS Modules
-* React Context API
-* RESTful API Integration
+<img width="1742" height="907" alt="image" src="https://github.com/user-attachments/assets/31f65e55-df59-4e28-b981-ee58b78bcb02" />
 
 © 2025 Soros Febriano
 All Rights Reserved.
