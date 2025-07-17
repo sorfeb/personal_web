@@ -114,21 +114,7 @@
   box-sizing: border-box;
 }
 
-/* Mobile responsive adjustments */
 @media (max-width: 768px) {
-  .mobileGrid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    padding: 0 10px;
-  }
-  
-  .mobileCard {
-    aspect-ratio: 1 / 1;
-    min-height: 100px;
-  }
-}
-
-@media (max-width: 480px) {
   .mobileGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
@@ -136,6 +122,19 @@
   }
   
   .mobileCard {
+    aspect-ratio: 1 / 1;
+  }
+}
+
+@media (max-width: 320px) {
+  .mobileGrid {   
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 0 5px;
+  }
+  
+  .mobileCard {
+    aspect-ratio: 1 / 1;
     min-height: 90px;
   }
 }
