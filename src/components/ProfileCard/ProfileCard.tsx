@@ -11,7 +11,6 @@ interface ProfileCardProps {
 
 export const ProfileCard: React.FC<ProfileCardProps> = ({ name, level, gamerscore }) => {
   const { playSound } = useAudioManager();
-  const { startTour } = useShepherdTour();
 
   const playSelectSound = () => playSound('click');
   const playHoverSound = () => playSound('owawa');
@@ -21,7 +20,6 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ name, level, gamerscor
         className={styles.card}
         onClick={() => {
           playSelectSound();
-          startTour();
         }}
         onMouseEnter={playHoverSound}
       >
