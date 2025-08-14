@@ -270,3 +270,9 @@ a {
   z-index: 0;
   overflow: hidden;
 }
+
+@media (max-width: 480px) {
+  .mountainCurve {
+    width: 130%;
+  }
+}
