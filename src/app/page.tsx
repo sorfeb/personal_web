@@ -10,6 +10,7 @@ import XboxDashboard from "../components/XboxDashboard/XboxDashboard";
 import ScrollingMenu from "../components/ScrollingMenu/ScrollingMenu";
 import ProfileCard from "../components/ProfileCard/ProfileCard";
 import VolumeControl from "../components/VolumeControl/VolumeControl";
+import HelpButton from "../components/HelpButton";
 import { ShepherdTourProvider } from "../context/ShepherdTourContext";
 
 export default function Home() {
@@ -41,12 +42,19 @@ export default function Home() {
                       onSelectionChange={handleSelectionChange}
                     />
                   </div>
-                  <div className={styles.ProfileCardContainer}>
-                    <ProfileCard
-                      name="Click Me!"
-                      level="20"
-                      gamerscore={2222}
-                    />
+                  <div className={styles.rightHeaderSection}>
+                    <div className={styles.ProfileCardRow}>
+                      <div className={styles.HelpButtonContainer}>
+                        <HelpButton />
+                      </div>
+                      <div className={styles.ProfileCardContainer}>
+                        <ProfileCard
+                          name="Click Me!"
+                          level="20"
+                          gamerscore={2222}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </header>

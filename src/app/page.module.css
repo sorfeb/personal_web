@@ -27,19 +27,36 @@
   margin-top: 4%;
   margin-left: 8%;
   margin-right: 8%;
-  height: 30vh; /* Use viewport height for consistency */
+  height: 30vh;
 }
 
 .ScrollingMenuContainer {
-  width: 20%; /* Define a fixed width for the menu */
-  display: flex; /* Optional: For content alignment inside */
+  width: 20%;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.rightHeaderSection {
+  display: flex;
+  flex-direction: row;
+}
+
+.ProfileCardRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+}
+
+.HelpButtonContainer {
+  display: flex;
+  align-items: center;
+}
+
 .ProfileCardContainer {
-  width: 25%; /* Define a fixed width for the profile card */
-  display: flex; /* Optional: For content alignment inside */
+  width: 25%; 
+  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -103,6 +120,8 @@
   .VolumeControlContainer {
     margin-right: 20px;
     justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
   }
 
   .footer {
@@ -113,13 +132,6 @@
     z-index: 100;
     margin-bottom: 10px;
     background: transparent
-  }
-
-  .VolumeControlContainer {
-    justify-content: center;
-    align-items: center;
-    margin-right: 0;
-    margin-bottom: 5px;
   }
 
   .main {
