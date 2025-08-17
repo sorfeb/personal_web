@@ -1,18 +1,18 @@
 .customShepherdStep {
-    color: white;
-    background: linear-gradient(145deg, rgb(108 184 43 / 60%), rgb(78 156 27 / 60%));
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 6px rgb(0 0 0 / 10%), inset 0 1px 0 rgb(255 255 255 / 10%);
-    text-shadow: 1px 1px 2px rgb(0 0 0 / 20%);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  }
-    
-  .customShepherdStep:hover {
-    transform: translateY(-5px) scale(1.03);
-    box-shadow: 0 8px 15px rgb(0 0 0 / 20%), inset 0 1px 0 rgb(255 255 255 / 20%);
-    background: linear-gradient(145deg, rgb(124 217 58 / 70%), rgb(94 172 43 / 70%));
-  }
+  color: white;
+  background: linear-gradient(to top, rgba(10,10,10,0.85), rgba(80,80,80,0.65));
+  border-radius: 12px;
+  backdrop-filter: blur(16px) saturate(120%);
+  box-shadow: 0 4px 16px 4px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.18);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.customShepherdStep:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 8px 24px 8px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.16);
+  background: linear-gradient(to top, rgba(30,30,30,0.92), rgba(120,120,120,0.75));
+}
 
 .customShepherdStep p,
 .customShepherdStep h3 {
@@ -22,4 +22,29 @@
     transition: transform 0.3s ease;
     position: relative;
     text-align: center;
+}
+
+:global(.shepherd-button) {
+  background: linear-gradient(to top, rgba(140,140,140,0.9), rgba(255,255,255,0.9)) !important;
+  border: 1px solid rgba(255,255,255,0.3) !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+  color: rgba(0,0,0,0.8) !important;
+  font-weight: 500 !important;
+  text-shadow: 0 1px 1px rgba(255,255,255,0.3) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.4) !important;
+  backdrop-filter: blur(8px) !important;
+  transition: all 0.2s ease !important;
+}
+
+:global(.shepherd-button:hover) {
+  background: linear-gradient(to top, rgba(160,160,160,0.95), rgba(255,255,255,0.95)) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.6) !important;
+  transform: translateY(-1px) !important;
+}
+
+:global(.shepherd-button:active) {
+  background: linear-gradient(to top, rgba(120,120,120,0.9), rgba(240,240,240,0.9)) !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2), inset 0 2px 4px rgba(0,0,0,0.1) !important;
+  transform: translateY(0) !important;
 }

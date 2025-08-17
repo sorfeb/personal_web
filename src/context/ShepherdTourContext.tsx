@@ -34,8 +34,11 @@ export const ShepherdTourProvider: React.FC<{ children: React.ReactNode }> = ({ 
           <h3>Enable Sound for the Best Experience!</h3>
           <p>Turn up your system volume or unmute the browser for sound effects.</p>
         `,
-        advanceOn: { selector: '.volume-button', event: 'click' },
-        buttons: [{ text: "Exit", action: () => newTour.cancel() }, { text: "Next", action: () => newTour.next() }],
+        advanceOn: { selector: '.crt', event: 'click' },
+        buttons: [
+          { text: "Exit", action: () => newTour.cancel() }, 
+          { text: "Next", action: () => newTour.next() }
+        ],
       },
       {
         id: "scroll-menu",
@@ -67,12 +70,6 @@ export const ShepherdTourProvider: React.FC<{ children: React.ReactNode }> = ({ 
   return (
     <ShepherdTourContext.Provider value={{ startTour, tourStarted }}>
       {children}
-      {showEnableSound && (
-        <div className="enable-sound-overlay">
-          <h3>Enable Sound for the Best Experience!</h3>
-          <p>🎵 Turn up your system volume or unmute the browser.</p>
-        </div>
-      )}
     </ShepherdTourContext.Provider>
   );
 };
