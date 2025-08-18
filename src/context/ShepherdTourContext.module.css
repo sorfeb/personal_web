@@ -14,13 +14,15 @@
   background: linear-gradient(to top, rgba(30,30,30,0.92), rgba(120,120,120,0.75));
 }
 
-.customShepherdStep p,
+.customShepherdStep p{
+  color: white;
+  font-size: 1rem;
+  text-align: center;
+}
+
 .customShepherdStep h3 {
     color: white;
-    font-size: 1rem;
-    margin-bottom: 10px;
-    transition: transform 0.3s ease;
-    position: relative;
+    font-size: 1.5rem;
     text-align: center;
 }
 
@@ -47,4 +49,17 @@
   background: linear-gradient(to top, rgba(120,120,120,0.9), rgba(240,240,240,0.9)) !important;
   box-shadow: 0 1px 4px rgba(0,0,0,0.2), inset 0 2px 4px rgba(0,0,0,0.1) !important;
   transform: translateY(0) !important;
+}
+
+:global(.shepherd-arrow) {
+  background: linear-gradient(to top, rgba(10,10,10,0.85), rgba(80,80,80,0.65)) !important;
+  border: none !important;
+  backdrop-filter: blur(16px) saturate(120%) !important;
+  box-shadow: 0 4px 16px 4px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08) !important;
+}
+
+:global(.shepherd-arrow::before) {
+  background: linear-gradient(to top, rgba(10,10,10,0.85), rgba(80,80,80,0.65)) !important;
+  border: none !important;
+  backdrop-filter: blur(16px) saturate(120%) !important;
 }

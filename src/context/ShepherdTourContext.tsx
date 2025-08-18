@@ -15,7 +15,6 @@ const ShepherdTourContext = createContext<ShepherdContextProps | undefined>(unde
 export const ShepherdTourProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [tour, setTour] = useState<any>(null);
   const [tourStarted, setTourStarted] = useState(false);
-  const [showEnableSound, setShowEnableSound] = useState(false);
 
   useEffect(() => {
     const newTour = new Shepherd.Tour({
