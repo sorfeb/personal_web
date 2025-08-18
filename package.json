@@ -13,6 +13,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.1",
     "@react-hook/media-query": "^1.1.1",
     "@types/styled-components": "^5.1.34",
     "@vercel/analytics": "^1.5.0",

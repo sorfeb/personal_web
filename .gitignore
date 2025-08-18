@@ -41,3 +41,5 @@ public/robots.txt
 
 *storybook.log
 storybook-static
+
+.vercel
