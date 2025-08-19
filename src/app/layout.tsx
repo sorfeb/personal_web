@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import RipplesEffect from "../components/RipplesEffect/RipplesEffect";
 import ConsoleEasterEgg from "../components/ConsoleEasterEgg/ConsoleEasterEgg";
+import TRPCProvider from "../components/Providers/TRPCProvider";
 import "./globals.css";
 
 const inter = Roboto({ weight: "300", subsets: ["latin"] });
@@ -52,25 +53,31 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body className={inter.className}><StackProvider app={stackServerApp}><StackTheme>
-        <div className="crt">
-          <svg className="mountainCurve" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="mountainGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="rgba(98, 98, 98, 0.5)" />
-                <stop offset="100%" stopColor="rgb(230, 230, 230)" />
-              </linearGradient>
-            </defs>
-            <path d="M0,8 Q50,2 100,15 V30 H0 Z" fill="url(#mountainGradient)" />
-          </svg>
-          <RipplesEffect>
-            <VolumeProvider>
-            <ConsoleEasterEgg />
-              {children}
-            </VolumeProvider>
-          </RipplesEffect>
-        </div>
-      </StackTheme></StackProvider></body>
+      <body className={inter.className}>
+        <StackProvider app={stackServerApp}>
+          <StackTheme>
+            <TRPCProvider>
+              <div className="crt">
+                <svg className="mountainCurve" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="mountainGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="rgba(98, 98, 98, 0.5)" />
+                      <stop offset="100%" stopColor="rgb(230, 230, 230)" />
+                    </linearGradient>
+                  </defs>
+                  <path d="M0,8 Q50,2 100,15 V30 H0 Z" fill="url(#mountainGradient)" />
+                </svg>
+                <RipplesEffect>
+                  <VolumeProvider>
+                  <ConsoleEasterEgg />
+                    {children}
+                  </VolumeProvider>
+                </RipplesEffect>
+              </div>
+            </TRPCProvider>
+          </StackTheme>
+        </StackProvider>
+      </body>
       <Analytics />
       <SpeedInsights />
     </html>

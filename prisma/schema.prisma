@@ -13,3 +13,28 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// User model to match StackAuth user structure
+model User {
+  id               String   @id @default(cuid())
+  name             String?
+  image            String?
+  email            String?  @unique
+  stackAuthId      String?  @unique // Reference to StackAuth user ID
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  
+  // Relations
+  messages         Message[]
+}
+
+// Chatroom Message model
+model Message {
+  id           String   @id @default(cuid())
+  text         String
+  createdAt    DateTime @default(now())
+  
+  // Author relation
+  author       User     @relation(fields: [authorId], references: [id])
+  authorId     String
+}
