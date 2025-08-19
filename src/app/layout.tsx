@@ -1,4 +1,6 @@
 import { Roboto } from "next/font/google";
+import { StackProvider, StackTheme } from "@stackframe/stack";
+import { stackServerApp } from "../stack";
 import { VolumeProvider } from "../context/VolumeContext";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
@@ -50,7 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body className={inter.className}>
+      <body className={inter.className}><StackProvider app={stackServerApp}><StackTheme>
         <div className="crt">
           <svg className="mountainCurve" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30" preserveAspectRatio="none">
             <defs>
@@ -68,7 +70,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </VolumeProvider>
           </RipplesEffect>
         </div>
-      </body>
+      </StackTheme></StackProvider></body>
       <Analytics />
       <SpeedInsights />
     </html>
