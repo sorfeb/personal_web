@@ -14,7 +14,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// User model to match StackAuth user structure
+/**
+* User model to match StackAuth user structure
+*
+* @model User
+* Represents a user in the system, structured to match the StackAuth user schema.
+* This model is used for authentication and user profile management.
+*/
 model User {
   id               String   @id @default(cuid())
   name             String?
