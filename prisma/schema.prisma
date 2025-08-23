@@ -12,6 +12,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 /**
@@ -26,7 +27,7 @@ model User {
   name             String?
   image            String?
   email            String?  @unique
-  stackAuthId      String?  @unique // Reference to StackAuth user ID
+  stackAuthId      String?  @unique
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
   

@@ -7,7 +7,6 @@ const globalForPrisma = globalThis as unknown as {
 };
 
 const createPrismaClient = () => {
-  // Configure Neon for serverless
   neonConfig.fetchConnectionCache = true;
   
   // Create connection pool
