@@ -53,10 +53,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body className={inter.className}>
-        <StackProvider app={stackServerApp}>
-          <StackTheme>
-            <TRPCProvider>
+      <StackProvider app={stackServerApp}>
+        <StackTheme>
+          <TRPCProvider>
+            <body className={inter.className}>
               <div className="crt">
                 <svg className="mountainCurve" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30" preserveAspectRatio="none">
                   <defs>
@@ -74,10 +74,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   </VolumeProvider>
                 </RipplesEffect>
               </div>
-            </TRPCProvider>
-          </StackTheme>
-        </StackProvider>
-      </body>
+            </body>
+          </TRPCProvider>
+        </StackTheme>
+      </StackProvider>
       <Analytics />
       <SpeedInsights />
     </html>
