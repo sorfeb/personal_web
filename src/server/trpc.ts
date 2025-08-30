@@ -1,6 +1,5 @@
 import { initTRPC, TRPCError } from '@trpc/server';
 import { type CreateNextContextOptions } from '@trpc/server/adapters/next';
-import { ZodError } from 'zod';
 import { db } from '../utils/db';
 import { stackServerApp } from '../stack';
 
@@ -10,13 +9,19 @@ import { stackServerApp } from '../stack';
 export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   const { req, res } = opts;
   
-  // Get the user from StackAuth
+  // Get the user from StackAuth 
   let user;
   try {
     user = await stackServerApp.getUser();
-  } catch {
+    console.log('Authenticated user:', user ? user.displayName : 'No user');
+    
+  } catch (error) {
+    console.error('StackAuth authentication error:', error);
     user = null;
   }
+
+  console.log('tRPC Context - User:', user ? 'Authenticated' : 'Not authenticated');
+  console.log('Request headers:', req.headers.cookie ? 'Has cookies' : 'No cookies');
 
   return {
     req,
@@ -32,13 +37,11 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
  */
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: undefined, // You can add superjson here if needed
-  errorFormatter({ shape, error }) {
+  errorFormatter({ shape }) {
     return {
       ...shape,
       data: {
         ...shape.data,
-        zodError:
-          error.cause instanceof ZodError ? error.cause.flatten() : null,
       },
     };
   },
