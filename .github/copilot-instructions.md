@@ -1,4 +1,7 @@
 # AI Coding Agent Instructions
+YOU MUST NEVER START THE DEV SERVER UNLESS THE USER HAS TOLD YOU TO. 
+Never run `npm run dev`, `npm start`, or the equivalent "start or build" command. 
+The user is running the dev server locally and if you do that you could mess up the dev server. 
 
 ## Project Overview
 This is a personal portfolio website built as an Xbox 360 dashboard replica using Next.js 15 with React. The core concept is immersive UI/UX with authentic Xbox navigation, animations, and audio feedback.
