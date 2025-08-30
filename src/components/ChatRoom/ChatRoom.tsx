@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { useUser } from '@stackframe/stack';
+import { useUser, SignIn } from '@stackframe/stack';
 import { trpc } from '../../utils/trpc';
 import styles from './ChatRoom.module.css';
 
@@ -63,6 +63,7 @@ const MessageItem: React.FC<MessageDisplayProps> = ({ text, createdAt, author })
 
 const ChatRoom: React.FC = () => {
   const [messageText, setMessageText] = useState('');
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const user = useUser();
 
@@ -87,9 +88,23 @@ const ChatRoom: React.FC = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  // Close modal when user successfully signs in
+  useEffect(() => {
+    if (user && showLoginModal) {
+      setShowLoginModal(false);
+    }
+  }, [user, showLoginModal]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!messageText.trim() || createMessage.isPending || !user) {
+    
+    // If user is not authenticated, show login modal
+    if (!user) {
+      setShowLoginModal(true);
+      return;
+    }
+    
+    if (!messageText.trim() || createMessage.isPending) {
       return;
     }
 
@@ -100,6 +115,18 @@ const ChatRoom: React.FC = () => {
     } catch (error) {
       console.error('Failed to send message:', error);
     }
+  };
+
+  // Handle clicking on textarea when not authenticated
+  const handleTextareaClick = () => {
+    if (!user) {
+      setShowLoginModal(true);
+    }
+  };
+
+  // Close login modal and clear any draft message if user cancels
+  const handleLoginModalClose = () => {
+    setShowLoginModal(false);
   };
 
   const charCount = messageText.length;
@@ -172,15 +199,58 @@ const ChatRoom: React.FC = () => {
           </button>
         </form>
       ) : (
-        <div className={styles['auth-prompt']}>
-          <h3>Sign in to join the conversation</h3>
-          <p>You need to be signed in with Google or GitHub to send messages.</p>
-        </div>
+        <form onSubmit={handleSubmit} className={styles['message-form']}>
+          <div className={styles['message-input-group']}>
+            <textarea
+              value={messageText}
+              onChange={(e) => setMessageText(e.target.value)}
+              onClick={handleTextareaClick}
+              placeholder="Sign in to send messages..."
+              className={styles['message-input']}
+              maxLength={maxChars}
+              readOnly
+            />
+            <div className={styles['char-count']}>
+              Sign in required
+            </div>
+          </div>
+          <button
+            type="submit"
+            className={styles['send-button']}
+          >
+            Sign In to Send
+          </button>
+        </form>
       )}
 
       {createMessage.error && (
         <div className={styles['error-state']}>
           Failed to send message: {createMessage.error.message}
+        </div>
+      )}
+
+      {/* Login Modal */}
+      {showLoginModal && (
+        <div className={styles['modal-overlay']} onClick={handleLoginModalClose}>
+          <div className={styles['modal-content']} onClick={(e) => e.stopPropagation()}>
+            <div className={styles['modal-header']}>
+              <h2>Sign in to join the conversation</h2>
+              <button 
+                className={styles['modal-close']} 
+                onClick={handleLoginModalClose}
+                aria-label="Close modal"
+              >
+                ×
+              </button>
+            </div>
+            <div className={styles['modal-body']}>
+              <p>Connect with others in the chatroom by signing in with your preferred method:</p>
+              <SignIn 
+                fullPage={false}
+                automaticRedirect={false}
+              />
+            </div>
+          </div>
         </div>
       )}
     </div>
