@@ -1,31 +1,41 @@
 import { initTRPC, TRPCError } from '@trpc/server';
-import { type CreateNextContextOptions } from '@trpc/server/adapters/next';
 import { db } from '../utils/db';
 import { stackServerApp } from '../stack';
 
 /**
- * Creates the context for the tRPC API
+ * Context options for App Router (using Fetch API)
  */
-export const createTRPCContext = async (opts: CreateNextContextOptions) => {
-  const { req, res } = opts;
+type CreateContextOptions = {
+  req: Request;
+};
+
+/**
+ * Creates the context for the tRPC API
+ * This runs for every tRPC request and provides shared data
+ */
+export const createTRPCContext = async (opts: CreateContextOptions) => {
+  const { req } = opts;
   
+  console.log('🔧 Creating tRPC context...');
+
   // Get the user from StackAuth 
-  let user;
+  let user = null;
   try {
+    // Extract cookies from the request headers
+    const cookieHeader = req.headers.get('cookie');
+    console.log('🍪 Cookie header:', cookieHeader ? 'Present' : 'Missing');
+    
+    // For App Router, we need to pass the request properly
     user = await stackServerApp.getUser();
-    console.log('Authenticated user:', user ? user.displayName : 'No user');
+    
+    console.log('✅ Authenticated user:', user?.displayName || user?.primaryEmail || 'Unknown');
     
   } catch (error) {
-    console.error('StackAuth authentication error:', error);
-    user = null;
+    console.log('ℹ️  No authenticated user:', error instanceof Error ? error.message : 'Unknown error');
   }
-
-  console.log('tRPC Context - User:', user ? 'Authenticated' : 'Not authenticated');
-  console.log('Request headers:', req.headers.cookie ? 'Has cookies' : 'No cookies');
 
   return {
     req,
-    res,
     db,
     user,
   };
