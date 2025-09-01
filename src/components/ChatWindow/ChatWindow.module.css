@@ -1,0 +1,192 @@
+/* ChatWindow.module.css */
+
+.window-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.chat-window {
+  position: absolute;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  pointer-events: auto;
+  transition: all 0.2s ease;
+  animation: windowOpen 0.2s ease-out;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.chat-window.maximized {
+  border-radius: 0;
+  border: none;
+}
+
+.window-maximized {
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  transform: none !important;
+}
+
+.window-normal {
+  /* Normal window positioning handled by inline styles for dynamic values */
+}
+
+.title-bar {
+  height: 32px;
+  background: linear-gradient(90deg, #2d2d2d 0%, #383838 100%);
+  border-bottom: 1px solid #444;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  cursor: grab;
+  user-select: none;
+}
+
+.title-bar:active {
+  cursor: grabbing;
+}
+
+.title-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.window-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.window-title {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.title-bar-controls {
+  display: flex;
+  gap: 1px;
+}
+
+.control-button {
+  width: 28px;
+  height: 20px;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+  font-family: inherit;
+}
+
+.control-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.control-button.close:hover {
+  background-color: #e81123;
+}
+
+.control-button.minimize:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.control-button.maximize:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.window-content {
+  height: calc(100% - 32px);
+  overflow: hidden;
+  background: #0f0f0f;
+}
+
+.resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  cursor: nw-resize;
+  border: none;
+  padding: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    transparent 40%,
+    #666 40%,
+    #666 45%,
+    transparent 45%,
+    transparent 55%,
+    #666 55%,
+    #666 60%,
+    transparent 60%
+  );
+}
+
+.resize-handle:hover {
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    transparent 40%,
+    #999 40%,
+    #999 45%,
+    transparent 45%,
+    transparent 55%,
+    #999 55%,
+    #999 60%,
+    transparent 60%
+  );
+}
+
+/* Animation states */
+@keyframes windowOpen {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .chat-window {
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    border-radius: 0;
+    border: none;
+  }
+  
+  .resize-handle {
+    display: none;
+  }
+  
+  .title-bar {
+    cursor: default;
+  }
+}

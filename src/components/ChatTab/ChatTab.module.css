@@ -1,0 +1,158 @@
+/* ChatTab.module.css */
+
+.chat-tab {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 999;
+  
+  /* Styling */
+  background: linear-gradient(135deg, #2d2d2d 0%, #404040 100%);
+  border: 1px solid #555;
+  border-radius: 12px;
+  padding: 12px;
+  
+  /* Behavior */
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  
+  /* Remove default button styles */
+  outline: none;
+  font-family: inherit;
+  
+  /* Shadow */
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.chat-tab:hover {
+  background: linear-gradient(135deg, #404040 0%, #555 100%);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.3);
+  border-color: #666;
+}
+
+.chat-tab:active {
+  transform: translateY(-1px) scale(1.02);
+  transition: all 0.1s ease;
+}
+
+.chat-tab.active {
+  background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+  border-color: #0078d4;
+  box-shadow: 
+    0 6px 16px rgba(0, 120, 212, 0.3),
+    0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.chat-tab.active:hover {
+  background: linear-gradient(135deg, #0078d4 0%, #106ebe 100%);
+}
+
+.tab-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.chat-icon {
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.tab-text {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tab-text.visible {
+  opacity: 1;
+  width: auto;
+  padding-left: 0;
+}
+
+.chat-tab:hover .tab-text {
+  opacity: 1;
+  width: auto;
+}
+
+/* Notification dot (for future use) */
+.notification-dot {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  background: #ff4444;
+  border-radius: 50%;
+  border: 2px solid #2d2d2d;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Focus states for accessibility */
+.chat-tab:focus-visible {
+  outline: 2px solid #0078d4;
+  outline-offset: 2px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .chat-tab {
+    bottom: 80px; /* Above mobile navigation if any */
+    left: 16px;
+    padding: 10px;
+  }
+  
+  .chat-icon {
+    font-size: 18px;
+    width: 20px;
+    height: 20px;
+  }
+  
+  .tab-text {
+    font-size: 12px;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .chat-tab,
+  .tab-text {
+    transition: none;
+  }
+  
+  .notification-dot {
+    animation: none;
+  }
+}

@@ -11,6 +11,7 @@ import ScrollingMenu from "../components/ScrollingMenu/ScrollingMenu";
 import ProfileCard from "../components/ProfileCard/ProfileCard";
 import VolumeControl from "../components/VolumeControl/VolumeControl";
 import HelpButton from "../components/HelpButton";
+import ChatManager from "../components/ChatManager/ChatManager";
 import { ShepherdTourProvider } from "../context/ShepherdTourContext";
 
 export default function Home() {
@@ -77,6 +78,9 @@ export default function Home() {
             </div>
           </motion.div>
         </AnimatePresence>
+        
+        {/* Chat System - Independent of main layout */}
+        <ChatManager />
       </div>
     </ShepherdTourProvider>
   );
