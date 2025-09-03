@@ -1,76 +1,65 @@
-/* ChatTab.module.css */
+/* Optimized ChatTab Styles - Clean & Performant */
 
-.chat-tab {
+.tab {
+  /* Positioning */
   position: fixed;
   bottom: 20px;
   left: 20px;
-  z-index: 999;
+  z-index: 998;
   
-  /* Styling */
+  /* Layout */
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  
+  /* Appearance */
   background: linear-gradient(135deg, #2d2d2d 0%, #404040 100%);
   border: 1px solid #555;
   border-radius: 12px;
-  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   
   /* Behavior */
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
-  
-  /* Remove default button styles */
   outline: none;
-  font-family: inherit;
   
-  /* Shadow */
-  box-shadow: 
-    0 4px 12px rgba(0, 0, 0, 0.3),
-    0 2px 4px rgba(0, 0, 0, 0.2);
+  /* Optimized transitions */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform;
 }
 
-.chat-tab:hover {
-  background: linear-gradient(135deg, #404040 0%, #555 100%);
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 
-    0 8px 20px rgba(0, 0, 0, 0.4),
-    0 4px 8px rgba(0, 0, 0, 0.3);
-  border-color: #666;
+.tab:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
-.chat-tab:active {
-  transform: translateY(-1px) scale(1.02);
-  transition: all 0.1s ease;
+.tab:active {
+  transform: translateY(-1px);
 }
 
-.chat-tab.active {
+.tab.active {
   background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
   border-color: #0078d4;
-  box-shadow: 
-    0 6px 16px rgba(0, 120, 212, 0.3),
-    0 3px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 16px rgba(0, 120, 212, 0.3);
 }
 
-.chat-tab.active:hover {
-  background: linear-gradient(135deg, #0078d4 0%, #106ebe 100%);
-}
-
-.tab-content {
+.content {
   display: flex;
   align-items: center;
   gap: 8px;
-  min-width: 0;
 }
 
-.chat-icon {
+.icon {
   font-size: 20px;
   line-height: 1;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
 }
 
-.tab-text {
+.text {
   color: #ffffff;
   font-size: 14px;
   font-weight: 500;
@@ -78,22 +67,15 @@
   opacity: 0;
   width: 0;
   overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.2s ease, width 0.2s ease;
 }
 
-.tab-text.visible {
-  opacity: 1;
-  width: auto;
-  padding-left: 0;
-}
-
-.chat-tab:hover .tab-text {
+.tab:hover .text {
   opacity: 1;
   width: auto;
 }
 
-/* Notification dot (for future use) */
-.notification-dot {
+.notification {
   position: absolute;
   top: 4px;
   right: 4px;
@@ -106,53 +88,43 @@
 }
 
 @keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
 }
 
-/* Focus states for accessibility */
-.chat-tab:focus-visible {
+/* Accessibility */
+.tab:focus-visible {
   outline: 2px solid #0078d4;
   outline-offset: 2px;
 }
 
-/* Mobile responsiveness */
+/* Mobile optimizations */
 @media (max-width: 768px) {
-  .chat-tab {
-    bottom: 80px; /* Above mobile navigation if any */
+  .tab {
+    bottom: 80px;
     left: 16px;
     padding: 10px;
   }
   
-  .chat-icon {
+  .icon {
     font-size: 18px;
     width: 20px;
     height: 20px;
   }
   
-  .tab-text {
+  .text {
     font-size: 12px;
   }
 }
 
-/* Reduce motion for accessibility */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .chat-tab,
-  .tab-text {
+  .tab,
+  .text {
     transition: none;
   }
   
-  .notification-dot {
+  .notification {
     animation: none;
   }
 }

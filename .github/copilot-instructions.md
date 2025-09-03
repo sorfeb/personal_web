@@ -42,6 +42,7 @@ npm run lint             # Next.js ESLint
 - **Storybook First**: All major components have `.stories.tsx` files with comprehensive examples
 - **CSS Modules**: Component-scoped styles with `.module.css` pattern
 - **Audio Integration**: All interactive components should use `useAudioManager` for consistent feedback
+- **Documentation**: Inline comments and JSDoc for complex logic, use descriptive documentation, Document as You Code: Make documentation a part of your development process, not an afterthought. This ensures your documentation stays up-to-date with your codebase. Be Descriptive but Concise: While it’s important to be thorough, avoid overly verbose descriptions. Aim to provide clear, succinct explanations.
 
 ## Project Conventions
 

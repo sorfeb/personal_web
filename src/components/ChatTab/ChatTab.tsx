@@ -1,20 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
+import { memo } from 'react';
+import type { ChatTabProps } from '../../types/chat';
 import styles from './ChatTab.module.css';
 
-interface ChatTabProps {
-  onClick: () => void;
-  isActive: boolean;
-}
-
-const ChatTab: React.FC<ChatTabProps> = ({ onClick, isActive }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleClick = () => {
-    onClick();
-  };
-
+/**
+ * Optimized ChatTab Component
+ * Memoized for performance, minimal re-renders
+ */
+const ChatTab = memo<ChatTabProps>(({ onClick, isActive, hasNotification = false }) => {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
@@ -24,27 +18,25 @@ const ChatTab: React.FC<ChatTabProps> = ({ onClick, isActive }) => {
 
   return (
     <button
-      className={`${styles['chat-tab']} ${isActive ? styles['active'] : ''}`}
-      onClick={handleClick}
+      className={`${styles.tab} ${isActive ? styles.active : ''}`}
+      onClick={onClick}
       onKeyDown={handleKeyDown}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       title="Open Chat Room"
       aria-label="Open Chat Room"
+      type="button"
     >
-      <div className={styles['tab-content']}>
-        <div className={styles['chat-icon']}>
-          💬
-        </div>
-        <span className={`${styles['tab-text']} ${isHovered ? styles['visible'] : ''}`}>
-          Chat
-        </span>
+      <div className={styles.content}>
+        <span className={styles.icon} role="img" aria-label="Chat">💬</span>
+        <span className={styles.text}>Chat</span>
       </div>
       
-      {/* Notification indicator (can be used later) */}
-      {/* <div className={styles['notification-dot']} /> */}
+      {hasNotification && (
+        <div className={styles.notification} aria-label="New messages" />
+      )}
     </button>
   );
-};
+});
+
+ChatTab.displayName = 'ChatTab';
 
 export default ChatTab;

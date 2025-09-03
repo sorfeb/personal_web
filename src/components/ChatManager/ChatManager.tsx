@@ -1,22 +1,15 @@
 'use client';
 
-import React from 'react';
+import { memo } from 'react';
 import ChatWindow from '../ChatWindow/ChatWindow';
 import ChatTab from '../ChatTab/ChatTab';
 import { useChatWindow } from '../../hooks/useChatWindow';
 
 /**
- * ChatManager Component
- * 
- * Manages the entire chat system including:
- * - Chat tab (bottom-left of screen)
- * - Chat window (draggable modal)
- * - State management between them
- * 
- * This component should be placed at the root level
- * so it can render the chat system on any page.
+ * Optimized ChatManager Component
+ * Coordinates chat tab and window with minimal re-renders
  */
-const ChatManager: React.FC = () => {
+const ChatManager = memo(() => {
   const {
     isWindowOpen,
     isTabVisible,
@@ -28,7 +21,6 @@ const ChatManager: React.FC = () => {
 
   return (
     <>
-      {/* Chat Tab - shows when window is closed or minimized */}
       {isTabVisible && (
         <ChatTab
           onClick={openWindow}
@@ -36,7 +28,6 @@ const ChatManager: React.FC = () => {
         />
       )}
 
-      {/* Chat Window - shows when open */}
       <ChatWindow
         isOpen={isWindowOpen}
         onClose={closeWindow}
@@ -44,6 +35,8 @@ const ChatManager: React.FC = () => {
       />
     </>
   );
-};
+});
+
+ChatManager.displayName = 'ChatManager';
 
 export default ChatManager;

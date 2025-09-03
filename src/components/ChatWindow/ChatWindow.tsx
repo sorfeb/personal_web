@@ -1,219 +1,110 @@
 'use client';
 
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { memo, useRef, useCallback, useState } from 'react';
 import ChatRoom from '../ChatRoom/ChatRoom';
+import { useWindowDrag } from '../../hooks/useWindowDrag';
+import { isMobile } from '../../utils/windowUtils';
+import type { ChatWindowProps } from '../../types/chat';
 import styles from './ChatWindow.module.css';
 
-interface Position {
-  x: number;
-  y: number;
-}
-
-interface Size {
-  width: number;
-  height: number;
-}
-
-interface ChatWindowProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onMinimize: () => void;
-}
-
-const ChatWindow: React.FC<ChatWindowProps> = ({ isOpen, onClose, onMinimize }) => {
-  // Window state
-  const [position, setPosition] = useState<Position>({ x: 100, y: 100 });
-  const [size, setSize] = useState<Size>({ width: 600, height: 500 });
+/**
+ * Optimized ChatWindow Component
+ * Lightweight, performant window implementation
+ */
+const ChatWindow = memo<ChatWindowProps>(({ isOpen, onClose, onMinimize }) => {
   const [isMaximized, setIsMaximized] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [isResizing, setIsResizing] = useState(false);
-  const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
-
-  // Refs for DOM manipulation
   const windowRef = useRef<HTMLDivElement>(null);
-  const resizeRef = useRef<HTMLButtonElement>(null);
+  const { position, isDragging, startDrag } = useWindowDrag();
+  
+  const mobile = isMobile();
 
-  // Window bounds
-  const getWindowBounds = useCallback(() => {
-    return {
-      maxWidth: window.innerWidth - 50,
-      maxHeight: window.innerHeight - 50,
-      minWidth: 400,
-      minHeight: 300,
-    };
-  }, []);
-
-  // Handle drag start
   const handleDragStart = useCallback((e: React.MouseEvent) => {
-    if (isMaximized) return;
+    if (isMaximized || mobile) return;
     
     const rect = windowRef.current?.getBoundingClientRect();
     if (!rect) return;
+    
+    startDrag(e, rect);
+  }, [isMaximized, mobile, startDrag]);
 
-    setIsDragging(true);
-    setDragOffset({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  }, [isMaximized]);
-
-  // Handle drag move
-  const handleDragMove = useCallback((e: MouseEvent) => {
-    if (!isDragging || isMaximized) return;
-
-    const bounds = getWindowBounds();
-    const newX = Math.max(0, Math.min(e.clientX - dragOffset.x, bounds.maxWidth - size.width));
-    const newY = Math.max(0, Math.min(e.clientY - dragOffset.y, bounds.maxHeight - size.height));
-
-    setPosition({ x: newX, y: newY });
-  }, [isDragging, isMaximized, dragOffset, size, getWindowBounds]);
-
-  // Handle drag end
-  const handleDragEnd = useCallback(() => {
-    setIsDragging(false);
-  }, []);
-
-  // Handle resize start
-  const handleResizeStart = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsResizing(true);
-  }, []);
-
-  // Handle resize move
-  const handleResizeMove = useCallback((e: MouseEvent) => {
-    if (!isResizing || isMaximized) return;
-
-    const bounds = getWindowBounds();
-    const newWidth = Math.max(bounds.minWidth, Math.min(e.clientX - position.x, bounds.maxWidth));
-    const newHeight = Math.max(bounds.minHeight, Math.min(e.clientY - position.y, bounds.maxHeight));
-
-    setSize({ width: newWidth, height: newHeight });
-  }, [isResizing, isMaximized, position, getWindowBounds]);
-
-  // Handle resize end
-  const handleResizeEnd = useCallback(() => {
-    setIsResizing(false);
-  }, []);
-
-  // Maximize/Restore toggle
   const handleMaximizeToggle = useCallback(() => {
-    setIsMaximized(!isMaximized);
-  }, [isMaximized]);
-
-  // Mouse event listeners
-  useEffect(() => {
-    if (isDragging) {
-      document.addEventListener('mousemove', handleDragMove);
-      document.addEventListener('mouseup', handleDragEnd);
-      return () => {
-        document.removeEventListener('mousemove', handleDragMove);
-        document.removeEventListener('mouseup', handleDragEnd);
-      };
-    }
-  }, [isDragging, handleDragMove, handleDragEnd]);
-
-  useEffect(() => {
-    if (isResizing) {
-      document.addEventListener('mousemove', handleResizeMove);
-      document.addEventListener('mouseup', handleResizeEnd);
-      return () => {
-        document.removeEventListener('mousemove', handleResizeMove);
-        document.removeEventListener('mouseup', handleResizeEnd);
-      };
-    }
-  }, [isResizing, handleResizeMove, handleResizeEnd]);
-
-  // Prevent text selection during drag/resize
-  useEffect(() => {
-    if (isDragging || isResizing) {
-      document.body.style.userSelect = 'none';
-      document.body.style.cursor = isDragging ? 'grabbing' : 'nw-resize';
-    } else {
-      document.body.style.userSelect = '';
-      document.body.style.cursor = '';
-    }
-
-    return () => {
-      document.body.style.userSelect = '';
-      document.body.style.cursor = '';
-    };
-  }, [isDragging, isResizing]);
+    if (mobile) return;
+    setIsMaximized(prev => !prev);
+  }, [mobile]);
 
   if (!isOpen) return null;
 
+  const windowClasses = [
+    styles.window,
+    isMaximized && styles.maximized,
+    mobile && styles.mobile,
+    isDragging && styles.dragging,
+  ].filter(Boolean).join(' ');
+
+  const windowStyle = (!isMaximized && !mobile) ? {
+    transform: `translate(${position.x}px, ${position.y}px)`,
+  } : undefined;
+
   return (
-    <div className={styles['window-overlay']}>
+    <div className={styles.overlay}>
       <div
         ref={windowRef}
-        className={`${styles['chat-window']} ${
-          isMaximized ? styles['maximized'] : ''
-        } ${isMaximized ? styles['window-maximized'] : styles['window-normal']}`}
-        style={
-          isMaximized
-            ? undefined
-            : {
-                top: position.y,
-                left: position.x,
-                width: size.width,
-                height: size.height,
-              }
-        }
+        className={windowClasses}
+        style={windowStyle}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="chat-window-title"
       >
-        {/* Window Title Bar */}
-        <header
-          className={styles['title-bar']}
+        {/* Title Bar */}
+        <header 
+          className={styles.titleBar}
           onMouseDown={handleDragStart}
           onDoubleClick={handleMaximizeToggle}
         >
-          <div className={styles['title-bar-left']}>
-            <div className={styles['window-icon']}>💬</div>
-            <span className={styles['window-title']}>Chat Room</span>
+          <div className={styles.titleContent}>
+            <span className={styles.icon} role="img" aria-label="Chat">💬</span>
+            <h2 id="chat-window-title" className={styles.title}>Chat Room</h2>
           </div>
           
-          <div className={styles['title-bar-controls']}>
+          <div className={styles.controls}>
             <button
-              className={`${styles['control-button']} ${styles['minimize']}`}
+              className={styles.controlBtn}
               onClick={onMinimize}
               title="Minimize"
+              aria-label="Minimize window"
             >
               −
             </button>
+            {!mobile && (
+              <button
+                className={styles.controlBtn}
+                onClick={handleMaximizeToggle}
+                title={isMaximized ? 'Restore' : 'Maximize'}
+                aria-label={isMaximized ? 'Restore window' : 'Maximize window'}
+              >
+                {isMaximized ? '⧉' : '□'}
+              </button>
+            )}
             <button
-              className={`${styles['control-button']} ${styles['maximize']}`}
-              onClick={handleMaximizeToggle}
-              title={isMaximized ? 'Restore' : 'Maximize'}
-            >
-              {isMaximized ? '⧉' : '□'}
-            </button>
-            <button
-              className={`${styles['control-button']} ${styles['close']}`}
+              className={`${styles.controlBtn} ${styles.closeBtn}`}
               onClick={onClose}
               title="Close"
+              aria-label="Close window"
             >
               ×
             </button>
           </div>
         </header>
 
-        {/* Window Content */}
-        <div className={styles['window-content']}>
+        {/* Content */}
+        <main className={styles.content}>
           <ChatRoom />
-        </div>
-
-        {/* Resize Handle */}
-        {!isMaximized && (
-          <button
-            ref={resizeRef}
-            className={styles['resize-handle']}
-            onMouseDown={handleResizeStart}
-            aria-label="Resize window"
-            tabIndex={-1}
-          />
-        )}
+        </main>
       </div>
     </div>
   );
-};
+});
+
+ChatWindow.displayName = 'ChatWindow';
 
 export default ChatWindow;
