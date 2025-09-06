@@ -1,4 +1,4 @@
-.chatroom-container {
+.container {
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
@@ -8,24 +8,24 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-.chatroom-header {
+.header {
   text-align: center;
   margin-bottom: 2rem;
 }
 
-.chatroom-title {
+.title {
   font-size: 2rem;
   font-weight: 300;
   color: #333;
   margin-bottom: 0.5rem;
 }
 
-.chatroom-subtitle {
+.subtitle {
   color: #666;
   font-size: 1rem;
 }
 
-.messages-container {
+.messagesContainer {
   height: 500px;
   overflow-y: auto;
   border: 1px solid #e0e0e0;
@@ -35,7 +35,7 @@
   background: #fafafa;
 }
 
-.message-item {
+.messageItem {
   display: flex;
   align-items: flex-start;
   margin-bottom: 1rem;
@@ -45,7 +45,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.message-avatar {
+.messageAvatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -59,47 +59,47 @@
   font-weight: 500;
 }
 
-.avatar-image {
+.avatarImage {
   width: 100%;
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.message-content {
+.messageContent {
   flex: 1;
 }
 
-.message-author {
+.messageAuthor {
   font-weight: 500;
   color: #333;
   margin-bottom: 0.25rem;
   font-size: 0.9rem;
 }
 
-.message-text {
+.messageText {
   color: #555;
   line-height: 1.4;
   word-wrap: break-word;
 }
 
-.message-time {
+.messageTime {
   font-size: 0.75rem;
   color: #999;
   margin-top: 0.25rem;
 }
 
-.message-form {
+.messageForm {
   display: flex;
   gap: 1rem;
   align-items: flex-end;
 }
 
-.message-input-group {
+.messageInputGroup {
   flex: 1;
 }
 
-.message-input {
+.messageInput {
   width: 100%;
   padding: 0.75rem;
   border: 2px solid #e0e0e0;
@@ -111,23 +111,23 @@
   transition: border-color 0.2s;
 }
 
-.message-input:focus {
+.messageInput:focus {
   outline: none;
   border-color: #007acc;
 }
 
-.char-count {
+.charCount {
   font-size: 0.75rem;
   color: #666;
   text-align: right;
   margin-top: 0.25rem;
 }
 
-.char-count.warning {
+.charCount.warning {
   color: #ff6b35;
 }
 
-.send-button {
+.sendButton {
   padding: 0.75rem 1.5rem;
   background: #007acc;
   color: white;
@@ -139,16 +139,16 @@
   height: fit-content;
 }
 
-.send-button:hover:not(:disabled) {
+.sendButton:hover:not(:disabled) {
   background: #005a9e;
 }
 
-.send-button:disabled {
+.sendButton:disabled {
   background: #ccc;
   cursor: not-allowed;
 }
 
-.auth-prompt {
+.authPrompt {
   text-align: center;
   padding: 2rem;
   background: rgba(255, 255, 255, 0.9);
@@ -156,23 +156,23 @@
   margin-top: 1rem;
 }
 
-.auth-prompt h3 {
+.authPrompt h3 {
   color: #333;
   margin-bottom: 1rem;
 }
 
-.auth-prompt p {
+.authPrompt p {
   color: #666;
   margin-bottom: 1rem;
 }
 
-.loading-state {
+.loadingState {
   text-align: center;
   padding: 2rem;
   color: #666;
 }
 
-.error-state {
+.errorState {
   text-align: center;
   padding: 2rem;
   color: #d32f2f;
@@ -181,14 +181,23 @@
   margin: 1rem 0;
 }
 
-.empty-state {
+.emptyState {
   text-align: center;
   padding: 3rem;
   color: #999;
 }
 
-.empty-state p {
+.emptyState p {
   margin-bottom: 1rem;
+}
+
+.errorMessage {
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid #ff6b6b;
+  border-radius: 4px;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  color: #d32f2f;
 }
 
 /* Responsive design */

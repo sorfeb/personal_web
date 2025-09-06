@@ -6,7 +6,7 @@ import {
   calculateDragPosition,
   setUserSelectNone,
   WINDOW_CONSTANTS,
-} from '../utils/windowUtilsNew';
+} from '../utils/windowUtils';
 
 /**
  * Optimized Window Drag Hook with Windows-style behavior

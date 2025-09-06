@@ -112,8 +112,9 @@
 
 .content {
   height: calc(100% - 32px);
-  overflow: hidden;
+  overflow: auto;
   background: #0f0f0f;
+  position: relative;
 }
 
 /* Keyframes */

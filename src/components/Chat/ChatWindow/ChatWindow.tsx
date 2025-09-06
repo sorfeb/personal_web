@@ -73,6 +73,15 @@ const ChatWindow = memo<ChatWindowProps>(({ isOpen, onClose, onMinimize }) => {
     setIsMaximized(prev => !prev);
   }, [mobile]);
 
+  // Prevent scroll events from bubbling to parent
+  const handleWindowWheel = useCallback((e: React.WheelEvent) => {
+    e.stopPropagation();
+  }, []);
+
+  const handleWindowScroll = useCallback((e: React.UIEvent) => {
+    e.stopPropagation();
+  }, []);
+
   // Early return if not open
   if (!isOpen) return null;
 
@@ -98,6 +107,8 @@ const ChatWindow = memo<ChatWindowProps>(({ isOpen, onClose, onMinimize }) => {
         role="dialog"
         aria-modal="true"
         aria-labelledby="chat-window-title"
+        onWheel={handleWindowWheel}
+        onScroll={handleWindowScroll}
       >
         {/* Title Bar */}
         <header 
