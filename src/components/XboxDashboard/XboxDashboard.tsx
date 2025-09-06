@@ -1,6 +1,6 @@
 'use client';
 
-import React, { JSX, useEffect, useState } from 'react';
+import React, { JSX, useState, useEffect, memo, useCallback, useMemo } from 'react';
 import ResponsiveCardGrid from './ResponsiveCardGrid/ResponsiveCardGrid';
 import XboxCard from '../XboxCard/card/XboxCard';
 import styles from './XboxDashboard.module.css';
@@ -17,19 +17,19 @@ interface XboxDashboardProps {
   };
 }
 
-const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
+const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data }) => {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const { playSound } = useAudioManager();
   const { volume } = useVolume();
 
-  const cardsData = [
+  const cardsData = useMemo(() => [
     data.home,
     data.misc,
     data.gallery,
     data.credits,
-  ][activeIndex];
+  ][activeIndex], [data, activeIndex]);
 
   const sectionNames = ['home', 'misc', 'gallery', 'credits'];
 
@@ -397,6 +397,8 @@ const XboxDashboard: React.FC<XboxDashboardProps> = ({ activeIndex, data }) => {
   }
 
   return componentMapping[activeIndex] || <div>No content available</div>;
-};
+});
+
+XboxDashboard.displayName = 'XboxDashboard';
 
 export default XboxDashboard;
