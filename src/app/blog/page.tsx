@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import PageLayout from '../../components/PageLayout/PageLayout';
-import { BookRack } from '../../components/BookRack/BookRack';
+import { BookRack } from '../../components/Books/BookRack/BookRack';
 
 /**
  * Article data structure for Medium blog posts

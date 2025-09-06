@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styles from './BookRack.module.css';
-import { useAudioManager } from '../../hooks/useAudioManager';
-import { Book } from './Book';
-import { BookSkeleton } from './Book/BookSkeleton';
+import { useAudioManager } from '../../../hooks/useAudioManager';
+import { Book } from '../Book/Book';
+import { BookSkeleton } from '../Book/BookSkeleton';
 import { motion, AnimatePresence } from 'framer-motion';
-import { generateBookColor } from '../../utils/colorUtils';
-import { groupItemsIntoRows, useResponsiveItemsPerRow } from '../../utils/responsiveUtils';
+import { generateBookColor } from '../../../utils/colorUtils';
+import { groupItemsIntoRows, useResponsiveItemsPerRow } from '../../../utils/responsiveUtils';
 
 /**
  * Article data structure matching Medium RSS feed format

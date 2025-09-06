@@ -1,22 +1,63 @@
 'use client';
 
-import { memo, useRef, useCallback, useState } from 'react';
+import React, { memo, useState, useCallback, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import ChatRoom from '../ChatRoom/ChatRoom';
-import { useWindowDrag } from '../../hooks/useWindowDrag';
-import { isMobile } from '../../utils/windowUtils';
-import type { ChatWindowProps } from '../../types/chat';
+import { useWindowDrag } from '../../../hooks/useWindowDrag';
+import { isMobile } from '../../../utils/windowUtils';
+import type { ChatWindowProps } from '../../../types/chat';
 import styles from './ChatWindow.module.css';
 
 /**
- * Optimized ChatWindow Component
- * Lightweight, performant window implementation
+ * ChatWindow Component
+ * 
+ * Desktop-style draggable window implementing Windows OS behavior.
+ * Uses React Portal to prevent main app re-renders when chat opens.
+ * 
+ * Features:
+ * - Windows-style dragging with proper offset calculation
+ * - Maximize/minimize functionality
+ * - Mobile responsive design
+ * - Portal rendering for performance optimization
  */
 const ChatWindow = memo<ChatWindowProps>(({ isOpen, onClose, onMinimize }) => {
   const [isMaximized, setIsMaximized] = useState(false);
+  const [mobile, setMobile] = useState(false);
+  const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
   const windowRef = useRef<HTMLDivElement>(null);
   const { position, isDragging, startDrag } = useWindowDrag();
-  
-  const mobile = isMobile();
+
+  // Client-side initialization to prevent SSR issues
+  useEffect(() => {
+    setMobile(isMobile());
+    
+    // Create portal container
+    let container = document.getElementById('chat-portal');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'chat-portal';
+      container.style.position = 'fixed';
+      container.style.top = '0';
+      container.style.left = '0';
+      container.style.zIndex = '9999';
+      container.style.pointerEvents = 'none';
+      document.body.appendChild(container);
+    }
+    setPortalContainer(container);
+    
+    // Handle window resize for mobile detection
+    const handleResize = () => setMobile(isMobile());
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      // Clean up portal container if empty
+      const existingContainer = document.getElementById('chat-portal');
+      if (existingContainer && existingContainer.children.length === 0) {
+        existingContainer.remove();
+      }
+    };
+  }, []);
 
   const handleDragStart = useCallback((e: React.MouseEvent) => {
     if (isMaximized || mobile) return;
@@ -32,8 +73,10 @@ const ChatWindow = memo<ChatWindowProps>(({ isOpen, onClose, onMinimize }) => {
     setIsMaximized(prev => !prev);
   }, [mobile]);
 
+  // Early return if not open
   if (!isOpen) return null;
 
+  // Build window classes
   const windowClasses = [
     styles.window,
     isMaximized && styles.maximized,
@@ -41,11 +84,12 @@ const ChatWindow = memo<ChatWindowProps>(({ isOpen, onClose, onMinimize }) => {
     isDragging && styles.dragging,
   ].filter(Boolean).join(' ');
 
+  // Calculate window style for positioning
   const windowStyle = (!isMaximized && !mobile) ? {
     transform: `translate(${position.x}px, ${position.y}px)`,
   } : undefined;
 
-  return (
+  const windowContent = (
     <div className={styles.overlay}>
       <div
         ref={windowRef}
@@ -103,6 +147,9 @@ const ChatWindow = memo<ChatWindowProps>(({ isOpen, onClose, onMinimize }) => {
       </div>
     </div>
   );
+
+  // Render through portal to prevent main app re-renders
+  return portalContainer ? createPortal(windowContent, portalContainer) : null;
 });
 
 ChatWindow.displayName = 'ChatWindow';

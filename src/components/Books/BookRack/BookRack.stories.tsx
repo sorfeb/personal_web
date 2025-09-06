@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { BookRack } from './BookRack';
-import { VolumeProvider } from '../../context/VolumeContext';
+import { VolumeProvider } from '../../../context/VolumeContext';
 
 // Sample Medium articles data matching your blog structure
 const sampleArticles = [

@@ -1,13 +1,21 @@
 'use client';
 
-import { memo } from 'react';
+import React, { memo } from 'react';
 import ChatWindow from '../ChatWindow/ChatWindow';
 import ChatTab from '../ChatTab/ChatTab';
-import { useChatWindow } from '../../hooks/useChatWindow';
+import { useChatWindow } from '../../../hooks/useChatWindow';
 
 /**
- * Optimized ChatManager Component
- * Coordinates chat tab and window with minimal re-renders
+ * ChatManager Component
+ * 
+ * Orchestrates the chat system by managing window and tab states.
+ * Acts as the main coordinator between chat components.
+ * 
+ * Features:
+ * - State management for window visibility
+ * - Conditional rendering based on states
+ * - Optimized with React.memo for performance
+ * - Clean separation of concerns
  */
 const ChatManager = memo(() => {
   const {
@@ -21,6 +29,7 @@ const ChatManager = memo(() => {
 
   return (
     <>
+      {/* Chat Tab - Shows when window is not open */}
       {isTabVisible && (
         <ChatTab
           onClick={openWindow}
@@ -28,6 +37,7 @@ const ChatManager = memo(() => {
         />
       )}
 
+      {/* Chat Window - Managed by portal internally */}
       <ChatWindow
         isOpen={isWindowOpen}
         onClose={closeWindow}

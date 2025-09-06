@@ -1,54 +1,64 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { ChatPosition, ChatSize } from '../types/chat';
+import { ChatPosition } from '../types/chat';
 import { 
-  getWindowBounds, 
-  clampPosition, 
+  constrainPosition,
+  calculateDragOffset,
+  calculateDragPosition,
   setUserSelectNone,
   WINDOW_CONSTANTS,
-} from '../utils/windowUtils';
+} from '../utils/windowUtilsNew';
 
-
+/**
+ * Optimized Window Drag Hook with Windows-style behavior
+ * Fixes offset calculation and implements proper Windows dragging behavior
+ */
 export const useWindowDrag = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [position, setPosition] = useState<ChatPosition>({
     x: WINDOW_CONSTANTS.DEFAULT_X,
     y: WINDOW_CONSTANTS.DEFAULT_Y,
   });
-  const [size] = useState<ChatSize>({
-    width: WINDOW_CONSTANTS.DEFAULT_WIDTH,
-    height: WINDOW_CONSTANTS.DEFAULT_HEIGHT,
-  });
 
   const dragOffsetRef = useRef<ChatPosition>({ x: 0, y: 0 });
   const cleanupRef = useRef<(() => void) | null>(null);
 
+  /**
+   * Start drag operation with proper offset calculation
+   * This prevents the window from "jumping" when drag starts
+   */
   const startDrag = useCallback((e: React.MouseEvent, windowRect: DOMRect) => {
-    dragOffsetRef.current = {
-      x: e.clientX - windowRect.left,
-      y: e.clientY - windowRect.top,
-    };
+    // Calculate precise offset from click point to window corner
+    dragOffsetRef.current = calculateDragOffset(e, windowRect);
     setIsDragging(true);
     cleanupRef.current = setUserSelectNone();
   }, []);
 
+  /**
+   * Stop drag operation and cleanup
+   */
   const stopDrag = useCallback(() => {
     setIsDragging(false);
     cleanupRef.current?.();
     cleanupRef.current = null;
   }, []);
 
+  /**
+   * Handle mouse move during drag
+   * Uses Windows-style constraints instead of strict clamping
+   */
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (!isDragging) return;
     
-    const bounds = getWindowBounds();
-    const newPosition = {
-      x: e.clientX - dragOffsetRef.current.x,
-      y: e.clientY - dragOffsetRef.current.y,
-    };
+    // Calculate new position using precise offset
+    const newPosition = calculateDragPosition(e, dragOffsetRef.current);
     
-    setPosition(clampPosition(newPosition, size, bounds));
-  }, [isDragging, size]);
+    // Apply Windows-style constraints (allows off-screen but keeps title bar accessible)
+    const constrainedPosition = constrainPosition(newPosition);
+    
+    setPosition(constrainedPosition);
+  }, [isDragging]);
 
+  // Optimized event listeners with proper cleanup
   useEffect(() => {
     if (!isDragging) return;
     

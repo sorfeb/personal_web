@@ -11,7 +11,7 @@ import ScrollingMenu from "../components/ScrollingMenu/ScrollingMenu";
 import ProfileCard from "../components/ProfileCard/ProfileCard";
 import VolumeControl from "../components/VolumeControl/VolumeControl";
 import HelpButton from "../components/HelpButton";
-import ChatManager from "../components/ChatManager/ChatManager";
+import { ChatManager } from "../components/Chat";
 import { ShepherdTourProvider } from "../context/ShepherdTourContext";
 
 export default function Home() {
