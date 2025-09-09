@@ -1,10 +1,31 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { ProfileCard } from './ProfileCard';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { httpBatchLink } from '@trpc/client';
 
 // Import the actual providers
 import { VolumeProvider } from '../../context/VolumeContext';
-import { ShepherdTourProvider } from '../../context/ShepherdTourContext';
+import { trpc } from '../../utils/trpc';
+
+// Create a query client for Storybook
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      staleTime: Infinity,
+    },
+  },
+});
+
+// Create a tRPC client for Storybook
+const trpcClient = trpc.createClient({
+  links: [
+    httpBatchLink({
+      url: '/api/trpc',
+    }),
+  ],
+});
 
 const meta: Meta<typeof ProfileCard> = {
   title: 'Xbox Components/ProfileCard',
@@ -13,32 +34,34 @@ const meta: Meta<typeof ProfileCard> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'An Xbox-themed profile card that displays user information with interactive sound effects and gamerscore display.',
+        component: 'An Xbox-themed profile card that displays authenticated user information with interactive sound effects and gamerscore display. Automatically fetches user data via tRPC with guest mode fallback.',
       },
     },
   },
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <VolumeProvider>
-        <ShepherdTourProvider>
-          <Story />
-        </ShepherdTourProvider>
-      </VolumeProvider>
+      <trpc.Provider client={trpcClient} queryClient={queryClient}>
+        <QueryClientProvider client={queryClient}>
+          <VolumeProvider>
+            <Story />
+          </VolumeProvider>
+        </QueryClientProvider>
+      </trpc.Provider>
     ),
   ],
   argTypes: {
     name: {
-      description: 'The display name of the user',
-      control: 'text',
-    },
-    level: {
-      description: 'The user level as a string',
+      description: 'Override the display name (for testing/demo purposes)',
       control: 'text',
     },
     gamerscore: {
-      description: 'The user gamerscore as a number',
+      description: 'Override the gamerscore (for testing/demo purposes)',
       control: 'number',
+    },
+    avatar: {
+      description: 'Override the avatar filename (for testing/demo purposes)',
+      control: 'text',
     },
   },
 };
@@ -46,26 +69,54 @@ const meta: Meta<typeof ProfileCard> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * Default story - shows the actual tRPC data fetch
+ * Will display "Guest" mode if no authentication
+ */
 export const Default: Story = {
+  args: {},
+};
+
+/**
+ * Demo story with override props showing authenticated user
+ */
+export const AuthenticatedUser: Story = {
   args: {
     name: 'Soros',
-    level: '50',
     gamerscore: 12500,
+    avatar: '2000c.png',
   },
 };
 
+/**
+ * High score user demonstration
+ */
 export const HighScore: Story = {
   args: {
     name: 'Xbox Legend',
-    level: '99',
     gamerscore: 999999,
+    avatar: '20001.png',
   },
 };
 
+/**
+ * New user with minimal gamerscore
+ */
 export const NewUser: Story = {
   args: {
     name: 'Rookie',
-    level: '1',
     gamerscore: 0,
+    avatar: '20002.png',
+  },
+};
+
+/**
+ * Guest mode demonstration (explicitly shown)
+ */
+export const GuestMode: Story = {
+  args: {
+    name: 'Guest',
+    gamerscore: 0,
+    avatar: 'guest_gamerpic.svg',
   },
 };

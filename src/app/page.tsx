@@ -49,11 +49,7 @@ export default function Home() {
                         <HelpButton />
                       </div>
                       <div className={styles.ProfileCardContainer}>
-                        <ProfileCard
-                          name="Click Me!"
-                          level="20"
-                          gamerscore={2222}
-                        />
+                        <ProfileCard />
                       </div>
                     </div>
                   </div>
