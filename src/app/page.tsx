@@ -13,14 +13,19 @@ import VolumeControl from "../components/VolumeControl/VolumeControl";
 import HelpButton from "../components/HelpButton";
 import { ChatManager } from "../components/Chat";
 import { ShepherdTourProvider } from "../context/ShepherdTourContext";
+import ProfileModal from "../components/ProfileModal/ProfileModal";
 
 export default function Home() {
   const menuItems = ["Home", "Misc", "Gallery", "Credits"];
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isProfileModalOpen, setProfileModalOpen] = useState(false);
   
   const handleSelectionChange = (index: number) => {
     setActiveIndex(index);
   };
+
+  const handleOpenProfileModal = () => setProfileModalOpen(true);
+  const handleCloseProfileModal = () => setProfileModalOpen(false);
 
   return (
     <ShepherdTourProvider>
@@ -49,7 +54,7 @@ export default function Home() {
                         <HelpButton />
                       </div>
                       <div className={styles.ProfileCardContainer}>
-                        <ProfileCard />
+                        <ProfileCard onClick={handleOpenProfileModal} />
                       </div>
                     </div>
                   </div>
@@ -77,6 +82,8 @@ export default function Home() {
         
         {/* Chat System - Independent of main layout */}
         <ChatManager />
+
+        <ProfileModal isOpen={isProfileModalOpen} onClose={handleCloseProfileModal} />
       </div>
     </ShepherdTourProvider>
   );

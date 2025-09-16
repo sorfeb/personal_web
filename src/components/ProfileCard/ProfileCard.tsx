@@ -8,6 +8,8 @@ interface ProfileCardProps {
   name?: string;
   gamerscore?: number;
   avatar?: string;
+  // Optional click handler for opening modals
+  onClick?: () => void;
 }
 
 /**
@@ -24,7 +26,8 @@ interface ProfileCardProps {
 export const ProfileCard: React.FC<ProfileCardProps> = ({ 
   name: overrideName, 
   gamerscore: overrideGamerscore,
-  avatar: overrideAvatar 
+  avatar: overrideAvatar,
+  onClick
 }) => {
   const { playSound } = useAudioManager();
   
@@ -39,10 +42,6 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   const displayAvatar = overrideAvatar ?? profile?.avatar ?? 'guest_gamerpic.svg';
 
   const avatarPath = `/assets/avatars/${displayAvatar}`;
-
-  if (profile?.error) {
-    console.warn('ProfileCard Error:', profile.error);
-  }
 
   if (error) {
     console.error('tRPC ProfileCard Error:', error.message);
@@ -77,6 +76,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
         className={styles.card}
         onClick={() => {
           playSelectSound();
+          onClick?.();
         }}
         onMouseEnter={playHoverSound}
       >
