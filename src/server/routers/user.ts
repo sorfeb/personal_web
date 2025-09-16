@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import { createTRPCRouter, publicProcedure, protectedProcedure } from '../trpc';
-import { Prisma } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 import { GUEST_PROFILE, AVAILABLE_AVATARS } from '../config/userConfig';
+import { UserNotFoundError, DuplicateUserError } from '../errors/serviceErrors';
 
 /**
  * User router for handling profile operations.
@@ -10,15 +10,13 @@ import { GUEST_PROFILE, AVAILABLE_AVATARS } from '../config/userConfig';
 export const userRouter = createTRPCRouter({
   /**
    * Fetches the current user's profile or a guest profile.
+   * The service layer handles the logic of returning a guest profile if the user is not authenticated or not found.
    */
   getProfile: publicProcedure.query(async ({ ctx }) => {
-    if (!ctx.user?.id) {
-      return GUEST_PROFILE;
-    }
     try {
-      return await ctx.services.user.findUserByStackAuthId(ctx.user.id);
+      return await ctx.services.user.findUserByStackAuthId(ctx.user?.id);
     } catch (error) {
-      console.error('Failed to fetch user profile:', error);
+      console.warn('Failed to fetch user profile:', error);
       return GUEST_PROFILE;
     }
   }),
@@ -30,7 +28,7 @@ export const userRouter = createTRPCRouter({
     .input(
       z.object({
         name: z.string().min(1).optional(),
-        avatar: z.string().optional(),
+        avatar: z.enum(AVAILABLE_AVATARS as [string, ...string[]]).optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -40,19 +38,17 @@ export const userRouter = createTRPCRouter({
           avatar: input.avatar,
         });
       } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          if (error.code === 'P2025') {
-            throw new TRPCError({
-              code: 'NOT_FOUND',
-              message: `User with ID '${ctx.user.id}' not found.`,
-            });
-          }
-          if (error.code === 'P2002') {
-            throw new TRPCError({
-              code: 'CONFLICT',
-              message: 'The provided data conflicts with an existing user.',
-            });
-          }
+        if (error instanceof UserNotFoundError) {
+          throw new TRPCError({
+            code: 'NOT_FOUND',
+            message: error.message,
+          });
+        }
+        if (error instanceof DuplicateUserError) {
+          throw new TRPCError({
+            code: 'CONFLICT',
+            message: error.message,
+          });
         }
         throw new TRPCError({
           code: 'INTERNAL_SERVER_ERROR',

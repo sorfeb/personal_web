@@ -1,5 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import { GUEST_PROFILE, DEFAULT_AVATAR } from '../config/userConfig';
+import { UserNotFoundError, DuplicateUserError } from '../errors/serviceErrors';
 
 type DbClient = PrismaClient | Omit<PrismaClient, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends">;
 
@@ -15,12 +16,16 @@ export class UserService {
   }
 
   /**
-   * Finds a user by their StackAuth ID.
-   * If the user is not found, it returns a default guest profile.
-   * @param stackAuthId - The user's StackAuth ID.
+   * Finds a user by their StackAuth ID. If no ID is provided or the user is not found,
+   * it returns a default guest profile. This centralizes all guest logic.
+   * @param stackAuthId - The user's StackAuth ID (optional).
    * @returns The user's profile or a guest profile.
    */
-  async findUserByStackAuthId(stackAuthId: string) {
+  async findUserByStackAuthId(stackAuthId?: string | null) {
+    if (!stackAuthId) {
+      return GUEST_PROFILE;
+    }
+
     const dbUser = await this.db.user.findUnique({
       where: { stackAuthId },
       select: { id: true, name: true, gamerscore: true, avatar: true },
@@ -45,11 +50,26 @@ export class UserService {
    * @param stackAuthId - The user's StackAuth ID.
    * @param data - The data to update (name and/or avatar).
    * @returns The updated user object.
+   * @throws {UserNotFoundError} If the user to update is not found.
+   * @throws {DuplicateUserError} If the update violates a unique constraint.
    */
   async updateUserProfile(stackAuthId: string, data: { name?: string; avatar?: string }) {
-    return this.db.user.update({
-      where: { stackAuthId },
-      data,
-    });
+    try {
+      return await this.db.user.update({
+        where: { stackAuthId },
+        data,
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new UserNotFoundError(`User with StackAuth ID '${stackAuthId}' not found.`);
+        }
+        if (error.code === 'P2002') {
+          throw new DuplicateUserError('The provided name or other unique data conflicts with an existing user.');
+        }
+      }
+      // Re-throw any other unexpected errors
+      throw error;
+    }
   }
 }
