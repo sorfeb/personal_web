@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { createTRPCRouter, publicProcedure, protectedProcedure } from '../trpc';
 import { Prisma } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
+import { GUEST_PROFILE, DEFAULT_AVATAR, AVAILABLE_AVATARS } from '../config/userConfig';
 
 /**
  * User router for handling profile operations.
@@ -11,16 +12,8 @@ export const userRouter = createTRPCRouter({
    * Fetches the current user's profile or a guest profile.
    */
   getProfile: publicProcedure.query(async ({ ctx }) => {
-    const guestProfile = {
-      id: 'guest',
-      name: 'Guest',
-      gamerscore: 0,
-      avatar: 'guest_gamerpic.svg',
-      isGuest: true,
-    };
-
     if (!ctx.user?.id) {
-      return guestProfile;
+      return GUEST_PROFILE;
     }
 
     try {
@@ -36,19 +29,19 @@ export const userRouter = createTRPCRouter({
 
       if (!dbUser) {
         console.warn(`Authenticated user with stackAuthId '${ctx.user.id}' not found in DB. Returning guest.`);
-        return guestProfile;
+        return GUEST_PROFILE;
       }
 
       return {
         id: dbUser.id,
         name: dbUser.name ?? 'Player',
         gamerscore: dbUser.gamerscore,
-        avatar: dbUser.avatar ?? 'guest_gamerpic.svg',
+        avatar: dbUser.avatar ?? DEFAULT_AVATAR,
         isGuest: false,
       };
     } catch (error) {
       console.error('Failed to fetch user profile:', error);
-      return guestProfile;
+      return GUEST_PROFILE;
     }
   }),
 
@@ -99,13 +92,7 @@ export const userRouter = createTRPCRouter({
    * Returns a list of available avatars.
    */
   getAvailableAvatars: publicProcedure.query(() => {
-    const avatars = [
-      '20001.png', '20002.png', '20003.png', '20004.png', '20006.png',
-      '20008.png', '2000a.png', '2000b.png', '2000c.png', '2803d.png',
-      'guest_gamerpic.svg',
-    ];
-
-    return avatars.map(avatar => ({
+    return AVAILABLE_AVATARS.map(avatar => ({
       id: avatar,
       name: avatar.split('.')[0],
       path: `/assets/avatars/${avatar}`,
