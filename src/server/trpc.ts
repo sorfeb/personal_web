@@ -1,6 +1,7 @@
 import { initTRPC, TRPCError } from '@trpc/server';
 import { db } from '../utils/db';
 import { stackServerApp } from '../stack';
+import { UserService } from './services/userService';
 
 /**
  * Context options for App Router (using Fetch API)
@@ -18,10 +19,8 @@ export const createTRPCContext = async (opts: CreateContextOptions) => {
   
   console.log('🔧 Creating tRPC context...');
 
-  // Get the user from StackAuth 
   let user = null;
   try {
-    // Extract cookies from the request headers
     const cookieHeader = req.headers.get('cookie');
     console.log('🍪 Cookie header:', cookieHeader ? 'Present' : 'Missing');
     
@@ -34,10 +33,16 @@ export const createTRPCContext = async (opts: CreateContextOptions) => {
     console.log('ℹ️  No authenticated user:', error instanceof Error ? error.message : 'Unknown error');
   }
 
+  // Instantiate services
+  const services = {
+    user: new UserService(db),
+  };
+
   return {
     req,
     db,
     user,
+    services,
   };
 };
 

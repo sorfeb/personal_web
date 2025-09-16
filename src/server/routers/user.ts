@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { createTRPCRouter, publicProcedure, protectedProcedure } from '../trpc';
 import { Prisma } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
-import { GUEST_PROFILE, DEFAULT_AVATAR, AVAILABLE_AVATARS } from '../config/userConfig';
+import { GUEST_PROFILE, AVAILABLE_AVATARS } from '../config/userConfig';
 
 /**
  * User router for handling profile operations.
@@ -15,30 +15,8 @@ export const userRouter = createTRPCRouter({
     if (!ctx.user?.id) {
       return GUEST_PROFILE;
     }
-
     try {
-      const dbUser = await ctx.db.user.findUnique({
-        where: { stackAuthId: ctx.user.id },
-        select: {
-          id: true,
-          name: true,
-          gamerscore: true,
-          avatar: true,
-        },
-      });
-
-      if (!dbUser) {
-        console.warn(`Authenticated user with stackAuthId '${ctx.user.id}' not found in DB. Returning guest.`);
-        return GUEST_PROFILE;
-      }
-
-      return {
-        id: dbUser.id,
-        name: dbUser.name ?? 'Player',
-        gamerscore: dbUser.gamerscore,
-        avatar: dbUser.avatar ?? DEFAULT_AVATAR,
-        isGuest: false,
-      };
+      return await ctx.services.user.findUserByStackAuthId(ctx.user.id);
     } catch (error) {
       console.error('Failed to fetch user profile:', error);
       return GUEST_PROFILE;
@@ -57,14 +35,10 @@ export const userRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        const updatedUser = await ctx.db.user.update({
-          where: { stackAuthId: ctx.user.id },
-          data: {
-            name: input.name,
-            avatar: input.avatar,
-          },
+        return await ctx.services.user.updateUserProfile(ctx.user.id, {
+          name: input.name,
+          avatar: input.avatar,
         });
-        return updatedUser;
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
           if (error.code === 'P2025') {
