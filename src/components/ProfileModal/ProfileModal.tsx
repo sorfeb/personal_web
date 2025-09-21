@@ -86,17 +86,8 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
             }
           }}
         >
-          <motion.div
-            className={styles.modal}
-            initial={{ opacity: 0, scale: 0.8, y: 50 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 50 }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
-            onWheel={(e) => e.stopPropagation()}
-            onClick={(e) => e.stopPropagation()}
-          >
-          {/* Header */}
-          <div className={styles.header}>
+          {/* Header - Outside modal */}
+          <div className={styles.externalHeader}>
             <div className={styles.headerLeft}>
               <Image
                 src="/assets/avatars/guest_gamerpic.svg"
@@ -110,6 +101,15 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
             <div className={styles.time}>{currentTime}</div>
           </div>
 
+          <motion.div
+            className={styles.modal}
+            initial={{ opacity: 0, scale: 0.8, y: 50 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 50 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            onWheel={(e) => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
+          >
           <div className={styles.content}>
             {/* Avatar Grid */}
             <div className={styles.avatarGrid}>
@@ -176,36 +176,26 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
               </div>
             </div>
           </div>
+          </motion.div>
 
-          {/* Footer Controls */}
-          <div className={styles.footer}>
-            <div className={styles.controls}>
-              <Tooltip 
-                content={profile.isGuest ? "Sign in to save your gamer picture" : "Save selected gamer picture"}
-                position="top"
-                disabled={false}
-              >
-                <button 
-                  className={styles.controlButton}
-                  onClick={handleSave}
-                  disabled={profile.isGuest}
-                  onMouseEnter={() => playSound('owawa')}
-                >
-                  <span className={styles.buttonIcon}>A</span>
-                  <span className={styles.buttonText}>Select</span>
-                </button>
-              </Tooltip>
+          {/* Footer - Outside modal */}
+          <div className={styles.externalFooter}>
+            <Tooltip 
+              content={profile.isGuest ? "Sign in to save your gamer picture" : "Save selected gamer picture"}
+              position="top"
+              disabled={false}
+            >
               <button 
                 className={styles.controlButton}
-                onClick={handleClose}
+                onClick={handleSave}
+                disabled={profile.isGuest}
                 onMouseEnter={() => playSound('owawa')}
               >
-                <span className={styles.buttonIcon}>B</span>
-                <span className={styles.buttonText}>Back</span>
+                <span className={styles.buttonIcon}>A</span>
+                <span className={styles.buttonText}>Save</span>
               </button>
-            </div>
+            </Tooltip>
           </div>
-          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
