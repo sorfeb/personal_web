@@ -67,6 +67,8 @@
   flex: 1;
   padding: 24px;
   gap: 24px;
+  overflow: hidden;
+  min-height: 0;
 }
 
 .avatarGrid {
@@ -76,7 +78,11 @@
   flex: 1;
   max-height: 400px;
   overflow-y: auto;
+  overflow-x: hidden;
   padding-right: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .avatarOption {
@@ -90,6 +96,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .avatarOption:hover {
@@ -115,9 +124,12 @@
   border-radius: 8px;
   padding: 20px;
   width: 280px;
+  min-width: 280px;
+  max-width: 280px;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  flex-shrink: 0;
 }
 
 .profilePreview {
