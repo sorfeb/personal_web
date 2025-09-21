@@ -37,9 +37,10 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   const playHoverSound = () => playSound('owawa');
 
   // Use override props for testing, otherwise use fetched profile
-  const displayName = overrideName ?? profile?.name ?? 'Guest';
-  const displayGamerscore = overrideGamerscore ?? profile?.gamerscore ?? 0;
-  const displayAvatar = overrideAvatar ?? profile?.avatar ?? 'guest_gamerpic.svg';
+  // The API guarantees a valid profile object (either user or guest)
+  const displayName = overrideName ?? profile?.name;
+  const displayGamerscore = overrideGamerscore ?? profile?.gamerscore;
+  const displayAvatar = overrideAvatar ?? profile?.avatar;
 
   const avatarPath = `/assets/avatars/${displayAvatar}`;
 
@@ -47,7 +48,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     console.error('tRPC ProfileCard Error:', error.message);
   }
 
-  if (isLoading) {
+  if (isLoading || !profile) {
     return (
       <div className={styles.card}>
         <div className={styles.infoContainer}>
@@ -83,7 +84,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
         <div className={styles.infoContainer}>
           <h2 className={styles.name}>{displayName}</h2>
           <p className={styles.gamerscore}>
-            {displayGamerscore.toLocaleString()}
+            {displayGamerscore?.toLocaleString()}
             <Image
               src="/assets/icons/Gamerscore.gif"
               alt="Gamerscore"

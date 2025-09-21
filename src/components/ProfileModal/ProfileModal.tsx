@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { useAudioManager } from '../../hooks/useAudioManager';
 import { trpc } from '../../utils/trpc';
+import Tooltip from '../ui/Tooltip/Tooltip';
 import styles from './ProfileModal.module.css';
 
 interface ProfileModalProps {
@@ -15,6 +16,23 @@ interface ProfileModalProps {
 export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
   const { playSound } = useAudioManager();
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
+  const [currentTime, setCurrentTime] = useState('');
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setCurrentTime(now.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      }));
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
   
   const { data: profile } = trpc.user.getProfile.useQuery();
   const { data: avatars } = trpc.user.getAvailableAvatars.useQuery();
@@ -44,13 +62,14 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
     onClose();
   };
 
-  if (!isOpen) {
+  if (!isOpen || !profile) {
     return null;
   }
 
-  const currentAvatar = selectedAvatar || profile?.avatar || 'guest_gamerpic.svg';
-  const displayName = profile?.name || 'Guest';
-  const displayGamerscore = profile?.gamerscore || 0;
+  // The API guarantees a valid profile object (either user or guest)
+  const currentAvatar = selectedAvatar || profile.avatar;
+  const displayName = profile.name;
+  const displayGamerscore = profile.gamerscore;
 
   return (
     <AnimatePresence>
@@ -88,7 +107,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
               />
               <h1 className={styles.title}>Change Gamer Picture</h1>
             </div>
-            <div className={styles.time}>10:53 AM</div>
+            <div className={styles.time}>{currentTime}</div>
           </div>
 
           <div className={styles.content}>
@@ -138,7 +157,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
                     <div className={styles.stat}>
                       <span className={styles.statLabel}>Gamerscore</span>
                       <span className={styles.statValue}>
-                        {displayGamerscore.toLocaleString()}
+                        {displayGamerscore?.toLocaleString()}
                         <Image
                           src="/assets/icons/Gamerscore.gif"
                           alt="Gamerscore"
@@ -155,46 +174,27 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
                   </div>
                 </div>
               </div>
-
-              {/* Xbox Dashboard Link */}
-              <div className={styles.dashboardLink}>
-                <Image
-                  src="/assets/icons/buttonRight.webp"
-                  alt="Xbox"
-                  width={40}
-                  height={40}
-                  className={styles.xboxLogo}
-                />
-                <span className={styles.dashboardText}>Xbox 360 Dashboard</span>
-              </div>
-
-              {/* Controller Icons */}
-              <div className={styles.controllerIcons}>
-                {[1, 2, 3, 4].map((num) => (
-                  <div key={num} className={styles.controllerIcon}>
-                    <Image
-                      src="/assets/icons/buttonLeft.webp"
-                      alt={`Controller ${num}`}
-                      width={24}
-                      height={24}
-                    />
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
 
           {/* Footer Controls */}
           <div className={styles.footer}>
             <div className={styles.controls}>
-              <button 
-                className={styles.controlButton}
-                onClick={handleSave}
-                onMouseEnter={() => playSound('owawa')}
+              <Tooltip 
+                content={profile.isGuest ? "Sign in to save your gamer picture" : "Save selected gamer picture"}
+                position="top"
+                disabled={false}
               >
-                <span className={styles.buttonIcon}>A</span>
-                <span className={styles.buttonText}>Select</span>
-              </button>
+                <button 
+                  className={styles.controlButton}
+                  onClick={handleSave}
+                  disabled={profile.isGuest}
+                  onMouseEnter={() => playSound('owawa')}
+                >
+                  <span className={styles.buttonIcon}>A</span>
+                  <span className={styles.buttonText}>Select</span>
+                </button>
+              </Tooltip>
               <button 
                 className={styles.controlButton}
                 onClick={handleClose}

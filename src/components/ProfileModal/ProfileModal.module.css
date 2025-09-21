@@ -175,51 +175,6 @@
   filter: brightness(1.2);
 }
 
-.dashboardLink {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  background: rgba(0, 255, 0, 0.1);
-  border: 1px solid rgba(0, 255, 0, 0.3);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.dashboardLink:hover {
-  background: rgba(0, 255, 0, 0.2);
-}
-
-.xboxLogo {
-  filter: hue-rotate(120deg) brightness(1.2);
-}
-
-.dashboardText {
-  font-size: 14px;
-  color: #00ff00;
-  font-weight: 500;
-}
-
-.controllerIcons {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: auto;
-}
-
-.controllerIcon {
-  width: 32px;
-  height: 32px;
-  background: #222222;
-  border: 1px solid #666666;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.6;
-}
-
 .footer {
   padding: 16px 24px;
   border-top: 1px solid #404040;
@@ -247,6 +202,15 @@
 
 .controlButton:hover {
   background-color: rgba(255, 255, 255, 0.1);
+}
+
+.controlButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.controlButton:disabled:hover {
+  background-color: transparent;
 }
 
 .buttonIcon {
