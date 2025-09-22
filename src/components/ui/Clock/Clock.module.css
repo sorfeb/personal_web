@@ -1,0 +1,24 @@
+.clock {
+  font-size: 14px;
+  color: #cccccc;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  white-space: nowrap;
+}
+
+/* Additional styling variants */
+.clock.large {
+  font-size: 18px;
+}
+
+.clock.small {
+  font-size: 12px;
+}
+
+.clock.bright {
+  color: #ffffff;
+}
+
+.clock.xbox {
+  color: #00ff00;
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+}
