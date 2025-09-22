@@ -33,21 +33,52 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   // Body scroll lock and escape key handling
   useEffect(() => {
     if (isOpen) {
-      // Prevent body scrolling when modal is open
+      // Save original styles
       const originalOverflow = document.body.style.overflow;
-      document.body.style.overflow = 'hidden';
+      const originalPosition = document.body.style.position;
+      const originalWidth = document.body.style.width;
       
-      const handleKeyDown = (e: KeyboardEvent) => {
+      // Prevent scrolling with multiple methods
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      
+      // Prevent wheel scrolling
+      const preventScroll = (e: WheelEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+      };
+      
+      // Prevent touch scrolling
+      const preventTouchMove = (e: TouchEvent) => {
+        e.preventDefault();
+      };
+      
+      // Prevent keyboard scrolling
+      const preventKeyScroll = (e: KeyboardEvent) => {
+        if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(e.key)) {
+          e.preventDefault();
+        }
         if (e.key === 'Escape') {
           handleClose();
         }
       };
       
-      document.addEventListener('keydown', handleKeyDown);
+      // Add event listeners with non-passive options
+      document.addEventListener('wheel', preventScroll, { passive: false });
+      document.addEventListener('touchmove', preventTouchMove, { passive: false });
+      document.addEventListener('keydown', preventKeyScroll);
       
       return () => {
+        // Restore original styles
         document.body.style.overflow = originalOverflow;
-        document.removeEventListener('keydown', handleKeyDown);
+        document.body.style.position = originalPosition;
+        document.body.style.width = originalWidth;
+        
+        // Remove event listeners
+        document.removeEventListener('wheel', preventScroll);
+        document.removeEventListener('touchmove', preventTouchMove);
+        document.removeEventListener('keydown', preventKeyScroll);
       };
     }
   }, [isOpen, handleClose]);

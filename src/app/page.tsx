@@ -46,6 +46,7 @@ export default function Home() {
                     <ScrollingMenu
                       items={menuItems}
                       onSelectionChange={handleSelectionChange}
+                      disabled={isProfileModalOpen}
                     />
                   </div>
                   <div className={styles.rightHeaderSection}>
