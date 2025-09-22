@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { useAudioManager } from '../../hooks/useAudioManager';
 import { trpc } from '../../utils/trpc';
 import Tooltip from '../ui/Tooltip/Tooltip';
+import { Clock } from '../ui/Clock/Clock';
 import styles from './ProfileModal.module.css';
 
 interface ProfileModalProps {
@@ -16,23 +18,39 @@ interface ProfileModalProps {
 export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
   const { playSound } = useAudioManager();
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
-  const [currentTime, setCurrentTime] = useState('');
+  const [mounted, setMounted] = useState(false);
 
+  // Ensure we're on the client side
   useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setCurrentTime(now.toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true
-      }));
-    };
-
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-
-    return () => clearInterval(interval);
+    setMounted(true);
   }, []);
+
+  const handleClose = useCallback(() => {
+    playSound('back');
+    onClose();
+  }, [playSound, onClose]);
+
+  // Body scroll lock and escape key handling
+  useEffect(() => {
+    if (isOpen) {
+      // Prevent body scrolling when modal is open
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          handleClose();
+        }
+      };
+      
+      document.addEventListener('keydown', handleKeyDown);
+      
+      return () => {
+        document.body.style.overflow = originalOverflow;
+        document.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+  }, [isOpen, handleClose]);
   
   const { data: profile } = trpc.user.getProfile.useQuery();
   const { data: avatars } = trpc.user.getAvailableAvatars.useQuery();
@@ -57,12 +75,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
     }
   };
 
-  const handleClose = () => {
-    playSound('back');
-    onClose();
-  };
-
-  if (!isOpen || !profile) {
+  if (!mounted || !isOpen || !profile) {
     return null;
   }
 
@@ -71,7 +84,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   const displayName = profile.name;
   const displayGamerscore = profile.gamerscore;
 
-  return (
+  const modalContent = (
     <AnimatePresence>
       {isOpen && (
         <motion.div
@@ -85,6 +98,9 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
               handleClose();
             }
           }}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
         >
           {/* Header - Outside modal */}
           <div className={styles.externalHeader}>
@@ -96,9 +112,9 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
                 height={24}
                 className={styles.xboxIcon}
               />
-              <h1 className={styles.title}>Change Gamer Picture</h1>
+              <h1 id="modal-title" className={styles.title}>Change Gamer Picture</h1>
             </div>
-            <div className={styles.time}>{currentTime}</div>
+            <Clock className={styles.time} />
           </div>
 
           <motion.div
@@ -199,6 +215,12 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
         </motion.div>
       )}
     </AnimatePresence>
+  );
+
+  // Render into portal
+  return createPortal(
+    modalContent,
+    document.body
   );
 };
 
