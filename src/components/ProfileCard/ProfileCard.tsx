@@ -4,24 +4,21 @@ import { useAudioManager } from '../../hooks/useAudioManager';
 import { trpc } from '../../utils/trpc';
 
 interface ProfileCardProps {
-  // Optional props for override in development/testing
   name?: string;
   gamerscore?: number;
   avatar?: string;
-  // Optional click handler for opening modals
   onClick?: () => void;
 }
 
 /**
- * ProfileCard Component - Xbox 360 Dashboard Style
+ * ProfileCard Component
  * 
- * Displays authenticated user profile with Xbox aesthetic:
+ * Displays authenticated user profile:
  * - Fetches user data via tRPC with guest fallback
- * - Shows gamerscore with Xbox styling
+ * - Shows gamerscore
  * - Displays selected avatar from avatar collection
  * - Provides audio feedback on interaction
  * 
- * Guest Mode: Shows "Guest" with default avatar and 0 gamerscore
  */
 export const ProfileCard: React.FC<ProfileCardProps> = ({ 
   name: overrideName, 

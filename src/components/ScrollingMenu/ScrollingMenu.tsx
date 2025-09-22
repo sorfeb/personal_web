@@ -8,7 +8,7 @@ interface ScrollingMenuProps {
   items: string[];
   onSelectionChange: (index: number) => void;
   onItemClick?: (index: number) => void;
-  disabled?: boolean; // Add disabled prop for when modal is open
+  disabled?: boolean;
 }
 
 const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items, onSelectionChange, onItemClick, disabled = false }) => {
@@ -31,7 +31,6 @@ const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items, onSelectionChange,
       }
     };
 
-    // Attach to window instead of container
     window.addEventListener('wheel', handleScroll, { passive: true });
 
     return () => {
