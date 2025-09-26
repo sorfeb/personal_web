@@ -48,8 +48,6 @@ const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data })
     cardSelector: `.${styles.card}`,
   });
 
-  const playLeftSound = () => playSound('panelLeft');
-  const playRightSound = () => playSound('panel');
   const playHoverSound = () => playSound('ting');
 
 
@@ -313,11 +311,8 @@ const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data })
       <ResponsiveCardGrid
         cards={cardsData}
         sectionName={sectionNames[activeIndex]}
-        currentCardIndex={currentCardIndex}
-        onCardIndexChange={() => {}} // This will be handled differently in ResponsiveCardGrid
+        activeIndex={activeIndex}
         playHoverSound={playHoverSound}
-        playLeftSound={playLeftSound}
-        playRightSound={playRightSound}
       />
     );
   }

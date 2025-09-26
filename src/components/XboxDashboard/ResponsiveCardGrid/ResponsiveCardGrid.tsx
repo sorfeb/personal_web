@@ -1,111 +1,39 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useIsMobile } from '../../../utils/responsiveUtils';
+import { useCardNavigation } from '../../../hooks/useCardNavigation';
 import XboxCard from '../../XboxCard/card/XboxCard';
 import styles from './ResponsiveCardGrid.module.css';
 
 interface ResponsiveCardGridProps {
   cards: { route: string; title: string; iconUrl?: string; images?: string[] }[];
   sectionName: string;
-  currentCardIndex: number;
-  onCardIndexChange: (index: number) => void;
+  activeIndex: number;
   playHoverSound: () => void;
-  playLeftSound: () => void;
-  playRightSound: () => void;
 }
 
 const ResponsiveCardGrid: React.FC<ResponsiveCardGridProps> = ({
   cards,
   sectionName,
-  currentCardIndex,
-  onCardIndexChange,
+  activeIndex,
   playHoverSound,
-  playLeftSound,
-  playRightSound,
 }) => {
   const isMobile = useIsMobile(768);
-
-  const handleLeftArrowClick = () => {
-    playLeftSound();
-    if (currentCardIndex <= 0) return;
-
-    if (isMobile) {
-      onCardIndexChange(currentCardIndex - 1);
-      return;
-    }
-
-    // Desktop horizontal scroll logic
-    const section = document.querySelector(`.${styles.section}`);
-    const cardElements = section?.querySelectorAll(`.${styles.card}`);
-
-    if (!cardElements) return;
-
-    // ...existing desktop animation logic...
-    const currentCard = cardElements[currentCardIndex] as HTMLElement;
-    currentCard.style.transition = 'transform 0.5s ease';
-    currentCard.style.transform = `translateX(250px) scale(0.9)`;
-    currentCard.style.zIndex = `${cardElements.length - currentCardIndex}`;
-
-    let cumulativeTranslation = 250 + 250 * 0.78;
-    let decrement = 250 * 0.78 * 0.78;
-
-    for (let i = currentCardIndex + 1; i < cardElements.length; i++) {
-      const card = cardElements[i] as HTMLElement;
-      card.style.transition = 'transform 0.5s ease';
-      card.style.transform = `translateX(${cumulativeTranslation}px) scale(${1 - (i - currentCardIndex) * 0.1})`;
-      card.style.zIndex = `${cardElements.length - i}`;
-      cumulativeTranslation += decrement;
-      decrement *= 0.78;
-    }
-
-    const previousCard = cardElements[currentCardIndex - 1] as HTMLElement;
-    previousCard.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
-    previousCard.style.opacity = '1';
-    previousCard.style.transform = `translateX(0) scale(1)`;
-    previousCard.style.zIndex = `${cardElements.length - (currentCardIndex - 1)}`;
-
-    setTimeout(() => {
-      onCardIndexChange(currentCardIndex - 1);
-    }, 100);
-  };
-
-  const handleRightArrowClick = () => {
-    playRightSound();
-    if (currentCardIndex >= cards.length - 1) return;
-
-    if (isMobile) {
-      onCardIndexChange(currentCardIndex + 1);
-      return;
-    }
-
-    // Desktop horizontal scroll logic
-    const section = document.querySelector(`.${styles.section}`);
-    const cardElements = section?.querySelectorAll(`.${styles.card}`);
-
-    if (!cardElements) return;
-
-    const currentCard = cardElements[currentCardIndex] as HTMLElement;
-    currentCard.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
-    currentCard.style.transform = `translateX(-100%)`;
-    currentCard.style.opacity = '0';
-
-    let cumulativeTranslation = 0;
-    let decrement = 250;
-
-    for (let i = currentCardIndex + 1; i < cardElements.length; i++) {
-      const card = cardElements[i] as HTMLElement;
-      card.style.transition = 'transform 0.5s ease';
-      card.style.transform = `translateX(${cumulativeTranslation}px) scale(${1 - (i - currentCardIndex - 1) * 0.1})`;
-      card.style.zIndex = `${cardElements.length - i}`;
-      cumulativeTranslation += decrement;
-      decrement *= 0.78;
-    }
-
-    setTimeout(() => {
-      onCardIndexChange(currentCardIndex + 1);
-    }, 100);
-  };
+  
+  // Use the same navigation hook as XboxDashboard
+  const {
+    currentCardIndex,
+    navigateLeft,
+    navigateRight,
+    canNavigateLeft,
+    canNavigateRight,
+  } = useCardNavigation({
+    totalCards: cards.length,
+    activeIndex,
+    sectionSelector: `.${styles.section}`,
+    cardSelector: `.${styles.card}`,
+  });
 
   if (isMobile) {
     return (
@@ -134,8 +62,8 @@ const ResponsiveCardGrid: React.FC<ResponsiveCardGridProps> = ({
       <div className={styles.leftArrowContainer}>
         <button
           className={styles.leftArrow}
-          onClick={handleLeftArrowClick}
-          disabled={currentCardIndex === 0}
+          onClick={navigateLeft}
+          disabled={!canNavigateLeft}
           onMouseEnter={playHoverSound}
         >
           <img
@@ -165,8 +93,8 @@ const ResponsiveCardGrid: React.FC<ResponsiveCardGridProps> = ({
       <div className={styles.rightArrowContainer}>
         <button
           className={styles.rightArrow}
-          onClick={handleRightArrowClick}
-          disabled={currentCardIndex === cards.length - 1}
+          onClick={navigateRight}
+          disabled={!canNavigateRight}
           onMouseEnter={playHoverSound}
         >
           <img
