@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { useIsMobile } from '../../../utils/responsiveUtils';
 import XboxCard from '../../XboxCard/card/XboxCard';
 import styles from './ResponsiveCardGrid.module.css';
 
@@ -23,17 +24,7 @@ const ResponsiveCardGrid: React.FC<ResponsiveCardGridProps> = ({
   playLeftSound,
   playRightSound,
 }) => {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  const isMobile = useIsMobile(768);
 
   const handleLeftArrowClick = () => {
     playLeftSound();

@@ -21,6 +21,40 @@ export const DEFAULT_BREAKPOINTS: ResponsiveBreakpoints = {
 };
 
 /**
+ * Custom hook for media queries - handles SSR properly
+ * @param query - CSS media query string (e.g., '(max-width: 768px)')
+ * @param defaultValue - Default value for SSR (prevents hydration mismatch)
+ */
+export const useMediaQuery = (query: string, defaultValue: boolean = false): boolean => {
+  const [matches, setMatches] = useState(defaultValue);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    const mediaQuery = window.matchMedia(query);
+    
+    // Set initial value
+    setMatches(mediaQuery.matches);
+    
+    // Create event listener
+    const handler = (event: MediaQueryListEvent) => setMatches(event.matches);
+    
+    // Add listener (use the modern API)
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, [query]);
+
+  return matches;
+};
+
+/**
+ * Convenience hook for mobile detection
+ */
+export const useIsMobile = (breakpoint: number = 768): boolean => {
+  return useMediaQuery(`(max-width: ${breakpoint}px)`, false);
+};
+
+/**
  * Calculates optimal number of items per row based on viewport width
  * This should only be used in useEffect or event handlers, not during initial render
  */

@@ -4,9 +4,11 @@ import { useAudioManager } from './useAudioManager';
 interface UseCardNavigationProps {
   totalCards: number;
   activeIndex: number;
+  sectionSelector: string;
+  cardSelector: string;
 }
 
-export const useCardNavigation = ({ totalCards, activeIndex }: UseCardNavigationProps) => {
+export const useCardNavigation = ({ totalCards, activeIndex, sectionSelector, cardSelector }: UseCardNavigationProps) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const { playSound } = useAudioManager();
 
@@ -19,8 +21,8 @@ export const useCardNavigation = ({ totalCards, activeIndex }: UseCardNavigation
     if (currentCardIndex <= 0) return;
     
     playSound('panelLeft');
-    const section = document.querySelector('.section');
-    const cards = section?.querySelectorAll('.card');
+    const section = document.querySelector(sectionSelector);
+    const cards = section?.querySelectorAll(cardSelector);
     
     if (!cards) return;
 
@@ -51,14 +53,14 @@ export const useCardNavigation = ({ totalCards, activeIndex }: UseCardNavigation
     setTimeout(() => {
       setCurrentCardIndex((prev) => prev - 1);
     }, 100);
-  }, [currentCardIndex, playSound]);
+  }, [currentCardIndex, playSound, sectionSelector, cardSelector]);
 
   const navigateRight = useCallback(() => {
     if (currentCardIndex >= totalCards - 1) return;
     
     playSound('panel');
-    const section = document.querySelector('.section');
-    const cards = section?.querySelectorAll('.card');
+    const section = document.querySelector(sectionSelector);
+    const cards = section?.querySelectorAll(cardSelector);
     
     if (!cards) return;
 
@@ -83,7 +85,7 @@ export const useCardNavigation = ({ totalCards, activeIndex }: UseCardNavigation
     setTimeout(() => {
       setCurrentCardIndex((prev) => prev + 1);
     }, 100);
-  }, [currentCardIndex, totalCards, playSound]);
+  }, [currentCardIndex, totalCards, playSound, sectionSelector, cardSelector]);
 
   return {
     currentCardIndex,
