@@ -50,8 +50,6 @@ const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data })
 
   const playHoverSound = () => playSound('ting');
 
-
-
   // Initial animation for the cards (desktop only)
   useEffect(() => {
     const section = document.querySelector(`.${styles.section}`);

@@ -12,7 +12,6 @@ export const useCardNavigation = ({ totalCards, activeIndex, sectionSelector, ca
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const { playSound } = useAudioManager();
 
-  // Reset currentCardIndex when activeIndex changes
   useEffect(() => {
     setCurrentCardIndex(0);
   }, [activeIndex]);
@@ -26,10 +25,9 @@ export const useCardNavigation = ({ totalCards, activeIndex, sectionSelector, ca
     
     if (!cards) return;
 
-    // ...existing animation logic...
     const currentCard = cards[currentCardIndex] as HTMLElement;
     currentCard.style.transition = 'transform 0.5s ease';
-    currentCard.style.transform = `translateX(250px) scale(0.9)`;
+    currentCard.style.transform = `translateX(250px) scale(${1 - 1 * 0.1})`;    
     currentCard.style.zIndex = `${cards.length - currentCardIndex}`;
 
     let cumulativeTranslation = 250 + 250 * 0.78;
@@ -38,7 +36,8 @@ export const useCardNavigation = ({ totalCards, activeIndex, sectionSelector, ca
     for (let i = currentCardIndex + 1; i < cards.length; i++) {
       const card = cards[i] as HTMLElement;
       card.style.transition = 'transform 0.5s ease';
-      card.style.transform = `translateX(${cumulativeTranslation}px) scale(${1 - (i - currentCardIndex) * 0.1})`;
+      const newPosition = i - currentCardIndex + 1;
+      card.style.transform = `translateX(${cumulativeTranslation}px) scale(${1 - newPosition * 0.1})`;
       card.style.zIndex = `${cards.length - i}`;
       cumulativeTranslation += decrement;
       decrement *= 0.78;
