@@ -102,208 +102,61 @@ const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data })
     };
   }, [activeIndex, playSound]);
 
-
-
-  const componentMapping: Record<number, JSX.Element> = {
-    0: (
-      <div className={styles.dashboardContainer}>
-        <div className={styles.leftArrowContainer}>
-          <button
-            className={styles.leftArrow}
-            onClick={navigateLeft}
-            disabled={!canNavigateLeft}
-            onMouseEnter={playHoverSound}
-          >
-            <img
-              src="./assets/icons/buttonLeft.webp"
-              alt="Left Arrow"
-              className={styles.leftArrow}
-            />
-          </button>
-        </div>
-        <div className={styles.sectionContainer}>
-          <div className={styles.section}>
-            {data.home.map((card, index) => (
-              <div className={styles.card} key={`home-${index}-${card.title}`}>
-                <XboxCard 
-                  key={`home-${index}-${card.title}`}
-                  title={card.title} 
-                  iconUrl={card.iconUrl}
-                  route={card.route}
-                  images={card.images}
-                />
-              </div>
-            ))}
-          </div>
-          <div className={styles.position}>
-            {`${currentCardIndex + 1} of ${data.home.length}`}
-          </div>
-        </div>
-        <div className={styles.rightArrowContainer}>
-          <button
-            className={styles.rightArrow}
-            onClick={navigateRight}
-            disabled={!canNavigateRight}
-            onMouseEnter={playHoverSound}>
-          <img
-              src="./assets/icons/buttonRight.webp"
-              alt="Right Arrow"
-              className={styles.rightArrow}
-            />
-          </button>
-        </div>
-      </div>
-    ),
-    1: (
-      <div className={styles.dashboardContainer}>
-        <div className={styles.leftArrowContainer}>
-          <button
-            className={styles.leftArrow}
-            onClick={navigateLeft}
-            disabled={!canNavigateLeft}
-            onMouseEnter={playHoverSound}
-          >
-            <img
-              src="./assets/icons/buttonLeft.webp"
-              alt="Left Arrow"
-              className={styles.leftArrow}
-            />
-          </button>
-        </div>
-        <div className={styles.sectionContainer}>
-          <div className={styles.section}>
-            {data.misc.map((card, index) => (
-              <div className={styles.card} key={`misc-${index}-${card.title}`}>
-                <XboxCard 
-                  key={`misc-${index}-${card.title}`}
-                  title={card.title} 
-                  iconUrl={card.iconUrl}
-                  route={card.route}
-                  images={card.images}
-                />
-              </div>
-            ))}
-          </div>
-          <div className={styles.position}>
-            {`${currentCardIndex + 1} of ${data.misc.length}`}
-          </div>
-        </div>
-        <div className={styles.rightArrowContainer}>
+  const renderDesktopDashboard = () => (
+    <div className={styles.dashboardContainer}>
+      {/* Left Navigation Arrow */}
+      <div className={styles.leftArrowContainer}>
         <button
-            className={styles.rightArrow}
-            onClick={navigateRight}
-            disabled={!canNavigateRight}
-            onMouseEnter={playHoverSound}>
+          className={styles.leftArrow}
+          onClick={navigateLeft}
+          disabled={!canNavigateLeft}
+          onMouseEnter={playHoverSound}
+        >
           <img
-              src="./assets/icons/buttonRight.webp"
-              alt="Right Arrow"
-              className={styles.rightArrow}
-            />
-          </button>
-        </div>
+            src="./assets/icons/buttonLeft.webp"
+            alt="Left Arrow"
+            className={styles.leftArrow}
+          />
+        </button>
       </div>
-    ),
-    2: (
-      <div className={styles.dashboardContainer}>
-        <div className={styles.leftArrowContainer}>
-          <button
-              className={styles.leftArrow}
-              onClick={navigateLeft}
-              disabled={!canNavigateLeft}
-              onMouseEnter={playHoverSound}
-            >
-              <img
-                src="./assets/icons/buttonLeft.webp"
-                alt="Left Arrow"
-                className={styles.leftArrow}
-              />
-            </button>
-        </div>
-        <div className={styles.sectionContainer}>
-          <div className={styles.section}>
-            {data.gallery.map((card, index) => (
-              <div className={styles.card} key={`gallery-${index}-${card.title}`}>
-                <XboxCard 
-                  key={`gallery-${index}-${card.title}`}
-                  title={card.title} 
-                  iconUrl={card.iconUrl}
-                  route={card.route}
-                  images={card.images}
-                />
-              </div>
-            ))}
-          </div>
-          <div className={styles.position}>
-            {`${currentCardIndex + 1} of ${data.gallery.length}`}
-          </div>
-        </div>
-        <div className={styles.rightArrowContainer}>
-        <button
-            className={styles.rightArrow}
-            onClick={navigateRight}
-            disabled={!canNavigateRight}
-            onMouseEnter={playHoverSound}>
-          <img
-              src="./assets/icons/buttonRight.webp"
-              alt="Right Arrow"
-              className={styles.rightArrow}
-            />
-          </button>
-        </div>
-      </div>
-    ),
-    3: (
-      <div className={styles.dashboardContainer}>
-        <div className={styles.leftArrowContainer}>
-          <button
-              className={styles.leftArrow}
-              onClick={navigateLeft}
-              disabled={!canNavigateLeft}
-              onMouseEnter={playHoverSound}
-            >
-              <img
-                src="./assets/icons/buttonLeft.webp"
-                alt="Left Arrow"
-                className={styles.leftArrow}
-              />
-            </button>
-        </div>
-        <div className={styles.sectionContainer}>
-          <div className={styles.section}>
-            {data.credits.map((card, index) => (
-              <div className={styles.card} key={`credits-${index}-${card.title}`}>
-                <XboxCard 
-                  key={`credits-${index}-${card.title}`}
-                  title={card.title} 
-                  iconUrl={card.iconUrl}
-                  route={card.route}
-                  images={card.images}
-                />
-              </div>
-            ))}
-          </div>
-          <div className={styles.position}>
-            {`${currentCardIndex + 1} of ${data.credits.length}`}
-          </div>
-        </div>
-        <div className={styles.rightArrowContainer}>
-          <button
-            className={styles.rightArrow}
-            onClick={navigateRight}
-            disabled={!canNavigateRight}
-            onMouseEnter={playHoverSound}>
-          <img
-              src="./assets/icons/buttonRight.webp"
-              alt="Right Arrow"
-              className={styles.rightArrow}
-            />
-          </button>
-        </div>
-      </div>
-    ),
-  };
 
-  // If mobile, render ResponsiveCardGrid
+      {/* Cards Section */}
+      <div className={styles.sectionContainer}>
+        <div className={styles.section}>
+          {cardsData.map((card, index) => (
+            <div className={styles.card} key={`${sectionNames[activeIndex]}-${index}-${card.title}`}>
+              <XboxCard 
+                title={card.title} 
+                iconUrl={card.iconUrl}
+                route={card.route}
+                images={card.images}
+              />
+            </div>
+          ))}
+        </div>
+        <div className={styles.position}>
+          {`${currentCardIndex + 1} of ${cardsData.length}`}
+        </div>
+      </div>
+
+      {/* Right Navigation Arrow */}
+      <div className={styles.rightArrowContainer}>
+        <button
+          className={styles.rightArrow}
+          onClick={navigateRight}
+          disabled={!canNavigateRight}
+          onMouseEnter={playHoverSound}
+        >
+          <img
+            src="./assets/icons/buttonRight.webp"
+            alt="Right Arrow"
+            className={styles.rightArrow}
+          />
+        </button>
+      </div>
+    </div>
+  );
+
   if (isMobile) {
     return (
       <ResponsiveCardGrid
@@ -315,7 +168,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data })
     );
   }
 
-  return componentMapping[activeIndex] || <div>No content available</div>;
+  return renderDesktopDashboard();
 });
 
 XboxDashboard.displayName = 'XboxDashboard';

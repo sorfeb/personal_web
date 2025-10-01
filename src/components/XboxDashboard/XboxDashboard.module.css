@@ -1,8 +1,7 @@
 .dashboardContainer {
   display: flex;
   align-items: center; 
-  justify-content: flex-start; 
-  position: relative; 
+  width: 100%;
   height: 350px;
 }
 
@@ -37,8 +36,8 @@
 
 .sectionContainer {
   display: flex;
-  flex-direction: column; /* Stack section and cardPosition vertically */
-  width: 100%;
+  flex-direction: column;
+  width: 80%;
   height: 100%;
 }
 
@@ -63,7 +62,6 @@
   display: inline-block;
   color: white;
 }
-
 
 .card {
   height: 40vh;
