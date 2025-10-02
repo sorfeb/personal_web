@@ -5,7 +5,6 @@ import ResponsiveCardGrid from './ResponsiveCardGrid/ResponsiveCardGrid';
 import XboxCard from '../XboxCard/card/XboxCard';
 import styles from './XboxDashboard.module.css';
 import { useAudioManager } from '../../hooks/useAudioManager';
-import { useVolume } from '../../context/VolumeContext';
 import { useCardNavigation } from '../../hooks/useCardNavigation';
 import { useIsMobile } from '../../utils/responsiveUtils';
 
@@ -22,7 +21,6 @@ interface XboxDashboardProps {
 const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data }) => {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const { playSound } = useAudioManager();
-  const { volume } = useVolume();
   const isMobile = useIsMobile(768);
 
   const cardsData = useMemo(() => [

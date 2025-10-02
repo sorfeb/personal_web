@@ -3,6 +3,7 @@
   align-items: center; 
   width: 100%;
   height: 350px;
+  margin: 0 auto;
 }
 
 .arrowContainer {
@@ -70,9 +71,6 @@
   right: 0;
   transform-origin: center;
   transition: transform 0.3s ease, z-index 0.3s ease;
-  opacity: 0;
-  z-index: 0;
-  scroll-snap-align: center;
 }
 
 .card:first-child {
@@ -81,7 +79,7 @@
 }
 
 .card.selected {
-  border: 2px solid rgb(255 255 255 / 50%); /* Subtle border */
+  border: 2px solid rgb(255 255 255 / 50%);
   box-shadow: 0 0 20px 10px rgb(255 255 255 / 70%), 
               0 0 40px 20px rgb(255 255 255 / 50%), 
               0 0 60px 30px rgb(255 255 255 / 30%);
