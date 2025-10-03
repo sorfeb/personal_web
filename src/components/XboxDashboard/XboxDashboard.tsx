@@ -1,12 +1,13 @@
 'use client';
 
-import React, { JSX, useState, useEffect, memo, useCallback, useMemo } from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import ResponsiveCardGrid from './ResponsiveCardGrid/ResponsiveCardGrid';
 import XboxCard from '../XboxCard/card/XboxCard';
 import styles from './XboxDashboard.module.css';
 import { useAudioManager } from '../../hooks/useAudioManager';
 import { useCardNavigation } from '../../hooks/useCardNavigation';
 import { useInitialCardAnimation } from '../../hooks/useInitialCardAnimation';
+import { useKeyboardNavigation } from '../../hooks/useKeyboardNavigation';
 import { useIsMobile } from '../../utils/responsiveUtils';
 
 interface XboxDashboardProps {
@@ -53,29 +54,20 @@ const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data })
 
   const playHoverSound = () => playSound('ting');
 
-  // Keyboard and horizontal scroll navigation
-  useEffect(() => {
-    if (isMobile) return;
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'ArrowLeft' && canNavigateLeft) {
-        event.preventDefault();
-        navigateLeft();
-      } else if (event.key === 'ArrowRight' && canNavigateRight) {
-        event.preventDefault();
-        navigateRight();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [canNavigateLeft, canNavigateRight, navigateLeft, navigateRight, isMobile]);
+  // Keyboard navigation (ArrowLeft/ArrowRight)
+  useKeyboardNavigation({
+    onLeft: navigateLeft,
+    onRight: navigateRight,
+    canGoLeft: canNavigateLeft,
+    canGoRight: canNavigateRight,
+    enabled: !isMobile,
+  });
 
   const renderDesktopDashboard = () => (
-    <div className={styles.dashboardContainer}>
+    <section 
+      className={styles.dashboardContainer}
+      aria-label="Xbox dashboard card navigation"
+    >
       {/* Left Navigation Arrow */}
       <div className={styles.leftArrowContainer}>
         <button
@@ -126,7 +118,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data })
           />
         </button>
       </div>
-    </div>
+    </section>
   );
 
   if (isMobile) {
