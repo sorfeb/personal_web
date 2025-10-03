@@ -10,13 +10,16 @@
 .menuItem {
   height: 40px;
   display: flex;
+  align-items: center;
   justify-content: left;
-  font-size: 24px;
+  font-size: 2rem;
   color: white;
   transform: translateZ(50px);
   transition: all 0.3s ease;
   opacity: 0.6;
   cursor: pointer;
+  position: relative; /* Create positioning context for absolute dot */
+  padding-left: 21px; /* Reserve space for dot: 9px width + 12px gap */
 }
 
 .menuItem:hover {
@@ -34,14 +37,14 @@
   transform: translateZ(100px) scale(1.05);
 }
 
-.menuItem.selected::after {
+.menuItem.selected::before {
   content: ''; 
   position: absolute;
+  left: 0;
   top: 50%; 
-  right: 90px; 
-  transform: translateY(-100%); 
+  transform: translateY(-50%);
   width: 9px; 
   height: 9px; 
   background-color: white;
-  border-radius: 2px; 
+  border-radius: 2px;
 }
