@@ -84,6 +84,12 @@ const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items, onSelectionChange,
         className={styles.menu} 
         style={{ transform: `translateY(-${selectedIndex * 5}px)` }}
       >
+        {/* Animated dot indicator */}
+        <div 
+          className={styles.dotIndicator}
+          style={{ transform: `translateY(${selectedIndex * 40}px)` }}
+        />
+        
         {items.map((item, index) => (
           <div
             key={index}

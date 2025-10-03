@@ -5,6 +5,22 @@
 .menu {
   transform-style: preserve-3d;
   transition: transform 0.3s ease;
+  position: relative;
+}
+
+.dotIndicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 9px;
+  height: 9px;
+  background-color: white;
+  border-radius: 2px;
+  transform-origin: center;
+  transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  pointer-events: none;
+  z-index: 10;
+  margin-top: 15.5px;
 }
 
 .menuItem {
@@ -35,16 +51,4 @@
 
 .menuItem.selected:hover {
   transform: translateZ(100px) scale(1.05);
-}
-
-.menuItem.selected::before {
-  content: ''; 
-  position: absolute;
-  left: 0;
-  top: 50%; 
-  transform: translateY(-50%);
-  width: 9px; 
-  height: 9px; 
-  background-color: white;
-  border-radius: 2px;
 }
