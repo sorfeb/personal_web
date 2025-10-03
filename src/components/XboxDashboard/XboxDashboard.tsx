@@ -6,6 +6,7 @@ import XboxCard from '../XboxCard/card/XboxCard';
 import styles from './XboxDashboard.module.css';
 import { useAudioManager } from '../../hooks/useAudioManager';
 import { useCardNavigation } from '../../hooks/useCardNavigation';
+import { useInitialCardAnimation } from '../../hooks/useInitialCardAnimation';
 import { useIsMobile } from '../../utils/responsiveUtils';
 
 interface XboxDashboardProps {
@@ -19,7 +20,6 @@ interface XboxDashboardProps {
 }
 
 const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data }) => {
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const { playSound } = useAudioManager();
   const isMobile = useIsMobile(768);
 
@@ -32,7 +32,12 @@ const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data })
 
   const sectionNames = ['home', 'misc', 'gallery', 'credits'];
 
-  // Card navigation hook
+  const sectionRef = useInitialCardAnimation({
+    activeIndex,
+    isMobile,
+    cardSelector: `.${styles.card}`,
+  });
+
   const {
     currentCardIndex,
     navigateLeft,
@@ -48,57 +53,26 @@ const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data })
 
   const playHoverSound = () => playSound('ting');
 
-  // Initial animation for the cards (desktop only)
+  // Keyboard and horizontal scroll navigation
   useEffect(() => {
-    const section = document.querySelector(`.${styles.section}`);
-    const cards = section?.querySelectorAll(`.${styles.card}`);
+    if (isMobile) return;
 
-    if (!cards) return;
-
-    let cumulativeTranslation = 0;
-    let decrement = 250;
-
-    const playUnfoldSound = () => {
-      if (isAudioPlaying) return;
-      setIsAudioPlaying(true);
-      playSound('unfold');
-      setTimeout(() => setIsAudioPlaying(false), 600);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowLeft' && canNavigateLeft) {
+        event.preventDefault();
+        navigateLeft();
+      } else if (event.key === 'ArrowRight' && canNavigateRight) {
+        event.preventDefault();
+        navigateRight();
+      }
     };
 
-    playUnfoldSound();
-
-    cards.forEach((card) => {
-      const cardElement = card as HTMLElement;
-      cardElement.style.transition = 'none';
-      cardElement.style.opacity = '0';
-      cardElement.style.transform = `translateX(-100px) scale(0.9)`;
-    });
-
-    const animationTimeouts: NodeJS.Timeout[] = [];
-    cards.forEach((card, index) => {
-      const cardElement = card as HTMLElement;
-
-      const timeout = setTimeout(() => {
-        cardElement.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
-        cardElement.style.opacity = '1';
-        cardElement.style.transform = `translateX(${cumulativeTranslation}px) scale(${1 - index * 0.1})`;
-        cardElement.style.zIndex = `${cards.length - index}`;
-
-        cumulativeTranslation += decrement;
-        decrement *= 0.78;
-      }, index * 80);
-
-      animationTimeouts.push(timeout);
-    });
+    window.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      animationTimeouts.forEach((timeout) => clearTimeout(timeout));
-      cards.forEach((card) => {
-        const cardElement = card as HTMLElement;
-        cardElement.style.transition = 'none';
-      });
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [activeIndex, playSound]);
+  }, [canNavigateLeft, canNavigateRight, navigateLeft, navigateRight, isMobile]);
 
   const renderDesktopDashboard = () => (
     <div className={styles.dashboardContainer}>
@@ -120,7 +94,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data })
 
       {/* Cards Section */}
       <div className={styles.sectionContainer}>
-        <div className={styles.section}>
+        <div ref={sectionRef} className={styles.section}>
           {cardsData.map((card, index) => (
             <div className={styles.card} key={`${sectionNames[activeIndex]}-${index}-${card.title}`}>
               <XboxCard 

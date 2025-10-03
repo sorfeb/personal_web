@@ -143,7 +143,6 @@ export const useCardNavigation = ({ totalCards, activeIndex, sectionSelector, ca
       decrement *= ANIMATION_CONFIG.STACK_OFFSET_DECREMENT_FACTOR;
     }
 
-    // Update state after animation starts
     setTimeout(() => {
       setCurrentCardIndex((prev) => prev + 1);
     }, ANIMATION_CONFIG.STATE_UPDATE_DELAY);

@@ -16,7 +16,7 @@ const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items, onSelectionChange,
   const { playSound } = useAudioManager();
 
   useEffect(() => {
-    // Don't add scroll listener if disabled (e.g., when modal is open)
+    // Don't add listeners if disabled (e.g., when modal is open)
     if (disabled) return;
     
     const handleScroll = (event: WheelEvent) => {
@@ -31,10 +31,35 @@ const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items, onSelectionChange,
       }
     };
 
+    const handleKeyDown = (event: KeyboardEvent) => {
+      let newIndex = selectedIndex;
+
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        newIndex = Math.min(selectedIndex + 1, items.length - 1);
+        if (newIndex !== selectedIndex) {
+          playSound('channelDown');
+        }
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        newIndex = Math.max(selectedIndex - 1, 0);
+        if (newIndex !== selectedIndex) {
+          playSound('channelUp');
+        }
+      }
+
+      if (newIndex !== selectedIndex) {
+        setSelectedIndex(newIndex);
+        onSelectionChange(newIndex);
+      }
+    };
+
     window.addEventListener('wheel', handleScroll, { passive: true });
+    window.addEventListener('keydown', handleKeyDown);
 
     return () => {
       window.removeEventListener('wheel', handleScroll);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [selectedIndex, items.length, onSelectionChange, playSound, disabled]);
 
