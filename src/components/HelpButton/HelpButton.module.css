@@ -21,7 +21,7 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  border: 3px solid rgb(200 220 235);
+  border: 4px solid rgb(226, 231, 255);
   cursor: pointer;
   background: radial-gradient(
     circle at 30% 30%,
@@ -29,6 +29,7 @@
     rgb(40 110 180) 50%,
     rgb(25 85 145) 100%
   );
+  opacity: 0.7;
   box-shadow: 0 2px 4px rgb(0 0 0 / 15%),
               0 0 15px rgb(66 139 202 / 40%),
               inset 0 1px 2px rgb(255 255 255 / 50%),
@@ -39,6 +40,7 @@
   overflow: visible;
 }
 
+/* Shine */
 .helpButton::before {
   content: '';
   position: absolute;
@@ -70,6 +72,7 @@
     rgb(50 120 190) 50%,
     rgb(30 95 155) 100%
   );
+  opacity: 1;
 }
 
 .helpButton:hover::before {
@@ -85,7 +88,7 @@
 
 .questionMark {
   font-size: 25px;
-  font-weight: 600;
+  font-weight: 700;
   color: white;
   font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   text-shadow: 0 1px 2px rgb(0 0 0 / 40%),
