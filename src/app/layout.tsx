@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <title>Soros Febriano</title>
+        <title>sorOS</title>
         <meta name="description" content="Personal website and portfolio of Soros Febriano, a passionate learner about the fusion of technology and art. Explore projects, photos, media and more." />
         {/* Open Graph tags */}
         <meta property="og:type" content="website" />
