@@ -1,0 +1,192 @@
+/**
+ * AnimatedBackground Styles
+ * 
+ * Pure CSS animation approach for optimal performance.
+ * All animations are GPU-accelerated using transforms and opacity.
+ */
+
+.backgroundContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+/* Base gradient matching Xbox 360 green aesthetic */
+.gradientBase {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    #4a5c2a 0%,
+    #6b8e23 20%,
+    #9acd32 40%,
+    #c1d947 60%,
+    #9acd32 80%,
+    #4a5c2a 100%
+  );
+  background-size: 100% 200%;
+  animation: gradientShift 20s ease infinite;
+}
+
+/* Subtle gradient movement for depth */
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 0% 100%;
+  }
+}
+
+/* SVG container for circles */
+.circlesSvg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Individual circle animation - ripple effect */
+.animatedCircle {
+  transform-origin: center;
+  animation: ripple 4s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Ring-specific animation delays and opacities */
+.ring0 {
+  animation-delay: 0s;
+  opacity: 0.3;
+}
+
+.ring1 {
+  animation-delay: 0.3s;
+  opacity: 0.25;
+}
+
+.ring2 {
+  animation-delay: 0.6s;
+  opacity: 0.2;
+}
+
+.ring3 {
+  animation-delay: 0.9s;
+  opacity: 0.15;
+}
+
+/* Group-specific delays for visual variety */
+[data-delay="0"] .animatedCircle { animation-delay: 0s; }
+[data-delay="0.5"] .animatedCircle.ring0 { animation-delay: 0.5s; }
+[data-delay="0.5"] .animatedCircle.ring1 { animation-delay: 0.8s; }
+[data-delay="0.5"] .animatedCircle.ring2 { animation-delay: 1.1s; }
+[data-delay="0.5"] .animatedCircle.ring3 { animation-delay: 1.4s; }
+
+[data-delay="1"] .animatedCircle.ring0 { animation-delay: 1s; }
+[data-delay="1"] .animatedCircle.ring1 { animation-delay: 1.3s; }
+[data-delay="1"] .animatedCircle.ring2 { animation-delay: 1.6s; }
+[data-delay="1"] .animatedCircle.ring3 { animation-delay: 1.9s; }
+
+[data-delay="1.5"] .animatedCircle.ring0 { animation-delay: 1.5s; }
+[data-delay="1.5"] .animatedCircle.ring1 { animation-delay: 1.8s; }
+[data-delay="1.5"] .animatedCircle.ring2 { animation-delay: 2.1s; }
+[data-delay="1.5"] .animatedCircle.ring3 { animation-delay: 2.4s; }
+
+[data-delay="2"] .animatedCircle.ring0 { animation-delay: 2s; }
+[data-delay="2"] .animatedCircle.ring1 { animation-delay: 2.3s; }
+[data-delay="2"] .animatedCircle.ring2 { animation-delay: 2.6s; }
+[data-delay="2"] .animatedCircle.ring3 { animation-delay: 2.9s; }
+
+[data-delay="1.2"] .animatedCircle.ring0 { animation-delay: 1.2s; }
+[data-delay="1.2"] .animatedCircle.ring1 { animation-delay: 1.5s; }
+[data-delay="1.2"] .animatedCircle.ring2 { animation-delay: 1.8s; }
+[data-delay="1.2"] .animatedCircle.ring3 { animation-delay: 2.1s; }
+
+[data-delay="1.8"] .animatedCircle.ring0 { animation-delay: 1.8s; }
+[data-delay="1.8"] .animatedCircle.ring1 { animation-delay: 2.1s; }
+[data-delay="1.8"] .animatedCircle.ring2 { animation-delay: 2.4s; }
+[data-delay="1.8"] .animatedCircle.ring3 { animation-delay: 2.7s; }
+
+[data-delay="2.2"] .animatedCircle.ring0 { animation-delay: 2.2s; }
+[data-delay="2.2"] .animatedCircle.ring1 { animation-delay: 2.5s; }
+[data-delay="2.2"] .animatedCircle.ring2 { animation-delay: 2.8s; }
+[data-delay="2.2"] .animatedCircle.ring3 { animation-delay: 3.1s; }
+
+[data-delay="2.7"] .animatedCircle.ring0 { animation-delay: 2.7s; }
+[data-delay="2.7"] .animatedCircle.ring1 { animation-delay: 3s; }
+[data-delay="2.7"] .animatedCircle.ring2 { animation-delay: 3.3s; }
+[data-delay="2.7"] .animatedCircle.ring3 { animation-delay: 3.6s; }
+
+[data-delay="3.1"] .animatedCircle.ring0 { animation-delay: 3.1s; }
+[data-delay="3.1"] .animatedCircle.ring1 { animation-delay: 3.4s; }
+[data-delay="3.1"] .animatedCircle.ring2 { animation-delay: 3.7s; }
+[data-delay="3.1"] .animatedCircle.ring3 { animation-delay: 4s; }
+
+[data-delay="2.5"] .animatedCircle.ring0 { animation-delay: 2.5s; }
+[data-delay="2.5"] .animatedCircle.ring1 { animation-delay: 2.8s; }
+[data-delay="2.5"] .animatedCircle.ring2 { animation-delay: 3.1s; }
+[data-delay="2.5"] .animatedCircle.ring3 { animation-delay: 3.4s; }
+
+[data-delay="3.3"] .animatedCircle.ring0 { animation-delay: 3.3s; }
+[data-delay="3.3"] .animatedCircle.ring1 { animation-delay: 3.6s; }
+[data-delay="3.3"] .animatedCircle.ring2 { animation-delay: 3.9s; }
+[data-delay="3.3"] .animatedCircle.ring3 { animation-delay: 4.2s; }
+
+[data-delay="1.6"] .animatedCircle.ring0 { animation-delay: 1.6s; }
+[data-delay="1.6"] .animatedCircle.ring1 { animation-delay: 1.9s; }
+[data-delay="1.6"] .animatedCircle.ring2 { animation-delay: 2.2s; }
+[data-delay="1.6"] .animatedCircle.ring3 { animation-delay: 2.5s; }
+
+[data-delay="2.9"] .animatedCircle.ring0 { animation-delay: 2.9s; }
+[data-delay="2.9"] .animatedCircle.ring1 { animation-delay: 3.2s; }
+[data-delay="2.9"] .animatedCircle.ring2 { animation-delay: 3.5s; }
+[data-delay="2.9"] .animatedCircle.ring3 { animation-delay: 3.8s; }
+
+/**
+ * Ripple Animation
+ * 
+ * Creates a water ripple effect where circles expand outward
+ * and fade as they grow, then reset to create continuous ripples.
+ * 
+ * Performance: Uses transform (GPU-accelerated) instead of width/height
+ */
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Accessibility: Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .animatedCircle {
+    animation: none;
+  }
+  
+  .gradientBase {
+    animation: none;
+  }
+}
+
+/* Mobile optimization - reduce animation complexity */
+@media (max-width: 768px) {
+  .animatedCircle {
+    animation-duration: 5s; /* Slightly slower for better performance */
+  }
+  
+  .gradientBase {
+    animation: none; /* Disable gradient shift on mobile */
+  }
+}
