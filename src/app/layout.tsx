@@ -2,11 +2,13 @@ import { Roboto } from "next/font/google";
 import { StackProvider, StackTheme } from "@stackframe/stack";
 import { stackServerApp } from "../stack";
 import { VolumeProvider } from "../context/VolumeContext";
+import { BackgroundProvider } from "../context/BackgroundContext";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import RipplesEffect from "../components/RipplesEffect/RipplesEffect";
 import ConsoleEasterEgg from "../components/ConsoleEasterEgg/ConsoleEasterEgg";
 import TRPCProvider from "../components/Providers/TRPCProvider";
+import BackgroundRenderer from "../components/BackgroundRenderer/BackgroundRenderer";
 import "./globals.css";
 
 const inter = Roboto({ weight: "300", subsets: ["latin"] });
@@ -54,7 +56,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
         <body className={inter.className}>
-          <div className="crt">
+          <BackgroundProvider>
+            <BackgroundRenderer />
+            <div className="crt">
             <svg className="mountainCurve" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="mountainGradient" x1="0" y1="0" x2="0" y2="1">
@@ -77,6 +81,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </StackProvider>
             </RipplesEffect>
           </div>
+          </BackgroundProvider>
         </body>
       <Analytics />
       <SpeedInsights />

@@ -36,11 +36,7 @@ html, body {
 }
 
 body {
-  background-image: url('/assets/wallpapers/xbox360.webp');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  /* Background handled by BackgroundRenderer component */
 }
 
 a {
