@@ -21,19 +21,11 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   const { playSound } = useAudioManager();
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
 
   // Ensure we're on the client side
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  // Reset image loaded state when modal opens
-  useEffect(() => {
-    if (isOpen) {
-      setImageLoaded(false);
-    }
-  }, [isOpen]);
 
   const handleClose = useCallback(() => {
     playSound('back');
@@ -100,7 +92,6 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   const handleAvatarSelect = (avatarId: string) => {
     playSound('click');
     setSelectedAvatar(avatarId);
-    setImageLoaded(false); // Reset loading state when selecting new avatar
   };
 
   const handleSave = async () => {
@@ -209,27 +200,15 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
             <div className={styles.previewPanel}>
               <div className={styles.profilePreview}>
                 <div className={styles.previewAvatar}>
-                  {!imageLoaded && (
-                    <div className={styles.avatarPlaceholder}>
-                      Loading...
-                    </div>
-                  )}
-                  <motion.div
-                    className={styles.imageWrapper}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: imageLoaded ? 1 : 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
+                  
                     <Image
                       src={`/assets/avatars/${currentAvatar}`}
                       alt="Selected Avatar"
                       width={96}
                       height={96}
                       className={styles.previewImage}
-                      onLoad={() => setImageLoaded(true)}
                       priority
                     />
-                  </motion.div>
                 </div>
                 <div className={styles.profileInfo}>
                   <h2 className={styles.profileName}>{displayName}</h2>

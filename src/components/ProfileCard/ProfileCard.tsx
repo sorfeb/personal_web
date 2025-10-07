@@ -1,5 +1,7 @@
 import styles from './ProfileCard.module.css';
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useAudioManager } from '../../hooks/useAudioManager';
 import { trpc } from '../../utils/trpc';
 
@@ -27,8 +29,15 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   onClick
 }) => {
   const { playSound } = useAudioManager();
+  const [avatarLoaded, setAvatarLoaded] = useState(false);
   
   const { data: profile, isLoading, error } = trpc.user.getProfile.useQuery();
+
+  useEffect(() => {
+    if (profile) {
+      setAvatarLoaded(false);
+    }
+  }, [profile?.avatar, overrideAvatar]);
 
   const playSelectSound = () => playSound('click');
   const playHoverSound = () => playSound('owawa');
@@ -45,64 +54,83 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     console.error('tRPC ProfileCard Error:', error.message);
   }
 
-  if (isLoading || !profile) {
-    return (
-      <div className={styles.card}>
-        <div className={styles.infoContainer}>
-          <h2 className={styles.name}>Loading...</h2>
-          <p className={styles.gamerscore}>
-            --
-            <Image
-              src="/assets/icons/Gamerscore.gif"
-              alt="Gamerscore"
-              width={20}
-              height={20}
-            />
-          </p>
-        </div>
-        <div className={styles.avatarContainer}>
-          <div className={styles.avatarWrapper}>
-            <div className={styles.profileIcon} />
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // Determine if we're showing loaded content (for width animation)
+  const isContentLoaded = !isLoading && profile;
 
   return (
-      <div 
-        className={styles.card}
-        onClick={() => {
-          playSelectSound();
-          onClick?.();
-        }}
-        onMouseEnter={playHoverSound}
-      >
-        <div className={styles.infoContainer}>
-          <h2 className={styles.name}>{displayName}</h2>
-          <p className={styles.gamerscore}>
-            {displayGamerscore?.toLocaleString()}
-            <Image
-              src="/assets/icons/Gamerscore.gif"
-              alt="Gamerscore"
-              width={20}
-              height={20}
-            />
-          </p>
-        </div>
-        <div className={styles.avatarContainer}>
-          <div className={styles.avatarWrapper}>
+    <motion.div 
+      className={styles.card}
+      animate={{ width: isContentLoaded ? 'auto' : 'auto' }}
+      transition={{ 
+        width: { duration: 0.5, ease: 'easeOut' }
+      }}
+      onClick={() => {
+        playSelectSound();
+        onClick?.();
+      }}
+      onMouseEnter={playHoverSound}
+    >
+      <div className={styles.infoContainer}>
+        <h2 className={styles.name}>
+          {isContentLoaded ? displayName : 'Loading...'}
+        </h2>
+        <p className={styles.gamerscore}>
+          {isContentLoaded ? displayGamerscore?.toLocaleString() : '--'}
+          <Image
+            src="/assets/icons/Gamerscore.gif"
+            alt="Gamerscore"
+            width={20}
+            height={20}
+          />
+        </p>
+      </div>
+      <div className={styles.avatarContainer}>
+        <div className={styles.avatarWrapper}>
+          {isContentLoaded ? (
+            <>
+              {/* Guest avatar placeholder */}
+              <Image 
+                src="/assets/avatars/guest_gamerpic.svg"
+                alt="Loading Avatar"
+                width={64}
+                height={64}
+                className={styles.profileIcon}
+                style={{ 
+                  position: 'absolute',
+                  opacity: avatarLoaded ? 0 : 1,
+                  transition: 'opacity 0.3s ease'
+                }}
+              />
+              {/* Actual user avatar */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: avatarLoaded ? 1 : 0 }}
+                transition={{ duration: 0.3 }}
+                style={{ position: 'absolute' }}
+              >
+                <Image 
+                  src={avatarPath}
+                  alt="Profile Icon"
+                  width={64}
+                  height={64}
+                  className={styles.profileIcon}
+                  onLoad={() => setAvatarLoaded(true)}
+                  priority
+                />
+              </motion.div>
+            </>
+          ) : (
             <Image 
-              src={avatarPath}
-              alt="Profile Icon"
+              src="/assets/avatars/guest_gamerpic.svg"
+              alt="Loading Avatar"
               width={64}
               height={64}
               className={styles.profileIcon}
-              priority
             />
-          </div>
+          )}
         </div>
       </div>
+    </motion.div>
   );
 };
 

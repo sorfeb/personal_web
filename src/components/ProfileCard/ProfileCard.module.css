@@ -27,6 +27,8 @@
     rgb(111 175 68 / 40%)
   );
   animation: card-glow 2s infinite ease-in-out;
+  overflow: hidden;
+  width: fit-content;
 }
 
 .card:hover {
@@ -59,6 +61,8 @@
 
 .profileIcon {
   object-fit: cover;
+  width: 64px;
+  height: 64px;
 }
 
 .infoContainer {
