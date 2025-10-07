@@ -31,7 +31,6 @@ interface CRTFilterProviderProps {
  * Loads saved preference from localStorage on mount.
  */
 export const CRTFilterProvider: React.FC<CRTFilterProviderProps> = ({ children }) => {
-  // Default to enabled for authentic Xbox experience
   const [isEnabled, setIsEnabled] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -63,7 +62,6 @@ export const CRTFilterProvider: React.FC<CRTFilterProviderProps> = ({ children }
     setIsEnabled((prev) => {
       const newValue = !prev;
       
-      // Persist to localStorage
       try {
         localStorage.setItem(STORAGE_KEY, String(newValue));
       } catch (error) {
@@ -80,7 +78,6 @@ export const CRTFilterProvider: React.FC<CRTFilterProviderProps> = ({ children }
   const setEnabled = (enabled: boolean) => {
     setIsEnabled(enabled);
     
-    // Persist to localStorage
     try {
       localStorage.setItem(STORAGE_KEY, String(enabled));
     } catch (error) {
@@ -97,7 +94,6 @@ export const CRTFilterProvider: React.FC<CRTFilterProviderProps> = ({ children }
     [isEnabled]
   );
 
-  // Don't render until we've loaded the preference to avoid flash
   if (isLoading) {
     return <>{children}</>;
   }
