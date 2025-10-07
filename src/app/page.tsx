@@ -1,6 +1,7 @@
 'use client';
 
-import styles from "./page.module.css";
+import "./globals.css";
+import styles from "./Home.module.css";
 import data from '../data/cardsList';
 
 import React, {useState } from 'react';

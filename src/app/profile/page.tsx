@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PageLayout from '../../components/PageLayout/PageLayout';
-import styles from './page.module.css';
+import styles from './Profile.module.css';
 import { useAudioManager } from '../../hooks/useAudioManager';
 
 const ProfilePage: React.FC = () => {

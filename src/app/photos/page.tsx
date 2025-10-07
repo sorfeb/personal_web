@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import PageLayout from '../../components/PageLayout/PageLayout';
-import styles from './page.module.css';
+import styles from './Photos.module.css';
 import { useAudioManager } from '../../hooks/useAudioManager';
 import { CldImage } from 'next-cloudinary';
 import { motion, AnimatePresence } from 'framer-motion';

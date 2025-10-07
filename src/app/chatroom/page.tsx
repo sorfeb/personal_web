@@ -1,7 +1,7 @@
 'use client';
 
 import ChatRoom from '../../components/ChatRoom/ChatRoom';
-import styles from './page.module.css';
+import styles from './Chatroom.module.css';
 
 export default function ChatroomPage() {
   return (

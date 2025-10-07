@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PageLayout from '../../components/PageLayout/PageLayout';
-import styles from './page.module.css';
+import styles from './DigitalGems.module.css';
 import linksData from '../../data/coolSites.json'; // Import JSON file
 import { motion } from 'framer-motion';
 

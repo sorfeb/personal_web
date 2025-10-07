@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useAudioManager } from '../../hooks/useAudioManager';
 import RollingCredits from '../../components/RollingCredits/RollingCredits';
-import styles from './page.module.css';
+import styles from './CreditsTech.module.css';
 
 const CreditsTechPage = () => {
   const { playSound } = useAudioManager();

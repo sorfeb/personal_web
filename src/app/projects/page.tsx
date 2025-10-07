@@ -2,8 +2,8 @@
 
 import React, { useEffect } from 'react';
 import PageLayout from '../../components/PageLayout/PageLayout';
-import styles from './page.module.css';
-import projects from '../../data/projects.json'; // Import projects JSON
+import styles from "./Projects.module.css";
+import projects from '../../data/projects.json';
 
 const ProjectsPage = () => {
   const technologies = [

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import PageLayout from '../../components/PageLayout/PageLayout';
-import styles from './page.module.css';
+import styles from './Playlists.module.css';
 import { useAudioManager } from '../../hooks/useAudioManager';
 
 interface Playlist {

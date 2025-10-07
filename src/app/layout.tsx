@@ -57,8 +57,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
         <body className={inter.className}>
           <BackgroundProvider>
-            <BackgroundRenderer />
             <div className="crt">
+              <BackgroundRenderer />
             <svg className="mountainCurve" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="mountainGradient" x1="0" y1="0" x2="0" y2="1">

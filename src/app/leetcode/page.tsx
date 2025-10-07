@@ -2,7 +2,7 @@
 
 import React, { useRef } from 'react';
 import PageLayout from '../../components/PageLayout/PageLayout';
-import styles from './page.module.css';
+import styles from './Leetcode.module.css';
 import { useVolume } from '@/context/VolumeContext';
 import { a } from 'framer-motion/client';
 
