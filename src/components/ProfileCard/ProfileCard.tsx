@@ -58,24 +58,32 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   const isContentLoaded = !isLoading && profile;
 
   return (
-    <motion.div 
+    <div 
       className={styles.card}
-      animate={{ width: isContentLoaded ? 'auto' : 'auto' }}
-      transition={{ 
-        width: { duration: 0.5, ease: 'easeOut' }
-      }}
       onClick={() => {
         playSelectSound();
         onClick?.();
       }}
       onMouseEnter={playHoverSound}
     >
-      <div className={styles.infoContainer}>
+      {/* Animated text container - expands on load */}
+      <motion.div 
+        className={styles.infoContainer}
+        initial={{ width: 0, opacity: 0 }}
+        animate={{ 
+          width: isContentLoaded ? 'auto' : 0,
+          opacity: isContentLoaded ? 1 : 0
+        }}
+        transition={{ 
+          duration: 0.5, 
+          ease: [0.25, 0.8, 0.25, 1]
+        }}
+      >
         <h2 className={styles.name}>
-          {isContentLoaded ? displayName : 'Loading...'}
+          {displayName}
         </h2>
         <p className={styles.gamerscore}>
-          {isContentLoaded ? displayGamerscore?.toLocaleString() : '--'}
+          {displayGamerscore?.toLocaleString()}
           <Image
             src="/assets/icons/Gamerscore.gif"
             alt="Gamerscore"
@@ -83,7 +91,9 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
             height={20}
           />
         </p>
-      </div>
+      </motion.div>
+
+      {/* Fixed avatar container - always visible */}
       <div className={styles.avatarContainer}>
         <div className={styles.avatarWrapper}>
           {isContentLoaded ? (
@@ -130,7 +140,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
           )}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

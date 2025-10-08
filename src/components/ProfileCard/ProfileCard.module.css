@@ -70,6 +70,12 @@
   flex-direction: column;
   justify-content: center;
   margin-right: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.avatarContainer {
+  flex-shrink: 0;
 }
 
 .name {
