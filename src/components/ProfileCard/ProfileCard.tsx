@@ -54,7 +54,6 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     console.error('tRPC ProfileCard Error:', error.message);
   }
 
-  // Determine if we're showing loaded content (for width animation)
   const isContentLoaded = !isLoading && profile;
 
   return (

@@ -1,59 +1,154 @@
-/* Optimized ChatTab Styles - Clean & Performant */
+/* ChatTab - Pullable File Folder Tab with Green Aesthetics */
 
-.tab {
-  /* Positioning */
+/* Glow animation matching ProfileCard */
+@keyframes tab-glow {
+  0%, 100% {
+    filter: brightness(100%);
+    box-shadow: 
+      0 4px 6px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 0 5px rgba(111, 175, 68, 0.3);
+  }
+  50% {
+    filter: brightness(130%);
+    box-shadow: 
+      0 8px 15px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      0 0 20px rgba(111, 175, 68, 0.6),
+      0 0 30px rgba(111, 175, 68, 0.4);
+  }
+}
+
+/* Pulse animation for notification badge */
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(1); 
+    opacity: 1; 
+  }
+  50% { 
+    transform: scale(1.2); 
+    opacity: 0.8; 
+  }
+}
+
+/* Main folder tab button */
+.folderTab {
+  /* Positioning - bottom right, initially hidden below */
   position: fixed;
-  bottom: 20px;
-  left: 20px;
+  bottom: 0px; /* Starts hidden below, slides up on hover via framer-motion */
+  left: 5%;
   z-index: 998;
   
   /* Layout */
   display: flex;
   align-items: center;
-  padding: 12px;
+  padding: 0;
   
-  /* Appearance */
-  background: linear-gradient(135deg, #2d2d2d 0%, #404040 100%);
-  border: 1px solid #555;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  /* Appearance - transparent background, no border for button itself */
+  background: transparent;
+  border: none;
   
   /* Behavior */
   cursor: pointer;
   user-select: none;
   outline: none;
   
-  /* Optimized transitions */
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  /* Performance optimization */
   will-change: transform;
 }
 
-.tab:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-}
-
-.tab:active {
-  transform: translateY(-1px);
-}
-
-.tab.active {
-  background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
-  border-color: #0078d4;
-  box-shadow: 0 6px 16px rgba(0, 120, 212, 0.3);
-}
-
-.content {
+/* Tab shape container */
+.tabShape {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
+/* Top curved edge of folder tab - Hidden for horizontal layout */
+.tabTop {
+  display: none;
+}
+
+/* Main content area */
+.tabContent {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 16px;
+  
+  /* Green gradient background matching ProfileCard */
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(111, 175, 68, 0.4)
+  );
+  
+  /* File folder tab shape - rounded top, flat bottom for pull-up */
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  
+  /* Shadow */
+  box-shadow: 
+    0 -4px 6px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  
+  /* Smooth transitions */
+  transition: all 0.3s ease;
+  
+  /* Glow animation */
+  animation: tab-glow 2s infinite ease-in-out;
+}
+
+/* Hover effect on tab content */
+.folderTab:hover .tabContent {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.7),
+    rgba(111, 175, 68, 0.7)
+  );
+  box-shadow: 
+    0 -8px 15px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 0 20px rgba(111, 175, 68, 0.6);
+}
+
+/* Active state - brighter green */
+.folderTab.active .tabContent {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.5),
+    rgba(111, 175, 68, 0.8)
+  );
+  box-shadow: 
+    0 6px 12px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 0 25px rgba(111, 175, 68, 0.7);
+}
+
+/* Icon container */
+.iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .icon {
-  font-size: 20px;
+  font-size: 32px;
   line-height: 1;
-  width: 24px;
-  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Text container - always visible on pull-out tab */
+.textContainer {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,58 +157,85 @@
 .text {
   color: #ffffff;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.5),
+    0 0 10px rgba(255, 255, 255, 0.3);
   white-space: nowrap;
-  opacity: 0;
-  width: 0;
-  overflow: hidden;
-  transition: opacity 0.2s ease, width 0.2s ease;
 }
 
-.tab:hover .text {
-  opacity: 1;
-  width: auto;
-}
-
+/* Notification badge */
 .notification {
   position: absolute;
   top: 4px;
   right: 4px;
-  width: 8px;
-  height: 8px;
-  background: #ff4444;
+  width: 10px;
+  height: 10px;
+  background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
   border-radius: 50%;
-  border: 2px solid #2d2d2d;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.3),
+    0 0 10px rgba(255, 68, 68, 0.6);
   animation: pulse 2s infinite;
 }
 
-@keyframes pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.2); opacity: 0.8; }
-}
-
-/* Accessibility */
-.tab:focus-visible {
-  outline: 2px solid #0078d4;
+/* Accessibility - focus state */
+.folderTab:focus-visible {
+  outline: 2px solid rgba(111, 175, 68, 0.8);
   outline-offset: 2px;
 }
 
-/* Mobile optimizations */
+/* Active press effect */
+.folderTab:active .tabContent {
+  transform: scale(0.98);
+}
+
+/* Mobile responsive adjustments */
 @media (max-width: 768px) {
-  .tab {
-    bottom: 80px;
-    left: 16px;
-    padding: 10px;
+  .folderTab {
+    bottom: -55px; /* Adjusted for mobile */
+    right: 16px;
+  }
+  
+  .tabContent {
+    padding: 10px 12px;
   }
   
   .icon {
-    font-size: 18px;
-    width: 20px;
-    height: 20px;
+    font-size: 20px;
   }
   
   .text {
     font-size: 12px;
+  }
+  
+  .notification {
+    width: 8px;
+    height: 8px;
+    top: 3px;
+    right: 3px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .folderTab {
+    bottom: -50px; /* Adjusted for smaller screens */
+    right: 12px;
+  }
+  
+  .tabContent {
+    padding: 8px 10px;
+  }
+  
+  .icon {
+    font-size: 18px;
+  }
+  
+  .text {
+    font-size: 11px;
   }
 }
 
