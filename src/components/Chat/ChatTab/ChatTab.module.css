@@ -31,6 +31,37 @@
   }
 }
 
+/* Subtle bobble animation for initial attention */
+@keyframes bobble {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-20px);
+  }
+  20% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-12px);
+  }
+  40% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+  60% {
+    transform: translateY(0);
+  }
+  70% {
+    transform: translateY(-3px);
+  }
+  80%, 100% {
+    transform: translateY(0);
+  }
+}
+
 /* Main folder tab button */
 .folderTab {
   /* Positioning - bottom right, half-submerged */
@@ -55,6 +86,9 @@
   
   /* Performance optimization */
   will-change: transform;
+  
+  /* Progressive bounce animation on mount - 4 bounces with decreasing height */
+  animation: bobble 1.5s ease-out 0.5s 1;
 }
 
 /* Tab shape container */
@@ -241,9 +275,10 @@
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .tab,
+  .folderTab,
   .text {
     transition: none;
+    animation: none;
   }
   
   .notification {
