@@ -33,10 +33,10 @@
 
 /* Main folder tab button */
 .folderTab {
-  /* Positioning - bottom right, initially hidden below */
+  /* Positioning - bottom right, half-submerged */
   position: fixed;
-  bottom: 0px; /* Starts hidden below, slides up on hover via framer-motion */
-  left: 5%;
+  bottom: -20px; /* Half of the tab height is hidden, slides up on hover */
+  left: 10%;
   z-index: 998;
   
   /* Layout */
@@ -195,7 +195,7 @@
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
   .folderTab {
-    bottom: -55px; /* Adjusted for mobile */
+    bottom: -25px; /* Half-submerged for mobile */
     right: 16px;
   }
   
@@ -222,7 +222,7 @@
 /* Extra small screens */
 @media (max-width: 480px) {
   .folderTab {
-    bottom: -50px; /* Adjusted for smaller screens */
+    bottom: -22px; /* Half-submerged for smaller screens */
     right: 12px;
   }
   

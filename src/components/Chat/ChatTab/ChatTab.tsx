@@ -51,7 +51,7 @@ const ChatTab = memo<ChatTabProps>(({ onClick, isActive, hasNotification = false
       aria-label="Open Chat Room"
       type="button"
       initial={{ y: 0 }}
-      whileHover={{ y: -60 }}
+      whileHover={{ y: -30 }}
       transition={{ 
         duration: 0.4, 
         ease: [0.25, 0.46, 0.45, 0.94] // cubic-bezier for smooth pull-up
