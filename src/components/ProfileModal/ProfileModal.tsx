@@ -22,7 +22,8 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
 
-  // Ensure we're on the client side
+  const utils = trpc.useUtils();
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -87,7 +88,16 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   
   const { data: profile } = trpc.user.getProfile.useQuery();
   const { data: avatars } = trpc.user.getAvailableAvatars.useQuery();
-  const updateProfileMutation = trpc.user.updateProfile.useMutation();
+  const updateProfileMutation = trpc.user.updateProfile.useMutation({
+    onSuccess: () => {
+      utils.user.getProfile.invalidate();
+      playSound('navigation');
+      onClose();
+    },
+    onError: (error) => {
+      console.error('Failed to update avatar:', error);
+    },
+  });
 
   const handleAvatarSelect = (avatarId: string) => {
     playSound('click');
@@ -100,8 +110,6 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
         await updateProfileMutation.mutateAsync({
           avatar: selectedAvatar,
         });
-        playSound('navigation');
-        onClose();
       } catch (error) {
         console.error('Failed to update avatar:', error);
       }
