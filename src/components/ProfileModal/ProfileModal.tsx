@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { useUser } from '@stackframe/stack';
 import { useAudioManager } from '../../hooks/useAudioManager';
+import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
 import { trpc } from '../../utils/trpc';
 import Tooltip from '../ui/Tooltip/Tooltip';
 import { Clock } from '../ui/Clock/Clock';
@@ -33,58 +34,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
     onClose();
   }, [playSound, onClose]);
 
-  // Body scroll lock and escape key handling
-  useEffect(() => {
-    if (isOpen) {
-      // Save original styles
-      const originalOverflow = document.body.style.overflow;
-      const originalPosition = document.body.style.position;
-      const originalWidth = document.body.style.width;
-      
-      // Prevent scrolling with multiple methods
-      document.body.style.overflow = 'hidden';
-      document.body.style.position = 'fixed';
-      document.body.style.width = '100%';
-      
-      // Prevent wheel scrolling
-      const preventScroll = (e: WheelEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-      };
-      
-      // Prevent touch scrolling
-      const preventTouchMove = (e: TouchEvent) => {
-        e.preventDefault();
-      };
-      
-      // Prevent keyboard scrolling
-      const preventKeyScroll = (e: KeyboardEvent) => {
-        if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(e.key)) {
-          e.preventDefault();
-        }
-        if (e.key === 'Escape') {
-          handleClose();
-        }
-      };
-      
-      // Add event listeners with non-passive options
-      document.addEventListener('wheel', preventScroll, { passive: false });
-      document.addEventListener('touchmove', preventTouchMove, { passive: false });
-      document.addEventListener('keydown', preventKeyScroll);
-      
-      return () => {
-        // Restore original styles
-        document.body.style.overflow = originalOverflow;
-        document.body.style.position = originalPosition;
-        document.body.style.width = originalWidth;
-        
-        // Remove event listeners
-        document.removeEventListener('wheel', preventScroll);
-        document.removeEventListener('touchmove', preventTouchMove);
-        document.removeEventListener('keydown', preventKeyScroll);
-      };
-    }
-  }, [isOpen, handleClose]);
+  useBodyScrollLock(isOpen, handleClose);
   
   const { data: profile } = trpc.user.getProfile.useQuery();
   const { data: avatars } = trpc.user.getAvailableAvatars.useQuery();
