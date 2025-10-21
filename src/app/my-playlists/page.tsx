@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PageLayout from '../../components/PageLayout/PageLayout';
 import styles from './Playlists.module.css';
 import { useAudioManager } from '../../hooks/useAudioManager';
+import { trpc } from '../../utils/trpc';
 
 interface Playlist {
   id: string;
@@ -15,28 +16,12 @@ interface Playlist {
 const PAGE_SIZE = 12; // Number of playlists per page
 
 const PlaylistsPage = () => {
-  const [playlists, setPlaylists] = useState<Playlist[]>([]);
-  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const { playSound } = useAudioManager();
+  const { data, isLoading } = trpc.spotify.getPlaylists.useQuery();
 
-  useEffect(() => {
-    const fetchPlaylists = async () => {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/playlists`);
-        const data = await res.json();
-        setPlaylists(data.items);
-        setTotalPages(Math.ceil(data.items.length / PAGE_SIZE));
-      } catch (error) {
-        console.error("Failed to fetch playlists", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPlaylists();
-  }, []);
+  const playlists = (data?.items || []) as Playlist[];
+  const totalPages = Math.ceil(playlists.length / PAGE_SIZE);
 
   const playHoverSound = () => playSound('divine');
   const playClickSound = () => playSound('ting');
@@ -46,7 +31,7 @@ const PlaylistsPage = () => {
   return (
     <PageLayout title="My Playlists" variant="wide">
       <div className={styles.container}>
-        {loading ? (
+        {isLoading ? (
           <div className={styles.loadingContainer}>
             <span className={styles.text}>Loading</span>
             <div className={styles.dots}>

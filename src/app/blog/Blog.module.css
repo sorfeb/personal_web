@@ -49,6 +49,26 @@
   text-decoration: none;
 }
 
+.errorContainer {
+  padding: 20px;
+  text-align: center;
+  color: white;
+}
+
+.retryButton {
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: #8b4513;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.retryButton:hover {
+  background-color: #a0522d;
+}
+
 .articleCard a:hover {
   text-decoration: underline;
 }
