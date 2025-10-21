@@ -1,10 +1,136 @@
 # AI Coding Agent Instructions
-YOU MUST NEVER START THE DEV SERVER UNLESS THE USER HAS TOLD YOU TO. 
-Never run `npm run dev`, `npm start`, or the equivalent "start or build" command. 
-The user is running the dev server locally and if you do that you could mess up the dev server. 
+
+## 🚨 CRITICAL RULES
+
+### Dev Server Policy
+**YOU MUST NEVER START THE DEV SERVER UNLESS THE USER HAS TOLD YOU TO.**
+- Never run `npm run dev`, `npm start`, or any "start/build" command
+- The user is running the dev server locally - starting it again will cause conflicts
+- Only run the dev server if explicitly requested
+
+### Security: Dependency Management 🔒
+**NEVER add, install, or suggest new npm packages without explicit user approval.**
+
+Before proposing ANY new dependency:
+1. Check if existing packages can solve the problem
+2. Explore vanilla JS/TypeScript solutions
+3. If truly necessary, request approval with:
+   - **Package name & version**
+   - **Why it's needed** (specific use case)
+   - **Alternatives considered** (what you checked first)
+   - **Security info** (npm audit, maintenance status, bundle size impact)
+   - **Supply chain risk assessment**
+
+Wait for explicit "yes" before running `npm install`. Supply chain attacks are a real threat.
+
+### Console Logging Policy 🤐
+**DO NOT use excessive console.log statements:**
+- ❌ **FORBIDDEN**: `console.log()`, `console.debug()` for debugging
+- ⚠️ **USE SPARINGLY**: `console.error()`, `console.warn()` for critical issues only
+- ✅ **PREFERRED**: Proper error handling with TypeScript types and TRPCError codes
+
+Remove all debug logs before completing work.
+
+### Documentation & Planning Structure 📁
+**Always document feature work in organized locations:**
+
+#### Feature Planning (Before Implementation)
+Create planning documents in `.github/plans/`:
+```
+.github/plans/
+├── feature-name-plan.md
+├── api-enhancement-plan.md
+└── ui-redesign-plan.md
+```
+
+**Plan Format:**
+```markdown
+# Feature: [Name]
+**Date**: YYYY-MM-DD
+**Status**: Planning | In Progress | Completed
+**Agent**: Frontend | Backend | Full-Stack
+
+## Objective
+[Clear description of what needs to be built]
+
+## Technical Approach
+- Architecture decisions
+- Components/routers to create or modify
+- Dependencies (if any - with approval)
+
+## Implementation Steps
+1. [Step with file paths]
+2. [Step with file paths]
+3. ...
+
+## Testing Strategy
+- [ ] Unit tests
+- [ ] Integration points
+- [ ] Manual testing checklist
+
+## Security Considerations
+- Authentication/authorization requirements
+- Input validation needs
+- Potential vulnerabilities
+
+## Performance Considerations
+- Query optimization
+- Caching strategy
+- Bundle size impact
+```
+
+#### Feature Documentation (After Completion)
+Create completion docs in `.github/documentation/`:
+```
+.github/documentation/
+├── feature-name-complete.md
+├── api-endpoints.md
+└── component-library.md
+```
+
+**Completion Format:**
+```markdown
+# Feature: [Name] - Completed
+**Date**: YYYY-MM-DD
+**Agent**: Frontend | Backend | Full-Stack
+
+## What Was Built
+[Summary of implementation]
+
+## Files Changed
+- `src/path/to/file.tsx` - [what changed]
+- `src/path/to/router.ts` - [what changed]
+
+## API Endpoints (if applicable)
+- `api.feature.getAll` - [description]
+- `api.feature.create` - [description]
+
+## Usage Examples
+\`\`\`tsx
+// Code example
+\`\`\`
+
+## Testing Completed
+- [x] TypeScript compilation
+- [x] Audio integration
+- [x] Responsive design
+- [x] Error handling
+
+## Known Limitations
+[Any edge cases or future improvements]
+```
 
 ## Project Overview
 This is a personal portfolio website built as an Xbox 360 dashboard replica using Next.js 15 with React. The core concept is immersive UI/UX with authentic Xbox navigation, animations, and audio feedback.
+
+## Specialized Agent Roles
+
+### When to Use Which Agent
+- **Frontend Agent** (`agents/copilot-frontend.md`): UI components, styling, animations, client-side logic
+- **Backend Agent** (`agents/copilot-trpc.md`): API routes, database operations, validation, server logic
+- **This File**: General guidance, architecture overview, cross-cutting concerns
+
+Delegate to specialized agents for domain-specific tasks. They have detailed patterns and conventions.
 
 ## Architecture Patterns
 
@@ -42,7 +168,17 @@ npm run lint             # Next.js ESLint
 - **Storybook First**: All major components have `.stories.tsx` files with comprehensive examples
 - **CSS Modules**: Component-scoped styles with `.module.css` pattern
 - **Audio Integration**: All interactive components should use `useAudioManager` for consistent feedback
-- **Documentation**: Inline comments and JSDoc for complex logic, use descriptive documentation, Document as You Code: Make documentation a part of your development process, not an afterthought. This ensures your documentation stays up-to-date with your codebase. Be Descriptive but Concise: While it’s important to be thorough, avoid overly verbose descriptions. Aim to provide clear, succinct explanations.
+- **Documentation**: Inline comments and JSDoc for complex logic
+  - Document as You Code: Make documentation part of development, not an afterthought
+  - Be Descriptive but Concise: Clear explanations without verbosity
+  - Update docs when changing implementation
+
+### Backend Development
+- **tRPC v11**: Type-safe API layer with Zod validation
+- **Prisma v6**: Database ORM with Neon PostgreSQL adapter
+- **Input Validation**: All procedures must validate inputs with Zod schemas
+- **Error Handling**: Use proper `TRPCError` codes (NOT_FOUND, UNAUTHORIZED, etc.)
+- **Query Optimization**: Select only needed fields, use pagination, leverage indexes
 
 ## Project Conventions
 
@@ -52,6 +188,10 @@ npm run lint             # Next.js ESLint
 - `src/data/`: Static JSON/TypeScript data files (cards, projects, etc.)
 - `src/hooks/`: Custom React hooks for audio, navigation, and UI state
 - `src/context/`: React context providers (volume, tour guides)
+- `src/server/`: tRPC backend (routers, services, config)
+- `prisma/`: Database schema and migrations
+- `.github/plans/`: Feature planning documents (before implementation)
+- `.github/documentation/`: Feature completion docs (after implementation)
 
 ### Component Architecture
 - **Memoization**: Use `React.memo` for performance-critical components
@@ -88,3 +228,39 @@ Complex card animations require precise timing:
 - **Animation Glitches**: Verify CSS transition properties and DOM query selectors
 - **Mobile Responsiveness**: Test component switching logic at 768px breakpoint
 - **Storybook**: Use for isolated component testing with mocked contexts
+- **Backend Issues**: Check Prisma schema, validate Zod schemas, review tRPC error codes
+- **Type Errors**: Run `npm run compile` to check TypeScript across the entire project
+
+## Pre-Completion Checklist
+
+Before marking any work as complete:
+- [ ] TypeScript compiles without errors (`npm run compile`)
+- [ ] No console.log statements remain in code
+- [ ] Audio integration added to interactive elements (frontend)
+- [ ] Input validation with Zod (backend)
+- [ ] Error handling implemented properly
+- [ ] Responsive design tested at 768px (frontend)
+- [ ] Documentation created in `.github/plans/` or `.github/documentation/`
+- [ ] Storybook story created (for major components)
+- [ ] No unauthorized dependencies added
+
+## Task Workflow
+
+### For New Features:
+1. **Plan**: Create `.github/plans/feature-name-plan.md`
+2. **Implement**: Follow specialized agent guidelines
+3. **Test**: Run compilation, check functionality
+4. **Document**: Create `.github/documentation/feature-name-complete.md`
+5. **Review**: Verify checklist above
+
+### For Bug Fixes:
+1. **Investigate**: Identify root cause
+2. **Fix**: Implement solution following conventions
+3. **Test**: Verify fix works and doesn't break other features
+4. **Document**: Update existing docs if architecture changed
+
+### For Refactoring:
+1. **Plan**: Document what's being refactored and why
+2. **Refactor**: Make changes incrementally
+3. **Test**: Ensure no behavior changes
+4. **Document**: Update relevant documentation
