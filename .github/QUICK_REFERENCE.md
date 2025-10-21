@@ -68,10 +68,11 @@ Copy this to every task:
 - [ ] Audio integration (if frontend)
 - [ ] Input validation (if backend)
 - [ ] Error handling
-- [ ] Responsive design tested
+- [ ] Responsive design verified in browser
 - [ ] Planning doc created
 - [ ] Completion doc created
 - [ ] No unauthorized dependencies
+- [ ] Feature verified in dev environment
 ```
 
 ## 🎨 Frontend Quick Patterns

@@ -164,11 +164,12 @@ Every agent must verify before completion:
 - [ ] Audio integration (frontend)
 - [ ] Input validation (backend)
 - [ ] Error handling
-- [ ] Responsive design (frontend)
+- [ ] Responsive design verified in browser (frontend)
 - [ ] Planning document created
 - [ ] Completion document created
 - [ ] No unauthorized dependencies
 - [ ] Storybook story (major components)
+- [ ] Feature verified in dev environment
 ```
 
 ## 🎨 What Makes This System Unique

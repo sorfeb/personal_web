@@ -464,9 +464,9 @@ export const db = new PrismaClient({ adapter });
 - **@neondatabase/serverless**: PostgreSQL adapter
 - **Stack Auth**: Authentication (via @stackframe/stack)
 
-## Testing & Validation
+## Verification & Validation
 
-### Pre-Deployment Checklist
+### Pre-Completion Checklist
 - [ ] All inputs validated with Zod schemas
 - [ ] Authentication checks on protected procedures
 - [ ] Authorization checks for resource access
@@ -475,6 +475,7 @@ export const db = new PrismaClient({ adapter });
 - [ ] No console.log statements (except critical errors)
 - [ ] TypeScript compiles without errors
 - [ ] Prisma schema migrations applied
+- [ ] API endpoints verified in browser/Postman/dev tools
 
 ### Type Safety Validation
 ```bash

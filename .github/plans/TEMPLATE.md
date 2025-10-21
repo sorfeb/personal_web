@@ -79,27 +79,21 @@ Modified/Created Files:
     └── plans/this-file.md
 ```
 
-## Testing Strategy
+## Verification Strategy
 
-### Unit Testing
-- [ ] Component renders without errors
-- [ ] Hooks return expected values
-- [ ] Validation schemas accept/reject correct inputs
-
-### Integration Testing
-- [ ] API endpoints return correct data
-- [ ] Database queries work as expected
-- [ ] Frontend correctly displays backend data
-
-### Manual Testing Checklist
+### Manual Verification Checklist
 - [ ] TypeScript compiles (`npm run compile`)
 - [ ] Audio feedback works on interactions
 - [ ] Responsive design at mobile (≤768px) and desktop (>768px)
-- [ ] Keyboard navigation works
+- [ ] Keyboard navigation works (if applicable)
 - [ ] Error states handled gracefully
 - [ ] Loading states displayed
 - [ ] No console.log statements remain
 - [ ] Storybook story displays correctly (`npm run storybook`)
+- [ ] Feature works in browser as expected
+- [ ] API endpoints return correct data (check in browser devtools)
+- [ ] Database operations complete successfully
+- [ ] No console errors or warnings
 
 ## Security Considerations
 
@@ -147,13 +141,14 @@ If implementation fails or needs to be reverted:
 
 ## Success Criteria
 - [ ] Feature works as described in objective
-- [ ] All tests pass
+- [ ] Functionality verified in browser
 - [ ] No TypeScript errors
 - [ ] No console.log statements
 - [ ] Documentation complete
 - [ ] User experience matches Xbox aesthetic
 - [ ] Audio feedback integrated
 - [ ] Responsive on mobile and desktop
+- [ ] No console errors in browser
 
 ## Future Enhancements
 [Ideas for extending this feature later]

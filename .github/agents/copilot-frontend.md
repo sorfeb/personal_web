@@ -223,17 +223,18 @@ Leverage these approved packages:
 - **Prisma**: Database ORM
 - **Storybook**: Component development
 
-## Testing & Validation
+## Verification & Validation
 
-### Pre-Integration Checklist
+### Pre-Completion Checklist
 Before marking work as complete:
-- [ ] Component renders without console errors
+- [ ] Component renders without console errors in browser
 - [ ] Audio feedback works on interactive elements
-- [ ] Responsive design tested at 768px breakpoint
+- [ ] Responsive design verified at 768px breakpoint (browser resize)
 - [ ] TypeScript compiles without errors (`npm run compile`)
 - [ ] No console.log statements remain
 - [ ] CSS follows module pattern with descriptive class names
 - [ ] Storybook story created (if major component)
+- [ ] Feature works as expected in dev environment
 
 ### Performance Considerations
 - Use `React.memo()` for components in lists or frequent re-renders

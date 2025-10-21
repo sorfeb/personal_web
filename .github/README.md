@@ -152,18 +152,21 @@ Before marking any work complete:
 - [ ] ESLint passes (`npm run lint`)
 - [ ] No console.log statements remain
 - [ ] No unauthorized dependencies added
+- [ ] Feature verified in browser/dev environment
 
 ### Frontend-Specific
 - [ ] Audio feedback on interactive elements
-- [ ] Responsive design tested (≤768px and >768px)
+- [ ] Responsive design verified (≤768px and >768px in browser)
 - [ ] Storybook story created (major components)
 - [ ] CSS follows module pattern
+- [ ] No console errors in browser
 
 ### Backend-Specific
 - [ ] Input validation with Zod schemas
 - [ ] Proper TRPCError codes used
 - [ ] Authentication/authorization checks
 - [ ] Database queries optimized
+- [ ] API endpoints verified (browser devtools/Postman)
 
 ### Documentation
 - [ ] Planning document in `.github/plans/`

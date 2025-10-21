@@ -239,28 +239,29 @@ Before marking any work as complete:
 - [ ] Audio integration added to interactive elements (frontend)
 - [ ] Input validation with Zod (backend)
 - [ ] Error handling implemented properly
-- [ ] Responsive design tested at 768px (frontend)
+- [ ] Responsive design verified at 768px (frontend)
 - [ ] Documentation created in `.github/plans/` or `.github/documentation/`
 - [ ] Storybook story created (for major components)
 - [ ] No unauthorized dependencies added
+- [ ] Feature manually verified in browser/dev environment
 
 ## Task Workflow
 
 ### For New Features:
 1. **Plan**: Create `.github/plans/feature-name-plan.md`
 2. **Implement**: Follow specialized agent guidelines
-3. **Test**: Run compilation, check functionality
+3. **Verify**: Run compilation, check functionality in browser
 4. **Document**: Create `.github/documentation/feature-name-complete.md`
 5. **Review**: Verify checklist above
 
 ### For Bug Fixes:
 1. **Investigate**: Identify root cause
 2. **Fix**: Implement solution following conventions
-3. **Test**: Verify fix works and doesn't break other features
+3. **Verify**: Confirm fix works in dev environment
 4. **Document**: Update existing docs if architecture changed
 
 ### For Refactoring:
 1. **Plan**: Document what's being refactored and why
 2. **Refactor**: Make changes incrementally
-3. **Test**: Ensure no behavior changes
+3. **Verify**: Ensure no behavior changes in browser
 4. **Document**: Update relevant documentation
