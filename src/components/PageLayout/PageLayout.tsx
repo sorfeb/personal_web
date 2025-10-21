@@ -14,21 +14,6 @@ import styles from './PageLayout.module.css';
  * A sophisticated layout component that provides consistent page structure across
  * the application. Implements multiple design patterns for flexibility and maintainability:
  * 
- * **Design Patterns Applied:**
- * - **Composition over Inheritance**: Uses WindowContainer for flexible layouts
- * - **Inversion of Control**: Consumers control layout through props
- * - **Single Responsibility**: Each component has one clear purpose
- * - **Strategy Pattern**: Different rendering strategies based on variant
- * - **Open/Closed Principle**: Open for extension through size variants
- * 
- * **Key Features:**
- * - Multiple layout variants (windowed, fullscreen, minimal)
- * - Responsive sizing with predefined breakpoints
- * - Smooth animations with Framer Motion
- * - Audio feedback integration
- * - Customizable dimensions and behavior
- * - Accessibility support with proper focus management
- * 
  * **Layout Variants:**
  * - `windowed`: Standard windowed layout with container styling
  * - `fullscreen`: Full viewport coverage for immersive content
@@ -87,29 +72,28 @@ const PageLayout: React.FC<PageLayoutProps> = ({
   showCloseButton = true,
   onClose,
 }) => {
-  const { playBackSound } = useNavigationSound();
+  const { navigateWithSound } = useNavigationSound();
   const [isExiting, setIsExiting] = useState(false);
 
   /**
    * Handles page close interaction
    * 
    * @description
-   * Plays sound feedback, sets exit animation state, and either calls the
-   * custom onClose handler or navigates back to home after a delay.
-   * The delay allows the exit animation to complete before navigation.
+   * Uses Next.js router for client-side navigation to maintain SPA behavior.
+   * Sets exit animation state and either calls the custom onClose handler or
+   * navigates back to home with sound feedback. The delay allows the exit
+   * animation to complete before navigation for smooth visual transitions.
    * 
    * @since 1.0.0
    */
   const handleClose = () => {
-    playBackSound();
     setIsExiting(true);
 
     if (onClose) {
       onClose();
     } else {
       setTimeout(() => {
-        // Navigation handled by useNavigationSound hook
-        window.location.href = '/';
+        navigateWithSound('/', 'back');
       }, 500);
     }
   };
