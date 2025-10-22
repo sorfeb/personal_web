@@ -4,6 +4,7 @@ import { stackServerApp } from "../stack";
 import { VolumeProvider } from "../context/VolumeContext";
 import { BackgroundProvider } from "../context/BackgroundContext";
 import { CRTFilterProvider } from "../context/CRTFilterContext";
+import { ToastProvider } from "../context/ToastContext";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import RipplesEffect from "../components/RipplesEffect/RipplesEffect";
@@ -11,6 +12,7 @@ import ConsoleEasterEgg from "../components/ConsoleEasterEgg/ConsoleEasterEgg";
 import TRPCProvider from "../components/Providers/TRPCProvider";
 import BackgroundRenderer from "../components/BackgroundRenderer/BackgroundRenderer";
 import CRTOverlay from "../components/CRTOverlay/CRTOverlay";
+import ToastContainer from "../components/ToastNotification/ToastContainer";
 import "./globals.css";
 
 const inter = Roboto({ weight: "300", subsets: ["latin"] });
@@ -77,8 +79,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <StackTheme>
                       <TRPCProvider>
                         <VolumeProvider>
-                          <ConsoleEasterEgg />
+                          <ToastProvider>
+                            <ConsoleEasterEgg />
                             {children}
+                            <ToastContainer />
+                          </ToastProvider>
                         </VolumeProvider>
                       </TRPCProvider>
                     </StackTheme>
