@@ -3,6 +3,8 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAudioManager } from '../../hooks/useAudioManager';
+import { useToast } from '../../hooks/useToast';
+import { createSystemToast } from '../../utils/toastUtils';
 import { trpc } from '../../utils/trpc';
 
 interface ProfileCardProps {
@@ -20,6 +22,7 @@ interface ProfileCardProps {
  * - Shows gamerscore
  * - Displays selected avatar from avatar collection
  * - Provides audio feedback on interaction
+ * - Shows welcome toast once per browser session (persisted via sessionStorage)
  * 
  */
 export const ProfileCard: React.FC<ProfileCardProps> = ({ 
@@ -29,9 +32,35 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   onClick
 }) => {
   const { playSound } = useAudioManager();
+  const { showToast } = useToast();
   const [avatarLoaded, setAvatarLoaded] = useState(false);
   
   const { data: profile, isLoading, error } = trpc.user.getProfile.useQuery();
+
+  // Show welcome toast once per session
+  useEffect(() => {
+    if (profile && !isLoading && !error) {
+      if (typeof window === 'undefined') return;
+
+      const sessionKey = `toast-shown-${profile.id || 'guest'}`;
+      const hasShownThisSession = sessionStorage.getItem(sessionKey);
+
+      if (!hasShownThisSession) {
+        sessionStorage.setItem(sessionKey, 'true');
+        
+        const isGuest = profile.name === 'Guest';
+        
+        showToast(
+          createSystemToast(
+            isGuest ? 'Browsing as Guest' : `Welcome back, ${profile.name}!`,
+            'success',
+            undefined,
+            3000
+          )
+        );
+      }
+    }
+  }, [profile, isLoading, error, showToast]);
 
   useEffect(() => {
     if (profile) {
