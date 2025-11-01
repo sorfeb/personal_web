@@ -55,44 +55,68 @@
     0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
-/* Ring around badge (status-coded) */
+/* Ring around badge (status-coded) - SVG overlay */
 .badge::before {
   content: '';
   position: absolute;
-  inset: -3px;
-  border-radius: 50%;
-  padding: 3px;
-  background: var(--ring-color);
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0.9;
+  inset: -4px;
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
+  background-image: url('/assets/icons/achievement_popup_ring.svg');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.95;
 }
 
-/* Ring color variants */
-.badge[data-ring="success"]::before {
-  --ring-color: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
-}
-
-.badge[data-ring="info"]::before {
-  --ring-color: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
-}
-
-.badge[data-ring="warning"]::before {
-  --ring-color: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-}
-
+/* Ring color variants - using CSS custom property from TypeScript */
+.badge[data-ring="success"]::before,
+.badge[data-ring="info"]::before,
+.badge[data-ring="warning"]::before,
 .badge[data-ring="error"]::before {
-  --ring-color: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+  filter: 
+    brightness(0) saturate(100%)
+    drop-shadow(0 0 4px var(--toast-ring-color, #9ca3af));
+}
+
+/* Success - bright green */
+.badge[data-ring="success"]::before {
+  filter: 
+    brightness(0) saturate(100%) 
+    invert(74%) sepia(97%) saturate(6820%) hue-rotate(76deg) brightness(108%) contrast(96%)
+    drop-shadow(0 0 4px var(--toast-ring-color, #0CF700));
+}
+
+/* Info - blue */
+.badge[data-ring="info"]::before {
+  filter: 
+    brightness(0) saturate(100%) 
+    invert(16%) sepia(98%) saturate(7497%) hue-rotate(251deg) brightness(99%) contrast(103%)
+    drop-shadow(0 0 4px var(--toast-ring-color, #2F25FD));
+}
+
+/* Warning - yellow */
+.badge[data-ring="warning"]::before {
+  filter: 
+    brightness(0) saturate(100%) 
+    invert(84%) sepia(93%) saturate(1346%) hue-rotate(358deg) brightness(101%) contrast(97%)
+    drop-shadow(0 0 4px var(--toast-ring-color, #F4CC00));
+}
+
+/* Error - red */
+.badge[data-ring="error"]::before {
+  filter: 
+    brightness(0) saturate(100%) 
+    invert(26%) sepia(97%) saturate(7471%) hue-rotate(356deg) brightness(99%) contrast(98%)
+    drop-shadow(0 0 4px var(--toast-ring-color, #FD2525));
 }
 
 .badge[data-ring="default"]::before {
-  --ring-color: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+  --ring-color: #9ca3af;
+  filter: 
+    brightness(0) saturate(100%) 
+    invert(71%) sepia(6%) saturate(458%) hue-rotate(182deg) brightness(91%) contrast(88%)
+    drop-shadow(0 0 3px #9ca3af);
 }
 
 /* Badge icon wrapper */
@@ -208,22 +232,22 @@
 }
 
 .progressBar[data-ring="success"] {
-  color: #4ade80;
+  color: var(--toast-ring-color, #0CF700);
   animation: progressCountdown var(--progress-duration, 4000ms) linear forwards;
 }
 
 .progressBar[data-ring="info"] {
-  color: #60a5fa;
+  color: var(--toast-ring-color, #2F25FD);
   animation: progressCountdown var(--progress-duration, 4000ms) linear forwards;
 }
 
 .progressBar[data-ring="warning"] {
-  color: #fbbf24;
+  color: var(--toast-ring-color, #F4CC00);
   animation: progressCountdown var(--progress-duration, 4000ms) linear forwards;
 }
 
 .progressBar[data-ring="error"] {
-  color: #f87171;
+  color: var(--toast-ring-color, #FD2525);
   animation: progressCountdown var(--progress-duration, 4000ms) linear forwards;
 }
 
@@ -281,9 +305,13 @@
 }
 
 @keyframes ringExpand {
-  to {
-    transform: scale(1.3);
+  0% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  100% {
     opacity: 0;
+    transform: scale(2.5);
   }
 }
 

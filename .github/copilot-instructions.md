@@ -25,7 +25,7 @@ Wait for explicit "yes" before running `npm install`. Supply chain attacks are a
 
 ### Console Logging Policy 🤐
 **DO NOT use excessive console.log statements:**
-- ❌ **FORBIDDEN**: `console.log()`, `console.debug()` for debugging
+- ❌ **FORBIDDEN**: `console.log()`, `console.debug()` for debugging, use ONLY IF users requests it
 - ⚠️ **USE SPARINGLY**: `console.error()`, `console.warn()` for critical issues only
 - ✅ **PREFERRED**: Proper error handling with TypeScript types and TRPCError codes
 
@@ -35,7 +35,7 @@ Remove all debug logs before completing work.
 **Always document feature work in organized locations:**
 
 #### Feature Planning (Before Implementation)
-Create planning documents in `.github/plans/`:
+Create planning documents in `.github/plans/` ONLY if user requests it and feature is significant in scope.:
 ```
 .github/plans/
 ├── feature-name-plan.md
@@ -80,7 +80,7 @@ Create planning documents in `.github/plans/`:
 ```
 
 #### Feature Documentation (After Completion)
-Create completion docs in `.github/documentation/`:
+Create completion docs in `.github/documentation/` ONLY if user requests it:
 ```
 .github/documentation/
 ├── feature-name-complete.md
@@ -230,20 +230,6 @@ Complex card animations require precise timing:
 - **Storybook**: Use for isolated component testing with mocked contexts
 - **Backend Issues**: Check Prisma schema, validate Zod schemas, review tRPC error codes
 - **Type Errors**: Run `npm run compile` to check TypeScript across the entire project
-
-## Pre-Completion Checklist
-
-Before marking any work as complete:
-- [ ] TypeScript compiles without errors (`npm run compile`)
-- [ ] No console.log statements remain in code
-- [ ] Audio integration added to interactive elements (frontend)
-- [ ] Input validation with Zod (backend)
-- [ ] Error handling implemented properly
-- [ ] Responsive design verified at 768px (frontend)
-- [ ] Documentation created in `.github/plans/` or `.github/documentation/`
-- [ ] Storybook story created (for major components)
-- [ ] No unauthorized dependencies added
-- [ ] Feature manually verified in browser/dev environment
 
 ## Task Workflow
 

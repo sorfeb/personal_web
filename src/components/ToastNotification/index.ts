@@ -15,3 +15,4 @@ export type {
   ToastType,
   AnimationPhase,
 } from './types';
+export { TOAST_COLORS } from './types';

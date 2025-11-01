@@ -7,6 +7,17 @@ export type ToastType = 'achievement' | 'system';
 export type AnimationPhase = 'entering' | 'badge-crossfade' | 'active' | 'exiting';
 
 /**
+ * Status color configuration for toast notifications
+ */
+export const TOAST_COLORS = {
+  success: '#0CF700',
+  info: '#2F25FD',
+  warning: '#F4CC00',
+  error: '#FD2525',
+  default: '#9ca3af',
+} as const;
+
+/**
  * Configuration for the circular badge area
  */
 export interface BadgeConfig {

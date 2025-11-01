@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { ToastConfig } from './types';
+import { ToastConfig, TOAST_COLORS } from './types';
+import { useAudioManager } from '@/hooks/useAudioManager';
 import styles from './ToastNotification.module.css';
 
 interface ToastNotificationProps extends ToastConfig {}
@@ -23,8 +24,13 @@ export default function ToastNotification({
   const [isExiting, setIsExiting] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const exitTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const { playSound } = useAudioManager();
+  const ringColor = TOAST_COLORS[badge.ringColor];
 
   useEffect(() => {
+    // Play achievement sound on entrance
+    playSound('achievement');
+
     // Auto-dismiss after duration
     timeoutRef.current = setTimeout(() => {
       handleDismiss();
@@ -34,7 +40,7 @@ export default function ToastNotification({
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       if (exitTimeoutRef.current) clearTimeout(exitTimeoutRef.current);
     };
-  }, [duration]);
+  }, [duration, playSound]);
 
   /**
    * Triggers exit animation sequence:
@@ -61,6 +67,10 @@ export default function ToastNotification({
       className={`${styles.toastWrapper} ${isExiting ? styles.exiting : styles.entering}`}
       aria-live="polite"
       aria-atomic="true"
+      style={{
+        // @ts-ignore - CSS custom properties
+        '--toast-ring-color': ringColor,
+      }}
     >
       {/* Left: Badge Area */}
       <div className={styles.badgeContainer}>

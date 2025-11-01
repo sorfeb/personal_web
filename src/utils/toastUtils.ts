@@ -17,7 +17,7 @@ export function createAchievementToast(
   return {
     type: 'achievement',
     badge: {
-      primaryIcon: '/assets/icons/dashboard/xbox-logo.svg', // Default Xbox logo
+      primaryIcon: '/favicon.svg',
       secondaryIcon: icon,
       ringColor: 'success',
     },
@@ -43,7 +43,7 @@ export function createSystemToast(
   duration = 4000
 ): ShowToastConfig {
   const statusIcons: Record<typeof status, string> = {
-    success: '/assets/icons/dashboard/check-circle.svg',
+    success: '/favicon.svg',
     error: '/assets/icons/dashboard/error-circle.svg',
     info: '/assets/icons/dashboard/info-circle.svg',
     warning: '/assets/icons/dashboard/warning-triangle.svg',
