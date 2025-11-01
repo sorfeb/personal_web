@@ -1,7 +1,3 @@
-/**
- * Type definitions for Xbox 360-style toast notification system
- */
-
 export type RingColor = 'success' | 'info' | 'warning' | 'error' | 'default';
 export type ToastType = 'achievement' | 'system';
 export type AnimationPhase = 'entering' | 'badge-crossfade' | 'active' | 'exiting';
@@ -15,6 +11,18 @@ export const TOAST_COLORS = {
   warning: '#F4CC00',
   error: '#FD2525',
   default: '#9ca3af',
+} as const;
+
+/**
+ * Status icon configuration for toast notifications
+ */
+export const TOAST_ICONS = {
+  achievement: '/assets/icons/toast/trophy.png',
+  success: '/favicon.svg',
+  info: '/assets/icons/dashboard/info-circle.svg',
+  warning: '/assets/icons/dashboard/warning-triangle.svg',
+  error: '/assets/icons/dashboard/error-circle.svg',
+  default: '/favicon.svg',
 } as const;
 
 /**

@@ -1,24 +1,24 @@
-import { ShowToastConfig, RingColor } from '../components/ToastNotification/types';
+import { ShowToastConfig, RingColor, TOAST_ICONS } from '../components/ToastNotification/types';
 
 /**
  * Show an achievement unlock notification with crossfade animation
  * 
  * @param title - Achievement title
  * @param subtitle - Achievement subtitle (e.g., "15G – Village of Adanti")
- * @param icon - Icon URL for the achievement badge
+ * @param icon - Icon URL for the achievement badge (optional, defaults to favicon)
  * @param duration - Display duration in milliseconds (default: 5000ms for achievements)
  */
 export function createAchievementToast(
   title: string,
   subtitle: string,
-  icon: string,
+  icon?: string,
   duration = 5000
 ): ShowToastConfig {
   return {
     type: 'achievement',
     badge: {
-      primaryIcon: '/favicon.svg',
-      secondaryIcon: icon,
+      primaryIcon: TOAST_ICONS.achievement,
+      secondaryIcon: icon || '/favicon.svg',
       ringColor: 'success',
     },
     title,
@@ -42,17 +42,11 @@ export function createSystemToast(
   icon?: string,
   duration = 4000
 ): ShowToastConfig {
-  const statusIcons: Record<typeof status, string> = {
-    success: '/favicon.svg',
-    error: '/assets/icons/dashboard/error-circle.svg',
-    info: '/assets/icons/dashboard/info-circle.svg',
-    warning: '/assets/icons/dashboard/warning-triangle.svg',
-  };
-
   return {
     type: 'system',
     badge: {
-      primaryIcon: icon || statusIcons[status],
+      primaryIcon: icon || TOAST_ICONS[status],
+      secondaryIcon: '/favicon.svg',
       ringColor: status,
     },
     title: message,
@@ -69,7 +63,7 @@ export function createSystemToast(
  */
 export function sanitizeToastText(text: string, maxLength: number): string {
   // Basic XSS prevention: strip HTML tags
-  const cleaned = text.replace(/<[^>]*>/g, '');
+  const cleaned = text.replaceAll(/<[^>]*>/g, '');
   
   // Truncate if necessary
   if (cleaned.length > maxLength) {

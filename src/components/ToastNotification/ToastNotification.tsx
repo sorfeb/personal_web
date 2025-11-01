@@ -28,10 +28,8 @@ export default function ToastNotification({
   const ringColor = TOAST_COLORS[badge.ringColor];
 
   useEffect(() => {
-    // Play achievement sound on entrance
     playSound('achievement');
 
-    // Auto-dismiss after duration
     timeoutRef.current = setTimeout(() => {
       handleDismiss();
     }, duration);
