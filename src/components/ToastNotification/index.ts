@@ -1,9 +1,3 @@
-/**
- * Toast Notification System - Public API
- * 
- * Export main components, hooks, and utilities for easy consumption
- */
-
 export { default as ToastNotification } from './ToastNotification';
 export { default as ToastContainer } from './ToastContainer';
 export type {
@@ -14,5 +8,15 @@ export type {
   RingColor,
   ToastType,
   AnimationPhase,
+  ImageComponentProps,
 } from './types';
 export { TOAST_COLORS, TOAST_ICONS } from './types';
+
+export {
+  createAchievementToast,
+  createSystemToast,
+  sanitizeToastText,
+  validateToastConfig,
+} from '../../utils/toastUtils';
+
+export { useToast } from '../../hooks/useToast';

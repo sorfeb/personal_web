@@ -37,6 +37,20 @@ export interface BadgeConfig {
   ringColor: RingColor;
   /** Badge diameter in pixels (responsive: 56-72px) */
   size?: number;
+  /** Icon size in pixels (default: 40px) */
+  iconSize?: number;
+}
+
+/**
+ * Image component props interface for framework-agnostic support
+ */
+export interface ImageComponentProps {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  className?: string;
+  priority?: boolean;
 }
 
 /**
@@ -59,6 +73,10 @@ export interface ToastConfig {
   showProgressBar?: boolean;
   /** Callback fired when toast is dismissed */
   onDismiss?: () => void;
+  /** Optional custom image component (defaults to Next.js Image) */
+  imageComponent?: React.ComponentType<ImageComponentProps>;
+  /** Optional custom sound player callback */
+  playSound?: (soundId: string) => void;
 }
 
 /**

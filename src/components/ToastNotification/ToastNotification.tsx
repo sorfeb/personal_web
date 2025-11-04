@@ -9,7 +9,7 @@ import styles from './ToastNotification.module.css';
 interface ToastNotificationProps extends ToastConfig {}
 
 /**
- * Xbox 360-style toast notification component with badge crossfade animations
+ * Toast notification component with badge crossfade animations
  * Displays in lower third of screen with immersive entrance/exit sequences
  */
 export default function ToastNotification({
@@ -20,15 +20,23 @@ export default function ToastNotification({
   duration = 4000,
   showProgressBar = false,
   onDismiss,
+  imageComponent,
+  playSound: customPlaySound,
 }: ToastNotificationProps) {
   const [isExiting, setIsExiting] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const exitTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const { playSound } = useAudioManager();
+  
+  const audioManager = useAudioManager?.();
+  const soundPlayer = customPlaySound || audioManager?.playSound;
+  
   const ringColor = TOAST_COLORS[badge.ringColor];
+  
+  // Use custom image component or default to Next.js Image
+  const ImageComponent = imageComponent || Image;
 
   useEffect(() => {
-    playSound('achievement');
+    soundPlayer?.('achievement');
 
     timeoutRef.current = setTimeout(() => {
       handleDismiss();
@@ -38,36 +46,38 @@ export default function ToastNotification({
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       if (exitTimeoutRef.current) clearTimeout(exitTimeoutRef.current);
     };
-  }, [duration, playSound]);
+  }, [duration, soundPlayer]);
 
   /**
    * Triggers exit animation sequence:
-   * 1. Ring expansion (300ms)
-   * 2. Text fade staggered (200ms + 100ms delay)
-   * 3. Pill collapse (350ms)
-   * 4. Badge fade (included in wrapper fadeOut)
+   * 1. Ring expansion
+   * 2. Text fade staggered
+   * 3. Pill collapse
+   * 4. Badge fade
    */
   const handleDismiss = () => {
-    if (isExiting) return; // Prevent multiple dismiss calls
+    if (isExiting) return;
     
     setIsExiting(true);
 
-    // Wait for exit animations to complete before calling onDismiss
     exitTimeoutRef.current = setTimeout(() => {
       onDismiss?.();
-    }, 500); // Total exit animation duration
+    }, 500);
   };
 
   const badgeSize = badge.size || 72;
+  const iconSize = badge.iconSize || 40;
 
   return (
     <output
       className={`${styles.toastWrapper} ${isExiting ? styles.exiting : styles.entering}`}
       aria-live="polite"
       aria-atomic="true"
+      // eslint-disable-next-line react/forbid-dom-props
       style={{
         // @ts-ignore - CSS custom properties
         '--toast-ring-color': ringColor,
+        '--icon-size': `${iconSize}px`,
       }}
     >
       {/* Left: Badge Area */}
@@ -79,11 +89,11 @@ export default function ToastNotification({
         >
           <div className={styles.badgeIconWrapper}>
             {/* Primary icon (always visible) */}
-            <Image
+            <ImageComponent
               src={badge.primaryIcon}
               alt=""
-              width={48}
-              height={48}
+              width={iconSize}
+              height={iconSize}
               className={`${styles.badgeIcon} ${
                 type === 'achievement' && badge.secondaryIcon ? styles.primary : ''
               }`}
@@ -92,11 +102,11 @@ export default function ToastNotification({
             
             {/* Secondary icon for achievement crossfade */}
             {type === 'achievement' && badge.secondaryIcon && (
-              <Image
+              <ImageComponent
                 src={badge.secondaryIcon}
                 alt=""
-                width={48}
-                height={48}
+                width={iconSize}
+                height={iconSize}
                 className={`${styles.badgeIcon} ${styles.secondary}`}
                 priority
               />
