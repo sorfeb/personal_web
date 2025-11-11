@@ -81,52 +81,55 @@ export default function ToastNotification({
         '--icon-size': `${iconSize}px`,
       }}
     >
-      {/* Left: Badge Area */}
-      <div className={styles.badgeContainer}>
-        <div
-          className={`${styles.badge} ${isExiting ? styles.exiting : ''}`}
-          data-ring={badge.ringColor}
-          data-size={badgeSize}
-        >
-          <div className={styles.badgeIconWrapper}>
-            {/* Primary icon (always visible) */}
-            <ImageComponent
-              src={badge.primaryIcon}
-              alt=""
-              width={iconSize}
-              height={iconSize}
-              className={`${styles.badgeIcon} ${
-                type === 'achievement' && badge.secondaryIcon ? styles.primary : ''
-              }`}
-              priority
-            />
-            
-            {/* Secondary icon for achievement crossfade */}
-            {type === 'achievement' && badge.secondaryIcon && (
+      {/* Content Pill with Badge Inside */}
+      <div className={`${styles.contentPill} ${isExiting ? styles.exiting : ''}`}>
+        {/* Left: Badge Area (now inside pill) */}
+        <div className={styles.badgeContainer}>
+          <div
+            className={`${styles.badge} ${isExiting ? styles.exiting : ''}`}
+            data-ring={badge.ringColor}
+            data-size={badgeSize}
+          >
+            <div className={styles.badgeIconWrapper}>
+              {/* Primary icon (always visible) */}
               <ImageComponent
-                src={badge.secondaryIcon}
+                src={badge.primaryIcon}
                 alt=""
                 width={iconSize}
                 height={iconSize}
-                className={`${styles.badgeIcon} ${styles.secondary}`}
+                className={`${styles.badgeIcon} ${
+                  type === 'achievement' && badge.secondaryIcon ? styles.primary : ''
+                }`}
                 priority
               />
-            )}
+              
+              {/* Secondary icon for achievement crossfade */}
+              {type === 'achievement' && badge.secondaryIcon && (
+                <ImageComponent
+                  src={badge.secondaryIcon}
+                  alt=""
+                  width={iconSize}
+                  height={iconSize}
+                  className={`${styles.badgeIcon} ${styles.secondary}`}
+                  priority
+                />
+              )}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Right: Content Pill */}
-      <div className={`${styles.contentPill} ${isExiting ? styles.exiting : ''}`}>
-        <h3 className={`${styles.title} ${isExiting ? styles.exiting : ''}`}>
-          {title}
-        </h3>
-        
-        {subtitle && (
-          <p className={`${styles.subtitle} ${isExiting ? styles.exiting : ''}`}>
-            {subtitle}
-          </p>
-        )}
+        {/* Right: Text Content */}
+        <div className={styles.textContent}>
+          <h3 className={`${styles.title} ${isExiting ? styles.exiting : ''}`}>
+            {title}
+          </h3>
+          
+          {subtitle && (
+            <p className={`${styles.subtitle} ${isExiting ? styles.exiting : ''}`}>
+              {subtitle}
+            </p>
+          )}
+        </div>
 
         {/* Optional progress bar */}
         {showProgressBar && !isExiting && (

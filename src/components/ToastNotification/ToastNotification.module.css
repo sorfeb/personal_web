@@ -23,12 +23,14 @@
 /* ===== BADGE AREA ===== */
 
 .badgeContainer {
-  position: relative;
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
   flex-shrink: 0;
   width: var(--badge-size, 72px);
   height: var(--badge-size, 72px);
-  z-index: 2;
-  margin-right: -12px; /* Overlap with pill */
+  z-index: 3;
 }
 
 .badge[data-size] {
@@ -45,21 +47,33 @@
   justify-content: center;
   position: relative;
   overflow: hidden;
-
 }
 
-/* Ring around badge (status-coded) - SVG overlay */
+/* Black circle background behind everything */
+.badge::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #000000;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+/* Ring around badge (status-coded) - SVG overlay - made smaller */
 .badge::before {
   content: '';
   position: absolute;
-  inset: 2px;
-  width: calc(100% - 4px);
-  height: calc(100% - 4px);
+  inset: 6px;
+  width: calc(100% - 12px);
+  height: calc(100% - 12px);
   background-image: url('/assets/icons/achievement_popup_ring.svg');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   opacity: 0.95;
+  z-index: 1;
 }
 
 /* Ring color variants - using CSS custom property from TypeScript */
@@ -120,6 +134,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 2;
 }
 
 .badgeIcon {
@@ -132,12 +147,12 @@
 /* Crossfade animation for achievement badges */
 .badgeIcon.primary {
   position: absolute;
-  animation: badgeCrossfadePrimary 1000ms ease-in-out;
+  animation: badgeCrossfadePrimary 6000ms ease-in-out forwards;
 }
 
 .badgeIcon.secondary {
   position: absolute;
-  animation: badgeCrossfadeSecondary 1000ms ease-in-out;
+  animation: badgeCrossfadeSecondary 6000ms ease-in-out forwards;
 }
 
 /* Ring expansion on exit */
@@ -148,19 +163,18 @@
 /* ===== CONTENT PILL ===== */
 
 .contentPill {
-  flex: 1;
-  border-radius: 14px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-radius: 50px;
   background: rgba(31, 35, 40, 0.92);
   backdrop-filter: blur(12px);
-  padding: 14px 20px 14px 28px; /* Extra left padding for badge overlap */
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  position: relative;
-  overflow: hidden;
-  min-width: 280px;
+  padding: 14px 24px 14px 100px;
+  min-width: 350px;
+  min-height: 72px;
   
-  /* Top highlight for depth */
+  /* Shadow for depth */
   box-shadow: 
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
     0 8px 24px rgba(0, 0, 0, 0.4);
@@ -180,6 +194,16 @@
 
 .contentPill.exiting {
   animation: pillCollapse 350ms ease-in forwards;
+}
+
+/* ===== TEXT CONTENT ===== */
+
+.textContent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0; /* Allow text truncation if needed */
 }
 
 /* ===== TYPOGRAPHY ===== */
@@ -274,25 +298,37 @@
 }
 
 @keyframes badgeCrossfadePrimary {
-  0%, 40% {
+  0%, 20% {
     opacity: 1;
   }
-  50%, 90% {
+  21%, 40% {
     opacity: 0;
   }
-  100% {
+  41%, 60% {
+    opacity: 1;
+  }
+  61%, 80% {
+    opacity: 0;
+  }
+  81%, 100% {
     opacity: 1;
   }
 }
 
 @keyframes badgeCrossfadeSecondary {
-  0%, 40% {
+  0%, 20% {
     opacity: 0;
   }
-  50%, 90% {
+  21%, 40% {
     opacity: 1;
   }
-  100% {
+  41%, 60% {
+    opacity: 0;
+  }
+  61%, 80% {
+    opacity: 1;
+  }
+  81%, 100% {
     opacity: 0;
   }
 }
