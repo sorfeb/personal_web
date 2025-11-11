@@ -69,10 +69,11 @@ export default function ToastNotification({
   const iconSize = badge.iconSize || 40;
 
   return (
-    <output
-      className={`${styles.toastWrapper} ${isExiting ? styles.exiting : styles.entering}`}
+    <div
+      role="status"
       aria-live="polite"
       aria-atomic="true"
+      className={`${styles.toastWrapper} ${isExiting ? styles.exiting : styles.entering}`}
       // eslint-disable-next-line react/forbid-dom-props
       style={{
         // @ts-ignore - CSS custom properties
@@ -136,6 +137,6 @@ export default function ToastNotification({
           />
         )}
       </div>
-    </output>
+    </div>
   );
 }
