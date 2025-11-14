@@ -19,9 +19,9 @@ export const TOAST_COLORS = {
 export const TOAST_ICONS = {
   achievement: '/assets/icons/toast/trophy.png',
   success: '/favicon.svg',
-  info: '/assets/icons/dashboard/info-circle.svg',
-  warning: '/assets/icons/dashboard/warning-triangle.svg',
-  error: '/assets/icons/dashboard/error-circle.svg',
+  info: '/assets/icons/toast/gears.png',
+  warning: '/assets/icons/toast/warning.png',
+  error: '/assets/icons/toast/face-melting-indiana-jones.gif',
   default: '/favicon.svg',
 } as const;
 

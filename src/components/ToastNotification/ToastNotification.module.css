@@ -68,7 +68,7 @@
   inset: 6px;
   width: calc(100% - 12px);
   height: calc(100% - 12px);
-  background-image: url('/assets/icons/achievement_popup_ring.svg');
+  background-image: url('/assets/icons/toast/achievement_popup_ring.svg');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -76,55 +76,27 @@
   z-index: 1;
 }
 
-/* Ring color variants - using CSS custom property from TypeScript */
-.badge[data-ring="success"]::before,
-.badge[data-ring="info"]::before,
-.badge[data-ring="warning"]::before,
-.badge[data-ring="error"]::before {
-  filter: 
-    brightness(0) saturate(100%)
-    drop-shadow(0 0 4px var(--toast-ring-color, #9ca3af));
-}
-
-/* Success - bright green */
+/* Success - bright green with blinking animation */
 .badge[data-ring="success"]::before {
-  filter: 
-    brightness(0) saturate(100%) 
-    invert(74%) sepia(97%) saturate(6820%) hue-rotate(76deg) brightness(108%) contrast(96%)
-;
+  animation: ringBlinkGreen 1000ms steps(1, end) infinite;
 }
 
-/* Info - blue */
+/* Info - blue with blinking animation */
 .badge[data-ring="info"]::before {
-  filter: 
-    brightness(0) saturate(100%) 
-    invert(16%) sepia(98%) saturate(7497%) hue-rotate(251deg) brightness(99%) contrast(103%)
-    drop-shadow(0 0 4px var(--toast-ring-color, #2F25FD));
+  animation: ringBlinkBlue 1000ms steps(1, end) infinite;
 }
 
-/* Warning - yellow */
+/* Warning - yellow with blinking animation */
 .badge[data-ring="warning"]::before {
-  filter: 
-    brightness(0) saturate(100%) 
-    invert(84%) sepia(93%) saturate(1346%) hue-rotate(358deg) brightness(101%) contrast(97%)
-    drop-shadow(0 0 4px var(--toast-ring-color, #F4CC00));
+  animation: ringBlinkYellow 1000ms steps(1, end) infinite;
 }
 
-/* Error - red */
+/* Error - red with blinking animation */
 .badge[data-ring="error"]::before {
-  filter: 
-    brightness(0) saturate(100%) 
-    invert(26%) sepia(97%) saturate(7471%) hue-rotate(356deg) brightness(99%) contrast(98%)
-    drop-shadow(0 0 4px var(--toast-ring-color, #FD2525));
+  animation: ringBlinkRed 1000ms steps(1, end) infinite;
 }
 
-.badge[data-ring="default"]::before {
-  --ring-color: #9ca3af;
-  filter: 
-    brightness(0) saturate(100%) 
-    invert(71%) sepia(6%) saturate(458%) hue-rotate(182deg) brightness(91%) contrast(88%)
-    drop-shadow(0 0 3px #9ca3af);
-}
+/* Default - no blinking, just gray ring */
 
 /* Badge icon wrapper */
 .badgeIconWrapper {
@@ -341,6 +313,42 @@
   100% {
     opacity: 0;
     transform: scale(2.5);
+  }
+}
+
+@keyframes ringBlinkGreen {
+  0%, 49% {
+    background-image: url('/assets/icons/toast/achievement_popup_ring.svg');
+  }
+  50%, 100% {
+    background-image: url('/assets/icons/toast/achievement_popup_ring-green.svg');
+  }
+}
+
+@keyframes ringBlinkBlue {
+  0%, 49% {
+    background-image: url('/assets/icons/toast/achievement_popup_ring.svg');
+  }
+  50%, 100% {
+    background-image: url('/assets/icons/toast/achievement_popup_ring-blue.svg');
+  }
+}
+
+@keyframes ringBlinkYellow {
+  0%, 49% {
+    background-image: url('/assets/icons/toast/achievement_popup_ring.svg');
+  }
+  50%, 100% {
+    background-image: url('/assets/icons/toast/achievement_popup_ring-yellow.svg');
+  }
+}
+
+@keyframes ringBlinkRed {
+  0%, 49% {
+    background-image: url('/assets/icons/toast/achievement_popup_ring.svg');
+  }
+  50%, 100% {
+    background-image: url('/assets/icons/toast/achievement_popup_ring-red.svg');
   }
 }
 
