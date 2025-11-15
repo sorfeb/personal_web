@@ -13,10 +13,7 @@ import { useIsMobile } from '../../utils/responsiveUtils';
 interface XboxDashboardProps {
   activeIndex: number;
   data: {
-    home: { route: string; title: string; iconUrl?: string; images?: string[]}[];
-    misc: { route: string; title: string; iconUrl?: string; images?: string[]}[];
-    gallery: { route: string; title: string; iconUrl?: string; images?: string[]}[];
-    credits: { route: string; title: string; iconUrl?: string; images?: string[]}[];
+    [key: string]: { route: string; title: string; iconUrl?: string; images?: string[]}[];
   };
 }
 
@@ -24,14 +21,10 @@ const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data })
   const { playSound } = useAudioManager();
   const isMobile = useIsMobile(768);
 
-  const cardsData = useMemo(() => [
-    data.home,
-    data.misc,
-    data.gallery,
-    data.credits,
-  ][activeIndex], [data, activeIndex]);
+  const sectionNames = useMemo(() => Object.keys(data) as Array<keyof typeof data>, [data]);
+  const sectionsData = useMemo(() => Object.values(data), [data]);
 
-  const sectionNames = ['home', 'misc', 'gallery', 'credits'];
+  const cardsData = useMemo(() => sectionsData[activeIndex], [sectionsData, activeIndex]);
 
   const sectionRef = useInitialCardAnimation({
     activeIndex,

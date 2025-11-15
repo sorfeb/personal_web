@@ -4,7 +4,7 @@ import "./globals.css";
 import styles from "./Home.module.css";
 import data from '../data/cardsList';
 
-import React, {useState } from 'react';
+import React, {useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import XboxDashboard from "../components/XboxDashboard/XboxDashboard";
@@ -17,7 +17,13 @@ import { ShepherdTourProvider } from "../context/ShepherdTourContext";
 import ProfileModal from "../components/ProfileModal/ProfileModal";
 
 export default function Home() {
-  const menuItems = ["Home", "Misc", "Gallery", "Credits"];
+
+  const menuItems = useMemo(() => 
+    Object.keys(data).map(key => 
+      key.charAt(0).toUpperCase() + key.slice(1)
+    ), 
+    []
+  );
   const [activeIndex, setActiveIndex] = useState(0);
   const [isProfileModalOpen, setProfileModalOpen] = useState(false);
   

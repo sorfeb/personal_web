@@ -21,6 +21,33 @@ const data = {
       route: "/projects"
     },
   ],
+  gallery: [
+    { 
+      title: "Photos", 
+      iconUrl: "assets/icons/dashboard/gallery/camera.svg",
+      route: "/photos"
+    },
+    { 
+      title: "Media", 
+      iconUrl: "assets/icons/dashboard/gallery/gallery.svg",
+      route: "/media" 
+    },
+    { 
+      title: "Music", 
+      iconUrl: "assets/icons/dashboard/gallery/music.svg",
+      route: "/music"
+    },
+    { 
+      title: "Books", 
+      iconUrl: "assets/icons/dashboard/gallery/books.svg",
+      route: "/books" 
+    },
+    { 
+      title: "Digital Gems", 
+      iconUrl: "assets/icons/dashboard/gallery/gemstone.svg",
+      route: "/digital-gems"
+    },
+  ],
   misc: [
     { 
       title: "My Playlists", 
@@ -51,33 +78,6 @@ const data = {
       title: "Letterboxd", 
       iconUrl: "assets/icons/dashboard/misc/letterboxd.svg",
       route: "https://letterboxd.com/21watchingeyes/"
-    },
-  ],
-  gallery: [
-    { 
-      title: "Photos", 
-      iconUrl: "assets/icons/dashboard/gallery/camera.svg",
-      route: "/photos"
-    },
-    { 
-      title: "Media", 
-      iconUrl: "assets/icons/dashboard/gallery/gallery.svg",
-      route: "/media" 
-    },
-    { 
-      title: "Music", 
-      iconUrl: "assets/icons/dashboard/gallery/music.svg",
-      route: "/music"
-    },
-    { 
-      title: "Books", 
-      iconUrl: "assets/icons/dashboard/gallery/books.svg",
-      route: "/books" 
-    },
-    { 
-      title: "Digital Gems", 
-      iconUrl: "assets/icons/dashboard/gallery/gemstone.svg",
-      route: "/digital-gems"
     },
   ],
   credits: [
