@@ -27,6 +27,16 @@ const data = {
       iconUrl: "assets/icons/dashboard/gallery/camera.svg",
       route: "/photos"
     },
+    {
+      title: "Design System",
+      iconUrl: "assets/icons/dashboard/gallery/controller.svg",
+      route: "/design-system"
+    },
+    { 
+      title: "Digital Gems", 
+      iconUrl: "assets/icons/dashboard/gallery/gemstone.svg",
+      route: "/digital-gems"
+    },
     { 
       title: "Media", 
       iconUrl: "assets/icons/dashboard/gallery/gallery.svg",
@@ -41,12 +51,7 @@ const data = {
       title: "Books", 
       iconUrl: "assets/icons/dashboard/gallery/books.svg",
       route: "/books" 
-    },
-    { 
-      title: "Digital Gems", 
-      iconUrl: "assets/icons/dashboard/gallery/gemstone.svg",
-      route: "/digital-gems"
-    },
+    }
   ],
   misc: [
     { 
