@@ -9,6 +9,8 @@
  * @see createSystemToast - Uses TOAST_ICONS for system notifications
  */
 
+import { config } from "process";
+
 /**
  * Status color configuration for toast notifications
  * These colors are used for progress bars and theme references
@@ -31,16 +33,11 @@ export const TOAST_COLORS = {
  * Maps toast types to their respective icon assets
  */
 export const TOAST_ICONS = {
-  /** Achievement unlock icon (trophy) */
-  achievement: '/assets/icons/toast/trophy.png',
-  /** Success confirmation icon (favicon) */
-  success: '/favicon.svg',
-  /** Info/settings icon (gears) */
-  info: '/assets/icons/toast/gears.png',
-  /** Warning alert icon */
-  warning: '/assets/icons/toast/warning.png',
-  /** Error state icon (face-melting Indiana Jones) */
-  error: '/assets/icons/toast/face-melting-indiana-jones.gif',
-  /** Default fallback icon */
-  default: '/favicon.svg',
+    achievement: '/assets/icons/toast/trophy.png',
+    success: '/favicon.svg', 
+    info: '/assets/icons/toast/info.png',
+    config: '/assets/icons/toast/gears.png',
+    warning: '/assets/icons/toast/warning.png',
+    error: '/assets/icons/toast/face-melting-indiana-jones.gif',
+    default: '/favicon.svg',
 } as const;
