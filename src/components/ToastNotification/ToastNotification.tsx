@@ -98,14 +98,12 @@ export default function ToastNotification({
                 alt=""
                 width={iconSize}
                 height={iconSize}
-                className={`${styles.badgeIcon} ${
-                  type === 'achievement' && badge.secondaryIcon ? styles.primary : ''
-                }`}
+                className={`${styles.badgeIcon} ${badge.secondaryIcon ? styles.primary : ''}`}
                 priority
               />
               
-              {/* Secondary icon for achievement crossfade */}
-              {type === 'achievement' && badge.secondaryIcon && (
+              {/* Secondary icon for crossfade animation */}
+              {badge.secondaryIcon && (
                 <ImageComponent
                   src={badge.secondaryIcon}
                   alt=""

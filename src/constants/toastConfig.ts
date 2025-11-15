@@ -34,7 +34,7 @@ export const TOAST_COLORS = {
  */
 export const TOAST_ICONS = {
     achievement: '/assets/icons/toast/trophy.png',
-    success: '/favicon.svg', 
+    success: '/assets/icons/toast/vault-boy.gif', 
     info: '/assets/icons/toast/info.png',
     config: '/assets/icons/toast/gears.png',
     warning: '/assets/icons/toast/warning.png',
