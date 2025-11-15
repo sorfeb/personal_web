@@ -1,6 +1,6 @@
 # AI Coding Agent Instructions
 
-## 🚨 CRITICAL RULES
+## CRITICAL RULES
 
 ### Dev Server Policy
 **YOU MUST NEVER START THE DEV SERVER UNLESS THE USER HAS TOLD YOU TO.**
@@ -8,7 +8,7 @@
 - The user is running the dev server locally - starting it again will cause conflicts
 - Only run the dev server if explicitly requested
 
-### Security: Dependency Management 🔒
+### Security: Dependency Management
 **NEVER add, install, or suggest new npm packages without explicit user approval.**
 
 Before proposing ANY new dependency:
@@ -25,13 +25,13 @@ Wait for explicit "yes" before running `npm install`. Supply chain attacks are a
 
 ### Console Logging Policy 🤐
 **DO NOT use excessive console.log statements:**
-- ❌ **FORBIDDEN**: `console.log()`, `console.debug()` for debugging, use ONLY IF users requests it
-- ⚠️ **USE SPARINGLY**: `console.error()`, `console.warn()` for critical issues only
-- ✅ **PREFERRED**: Proper error handling with TypeScript types and TRPCError codes
+- **FORBIDDEN**: `console.log()`, `console.debug()` for debugging, use ONLY IF users requests it
+- **USE SPARINGLY**: `console.error()`, `console.warn()` for critical issues only
+- **PREFERRED**: Proper error handling with TypeScript types and TRPCError codes
 
 Remove all debug logs before completing work.
 
-### Documentation & Planning Structure 📁
+### Documentation & Planning Structure
 **Always document feature work in organized locations:**
 
 #### Feature Planning (Before Implementation)
