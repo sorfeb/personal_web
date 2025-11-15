@@ -2,7 +2,7 @@
 
 import "./globals.css";
 import styles from "./Home.module.css";
-import data from '../data/cardsList';
+import dashboardDataList from '../data/cardsList';
 
 import React, {useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -19,7 +19,7 @@ import ProfileModal from "../components/ProfileModal/ProfileModal";
 export default function Home() {
 
   const menuItems = useMemo(() => 
-    Object.keys(data).map(key => 
+    Object.keys(dashboardDataList).map(key => 
       key.charAt(0).toUpperCase() + key.slice(1)
     ), 
     []
@@ -72,7 +72,7 @@ export default function Home() {
               {/* Main Content Section */}
               <main className={styles.main}>
                 <div className={styles.DashboardContainer}>
-                  <XboxDashboard activeIndex={activeIndex} data={data} />
+                  <XboxDashboard activeIndex={activeIndex} data={dashboardDataList} />
                 </div>
               </main>
 
