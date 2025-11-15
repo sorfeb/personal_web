@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { ToastConfig, TOAST_COLORS } from './types';
+import { ToastConfig } from './types';
+import { TOAST_COLORS } from '@/constants/toastConfig';
 import { useAudioManager } from '@/hooks/useAudioManager';
 import styles from './ToastNotification.module.css';
 

@@ -1,4 +1,5 @@
-import { ShowToastConfig, RingColor, TOAST_ICONS } from '../components/ToastNotification/types';
+import { ShowToastConfig, RingColor } from '../components/ToastNotification/types';
+import { TOAST_ICONS } from '@/constants/toastConfig';
 
 /**
  * Show an achievement unlock notification with crossfade animation

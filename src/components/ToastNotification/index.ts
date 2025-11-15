@@ -10,7 +10,7 @@ export type {
   AnimationPhase,
   ImageComponentProps,
 } from './types';
-export { TOAST_COLORS, TOAST_ICONS } from './types';
+export { TOAST_COLORS, TOAST_ICONS } from '@/constants/toastConfig';
 
 export {
   createAchievementToast,
