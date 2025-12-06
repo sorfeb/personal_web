@@ -73,32 +73,12 @@ import styles from './PageLayout.module.css';
  */
 
 /**
- * Check if children contain compound component parts
- * 
- * @description
- * Detects whether the children are using the compound component API
- * (PageLayout.Header, PageLayout.Body, etc.) or the legacy simple API.
- * This enables backwards compatibility with existing usages.
- */
-function hasCompoundChildren(children: React.ReactNode): boolean {
-  const childArray = React.Children.toArray(children);
-  return childArray.some((child) => {
-    if (!React.isValidElement(child)) return false;
-    const displayName = (child.type as React.ComponentType)?.displayName;
-    return displayName?.startsWith('PageLayout.');
-  });
-}
-
-/**
  * PageLayout Root Component
  * 
  * @description
  * The root component of the PageLayout compound component system.
- * Provides context to all sub-components and handles backwards compatibility.
- * 
- * Supports two usage modes:
- * 1. **Legacy mode** (backwards compatible): Simple children are auto-wrapped
- * 2. **Compound mode**: Full control with PageLayout.Header, PageLayout.Body, etc.
+ * Uses compound component pattern - children must be PageLayout sub-components
+ * (PageLayout.Header, PageLayout.Body, etc.).
  */
 const PageLayoutRoot: React.FC<PageLayoutProps> = ({
   title,
@@ -106,7 +86,6 @@ const PageLayoutRoot: React.FC<PageLayoutProps> = ({
   size = 'default',
   variant = 'windowed',
   customDimensions,
-  showCloseButton = true,
   onClose,
 }) => {
   const { navigateWithSound } = useNavigationSound();
@@ -138,9 +117,6 @@ const PageLayoutRoot: React.FC<PageLayoutProps> = ({
     customDimensions,
   };
 
-  // Determine if using compound pattern or legacy pattern
-  const isCompoundMode = hasCompoundChildren(children);
-
   return (
     <PageLayoutProvider value={contextValue}>
       <AnimatePresence>
@@ -156,15 +132,7 @@ const PageLayoutRoot: React.FC<PageLayoutProps> = ({
             aria-modal="true"
             aria-labelledby={titleId}
           >
-            {isCompoundMode ? (
-              children
-            ) : (
-              <>
-                <PageLayoutHeader />
-                {showCloseButton && <PageLayoutCloseButton />}
-                <PageLayoutBody>{children}</PageLayoutBody>
-              </>
-            )}
+            {children}
           </motion.div>
         )}
       </AnimatePresence>
@@ -180,10 +148,6 @@ const PageLayoutRoot: React.FC<PageLayoutProps> = ({
  * 
  * @example
  * ```tsx
- * // Legacy usage (backwards compatible)
- * <PageLayout title="About">{content}</PageLayout>
- * 
- * // Compound usage (full control)
  * <PageLayout title="About">
  *   <PageLayout.Header />
  *   <PageLayout.CloseButton />

@@ -8,14 +8,18 @@ import styles from './Books.module.css';
 const BooksPage = () => {
   return (
     <PageLayout title="Books">
-      <div className={styles.loadingContainer}>
-        <span className={styles.text}>Work In Progress</span>
-          <div className={styles.dots}>
-            <span className={styles.dot}></span>
-            <span className={styles.dot}></span>
-            <span className={styles.dot}></span>
-          </div>
-      </div>
+      <PageLayout.Header />
+      <PageLayout.CloseButton />
+      <PageLayout.Body>
+        <div className={styles.loadingContainer}>
+          <span className={styles.text}>Work In Progress</span>
+            <div className={styles.dots}>
+              <span className={styles.dot}></span>
+              <span className={styles.dot}></span>
+              <span className={styles.dot}></span>
+            </div>
+        </div>
+      </PageLayout.Body>
     </PageLayout>
   );
 };

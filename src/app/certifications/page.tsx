@@ -8,19 +8,23 @@ import styles from './Certifications.module.css';
 const CertificationsPage = () => {
   return (
     <PageLayout title="Certifications">
-      <div className={styles.container}>
-        <div className={styles.grid}>
-          {certifications.map((cert, index) => (
-            <div key={index} className={styles.card}>
-              <h3>{cert.name}</h3>
-              <p><strong>Issuer:</strong> {cert.issuer}</p>
-              <p><strong>Issued:</strong> {cert.issued_date}</p>
-              {cert.expiry_date && <p><strong>Expiry:</strong> {cert.expiry_date}</p>}
-              <p><a href={cert.url} target="_blank" rel="noopener noreferrer">View Credential</a></p>
-            </div>
-          ))}
+      <PageLayout.Header />
+      <PageLayout.CloseButton />
+      <PageLayout.Body>
+        <div className={styles.container}>
+          <div className={styles.grid}>
+            {certifications.map((cert, index) => (
+              <div key={index} className={styles.card}>
+                <h3>{cert.name}</h3>
+                <p><strong>Issuer:</strong> {cert.issuer}</p>
+                <p><strong>Issued:</strong> {cert.issued_date}</p>
+                {cert.expiry_date && <p><strong>Expiry:</strong> {cert.expiry_date}</p>}
+                <p><a href={cert.url} target="_blank" rel="noopener noreferrer">View Credential</a></p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </PageLayout.Body>
     </PageLayout>
   );
 };

@@ -54,68 +54,72 @@ const MediaPage = () => {
 
   return (
     <PageLayout title="Media">
-      <audio ref={audioRef} src={hoverSound} />
-      <audio ref={selectAudioRef} src={selectSound} />
-      <div className={styles.textContainer}>
-        <p><i>Intriguing medias I found or made</i></p>
-      </div>
-      <div className={styles.imageGrid}>
-        {imageList.map((src) => (
-          <motion.div
-            key={src}
-            className={styles.imageContainer}
-            whileHover={{ scale: 1.02 }}
-            onMouseEnter={playHoverSound}
-            onClick={() => {
-              playSelectSound();
-              setSelectedImage(src);
-            }}
-          >
-            <div className={styles.squareThumbnail}>
-              <CldImage src={src} alt={src} fill />
-            </div>
-            <p className={styles.imageTitle}>{src}</p>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* AnimatePresence handles exit animations properly */}
-      <AnimatePresence>
-        {selectedImage && (
-          <>
-            {/* Background fading separately */}
+      <PageLayout.Header />
+      <PageLayout.CloseButton />
+      <PageLayout.Body>
+        <audio ref={audioRef} src={hoverSound} />
+        <audio ref={selectAudioRef} src={selectSound} />
+        <div className={styles.textContainer}>
+          <p><i>Intriguing medias I found or made</i></p>
+        </div>
+        <div className={styles.imageGrid}>
+          {imageList.map((src) => (
             <motion.div
-              className={styles.modalBackground}
-              variants={backgroundVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              transition={{ duration: 0.5 }} // Background fades separately
-            />
-
-            {/* Image container rotates separately */}
-            <motion.div
-              className={styles.modal}
-              variants={modalVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              transition={{ duration: 0.6 }} // Image has its own transition
-              onClick={() => setSelectedImage(null)}
+              key={src}
+              className={styles.imageContainer}
+              whileHover={{ scale: 1.02 }}
+              onMouseEnter={playHoverSound}
+              onClick={() => {
+                playSelectSound();
+                setSelectedImage(src);
+              }}
             >
+              <div className={styles.squareThumbnail}>
+                <CldImage src={src} alt={src} fill />
+              </div>
+              <p className={styles.imageTitle}>{src}</p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* AnimatePresence handles exit animations properly */}
+        <AnimatePresence>
+          {selectedImage && (
+            <>
+              {/* Background fading separately */}
               <motion.div
+                className={styles.modalBackground}
+                variants={backgroundVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                transition={{ duration: 0.5 }} // Background fades separately
+              />
+
+              {/* Image container rotates separately */}
+              <motion.div
+                className={styles.modal}
                 variants={modalVariants}
                 initial="hidden"
                 animate="visible"
                 exit="exit"
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.6 }} // Image has its own transition
+                onClick={() => setSelectedImage(null)}
               >
-                <CldImage src={selectedImage} alt={selectedImage} width={800} height={600} />
+                <motion.div
+                  variants={modalVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  transition={{ duration: 0.6 }}
+                >
+                  <CldImage src={selectedImage} alt={selectedImage} width={800} height={600} />
+                </motion.div>
               </motion.div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+            </>
+          )}
+        </AnimatePresence>
+      </PageLayout.Body>
     </PageLayout>
   );
 };

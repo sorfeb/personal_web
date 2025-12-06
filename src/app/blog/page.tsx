@@ -58,19 +58,23 @@ const BlogPage = () => {
     return (
       <PageLayout 
         title="Blog" 
-        size = "wide"
+        size="wide"
         variant="windowed"
       >
-        <div className={styles.errorContainer}>
-          <h2>📚 Oops! Something went wrong</h2>
-          <p>{error.message}</p>
-          <button 
-            onClick={() => refetch()}
-            className={styles.retryButton}
-          >
-            Try Again
-          </button>
-        </div>
+        <PageLayout.Header />
+        <PageLayout.CloseButton />
+        <PageLayout.Body>
+          <div className={styles.errorContainer}>
+            <h2>📚 Oops! Something went wrong</h2>
+            <p>{error.message}</p>
+            <button 
+              onClick={() => refetch()}
+              className={styles.retryButton}
+            >
+              Try Again
+            </button>
+          </div>
+        </PageLayout.Body>
       </PageLayout>
     );
   }
@@ -80,14 +84,16 @@ const BlogPage = () => {
     <PageLayout 
       title="Blog" 
       variant="windowed"
-      showCloseButton={true}
-      
     >
-      <BookRack 
-        articles={articles as Article[]}
-        loading={isLoading}
-        showSearch={true}
-      />
+      <PageLayout.Header />
+      <PageLayout.CloseButton />
+      <PageLayout.Body>
+        <BookRack 
+          articles={articles as Article[]}
+          loading={isLoading}
+          showSearch={true}
+        />
+      </PageLayout.Body>
     </PageLayout>
   );
 };

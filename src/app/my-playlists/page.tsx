@@ -29,81 +29,85 @@ const PlaylistsPage = () => {
   const paginatedPlaylists = playlists.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
   return (
-    <PageLayout title="My Playlists" variant="wide">
-      <div className={styles.container}>
-        {isLoading ? (
-          <div className={styles.loadingContainer}>
-            <span className={styles.text}>Loading</span>
-            <div className={styles.dots}>
-              <span className={styles.dot}></span>
-              <span className={styles.dot}></span>
-              <span className={styles.dot}></span>
+    <PageLayout title="My Playlists" size="wide" variant="windowed">
+      <PageLayout.Header />
+      <PageLayout.CloseButton />
+      <PageLayout.Body>
+        <div className={styles.container}>
+          {isLoading ? (
+            <div className={styles.loadingContainer}>
+              <span className={styles.text}>Loading</span>
+              <div className={styles.dots}>
+                <span className={styles.dot}></span>
+                <span className={styles.dot}></span>
+                <span className={styles.dot}></span>
+              </div>
             </div>
-          </div>
-        ) : (
-          <>
-            <div className={styles.gridContainer}>
-              {paginatedPlaylists.map((playlist) => (
-                <div 
-                    key={playlist.id} 
-                    className={styles.playlistCard} 
-                    onMouseEnter={playHoverSound}>
-                  <a
-                    href={playlist.external_urls.spotify}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <img
-                      src={playlist.images[0]?.url || "/placeholder.jpg"}
-                      alt={playlist.name}
-                      className={styles.playlistImage}
-                    />
-                  </a>
-                  <a
-                    href={playlist.external_urls.spotify}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.playlistTitle}
-                  >
-                    {playlist.name}
-                  </a>
-                </div>
-              ))}
-            </div>
+          ) : (
+            <>
+              <div className={styles.gridContainer}>
+                {paginatedPlaylists.map((playlist) => (
+                  <div 
+                      key={playlist.id} 
+                      className={styles.playlistCard} 
+                      onMouseEnter={playHoverSound}>
+                    <a
+                      href={playlist.external_urls.spotify}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        src={playlist.images[0]?.url || "/placeholder.jpg"}
+                        alt={playlist.name}
+                        className={styles.playlistImage}
+                      />
+                    </a>
+                    <a
+                      href={playlist.external_urls.spotify}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.playlistTitle}
+                    >
+                      {playlist.name}
+                    </a>
+                  </div>
+                ))}
+              </div>
 
-            {/* Pagination Controls */}
-            <div className={styles.pagination}>
-              <button
-                className={styles.pageButton}
-                onClick={() => {
-                  if (currentPage > 1) {
-                    playClickSound();
-                    setCurrentPage((prev) => Math.max(prev - 1, 1));
-                  }
-                }}
-                disabled={currentPage === 1}
-              >
-                ←
-              </button>
-              <span className={styles.pageInfo}>
-                Page {currentPage} of {totalPages}
-              </span>
-              <button
-                className={styles.pageButton}
-                onClick={() => {
-                  if (currentPage < totalPages) {
-                    playClickSound();
-                    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-                  }
-                }}
-                disabled={currentPage === totalPages}
-              >
-                →
-              </button>
-            </div>
-          </>
-        )}
-      </div>
+              {/* Pagination Controls */}
+              <div className={styles.pagination}>
+                <button
+                  className={styles.pageButton}
+                  onClick={() => {
+                    if (currentPage > 1) {
+                      playClickSound();
+                      setCurrentPage((prev) => Math.max(prev - 1, 1));
+                    }
+                  }}
+                  disabled={currentPage === 1}
+                >
+                  ←
+                </button>
+                <span className={styles.pageInfo}>
+                  Page {currentPage} of {totalPages}
+                </span>
+                <button
+                  className={styles.pageButton}
+                  onClick={() => {
+                    if (currentPage < totalPages) {
+                      playClickSound();
+                      setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+                    }
+                  }}
+                  disabled={currentPage === totalPages}
+                >
+                  →
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </PageLayout.Body>
     </PageLayout>
   );
 };

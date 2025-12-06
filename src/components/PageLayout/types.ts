@@ -23,10 +23,11 @@ export type LayoutSize = 'compact' | 'default' | 'wide' | 'full' | 'custom';
  * - `windowed`: Standard windowed layout with container styling and borders
  * - `fullscreen`: Full viewport coverage for immersive experiences
  * - `minimal`: Lightweight layout with minimal styling overhead
+ * - `custom`: Custom styling via customDimensions prop
  * 
  * @since 1.0.0
  */
-export type LayoutVariant = 'windowed' | 'fullscreen' | 'minimal' | 'custom' | 'wide';
+export type LayoutVariant = 'windowed' | 'fullscreen' | 'minimal' | 'custom';
 
 /**
  * Layout dimensions configuration interface
@@ -94,13 +95,6 @@ export interface PageLayoutProps {
    * @example { width: '95%', maxWidth: '1600px', padding: '30px' }
    */
   customDimensions?: LayoutDimensions;
-  
-  /** 
-   * Whether to show the close button
-   * @default true
-   * @description Controls visibility of the navigation close button
-   */
-  showCloseButton?: boolean;
   
   /** 
    * Custom close handler
