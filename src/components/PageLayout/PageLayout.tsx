@@ -17,7 +17,7 @@ import styles from './PageLayout.module.css';
  * PageLayout component - Modular layout system using Composition pattern
  * 
  * @description
- * A sophisticated layout component that provides consistent page structure across
+ * Layout component that provides consistent page structure across
  * the application. Implements multiple design patterns for flexibility and maintainability:
  * 
  * **Layout Variants:**
