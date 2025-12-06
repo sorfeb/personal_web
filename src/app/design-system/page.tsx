@@ -49,14 +49,6 @@ export default function DesignSystemPage() {
       variant="windowed"
     >
       <div className={styles.container}>
-        {/* Hero Section */}
-        <section className={styles.hero}>
-          <h1 className={styles.heroTitle}>Design System</h1>
-          <p className={styles.heroDescription}>
-            Explore the UI components, animations, and interactions that power this Xbox 360-inspired portfolio
-          </p>
-        </section>
-
         {/* Toast Notifications Section */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>🔔 Toast Notifications</h2>

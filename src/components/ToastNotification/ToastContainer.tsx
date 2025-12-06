@@ -14,7 +14,6 @@ export default function ToastContainer() {
   const { toasts } = useToastContext();
   const [mounted, setMounted] = React.useState(false);
 
-  // Client-side only rendering
   React.useEffect(() => {
     setMounted(true);
   }, []);

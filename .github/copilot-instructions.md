@@ -4,7 +4,7 @@
 
 ### Dev Server Policy
 **YOU MUST NEVER START THE DEV SERVER UNLESS THE USER HAS TOLD YOU TO.**
-- Never run `npm run dev`, `npm start`, or any "start/build" command
+- Never run `npm run dev`, `npm start`, `npx tsx` or any "start/build" command
 - The user is running the dev server locally - starting it again will cause conflicts
 - Only run the dev server if explicitly requested
 

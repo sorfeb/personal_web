@@ -1,10 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigationSound } from '../../hooks/useNavigationSound';
 import { PageLayoutProps } from './types';
-import { WindowContainer } from './WindowContainer';
+import { PageLayoutProvider } from './PageLayoutContext';
+import { 
+  PageLayoutHeader, 
+  PageLayoutCloseButton, 
+  PageLayoutBody, 
+  PageLayoutFooter 
+} from './PageLayoutParts';
 import styles from './PageLayout.module.css';
 
 /**
@@ -56,14 +62,45 @@ import styles from './PageLayout.module.css';
  * @param props - The component props
  * @returns JSX element representing the page layout
  * 
- * @since 1.0.0
+ * @since 2.0.0 - Refactored to compound component pattern
  * @author Soros Febriano
  * 
- * @see {@link WindowContainer} - Handles window styling and behavior
+ * @see {@link PageLayoutHeader} - Title section compound component
+ * @see {@link PageLayoutBody} - Content area compound component
+ * @see {@link PageLayoutCloseButton} - Close button compound component
+ * @see {@link PageLayoutFooter} - Footer section compound component
  * @see {@link PageLayoutProps} - Type definitions for props
- * @see {@link useVolume} - Audio volume context hook
  */
-const PageLayout: React.FC<PageLayoutProps> = ({
+
+/**
+ * Check if children contain compound component parts
+ * 
+ * @description
+ * Detects whether the children are using the compound component API
+ * (PageLayout.Header, PageLayout.Body, etc.) or the legacy simple API.
+ * This enables backwards compatibility with existing usages.
+ */
+function hasCompoundChildren(children: React.ReactNode): boolean {
+  const childArray = React.Children.toArray(children);
+  return childArray.some((child) => {
+    if (!React.isValidElement(child)) return false;
+    const displayName = (child.type as React.ComponentType)?.displayName;
+    return displayName?.startsWith('PageLayout.');
+  });
+}
+
+/**
+ * PageLayout Root Component
+ * 
+ * @description
+ * The root component of the PageLayout compound component system.
+ * Provides context to all sub-components and handles backwards compatibility.
+ * 
+ * Supports two usage modes:
+ * 1. **Legacy mode** (backwards compatible): Simple children are auto-wrapped
+ * 2. **Compound mode**: Full control with PageLayout.Header, PageLayout.Body, etc.
+ */
+const PageLayoutRoot: React.FC<PageLayoutProps> = ({
   title,
   children,
   size = 'default',
@@ -74,17 +111,10 @@ const PageLayout: React.FC<PageLayoutProps> = ({
 }) => {
   const { navigateWithSound } = useNavigationSound();
   const [isExiting, setIsExiting] = useState(false);
+  const titleId = useId();
 
   /**
    * Handles page close interaction
-   * 
-   * @description
-   * Uses Next.js router for client-side navigation to maintain SPA behavior.
-   * Sets exit animation state and either calls the custom onClose handler or
-   * navigates back to home with sound feedback. The delay allows the exit
-   * animation to complete before navigation for smooth visual transitions.
-   * 
-   * @since 1.0.0
    */
   const handleClose = () => {
     setIsExiting(true);
@@ -98,109 +128,75 @@ const PageLayout: React.FC<PageLayoutProps> = ({
     }
   };
 
-  /**
-   * Renders content based on layout variant using Strategy pattern
-   * 
-   * @description
-   * Selects the appropriate rendering strategy based on the variant prop.
-   * Each variant has its own animation and styling approach:
-   * 
-   * - windowed: Uses WindowContainer with customizable sizing
-   * - fullscreen: Direct fullscreen overlay with scale animation
-   * - minimal: Lightweight container with slide animation
-   * 
-   * @returns JSX element with variant-specific rendering
-   * 
-   * @since 1.0.0
-   */
-  const renderContent = () => {
-    switch (variant) {
-      case 'windowed':
-        return (
-          <WindowContainer
-            size={size}
-            customDimensions={customDimensions}
-            className={styles.windowReflection}
-          >
-            {children}
-          </WindowContainer>
-        );
-
-      case 'fullscreen':
-        return (
-          <motion.div
-            className={styles.fullscreenContent}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.5 }}
-          >
-            {children}
-          </motion.div>
-        );
-
-      case 'minimal':
-        return (
-          <motion.div
-            className={styles.minimalContent}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {children}
-          </motion.div>
-        );
-
-      default:
-        return children;
-    }
+  const contextValue = {
+    title,
+    titleId,
+    isExiting,
+    handleClose,
+    size,
+    variant,
+    customDimensions,
   };
 
+  // Determine if using compound pattern or legacy pattern
+  const isCompoundMode = hasCompoundChildren(children);
+
   return (
-    <AnimatePresence>
-      {!isExiting && (
-        <motion.div
-          key={title}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          className={`${styles.pageContainer} ${styles[`pageContainer--${variant}`]}`}
-        >
-          {/* Title Section */}
-          <div className={styles.titleContainer}>
-            <h1 className={styles.title}>{title}</h1>
-          </div>
-
-          {/* Close Button - Conditional Rendering */}
-          {showCloseButton && (
-            <div className={styles.closeButtonWrapper}>
-              <button className={styles.closeButton} onClick={handleClose}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  width="30"
-                  height="30"
-                  className={styles.closeIcon}
-                >
-                  <path
-                    d="M6 6L18 18M6 18L18 6"
-                    stroke="white"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-            </div>
-          )}
-
-          {/* Dynamic Content Rendering */}
-          {renderContent()}
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <PageLayoutProvider value={contextValue}>
+      <AnimatePresence>
+        {!isExiting && (
+          <motion.div
+            key={title}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className={`${styles.pageContainer} ${styles[`pageContainer--${variant}`]}`}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
+          >
+            {isCompoundMode ? (
+              children
+            ) : (
+              <>
+                <PageLayoutHeader />
+                {showCloseButton && <PageLayoutCloseButton />}
+                <PageLayoutBody>{children}</PageLayoutBody>
+              </>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </PageLayoutProvider>
   );
 };
+
+/**
+ * PageLayout Compound Component
+ * 
+ * @description
+ * Main export with attached sub-components for compound component pattern.
+ * 
+ * @example
+ * ```tsx
+ * // Legacy usage (backwards compatible)
+ * <PageLayout title="About">{content}</PageLayout>
+ * 
+ * // Compound usage (full control)
+ * <PageLayout title="About">
+ *   <PageLayout.Header />
+ *   <PageLayout.CloseButton />
+ *   <PageLayout.Body>{content}</PageLayout.Body>
+ *   <PageLayout.Footer><Actions /></PageLayout.Footer>
+ * </PageLayout>
+ * ```
+ */
+const PageLayout = Object.assign(PageLayoutRoot, {
+  Header: PageLayoutHeader,
+  CloseButton: PageLayoutCloseButton,
+  Body: PageLayoutBody,
+  Footer: PageLayoutFooter,
+});
 
 export default PageLayout;
