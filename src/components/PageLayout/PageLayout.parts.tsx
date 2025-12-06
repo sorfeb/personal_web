@@ -2,7 +2,7 @@
 
 import React, { ReactNode } from 'react';
 import { motion } from 'framer-motion';
-import { usePageLayout } from './PageLayoutContext';
+import { usePageLayout } from './PageLayout.context';
 import { WindowContainer } from './WindowContainer';
 import { LayoutSize, LayoutDimensions } from './types';
 import styles from './PageLayout.module.css';

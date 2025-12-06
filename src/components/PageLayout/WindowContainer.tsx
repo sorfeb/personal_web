@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { WindowContainerProps } from './types';
-import { getLayoutDimensions } from './layoutConfig';
+import { WindowContainerProps } from './PageLayout.types';
+import { getLayoutDimensions } from './PageLayout.config';
 import styles from './PageLayout.module.css';
 
 /**

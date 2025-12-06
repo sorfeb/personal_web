@@ -3,14 +3,14 @@
 import React, { useState, useId } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigationSound } from '../../hooks/useNavigationSound';
-import { PageLayoutProps } from './types';
-import { PageLayoutProvider } from './PageLayoutContext';
+import { PageLayoutProps } from './PageLayout.types';
+import { PageLayoutProvider } from './PageLayout.context';
 import { 
   PageLayoutHeader, 
   PageLayoutCloseButton, 
   PageLayoutBody, 
   PageLayoutFooter 
-} from './PageLayoutParts';
+} from './PageLayout.parts';
 import styles from './PageLayout.module.css';
 
 /**
