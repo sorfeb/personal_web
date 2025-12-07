@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, ReactNode } from 'react';
-import { LayoutSize, LayoutVariant, LayoutDimensions } from './types';
+import { LayoutSize, LayoutVariant, LayoutDimensions } from './PageLayout.types';
 
 /**
  * Context value interface for PageLayout compound components

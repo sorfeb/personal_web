@@ -46,6 +46,7 @@ export default function DesignSystemPage() {
   return (
     <PageLayout
       title="Design System"
+      size = "wide"
       variant="windowed"
     >
       <PageLayout.Header />
