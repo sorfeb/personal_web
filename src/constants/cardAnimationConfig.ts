@@ -14,7 +14,7 @@ import type { CardAnimationConfig } from '@/types/cardAnimation';
 export const ANIMATION_CONFIG: CardAnimationConfig = {
   STACK_OFFSET_INITIAL: 200,
   STACK_OFFSET_DECREMENT_FACTOR: 0.78,
-  SCALE_DECREMENT_PER_POSITION: 0.08,
+  SCALE_DECREMENT_PER_POSITION: 0.11,
   ANIMATION_DURATION: 400,
   STATE_UPDATE_DELAY: 100,
 } as const;
