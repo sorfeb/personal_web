@@ -194,22 +194,3 @@
     font-size: 12px;
   }
 }
-
-/* Scrollbar styling */
-.grid::-webkit-scrollbar {
-  width: 8px;
-}
-
-.grid::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
-}
-
-.grid::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-}
-
-.grid::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
