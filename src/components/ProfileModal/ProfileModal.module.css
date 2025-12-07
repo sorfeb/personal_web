@@ -278,25 +278,6 @@
   color: #ffffff;
 }
 
-/* Scrollbar styling for avatar grid */
-.avatarGrid::-webkit-scrollbar {
-  width: 6px;
-}
-
-.avatarGrid::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
-}
-
-.avatarGrid::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 3px;
-}
-
-.avatarGrid::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .modal {

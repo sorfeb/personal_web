@@ -181,15 +181,6 @@ export default function DesignSystemPage() {
               <p className={styles.placeholderText}>Animation demos coming soon...</p>
             </div>
           </section>
-
-          {/* Info Note */}
-          <div className={styles.infoNote}>
-            <p>
-              <strong>💡 About:</strong> This design system is built with CSS Modules, TypeScript, and React 18. 
-              All components follow Xbox 360 aesthetic with retro gaming vibes. Components are modular, 
-              accessible, and optimized for both desktop and mobile experiences.
-            </p>
-          </div>
         </div>
       </PageLayout.Body>
     </PageLayout>

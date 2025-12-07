@@ -33,7 +33,7 @@ const PlaylistsPage = () => {
       <PageLayout.Header />
       <PageLayout.CloseButton />
       <PageLayout.Body>
-        <div className={`${styles.container} custom-scrollbar`}>
+        <div className={styles.container}>
           {isLoading ? (
             <div className={styles.loadingContainer}>
               <span className={styles.text}>Loading</span>
