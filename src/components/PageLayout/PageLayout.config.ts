@@ -1,4 +1,4 @@
-import { LayoutDimensions, LayoutSize } from './types';
+import { LayoutDimensions, LayoutSize } from './PageLayout.types';
 
 /**
  * Layout configuration following the Strategy pattern
@@ -196,9 +196,9 @@ export const getLayoutDimensions = (
  */
 export const validateBreakpoint = (value: number) => {
   return {
-    isMobile: value <= parseInt(RESPONSIVE_BREAKPOINTS.mobile),
-    isTablet: value <= parseInt(RESPONSIVE_BREAKPOINTS.tablet),
-    isDesktop: value <= parseInt(RESPONSIVE_BREAKPOINTS.desktop),
-    isWide: value > parseInt(RESPONSIVE_BREAKPOINTS.wide),
+    isMobile: value <= Number.parseInt(RESPONSIVE_BREAKPOINTS.mobile),
+    isTablet: value <= Number.parseInt(RESPONSIVE_BREAKPOINTS.tablet),
+    isDesktop: value <= Number.parseInt(RESPONSIVE_BREAKPOINTS.desktop),
+    isWide: value > Number.parseInt(RESPONSIVE_BREAKPOINTS.wide),
   };
 };

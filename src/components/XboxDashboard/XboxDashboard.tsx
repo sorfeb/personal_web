@@ -61,22 +61,6 @@ const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data })
       className={styles.dashboardContainer}
       aria-label="Xbox dashboard card navigation"
     >
-      {/* Left Navigation Arrow */}
-      <div className={styles.leftArrowContainer}>
-        <button
-          className={styles.leftArrow}
-          onClick={navigateLeft}
-          disabled={!canNavigateLeft}
-          onMouseEnter={playHoverSound}
-        >
-          <img
-            src="./assets/icons/buttonLeft.webp"
-            alt="Left Arrow"
-            className={styles.leftArrow}
-          />
-        </button>
-      </div>
-
       {/* Cards Section */}
       <div className={styles.sectionContainer}>
         <div ref={sectionRef} className={styles.section}>
@@ -91,25 +75,29 @@ const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data })
             </div>
           ))}
         </div>
-        <div className={styles.position}>
-          {`${currentCardIndex + 1} of ${cardsData.length}`}
+        <div className={styles.positionContainer}>
+          <button
+            className={`${styles.navArrow} ${canNavigateLeft ? '' : styles.disabled}`}
+            onClick={navigateLeft}
+            disabled={!canNavigateLeft}
+            onMouseEnter={playHoverSound}
+            aria-label="Navigate left"
+          >
+            &lt;
+          </button>
+          <span className={styles.position}>
+            {`${currentCardIndex + 1} of ${cardsData.length}`}
+          </span>
+          <button
+            className={`${styles.navArrow} ${canNavigateRight ? '' : styles.disabled}`}
+            onClick={navigateRight}
+            disabled={!canNavigateRight}
+            onMouseEnter={playHoverSound}
+            aria-label="Navigate right"
+          >
+            &gt;
+          </button>
         </div>
-      </div>
-
-      {/* Right Navigation Arrow */}
-      <div className={styles.rightArrowContainer}>
-        <button
-          className={styles.rightArrow}
-          onClick={navigateRight}
-          disabled={!canNavigateRight}
-          onMouseEnter={playHoverSound}
-        >
-          <img
-            src="./assets/icons/buttonRight.webp"
-            alt="Right Arrow"
-            className={styles.rightArrow}
-          />
-        </button>
       </div>
     </section>
   );
@@ -118,9 +106,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data })
     return (
       <ResponsiveCardGrid
         cards={cardsData}
-        sectionName={sectionNames[activeIndex]}
-        activeIndex={activeIndex}
-        playHoverSound={playHoverSound}
+        sectionName={String(sectionNames[activeIndex])}
       />
     );
   }

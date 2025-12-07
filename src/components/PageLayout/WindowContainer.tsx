@@ -76,7 +76,7 @@ export const WindowContainer: React.FC<WindowContainerProps> = ({
 
   return (
     <motion.div
-      className={`${styles.window} ${styles[`window--${size}`]} custom-scrollbar ${className}`}
+      className={`${styles.window} ${styles[`window--${size}`]} ${className}`}
       style={customStyle}
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}

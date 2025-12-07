@@ -3,42 +3,43 @@
   align-items: center; 
   width: 100%;
   height: 350px;
-  margin: 0 auto;
+  padding: 0 10%;
+  margin: 4% auto;
 }
 
-.arrowContainer {
+.positionContainer {
   display: flex;
-  align-items: center; /* Center the arrow within its container */
-  justify-content: center;
-  margin-right: 10px; /* Add spacing between arrow and section */
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: 25px;
 }
 
-.leftArrow,
-.rightArrow {
-  position: relative;
+.navArrow {
   background: none;
   border: none;
-  width: 50px;
-  height: 50px;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
   cursor: pointer;
-  z-index: 999;
-  margin-right: 40px;
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
+  padding: 0 1rem;
+  opacity: 0.8;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.leftArrow:hover,
-.rightArrow:hover {
-  transform: scale(1.6); 
-  animation: jiggle 0.5s ease-in-out infinite;
-  opacity: 8;
+.navArrow:hover:not(.disabled) {
+  opacity: 1;
+  transform: scale(1.2);
 }
 
+.navArrow.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
 
 .sectionContainer {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 100%;
   height: 100%;
 }
 
@@ -50,17 +51,12 @@
   z-index: 0;
   height: 50vh;
   width: auto;
-  padding-top: 50px;
-  padding-bottom:100px;
+  padding: 3.1rem 0 5rem 0;
   min-height: 220px;
 }
 
 .position {
-  height:auto;
-  margin-left: 25px;
-  text-align: left;
   font-size: 14px;
-  display: inline-block;
   color: white;
 }
 
@@ -125,12 +121,6 @@
 }
 
 @media (max-width: 768px) {
-  .leftArrow,
-  .rightArrow {
-    width: 40px;
-    height: 40px;
-  }
-
   .section {
     position: relative;
     flex: 1;
@@ -142,6 +132,5 @@
     padding-top: 50px;
     padding-bottom:100px;
   }
-  
 }
 
