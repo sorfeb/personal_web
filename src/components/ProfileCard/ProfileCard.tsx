@@ -87,7 +87,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 
   return (
     <div 
-      className={styles.card}
+      className={`${styles.card} ${isLoading ? styles['card--loading'] : ''}`}
       onClick={() => {
         playSelectSound();
         onClick?.();
