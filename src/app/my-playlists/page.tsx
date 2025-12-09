@@ -31,7 +31,6 @@ const PlaylistsPage = () => {
   return (
     <PageLayout title="My Playlists" size="wide" variant="windowed">
       <PageLayout.Header />
-      <PageLayout.CloseButton />
       <PageLayout.Body>
         <div className={styles.container}>
           {isLoading ? (

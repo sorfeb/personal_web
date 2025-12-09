@@ -24,7 +24,6 @@ const ProjectsPage = () => {
   return (
     <PageLayout title="Projects">
       <PageLayout.Header />
-      <PageLayout.CloseButton />
       <PageLayout.Body>
         <div className={styles.container}>
           {/* Technology Carousel */}

@@ -13,7 +13,6 @@ const ProfilePage: React.FC = () => {
   return (
     <PageLayout title="Profile" variant='windowed' size='default'>
       <PageLayout.Header />
-      <PageLayout.CloseButton />
       <PageLayout.Body>
         <div className={styles.profileContainer}>
         <div className={styles.textSectionContainer}>

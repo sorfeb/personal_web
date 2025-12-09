@@ -55,7 +55,6 @@ const MediaPage = () => {
   return (
     <PageLayout title="Media">
       <PageLayout.Header />
-      <PageLayout.CloseButton />
       <PageLayout.Body>
         <audio ref={audioRef} src={hoverSound} />
         <audio ref={selectAudioRef} src={selectSound} />

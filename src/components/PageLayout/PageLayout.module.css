@@ -27,6 +27,19 @@
     display: flex;
     justify-content: center;
   }
+  
+  .headerContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem 8rem;
+    margin-bottom: 2rem;
+    z-index: 10;
+  }
     
   .titleContainer {
     padding: 10px 20px;
@@ -35,10 +48,12 @@
     border-radius: 5px;
     font-size: 16px;
     transition: background-color 0.3s ease;
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: 3rem auto auto 10rem;
+  }
+  
+  .title {
+    margin: 0;
+    font-size: 2.1rem;
+    font-weight: 600;
   }
   
   /* Base window styles using CSS custom properties */
@@ -113,9 +128,6 @@
   }
   
   .closeButtonWrapper {
-    position: absolute;
-    top: 80px;
-    right: 150px;
     background: rgb(0 0 0 / 0%);
   }
   
@@ -175,14 +187,16 @@
       padding: calc(var(--layout-padding, 20px) * 0.75);
     }
     
-    .closeButtonWrapper {
-      right: 20px;
-      top: 60px;
+    .headerContainer {
+      padding: 1.5rem 2rem;
     }
     
     .titleContainer {
-      margin: 2rem auto auto 2rem;
       font-size: 14px;
+    }
+    
+    .title {
+      font-size: 1.25rem;
     }
   }
   

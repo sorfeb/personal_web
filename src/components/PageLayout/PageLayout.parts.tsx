@@ -8,40 +8,72 @@ import { LayoutSize, LayoutDimensions } from './types';
 import styles from './PageLayout.module.css';
 
 /**
- * PageLayout.Header - Title section compound component
+ * PageLayout.Header - Header container compound component
  * 
  * @description
- * Renders the page title section. Can accept custom children to override
- * the default title rendering, or will render the title from context.
+ * Renders the header container that groups title and close button.
+ * By default, renders the title and close button. Can accept custom children
+ * to completely override the header content.
  * 
  * @example
  * ```tsx
- * // Default usage - renders title from context
+ * // Default usage - renders title and close button
  * <PageLayout.Header />
  * 
- * // Custom content
+ * // Custom header content
  * <PageLayout.Header>
  *   <h1>🎮 Custom Title</h1>
- *   <span>Subtitle here</span>
+ *   <CustomCloseButton />
  * </PageLayout.Header>
  * ```
  * 
  * @since 2.0.0
+ * @since 2.1.0 - Refactored to container pattern
  */
 interface PageLayoutHeaderProps {
-  /** Optional custom content to render instead of default title */
+  /** Optional custom content to render instead of default header */
   children?: ReactNode;
   /** Additional CSS class names */
   className?: string;
 }
 
 export function PageLayoutHeader({ children, className = '' }: Readonly<PageLayoutHeaderProps>) {
-  const { title, titleId } = usePageLayout();
+  const { title, titleId, handleClose } = usePageLayout();
 
   return (
-    <div className={`${styles.titleContainer} ${className}`}>
-      {children ?? <h1 id={titleId} className={styles.title}>{title}</h1>}
-    </div>
+    <header className={`${styles.headerContainer} ${className}`}>
+      {children ?? (
+        <>
+          <div className={styles.titleContainer}>
+            <h1 id={titleId} className={styles.title}>{title}</h1>
+          </div>
+          <div className={styles.closeButtonWrapper}>
+            <button 
+              className={styles.closeButton} 
+              onClick={handleClose}
+              aria-label="Close page"
+              type="button"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="30"
+                height="30"
+                className={styles.closeIcon}
+                aria-hidden="true"
+              >
+                <path
+                  d="M6 6L18 18M6 18L18 6"
+                  stroke="white"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        </>
+      )}
+    </header>
   );
 }
 PageLayoutHeader.displayName = 'PageLayout.Header';

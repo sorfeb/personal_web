@@ -62,7 +62,6 @@ const BlogPage = () => {
         variant="windowed"
       >
         <PageLayout.Header />
-        <PageLayout.CloseButton />
         <PageLayout.Body>
           <div className={styles.errorContainer}>
             <h2>📚 Oops! Something went wrong</h2>
@@ -86,7 +85,6 @@ const BlogPage = () => {
       variant="windowed"
     >
       <PageLayout.Header />
-      <PageLayout.CloseButton />
       <PageLayout.Body>
         <BookRack 
           articles={articles as Article[]}

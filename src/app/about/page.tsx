@@ -7,7 +7,6 @@ const AboutPage = () => {
   return (
     <PageLayout title="About">
       <PageLayout.Header />
-      <PageLayout.CloseButton />
       <PageLayout.Body>
         <p>
         <i>The "NXE" update, which stands for "New Xbox Experience," 

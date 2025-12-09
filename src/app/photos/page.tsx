@@ -36,7 +36,6 @@ const PhotosPage = () => {
   return (
     <PageLayout title="Photos">
       <PageLayout.Header />
-      <PageLayout.CloseButton />
       <PageLayout.Body>
         <div className={styles.textContainer}>
           <p><i>Just several photos from my camera roll. Click on a thumbnail to view it in full size.</i></p>

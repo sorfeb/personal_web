@@ -50,7 +50,6 @@ export default function DesignSystemPage() {
       variant="windowed"
     >
       <PageLayout.Header />
-      <PageLayout.CloseButton />
       <PageLayout.Body>
         <div className={styles.container}>
           {/* Toast Notifications Section */}

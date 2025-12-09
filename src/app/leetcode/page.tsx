@@ -20,7 +20,6 @@ const LeetcodePage = () => {
   return (
     <PageLayout title="Leetcode">
       <PageLayout.Header />
-      <PageLayout.CloseButton />
       <PageLayout.Body>
         <div className={styles.LeetcodeCard}>
           <audio ref={audioRef} src="/assets/audio/ps2_swing.wav" />

@@ -9,7 +9,6 @@ const CertificationsPage = () => {
   return (
     <PageLayout title="Certifications">
       <PageLayout.Header />
-      <PageLayout.CloseButton />
       <PageLayout.Body>
         <div className={styles.container}>
           <div className={styles.grid}>

@@ -52,7 +52,6 @@ export const Default: Story = {
   render: (args) => (
     <PageLayout {...args}>
       <PageLayout.Header />
-      <PageLayout.CloseButton />
       <PageLayout.Body>
         <div style={{ padding: '20px', color: 'white' }}>
           <h2>Page Content</h2>
@@ -93,7 +92,6 @@ export const WithRichContent: Story = {
   render: (args) => (
     <PageLayout {...args}>
       <PageLayout.Header />
-      <PageLayout.CloseButton />
       <PageLayout.Body>
         <div style={{ padding: '20px', color: 'white' }}>
           <h2>Rich Content Example</h2>

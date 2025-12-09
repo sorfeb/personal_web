@@ -9,7 +9,6 @@ const BooksPage = () => {
   return (
     <PageLayout title="Books">
       <PageLayout.Header />
-      <PageLayout.CloseButton />
       <PageLayout.Body>
         <div className={styles.loadingContainer}>
           <span className={styles.text}>Work In Progress</span>

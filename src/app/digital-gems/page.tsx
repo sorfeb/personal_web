@@ -17,7 +17,6 @@ const DigitalGemsPage = () => {
   return (
     <PageLayout title="Digital Gems">
       <PageLayout.Header />
-      <PageLayout.CloseButton />
       <PageLayout.Body>
         <div className={styles.textContainer}>
           <p><i>Check these websites out!</i></p>
