@@ -58,9 +58,6 @@ export default function Home() {
                   </div>
                   <div className={styles.rightHeaderSection}>
                     <div className={styles.ProfileCardRow}>
-                      <div className={styles.HelpButtonContainer}>
-                        <HelpButton />
-                      </div>
                       <div className={styles.ProfileCardContainer}>
                         <ProfileCard onClick={handleOpenProfileModal} />
                       </div>
@@ -79,6 +76,9 @@ export default function Home() {
               {/* Footer */}
               <footer className={styles.footer}>
                 <div className={styles.VolumeControlContainer}>
+                  <div className={styles.HelpButtonContainer}>
+                    <HelpButton />
+                  </div>
                   <div id="volume-control-container"className={styles.VolumeControlWrapper}>
                     <VolumeControl/>
                   </div>

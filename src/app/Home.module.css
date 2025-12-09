@@ -93,6 +93,7 @@
   display: flex;
   justify-content: flex-end;
   padding: 20px 0;
+  gap: 1.1rem;
 }
 
 /* Responsive adjustments */
