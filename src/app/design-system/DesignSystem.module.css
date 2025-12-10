@@ -1,6 +1,5 @@
 .container {
   padding: 2rem 0;
-  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -341,10 +340,7 @@
 .contentArea {
   position: relative;
   padding: 0 1rem;
-  /* Visual connection from navigation to content */
-  border-top: 3px solid rgba(12, 247, 0, 0.3);
   padding-top: 2rem;
-  margin-top: -1px;
 }
 
 /* Demo Button Grid (inside showcase) */
@@ -421,6 +417,15 @@
   color: rgba(255, 255, 255, 0.5);
   font-style: italic;
   margin: 0;
+}
+
+/* Tab Panel - Keep mounted but hide inactive */
+.tabPanel {
+  display: block;
+}
+
+.tabPanel[data-hidden="true"] {
+  display: none;
 }
 
 /* Responsive Design */

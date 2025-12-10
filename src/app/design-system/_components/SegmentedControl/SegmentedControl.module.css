@@ -1,28 +1,6 @@
 .container {
   width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(12, 247, 0, 0.3) transparent;
-}
-
-.container::-webkit-scrollbar {
-  height: 6px;
-}
-
-.container::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 3px;
-}
-
-.container::-webkit-scrollbar-thumb {
-  background: rgba(12, 247, 0, 0.3);
-  border-radius: 3px;
-}
-
-.container::-webkit-scrollbar-thumb:hover {
-  background: rgba(12, 247, 0, 0.5);
 }
 
 .track {

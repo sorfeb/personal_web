@@ -42,7 +42,7 @@ export default function SegmentedControl({
         transform: `translateX(${buttonRect.left - containerRect.left}px)`,
       });
     }
-  }, [value, options]);
+  }, [value]);
 
   return (
     <div className={`${styles.container} ${className}`} ref={containerRef}>
