@@ -1,0 +1,109 @@
+.container {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(12, 247, 0, 0.3) transparent;
+}
+
+.container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background: rgba(12, 247, 0, 0.3);
+  border-radius: 3px;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+  background: rgba(12, 247, 0, 0.5);
+}
+
+.track {
+  position: relative;
+  display: inline-flex;
+  gap: 0;
+  min-width: 100%;
+  background: rgba(31, 35, 40, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 4px;
+  backdrop-filter: blur(12px);
+  /* Embossed/depressed track effect */
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.4),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.05),
+    0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Active indicator with beveled raised appearance */
+.indicator {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  background: linear-gradient(135deg, #0CF700 0%, #0aa500 100%);
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  /* Beveled raised effect */
+  box-shadow: 
+    0 2px 8px rgba(12, 247, 0, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Option buttons */
+.option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  z-index: 2;
+  user-select: none;
+}
+
+.option:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.option.active {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.label {
+  line-height: 1;
+}
+
+/* Mobile responsive - smaller padding */
+@media (max-width: 768px) {
+  .option {
+    padding: 0.65rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .icon {
+    font-size: 1rem;
+  }
+}

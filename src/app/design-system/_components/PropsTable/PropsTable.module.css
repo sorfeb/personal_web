@@ -1,0 +1,118 @@
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 10px;
+  /* Depressed container effect */
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.03);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+/* Header */
+.headerCell {
+  padding: 1rem 1.25rem;
+  text-align: left;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: rgba(12, 247, 0, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid rgba(12, 247, 0, 0.2);
+  background: rgba(12, 247, 0, 0.05);
+}
+
+/* Rows */
+.row {
+  transition: background 0.2s ease;
+}
+
+.row:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.row:not(:last-child) .cell {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cell {
+  padding: 1rem 1.25rem;
+  vertical-align: top;
+}
+
+/* Prop Name */
+.propName {
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  background: rgba(12, 247, 0, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.required {
+  color: #FD2525;
+  font-weight: 700;
+  margin-left: 0.25rem;
+}
+
+/* Prop Type */
+.propType {
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  color: rgba(47, 37, 253, 0.95);
+  background: rgba(47, 37, 253, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* Default Value */
+.defaultValue {
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  color: rgba(244, 204, 0, 0.95);
+  background: rgba(244, 204, 0, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.noDefault {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 1.2rem;
+}
+
+/* Description */
+.description {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .table {
+    font-size: 0.85rem;
+  }
+
+  .headerCell,
+  .cell {
+    padding: 0.75rem 1rem;
+  }
+
+  .propName,
+  .propType,
+  .defaultValue {
+    font-size: 0.8rem;
+  }
+}
