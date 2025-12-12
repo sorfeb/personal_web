@@ -33,13 +33,15 @@ export default function SegmentedControl({
   // Update active indicator position when value changes
   useEffect(() => {
     const activeButton = optionRefs.current.get(value);
-    if (activeButton && containerRef.current) {
-      const containerRect = containerRef.current.getBoundingClientRect();
+    const track = containerRef.current?.querySelector(`.${styles.track}`);
+    
+    if (activeButton && track) {
+      const trackRect = track.getBoundingClientRect();
       const buttonRect = activeButton.getBoundingClientRect();
       
       setIndicatorStyle({
         width: buttonRect.width,
-        transform: `translateX(${buttonRect.left - containerRect.left}px)`,
+        transform: `translateX(${buttonRect.left - trackRect.left - 4}px)`,
       });
     }
   }, [value]);
