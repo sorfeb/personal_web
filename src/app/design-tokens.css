@@ -1,0 +1,266 @@
+:root {
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+  
+  /* Font Families */
+  --font-primary: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Courier New', Courier, monospace;
+
+  /* Font Sizes - Type Scale (Major Third - 1.25 ratio) */
+  --font-size-xs: 0.64rem;      /* 10.24px */
+  --font-size-sm: 0.8rem;       /* 12.8px */
+  --font-size-base: 1rem;       /* 16px - base */
+  --font-size-md: 1.25rem;      /* 20px */
+  --font-size-lg: 1.563rem;     /* 25px */
+  --font-size-xl: 1.953rem;     /* 31.25px */
+  --font-size-2xl: 2rem;        /* 32px - ScrollingMenu size */
+  --font-size-3xl: 2.441rem;    /* 39px */
+  --font-size-4xl: 3.052rem;    /* 48.8px */
+
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line Heights */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.6;
+  --line-height-loose: 2;
+
+  /* Letter Spacing */
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.02em;
+  --letter-spacing-wider: 0.05em;
+
+  /* ============================================
+     COLORS - Xbox Theme
+     ============================================ */
+  
+  /* Brand Colors - Xbox Green */
+  --color-brand-primary: #0CF700;
+  --color-brand-primary-dark: #0aa500;
+  --color-brand-primary-light: #7CDE3A;
+  --color-brand-secondary: #6CB82B;       /* Card gradient start */
+  --color-brand-secondary-dark: #4E9C1B;  /* Card gradient end */
+
+  /* UI Background Colors */
+  --color-bg-primary: rgba(0, 0, 0, 0.85);
+  --color-bg-secondary: rgba(31, 35, 40, 0.6);
+  --color-bg-tertiary: rgba(31, 35, 40, 0.8);
+  --color-bg-overlay: rgba(0, 0, 0, 0.6);
+  --color-bg-card: rgba(108, 184, 43, 0.6);
+  --color-bg-card-hover: rgba(124, 217, 58, 0.7);
+
+  /* Text Colors */
+  --color-text-primary: rgba(255, 255, 255, 0.95);
+  --color-text-secondary: rgba(255, 255, 255, 0.8);
+  --color-text-tertiary: rgba(255, 255, 255, 0.6);
+  --color-text-disabled: rgba(255, 255, 255, 0.4);
+  --color-text-inverse: rgba(0, 0, 0, 0.8);
+
+  /* Border Colors */
+  --color-border-primary: rgba(255, 255, 255, 0.1);
+  --color-border-secondary: rgba(255, 255, 255, 0.2);
+  --color-border-focus: var(--color-brand-primary);
+  --color-border-error: #FF4444;
+
+  /* Semantic Colors */
+  --color-success: #0CF700;
+  --color-error: #FF4444;
+  --color-warning: #FFB800;
+  --color-info: #00A8FF;
+
+  /* Gradient Definitions */
+  --gradient-card: linear-gradient(145deg, rgb(108 184 43 / 60%), rgb(78 156 27 / 60%));
+  --gradient-card-hover: linear-gradient(145deg, rgb(124 217 58 / 70%), rgb(94 172 43 / 70%));
+  --gradient-metallic: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+  --gradient-glass: linear-gradient(to top, rgba(10,10,10,0.85), rgba(80,80,80,0.65));
+  --gradient-brand: linear-gradient(135deg, var(--color-brand-primary) 0%, var(--color-brand-primary-dark) 100%);
+
+  /* Shadow Colors (used in radial/box shadows) */
+  --color-shadow-light: rgba(255, 255, 255, 0.3);
+  --color-shadow-medium: rgba(0, 0, 0, 0.2);
+  --color-shadow-dark: rgba(0, 0, 0, 0.6);
+
+  /* ============================================
+     SPACING - 8px Base Scale
+     ============================================ */
+  
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;   /* 4px */
+  --spacing-2: 0.5rem;    /* 8px - base unit */
+  --spacing-3: 0.75rem;   /* 12px */
+  --spacing-4: 1rem;      /* 16px */
+  --spacing-5: 1.5rem;    /* 24px */
+  --spacing-6: 2rem;      /* 32px */
+  --spacing-8: 3rem;      /* 48px */
+  --spacing-10: 4rem;     /* 64px */
+  --spacing-12: 6rem;     /* 96px */
+  --spacing-16: 8rem;     /* 128px */
+
+  /* ============================================
+     SHADOWS - Depth System
+     ============================================ */
+  
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-base: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 8px 15px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.3);
+  --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.4);
+
+  /* Special Shadows */
+  --shadow-inset-light: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --shadow-inset-heavy: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-glow-green: 0 2px 8px rgba(12, 247, 0, 0.4);
+  --shadow-glow-green-hover: 0 4px 12px rgba(12, 247, 0, 0.6);
+  --shadow-text: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-text-strong: 0 0 8px rgba(255, 255, 255, 0.5);
+  --shadow-drop: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+
+  /* ============================================
+     BORDERS & RADII
+     ============================================ */
+  
+  --border-width-thin: 1px;
+  --border-width-medium: 2px;
+  --border-width-thick: 4px;
+
+  --radius-sm: 4px;
+  --radius-base: 8px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* ============================================
+     TRANSITIONS & ANIMATIONS
+     ============================================ */
+  
+  /* Durations */
+  --duration-instant: 100ms;
+  --duration-fast: 200ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --duration-slower: 700ms;
+
+  /* Easing Functions */
+  --ease-linear: linear;
+  --ease-in: ease-in;
+  --ease-out: ease-out;
+  --ease-in-out: ease-in-out;
+  --ease-smooth: cubic-bezier(0.25, 0.8, 0.25, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-sharp: cubic-bezier(0.4, 0.0, 0.2, 1);
+
+  /* Common Transitions */
+  --transition-fast: all var(--duration-fast) var(--ease-in-out);
+  --transition-normal: all var(--duration-normal) var(--ease-in-out);
+  --transition-smooth: all var(--duration-normal) var(--ease-smooth);
+  --transition-color: color var(--duration-fast) var(--ease-in-out);
+  --transition-transform: transform var(--duration-normal) var(--ease-smooth);
+  --transition-opacity: opacity var(--duration-normal) var(--ease-in-out);
+
+  /* ============================================
+     Z-INDEX LAYERS
+     ============================================ */
+  
+  --z-base: 0;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-overlay: 30;
+  --z-modal: 40;
+  --z-popover: 50;
+  --z-tooltip: 60;
+  --z-notification: 70;
+  --z-max: 999;
+
+  /* ============================================
+     EFFECTS
+     ============================================ */
+  
+  --blur-sm: 4px;
+  --blur-base: 8px;
+  --blur-md: 12px;
+  --blur-lg: 16px;
+  --blur-xl: 24px;
+
+  --backdrop-blur: blur(var(--blur-md));
+  --backdrop-filter-glass: blur(var(--blur-md)) saturate(1.2);
+
+  /* ============================================
+     BREAKPOINTS (for JS access via getComputedStyle)
+     ============================================ */
+  
+  --breakpoint-mobile: 480px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-wide: 1440px;
+  --breakpoint-ultrawide: 1920px;
+
+  /* ============================================
+     COMPONENT-SPECIFIC TOKENS
+     ============================================ */
+  
+  /* Xbox Card */
+  --card-aspect-ratio: 1.25 / 1;
+  --card-icon-size: 19vh;
+  --card-shadow-gradient-height: 45%;
+  --card-shadow-gradient-hover-height: 30%;
+
+  /* ScrollingMenu */
+  --menu-item-height: 40px;
+  --menu-dot-size: 9px;
+  --menu-dot-radius: 2px;
+  --menu-item-padding-left: 21px;
+  --menu-perspective: 1000px;
+  --menu-transform-z-default: 50px;
+  --menu-transform-z-hover: 75px;
+  --menu-transform-z-selected: 100px;
+
+  /* Navigation Card Animation */
+  --card-animation-initial-gap: 250px;
+  --card-animation-decrement-factor: 0.78;
+
+  /* Volume/Audio */
+  --volume-slider-height: 8px;
+  --volume-thumb-size: 20px;
+}
+
+/* ============================================
+   DARK MODE OVERRIDES (if needed in future)
+   ============================================ */
+
+@media (prefers-color-scheme: light) {
+  :root {
+    /* Currently Xbox theme is dark by design */
+    /* Add light mode overrides here if needed */
+  }
+}
+
+/* ============================================
+   MOBILE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  :root {
+    /* Scale down typography slightly on mobile */
+    --font-size-2xl: 1.75rem;
+    --font-size-3xl: 2rem;
+    --font-size-4xl: 2.5rem;
+    
+    /* Reduce spacing on mobile */
+    --spacing-8: 2rem;
+    --spacing-10: 3rem;
+    --spacing-12: 4rem;
+    
+    /* Adjust card icon size for mobile */
+    --card-icon-size: 15vh;
+  }
+}

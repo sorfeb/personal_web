@@ -1,3 +1,5 @@
+@import './design-tokens.css';
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
@@ -33,10 +35,14 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
+  font-family: var(--font-primary);
 }
 
 body {
   /* Background handled by BackgroundRenderer component */
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  font-weight: var(--font-weight-light);
 }
 
 a {
