@@ -50,10 +50,6 @@ a {
   text-decoration: none;
 }
 
-/**
- * Main content container
- * CRT effects are now handled by CRTOverlay component
- */
 .crt {
   position: relative;
   height: 100%;
