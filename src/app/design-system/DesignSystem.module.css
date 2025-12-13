@@ -128,10 +128,16 @@
   accent-color: var(--color-brand-primary);
 }
 
-/* Navigation Container */
+/* Navigation Container - Sticky */
 .navigationContainer {
-  margin-bottom: 0;
-  padding: 0 var(--spacing-4);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  padding: var(--spacing-4);
+  margin-left: calc(var(--spacing-4) * -1);
+  margin-right: calc(var(--spacing-4) * -1);
+  padding-left: calc(var(--spacing-4) * 2);
+  padding-right: calc(var(--spacing-4) * 2);
 }
 
 /* Connected Content Area */
