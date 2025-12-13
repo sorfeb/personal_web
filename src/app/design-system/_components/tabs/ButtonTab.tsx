@@ -2,7 +2,7 @@
 
 import React, { useMemo } from 'react';
 import ComponentShowcase from '../ComponentShowcase';
-import styles from '../../DesignSystem.module.css';
+import styles from './ButtonTab.module.css';
 
 interface ButtonTabProps {
   isActive: boolean;

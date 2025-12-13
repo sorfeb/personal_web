@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 import ComponentShowcase from '../ComponentShowcase';
 import ColorSwatch, { ColorDefinition } from '../ColorSwatch';
-import styles from '../../DesignSystem.module.css';
+import styles from './ColorsTab.module.css';
 
 interface ColorsTabProps {
   isActive: boolean;

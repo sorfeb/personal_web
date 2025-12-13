@@ -6,7 +6,7 @@ import styles from './SegmentedControl.module.css';
 export interface SegmentedControlOption {
   value: string;
   label: string;
-  icon?: string;
+  icon?: React.ReactNode;
 }
 
 interface SegmentedControlProps {
@@ -65,7 +65,7 @@ export default function SegmentedControl({
             onClick={() => onChange(option.value)}
             type="button"
           >
-            {option.icon && <span className={styles.icon}>{option.icon}</span>}
+            {option.icon && <span className={styles.icon} aria-hidden="true">{option.icon}</span>}
             <span className={styles.label}>{option.label}</span>
           </button>
         ))}

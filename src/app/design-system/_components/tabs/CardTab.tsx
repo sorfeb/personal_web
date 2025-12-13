@@ -2,7 +2,7 @@
 
 import React, { useMemo } from 'react';
 import ComponentShowcase from '../ComponentShowcase';
-import styles from '../../DesignSystem.module.css';
+import styles from './CardTab.module.css';
 
 interface CardTabProps {
   isActive: boolean;

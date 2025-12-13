@@ -6,7 +6,7 @@ import { createAchievementToast, createSystemToast } from '@/utils/toastUtils';
 import ComponentShowcase from '../ComponentShowcase';
 import PropsTable, { PropDefinition } from '../PropsTable';
 import CodeBlock from '../CodeBlock';
-import styles from '../../DesignSystem.module.css';
+import styles from './ToastTab.module.css';
 
 interface ToastTabProps {
   isActive: boolean;
