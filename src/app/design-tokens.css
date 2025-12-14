@@ -38,7 +38,7 @@
   --letter-spacing-wider: 0.05em;
 
   /* ============================================
-     SEMANTIC TYPOGRAPHY - Ready-to-Use Styles
+     SEMANTIC TYPOGRAPHY
      ============================================ */
   
   /* Display Text - Hero/Landing Sections */
@@ -71,10 +71,10 @@
   --typography-code-inline: var(--font-weight-regular) var(--font-size-base)/var(--line-height-normal) var(--font-mono);
 
   /* ============================================
-     COLORS - Xbox Theme
+     COLORS
      ============================================ */
   
-  /* Brand Colors - Xbox Green (HSL-based from XboxCard) */
+  /* Brand Colors */
   /* Base: rgb(108, 184, 43) = hsl(95, 62%, 45%) */
   --color-brand-hue: 95;
   --color-brand-saturation: 62%;

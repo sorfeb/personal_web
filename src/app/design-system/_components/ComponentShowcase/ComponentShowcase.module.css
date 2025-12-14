@@ -16,27 +16,24 @@
 }
 
 .name {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.95);
-  margin-bottom: 0.5rem;
+  font: var(--typography-h2);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-2);
 }
 
 .description {
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.6;
+  font: var(--typography-body-2);
+  color: var(--color-text-tertiary);
   margin: 0;
 }
 
 /* Section Label */
 .sectionLabel {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: rgba(12, 247, 0, 0.9);
+  font: var(--typography-overline);
+  color: var(--color-brand-primary);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 1rem;
+  letter-spacing: var(--letter-spacing-wider);
+  margin-bottom: var(--spacing-4);
 }
 
 /* Demo Container */

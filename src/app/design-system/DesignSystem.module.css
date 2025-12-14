@@ -10,8 +10,7 @@
 }
 
 .sectionTitle {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
+  font: var(--typography-h2);
   color: var(--color-text-primary);
   margin-bottom: var(--spacing-3);
   display: flex;
@@ -20,10 +19,9 @@
 }
 
 .sectionDescription {
-  font-size: var(--font-size-base);
+  font: var(--typography-body-2);
   color: var(--color-text-tertiary);
   margin-bottom: var(--spacing-6);
-  line-height: var(--line-height-relaxed);
 }
 
 /* Card Styles */
@@ -41,8 +39,7 @@
 }
 
 .cardTitle {
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-semibold);
+  font: var(--typography-h5);
   color: var(--color-text-primary);
   margin-bottom: var(--spacing-5);
 }
@@ -58,10 +55,9 @@
 
 .label {
   display: block;
-  font-size: var(--font-size-sm);
+  font: var(--typography-label);
   color: var(--color-text-secondary);
   margin-bottom: var(--spacing-3);
-  font-weight: var(--font-weight-medium);
 }
 
 .slider {

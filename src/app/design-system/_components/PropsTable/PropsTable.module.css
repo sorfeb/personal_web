@@ -19,13 +19,12 @@
 
 /* Header */
 .headerCell {
-  padding: 1rem 1.25rem;
+  padding: var(--spacing-4) var(--spacing-5);
   text-align: left;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: rgba(12, 247, 0, 0.9);
+  font: var(--typography-overline);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-primary);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
   border-bottom: 2px solid rgba(12, 247, 0, 0.2);
   background: rgba(12, 247, 0, 0.05);
 }
@@ -95,8 +94,8 @@
 
 /* Description */
 .description {
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.5;
+  font: var(--typography-body-2);
+  color: var(--color-text-secondary);
 }
 
 /* Responsive Design */

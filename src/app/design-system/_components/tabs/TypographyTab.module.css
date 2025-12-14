@@ -17,31 +17,29 @@
 }
 
 .fontLabel {
-  font-size: var(--font-size-sm);
-  color: var(--color-brand-primary);
-  font-weight: var(--font-weight-semibold);
-  margin-bottom: var(--spacing-2);
+  font: var(--typography-label);
   font-family: var(--font-mono);
+  color: var(--color-brand-primary);
+  margin-bottom: var(--spacing-2);
 }
 
 .fontPrimary {
-  font-family: var(--font-primary);
-  font-size: var(--font-size-lg);
+  font: var(--typography-h4);
   color: var(--color-text-primary);
   margin-bottom: var(--spacing-3);
 }
 
 .fontMono {
+  font: var(--typography-h4);
   font-family: var(--font-mono);
-  font-size: var(--font-size-lg);
   color: var(--color-text-primary);
   margin-bottom: var(--spacing-3);
 }
 
 .fontValue {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-tertiary);
+  font: var(--typography-caption);
   font-family: var(--font-mono);
+  color: var(--color-text-tertiary);
   display: block;
 }
 
@@ -58,15 +56,15 @@
 }
 
 .typeScaleLabel {
+  font: var(--typography-overline);
   font-family: var(--font-mono);
-  font-size: var(--font-size-xs);
   color: var(--color-brand-primary);
 }
 
 .typeScaleValue {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-tertiary);
+  font: var(--typography-overline);
   font-family: var(--font-mono);
+  color: var(--color-text-tertiary);
 }
 
 .typeScaleXs {
