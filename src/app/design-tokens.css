@@ -38,6 +38,39 @@
   --letter-spacing-wider: 0.05em;
 
   /* ============================================
+     SEMANTIC TYPOGRAPHY - Ready-to-Use Styles
+     ============================================ */
+  
+  /* Display Text - Hero/Landing Sections */
+  --typography-display-1: var(--font-weight-bold) var(--font-size-4xl)/var(--line-height-tight) var(--font-primary);
+  --typography-display-2: var(--font-weight-bold) var(--font-size-3xl)/var(--line-height-tight) var(--font-primary);
+  
+  /* Headings - Hierarchical Content Structure */
+  --typography-h1: var(--font-weight-bold) var(--font-size-3xl)/var(--line-height-tight) var(--font-primary);
+  --typography-h2: var(--font-weight-bold) var(--font-size-2xl)/var(--line-height-tight) var(--font-primary);
+  --typography-h3: var(--font-weight-semibold) var(--font-size-xl)/var(--line-height-normal) var(--font-primary);
+  --typography-h4: var(--font-weight-semibold) var(--font-size-lg)/var(--line-height-normal) var(--font-primary);
+  --typography-h5: var(--font-weight-medium) var(--font-size-md)/var(--line-height-normal) var(--font-primary);
+  --typography-h6: var(--font-weight-medium) var(--font-size-base)/var(--line-height-normal) var(--font-primary);
+  
+  /* Body Text - Main Content */
+  --typography-body-1: var(--font-weight-regular) var(--font-size-base)/var(--line-height-relaxed) var(--font-primary);
+  --typography-body-2: var(--font-weight-light) var(--font-size-base)/var(--line-height-relaxed) var(--font-primary);
+  --typography-body-large: var(--font-weight-regular) var(--font-size-md)/var(--line-height-relaxed) var(--font-primary);
+  
+  /* UI Text - Interface Elements */
+  --typography-subtitle-1: var(--font-weight-medium) var(--font-size-md)/var(--line-height-normal) var(--font-primary);
+  --typography-subtitle-2: var(--font-weight-medium) var(--font-size-base)/var(--line-height-normal) var(--font-primary);
+  --typography-button: var(--font-weight-semibold) var(--font-size-base)/var(--line-height-normal) var(--font-primary);
+  --typography-caption: var(--font-weight-regular) var(--font-size-sm)/var(--line-height-normal) var(--font-primary);
+  --typography-overline: var(--font-weight-medium) var(--font-size-xs)/var(--line-height-normal) var(--font-primary);
+  --typography-label: var(--font-weight-medium) var(--font-size-sm)/var(--line-height-normal) var(--font-primary);
+  
+  /* Code/Monospace */
+  --typography-code: var(--font-weight-regular) var(--font-size-sm)/var(--line-height-relaxed) var(--font-mono);
+  --typography-code-inline: var(--font-weight-regular) var(--font-size-base)/var(--line-height-normal) var(--font-mono);
+
+  /* ============================================
      COLORS - Xbox Theme
      ============================================ */
   
