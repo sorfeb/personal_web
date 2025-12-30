@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -10,6 +10,14 @@ import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
 import { trpc } from '../../utils/trpc';
 import Tooltip from '../ui/Tooltip/Tooltip';
 import { Clock } from '../ui/Clock/Clock';
+import { BladeNavigation, BladePage } from './BladeNavigation';
+import {
+  SettingsPage,
+  GamesPage,
+  ProfilePage,
+  MediaPage,
+  ThemePage,
+} from './BladePages';
 import styles from './ProfileModal.module.css';
 
 interface ProfileModalProps {
@@ -35,7 +43,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   }, [playSound, onClose]);
 
   useBodyScrollLock(isOpen, handleClose);
-  
+
   const { data: profile } = trpc.user.getProfile.useQuery();
   const { data: avatars } = trpc.user.getAvailableAvatars.useQuery();
   const updateProfileMutation = trpc.user.updateProfile.useMutation({
@@ -49,10 +57,9 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
     },
   });
 
-  const handleAvatarSelect = (avatarId: string) => {
-    playSound('click');
+  const handleAvatarSelect = useCallback((avatarId: string) => {
     setSelectedAvatar(avatarId);
-  };
+  }, []);
 
   const handleSave = async () => {
     if (selectedAvatar && profile && !profile.isGuest) {
@@ -68,7 +75,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
 
   const handleLogout = async () => {
     if (!stackUser) return;
-    
+
     try {
       playSound('back');
       await stackUser.signOut();
@@ -78,14 +85,50 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
     }
   };
 
+  // Build blade pages configuration
+  // Order: Settings -> Games -> Profile (center) -> Media -> Theme
+  const bladePages: BladePage[] = useMemo(() => {
+    if (!profile || !avatars) return [];
+
+    return [
+      {
+        id: 'settings',
+        label: 'Settings',
+        content: <SettingsPage />,
+      },
+      {
+        id: 'games',
+        label: 'Games',
+        content: <GamesPage />,
+      },
+      {
+        id: 'profile',
+        label: profile.name,
+        content: (
+          <ProfilePage
+            profile={profile}
+            avatars={avatars}
+            selectedAvatar={selectedAvatar}
+            onAvatarSelect={handleAvatarSelect}
+          />
+        ),
+      },
+      {
+        id: 'media',
+        label: 'Media',
+        content: <MediaPage />,
+      },
+      {
+        id: 'theme',
+        label: 'Theme',
+        content: <ThemePage />,
+      },
+    ];
+  }, [profile, avatars, selectedAvatar, handleAvatarSelect]);
+
   if (!mounted || !isOpen || !profile) {
     return null;
   }
-
-  // The API guarantees a valid profile object (either user or guest)
-  const currentAvatar = selectedAvatar || profile.avatar;
-  const displayName = profile.name;
-  const displayGamerscore = profile.gamerscore;
 
   const modalContent = (
     <AnimatePresence>
@@ -115,98 +158,38 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
                 height={24}
                 className={styles.xboxIcon}
               />
-              <h1 id="modal-title" className={styles.title}>Change Gamer Picture</h1>
+              <h1 id="modal-title" className={styles.title}>
+                Change Gamer Picture
+              </h1>
             </div>
             <Clock className={styles.time} />
           </div>
 
           <motion.div
-            className={styles.modal}
+            className={styles.bladeWrapper}
             initial={{ opacity: 0, scale: 0.8, y: 50 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 50 }}
             transition={{ duration: 0.4, ease: 'easeOut' }}
-            onWheel={(e) => e.stopPropagation()}
-            onClick={(e) => e.stopPropagation()}
           >
-          <div className={styles.content}>
-            {/* Avatar Grid */}
-            <div className={styles.avatarGrid}>
-              {avatars?.map((avatar) => (
-                <motion.div
-                  key={avatar.id}
-                  className={`${styles.avatarOption} ${
-                    currentAvatar === avatar.id ? styles.selected : ''
-                  }`}
-                  onClick={() => handleAvatarSelect(avatar.id)}
-                  onMouseEnter={() => playSound('owawa')}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Image
-                    src={avatar.path}
-                    alt={avatar.name}
-                    width={64}
-                    height={64}
-                    className={styles.avatarImage}
-                  />
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Profile Preview */}
-            <div className={styles.previewPanel}>
-              <div className={styles.profilePreview}>
-                <div className={styles.previewAvatar}>
-                  
-                    <Image
-                      src={`/assets/avatars/${currentAvatar}`}
-                      alt="Selected Avatar"
-                      width={96}
-                      height={96}
-                      className={styles.previewImage}
-                      priority
-                    />
-                </div>
-                <div className={styles.profileInfo}>
-                  <h2 className={styles.profileName}>{displayName}</h2>
-                  <div className={styles.statsRow}>
-                    <div className={styles.stat}>
-                      <span className={styles.statLabel}>Games</span>
-                      <span className={styles.statValue}>0</span>
-                    </div>
-                    <div className={styles.stat}>
-                      <span className={styles.statLabel}>Gamerscore</span>
-                      <span className={styles.statValue}>
-                        {displayGamerscore?.toLocaleString()}
-                        <Image
-                          src="/assets/icons/Gamerscore.gif"
-                          alt="Gamerscore"
-                          width={16}
-                          height={16}
-                          className={styles.gamerscoreIcon}
-                        />
-                      </span>
-                    </div>
-                    <div className={styles.stat}>
-                      <span className={styles.statLabel}>Achievements</span>
-                      <span className={styles.statValue}>0</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            <BladeNavigation
+              pages={bladePages}
+              initialPageId="profile"
+            />
           </motion.div>
 
           {/* Footer - Outside modal */}
           <div className={styles.externalFooter}>
-            <Tooltip 
-              content={profile.isGuest ? "Sign in to save your gamer picture" : "Save selected gamer picture"}
+            <Tooltip
+              content={
+                profile.isGuest
+                  ? 'Sign in to save your gamer picture'
+                  : 'Save selected gamer picture'
+              }
               position="top"
               disabled={false}
             >
-              <button 
+              <button
                 className={styles.controlButton}
                 onClick={handleSave}
                 disabled={profile.isGuest}
@@ -216,19 +199,25 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
                 <span className={styles.buttonText}>Save</span>
               </button>
             </Tooltip>
-            
-            <Tooltip 
-              content={profile.isGuest ? "Sign in to access account features" : "Log out of your account"}
+
+            <Tooltip
+              content={
+                profile.isGuest
+                  ? 'Sign in to access account features'
+                  : 'Log out of your account'
+              }
               position="top"
               disabled={false}
             >
-              <button 
+              <button
                 className={styles.controlButton}
                 onClick={handleLogout}
                 disabled={profile.isGuest}
                 onMouseEnter={() => playSound('owawa')}
               >
-                <span className={`${styles.buttonIcon} ${styles.logoutIcon}`}>B</span>
+                <span className={`${styles.buttonIcon} ${styles.logoutIcon}`}>
+                  B
+                </span>
                 <span className={styles.buttonText}>Log out</span>
               </button>
             </Tooltip>
@@ -239,10 +228,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   );
 
   // Render into portal
-  return createPortal(
-    modalContent,
-    document.body
-  );
+  return createPortal(modalContent, document.body);
 };
 
 export default ProfileModal;
