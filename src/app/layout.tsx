@@ -7,10 +7,9 @@ import { CRTFilterProvider } from "../context/CRTFilterContext";
 import { ToastProvider } from "../context/ToastContext";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import RipplesEffect from "../components/RipplesEffect/RipplesEffect";
+import { BackgroundComposer } from "../components/Background";
 import ConsoleEasterEgg from "../components/ConsoleEasterEgg/ConsoleEasterEgg";
 import TRPCProvider from "../components/Providers/TRPCProvider";
-import BackgroundRenderer from "../components/BackgroundRenderer/BackgroundRenderer";
 import CRTOverlay from "../components/CRTOverlay/CRTOverlay";
 import ToastContainer from "../components/ToastNotification/ToastContainer";
 import "./globals.css";
@@ -63,7 +62,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <BackgroundProvider>
             <CRTFilterProvider>
               <div className="crt">
-                <BackgroundRenderer />
+                {/* Layered background system: base image + animation overlays */}
+                <BackgroundComposer />
                 <CRTOverlay />
                 <svg className="mountainCurve" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30" preserveAspectRatio="none">
                   <defs>
@@ -74,21 +74,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   </defs>
                   <path d="M0,8 Q50,2 100,15 V30 H0 Z" fill="url(#mountainGradient)" />
                 </svg>
-                <RipplesEffect>
-                  <StackProvider app={stackServerApp}>
-                    <StackTheme>
-                      <TRPCProvider>
-                        <VolumeProvider>
-                          <ToastProvider>
-                            <ConsoleEasterEgg />
-                            {children}
-                            <ToastContainer />
-                          </ToastProvider>
-                        </VolumeProvider>
-                      </TRPCProvider>
-                    </StackTheme>
-                  </StackProvider>
-                </RipplesEffect>
+                <StackProvider app={stackServerApp}>
+                  <StackTheme>
+                    <TRPCProvider>
+                      <VolumeProvider>
+                        <ToastProvider>
+                          <ConsoleEasterEgg />
+                          {children}
+                          <ToastContainer />
+                        </ToastProvider>
+                      </VolumeProvider>
+                    </TRPCProvider>
+                  </StackTheme>
+                </StackProvider>
               </div>
             </CRTFilterProvider>
           </BackgroundProvider>

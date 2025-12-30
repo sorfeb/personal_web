@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import styles from './SegmentedControl.module.css';
 
 export interface SegmentedControlOption {
@@ -17,8 +17,7 @@ interface SegmentedControlProps {
 }
 
 /**
- * SegmentedControl - Xbox-themed tabbed navigation with beveled, embossed design
- * Features smooth active indicator animation and horizontal scroll on mobile
+ * SegmentedControl - Tabbed navigation with beveled, embossed design
  */
 export default function SegmentedControl({
   options,
@@ -26,41 +25,24 @@ export default function SegmentedControl({
   onChange,
   className = '',
 }: SegmentedControlProps) {
-  const [indicatorStyle, setIndicatorStyle] = useState<React.CSSProperties>({});
-  const containerRef = useRef<HTMLDivElement>(null);
-  const optionRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
-
-  // Update active indicator position when value changes
-  useEffect(() => {
-    const activeButton = optionRefs.current.get(value);
-    const track = containerRef.current?.querySelector(`.${styles.track}`);
-    
-    if (activeButton && track) {
-      const trackRect = track.getBoundingClientRect();
-      const buttonRect = activeButton.getBoundingClientRect();
-      
-      setIndicatorStyle({
-        width: buttonRect.width,
-        transform: `translateX(${buttonRect.left - trackRect.left - 4}px)`,
-      });
-    }
-  }, [value]);
+  const activeIndex = options.findIndex((opt) => opt.value === value);
 
   return (
-    <div className={`${styles.container} ${className}`} ref={containerRef}>
-      <div className={styles.track}>
-        {/* Active indicator with beveled effect */}
-        <div className={styles.indicator} style={indicatorStyle} />
+    <div className={`${styles.container} ${className}`}>
+      <div
+        className={styles.track}
+        style={{ '--segment-count': options.length } as React.CSSProperties}
+      >
+        {/* Active indicator - positioned via CSS calc based on active index */}
+        <div
+          className={styles.indicator}
+          style={{ '--active-index': activeIndex } as React.CSSProperties}
+        />
 
         {/* Option buttons */}
         {options.map((option) => (
           <button
             key={option.value}
-            ref={(el) => {
-              if (el) {
-                optionRefs.current.set(option.value, el);
-              }
-            }}
             className={`${styles.option} ${value === option.value ? styles.active : ''}`}
             onClick={() => onChange(option.value)}
             type="button"

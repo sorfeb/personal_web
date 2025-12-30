@@ -91,16 +91,15 @@
 .container {
   padding: 20px;
   overflow-y: auto;
-  max-height: 380px; /* Scrollable height for the container */
-  width: 95%;
-  background-color: transparent; /* Transparent background for the container */
+  width: 100%;
+  background-color: transparent;
 }
 
 .gridContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-  padding: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.75rem;
+  padding: 0;
 }
 
 .playlistCard {
@@ -139,39 +138,6 @@
 
 .playlistTitle:hover {
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
-}
-
-/* Pagination */
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.pageButton {
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 5px;
-  color: white;
-  transition: background 0.3s;
-}
-
-.pageButton:hover {
-  background: rgba(255, 255, 255, 0.4);
-}
-
-.pageButton:disabled {
-  background: rgba(255, 255, 255, 0.1);
-  cursor: not-allowed;
-}
-
-.pageInfo {
-  font-size: 16px;
-  color: white;
 }
 
   
