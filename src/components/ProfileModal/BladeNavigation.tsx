@@ -43,8 +43,15 @@ const BladeTab: React.FC<BladeTabProps> = ({
 }) => {
   const { playSound } = useAudioManager();
 
-  // Calculate offset for stacking effect - tabs further from center are more offset
-  const stackOffset = stackIndex * 38;
+  // Calculate horizontal offset for x-axis stacking
+  // Tabs further from center (higher stackIndex) are offset more
+  // For left: offset goes more left (negative from right edge)
+  // For right: offset goes more right (positive from left edge)
+  const TAB_WIDTH = 38;
+  const PEEK_AMOUNT = 12; // How much each tab peeks out from behind the next
+  const horizontalOffset = stackIndex * PEEK_AMOUNT;
+
+  // Z-index: tabs closer to center (lower stackIndex) are on top
   const zIndex = totalInStack - stackIndex;
 
   const handleClick = () => {
@@ -56,17 +63,19 @@ const BladeTab: React.FC<BladeTabProps> = ({
     playSound('owawa');
   };
 
+  // Position style based on side
+  const positionStyle = side === 'left'
+    ? { right: horizontalOffset } // Left tabs: offset from right edge of container
+    : { left: horizontalOffset }; // Right tabs: offset from left edge of container
+
   return (
     <motion.div
       className={`${styles.bladeTab} ${styles[side]}`}
-      style={{
-        [side]: stackOffset,
-        zIndex,
-      }}
+      style={{ ...positionStyle, zIndex }}
       onClick={handleClick}
       onMouseEnter={handleHover}
       initial={{
-        x: side === 'left' ? -80 : 80,
+        x: side === 'left' ? -60 : 60,
         opacity: 0,
       }}
       animate={{
@@ -74,17 +83,16 @@ const BladeTab: React.FC<BladeTabProps> = ({
         opacity: 1,
       }}
       exit={{
-        x: side === 'left' ? -80 : 80,
+        x: side === 'left' ? -60 : 60,
         opacity: 0,
       }}
       transition={{
         duration: 0.3,
-        delay: stackIndex * 0.05,
+        delay: stackIndex * 0.04,
         ease: [0.25, 0.8, 0.25, 1],
       }}
       whileHover={{
-        x: side === 'left' ? -4 : 4,
-        scale: 1.02,
+        x: side === 'left' ? -6 : 6,
       }}
       whileTap={{
         scale: 0.98,
@@ -159,6 +167,7 @@ export const BladeNavigation: React.FC<BladeNavigationProps> = ({
   return (
     <div className={styles.bladeContainer}>
       {/* Left side tabs - pages before active */}
+      {/* Render in reverse so closest to center (last in array) has stackIndex 0 */}
       <div className={styles.bladeSide} data-side="left">
         <AnimatePresence mode="popLayout">
           {leftPages.map((page, index) => (
@@ -202,6 +211,7 @@ export const BladeNavigation: React.FC<BladeNavigationProps> = ({
       </div>
 
       {/* Right side tabs - pages after active */}
+      {/* First in array is closest to center (stackIndex 0) */}
       <div className={styles.bladeSide} data-side="right">
         <AnimatePresence mode="popLayout">
           {rightPages.map((page, index) => (
