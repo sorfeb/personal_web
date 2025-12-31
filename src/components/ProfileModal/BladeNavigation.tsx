@@ -10,10 +10,32 @@ import modalStyles from './ProfileModal.module.css';
 // TYPES
 // ============================================
 
+export interface BladeExternalHeader {
+  title: string;
+  icon?: string;
+  showClock?: boolean;
+}
+
+export interface BladeExternalFooterAction {
+  key: string;
+  label: string;
+  buttonIcon: string;
+  variant?: 'green' | 'red' | 'blue' | 'yellow';
+  onClick?: () => void;
+  disabled?: boolean;
+  tooltip?: string;
+}
+
+export interface BladeExternalFooter {
+  actions: BladeExternalFooterAction[];
+}
+
 export interface BladePage {
   id: string;
   label: string;
   content: React.ReactNode;
+  externalHeader?: BladeExternalHeader;
+  externalFooter?: BladeExternalFooter;
 }
 
 interface BladeNavigationProps {

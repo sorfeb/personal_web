@@ -10,7 +10,11 @@ import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
 import { trpc } from '../../utils/trpc';
 import Tooltip from '../ui/Tooltip/Tooltip';
 import { Clock } from '../ui/Clock/Clock';
-import { BladeNavigation, BladePage } from './BladeNavigation';
+import {
+  BladeNavigation,
+  BladePage,
+  BladeExternalFooterAction,
+} from './BladeNavigation';
 import {
   SettingsPage,
   GamesPage,
@@ -30,6 +34,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   const { playSound } = useAudioManager();
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [activePageId, setActivePageId] = useState<string>('profile');
 
   const utils = trpc.useUtils();
 
@@ -90,16 +95,77 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   const bladePages: BladePage[] = useMemo(() => {
     if (!profile || !avatars) return [];
 
+    // Shared save action for profile-related pages
+    const saveAction: BladeExternalFooterAction = {
+      key: 'save',
+      label: 'Save',
+      buttonIcon: 'A',
+      variant: 'green',
+      onClick: handleSave,
+      disabled: profile.isGuest,
+      tooltip: profile.isGuest
+        ? 'Sign in to save changes'
+        : 'Save changes',
+    };
+
+    // Shared logout action
+    const logoutAction: BladeExternalFooterAction = {
+      key: 'logout',
+      label: 'Log out',
+      buttonIcon: 'B',
+      variant: 'red',
+      onClick: handleLogout,
+      disabled: profile.isGuest,
+      tooltip: profile.isGuest
+        ? 'Sign in to access account features'
+        : 'Log out of your account',
+    };
+
+    // Back action for navigation
+    const backAction: BladeExternalFooterAction = {
+      key: 'back',
+      label: 'Back',
+      buttonIcon: 'B',
+      variant: 'red',
+      onClick: handleClose,
+      tooltip: 'Close menu',
+    };
+
+    // Select action for menu items
+    const selectAction: BladeExternalFooterAction = {
+      key: 'select',
+      label: 'Select',
+      buttonIcon: 'A',
+      variant: 'green',
+      tooltip: 'Select item',
+    };
+
     return [
       {
         id: 'settings',
         label: 'Settings',
         content: <SettingsPage />,
+        externalHeader: {
+          title: 'System Settings',
+          icon: '/assets/icons/settings.svg',
+          showClock: true,
+        },
+        externalFooter: {
+          actions: [selectAction, backAction],
+        },
       },
       {
         id: 'games',
         label: 'Games',
         content: <GamesPage />,
+        externalHeader: {
+          title: 'Games Library',
+          icon: '/assets/icons/games.svg',
+          showClock: true,
+        },
+        externalFooter: {
+          actions: [selectAction, backAction],
+        },
       },
       {
         id: 'profile',
@@ -112,23 +178,76 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
             onAvatarSelect={handleAvatarSelect}
           />
         ),
+        externalHeader: {
+          title: 'Change Gamer Picture',
+          icon: '/assets/avatars/guest_gamerpic.svg',
+          showClock: true,
+        },
+        externalFooter: {
+          actions: [saveAction, logoutAction],
+        },
       },
       {
         id: 'media',
         label: 'Media',
         content: <MediaPage />,
+        externalHeader: {
+          title: 'Media Center',
+          icon: '/assets/icons/media.svg',
+          showClock: true,
+        },
+        externalFooter: {
+          actions: [selectAction, backAction],
+        },
       },
       {
         id: 'theme',
         label: 'Theme',
         content: <ThemePage />,
+        externalHeader: {
+          title: 'Customize Theme',
+          icon: '/assets/icons/theme.svg',
+          showClock: true,
+        },
+        externalFooter: {
+          actions: [
+            {
+              key: 'apply',
+              label: 'Apply',
+              buttonIcon: 'A',
+              variant: 'green',
+              tooltip: 'Apply selected theme',
+            },
+            backAction,
+          ],
+        },
       },
     ];
-  }, [profile, avatars, selectedAvatar, handleAvatarSelect]);
+  }, [profile, avatars, selectedAvatar, handleAvatarSelect, handleSave, handleLogout, handleClose]);
+
+  // Handle page change - track active page ID
+  const handlePageChange = useCallback((pageId: string) => {
+    setActivePageId(pageId);
+  }, []);
+
+  // Derive active page's external header/footer from current state
+  const activePage = bladePages.find(p => p.id === activePageId);
+  const activeExternalHeader = activePage?.externalHeader || null;
+  const activeExternalFooter = activePage?.externalFooter || null;
 
   if (!mounted || !isOpen || !profile) {
     return null;
   }
+
+  // Helper to get button variant class
+  const getButtonVariantClass = (variant?: 'green' | 'red' | 'blue' | 'yellow') => {
+    switch (variant) {
+      case 'red': return styles.buttonIconRed;
+      case 'blue': return styles.buttonIconBlue;
+      case 'yellow': return styles.buttonIconYellow;
+      default: return styles.buttonIconGreen;
+    }
+  };
 
   const modalContent = (
     <AnimatePresence>
@@ -148,21 +267,34 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
           aria-modal="true"
           aria-labelledby="modal-title"
         >
-          {/* Header - Outside modal */}
+          {/* Dynamic External Header */}
           <div className={styles.externalHeader}>
-            <div className={styles.headerLeft}>
-              <Image
-                src="/assets/avatars/guest_gamerpic.svg"
-                alt="Xbox Icon"
-                width={24}
-                height={24}
-                className={styles.xboxIcon}
-              />
-              <h1 id="modal-title" className={styles.title}>
-                Change Gamer Picture
-              </h1>
-            </div>
-            <Clock className={styles.time} />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeExternalHeader?.title || 'default'}
+                className={styles.headerLeft}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.25, ease: 'easeOut' }}
+              >
+                {activeExternalHeader?.icon && (
+                  <Image
+                    src={activeExternalHeader.icon}
+                    alt=""
+                    width={24}
+                    height={24}
+                    className={styles.xboxIcon}
+                  />
+                )}
+                <h1 id="modal-title" className={styles.title}>
+                  {activeExternalHeader?.title || 'Xbox Dashboard'}
+                </h1>
+              </motion.div>
+            </AnimatePresence>
+            {(activeExternalHeader?.showClock !== false) && (
+              <Clock className={styles.time} />
+            )}
           </div>
 
           <motion.div
@@ -175,52 +307,43 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
             <BladeNavigation
               pages={bladePages}
               initialPageId="profile"
+              onPageChange={handlePageChange}
             />
           </motion.div>
 
-          {/* Footer - Outside modal */}
+          {/* Dynamic External Footer */}
           <div className={styles.externalFooter}>
-            <Tooltip
-              content={
-                profile.isGuest
-                  ? 'Sign in to save your gamer picture'
-                  : 'Save selected gamer picture'
-              }
-              position="top"
-              disabled={false}
-            >
-              <button
-                className={styles.controlButton}
-                onClick={handleSave}
-                disabled={profile.isGuest}
-                onMouseEnter={() => playSound('owawa')}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeExternalFooter?.actions.map(a => a.key).join('-') || 'default'}
+                className={styles.footerActions}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.25, ease: 'easeOut' }}
               >
-                <span className={styles.buttonIcon}>A</span>
-                <span className={styles.buttonText}>Save</span>
-              </button>
-            </Tooltip>
-
-            <Tooltip
-              content={
-                profile.isGuest
-                  ? 'Sign in to access account features'
-                  : 'Log out of your account'
-              }
-              position="top"
-              disabled={false}
-            >
-              <button
-                className={styles.controlButton}
-                onClick={handleLogout}
-                disabled={profile.isGuest}
-                onMouseEnter={() => playSound('owawa')}
-              >
-                <span className={`${styles.buttonIcon} ${styles.logoutIcon}`}>
-                  B
-                </span>
-                <span className={styles.buttonText}>Log out</span>
-              </button>
-            </Tooltip>
+                {activeExternalFooter?.actions.map((action) => (
+                  <Tooltip
+                    key={action.key}
+                    content={action.tooltip || action.label}
+                    position="top"
+                    disabled={!action.tooltip}
+                  >
+                    <button
+                      className={styles.controlButton}
+                      onClick={action.onClick}
+                      disabled={action.disabled}
+                      onMouseEnter={() => playSound('owawa')}
+                    >
+                      <span className={`${styles.buttonIcon} ${getButtonVariantClass(action.variant)}`}>
+                        {action.buttonIcon}
+                      </span>
+                      <span className={styles.buttonText}>{action.label}</span>
+                    </button>
+                  </Tooltip>
+                ))}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </motion.div>
       )}

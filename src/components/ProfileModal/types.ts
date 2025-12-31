@@ -8,6 +8,40 @@ import { ReactNode } from 'react';
 // BLADE NAVIGATION TYPES
 // ============================================
 
+/** External header configuration (outside the modal) */
+export interface BladeExternalHeader {
+  /** Main title displayed in the header */
+  title: string;
+  /** Optional icon path */
+  icon?: string;
+  /** Whether to show the clock */
+  showClock?: boolean;
+}
+
+/** External footer action button configuration */
+export interface BladeExternalFooterAction {
+  /** Unique key for the action */
+  key: string;
+  /** Display label */
+  label: string;
+  /** Button icon letter (e.g., 'A', 'B', 'X', 'Y') */
+  buttonIcon: string;
+  /** Button color variant */
+  variant?: 'green' | 'red' | 'blue' | 'yellow';
+  /** Click handler */
+  onClick?: () => void;
+  /** Whether button is disabled */
+  disabled?: boolean;
+  /** Tooltip text */
+  tooltip?: string;
+}
+
+/** External footer configuration (outside the modal) */
+export interface BladeExternalFooter {
+  /** Array of action buttons to display */
+  actions: BladeExternalFooterAction[];
+}
+
 /** Header configuration for a blade page */
 export interface BladePageHeader {
   /** Main title displayed in the header */
@@ -48,10 +82,14 @@ export interface BladePage {
   label: string;
   /** React content to render when this page is active */
   content: ReactNode;
-  /** Optional header configuration */
+  /** Optional internal header configuration (inside modal) */
   header?: BladePageHeader;
-  /** Optional footer configuration */
+  /** Optional internal footer configuration (inside modal) */
   footer?: BladePageFooter;
+  /** Optional external header configuration (outside modal) */
+  externalHeader?: BladeExternalHeader;
+  /** Optional external footer configuration (outside modal) */
+  externalFooter?: BladeExternalFooter;
 }
 
 /** Props for the BladeNavigation component */
