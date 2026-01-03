@@ -12,16 +12,13 @@ import Tooltip from '../ui/Tooltip/Tooltip';
 import { Clock } from '../ui/Clock/Clock';
 import {
   BladeNavigation,
-  BladePage,
-  BladeExternalFooterAction,
-} from './BladeNavigation';
-import {
   SettingsPage,
   GamesPage,
   ProfilePage,
   MediaPage,
   ThemePage,
-} from './BladePages';
+} from './components';
+import type { BladePage, BladeExternalFooterAction } from './types';
 import styles from './ProfileModal.module.css';
 
 interface ProfileModalProps {
