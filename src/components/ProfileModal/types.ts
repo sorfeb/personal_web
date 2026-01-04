@@ -12,8 +12,10 @@ import { ReactNode } from 'react';
 export interface BladeExternalHeader {
   /** Main title displayed in the header */
   title: string;
-  /** Optional icon path */
-  icon?: string;
+  /** Optional icon (React node for Lucide icons) */
+  icon?: ReactNode;
+  /** Optional icon image path (for static images) */
+  iconSrc?: string;
   /** Whether to show the clock */
   showClock?: boolean;
 }

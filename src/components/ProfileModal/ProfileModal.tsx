@@ -5,6 +5,13 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { useUser } from '@stackframe/stack';
+import {
+  Settings,
+  Gamepad2,
+  UserCircle,
+  Music,
+  Palette,
+} from 'lucide-react';
 import { useAudioManager } from '../../hooks/useAudioManager';
 import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
 import { trpc } from '../../utils/trpc';
@@ -137,6 +144,9 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
       tooltip: 'Select item',
     };
 
+    // Icon style for consistent gray gradient aesthetic
+    const iconClass = styles.headerIcon;
+
     return [
       {
         id: 'settings',
@@ -144,7 +154,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
         content: <SettingsPage />,
         externalHeader: {
           title: 'System Settings',
-          icon: '/assets/icons/settings.svg',
+          icon: <Settings className={iconClass} size={22} strokeWidth={1.5} />,
           showClock: true,
         },
         externalFooter: {
@@ -157,7 +167,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
         content: <GamesPage />,
         externalHeader: {
           title: 'Games Library',
-          icon: '/assets/icons/games.svg',
+          icon: <Gamepad2 className={iconClass} size={22} strokeWidth={1.5} />,
           showClock: true,
         },
         externalFooter: {
@@ -177,7 +187,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
         ),
         externalHeader: {
           title: 'Change Gamer Picture',
-          icon: '/assets/avatars/guest_gamerpic.svg',
+          iconSrc: '/assets/avatars/guest_gamerpic.svg',
           showClock: true,
         },
         externalFooter: {
@@ -190,7 +200,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
         content: <MediaPage />,
         externalHeader: {
           title: 'Media Center',
-          icon: '/assets/icons/media.svg',
+          icon: <Music className={iconClass} size={22} strokeWidth={1.5} />,
           showClock: true,
         },
         externalFooter: {
@@ -203,7 +213,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
         content: <ThemePage />,
         externalHeader: {
           title: 'Customize Theme',
-          icon: '/assets/icons/theme.svg',
+          icon: <Palette className={iconClass} size={22} strokeWidth={1.5} />,
           showClock: true,
         },
         externalFooter: {
@@ -275,15 +285,19 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.25, ease: 'easeOut' }}
               >
-                {activeExternalHeader?.icon && (
+                {activeExternalHeader?.iconSrc ? (
                   <Image
-                    src={activeExternalHeader.icon}
+                    src={activeExternalHeader.iconSrc}
                     alt=""
                     width={24}
                     height={24}
-                    className={styles.xboxIcon}
+                    className={styles.headerImageIcon}
                   />
-                )}
+                ) : activeExternalHeader?.icon ? (
+                  <span className={styles.headerIconWrapper}>
+                    {activeExternalHeader.icon}
+                  </span>
+                ) : null}
                 <h1 id="modal-title" className={styles.title}>
                   {activeExternalHeader?.title || 'Xbox Dashboard'}
                 </h1>
@@ -347,7 +361,6 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
     </AnimatePresence>
   );
 
-  // Render into portal
   return createPortal(modalContent, document.body);
 };
 
