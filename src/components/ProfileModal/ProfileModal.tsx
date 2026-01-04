@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -17,6 +17,7 @@ import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
 import { trpc } from '../../utils/trpc';
 import Tooltip from '../ui/Tooltip/Tooltip';
 import { Clock } from '../ui/Clock/Clock';
+import { useToast, createSystemToast } from '../ToastNotification';
 import {
   BladeNavigation,
   SettingsPage,
@@ -25,6 +26,7 @@ import {
   MediaPage,
   ThemePage,
 } from './components';
+import type { ThemePageRef } from './components/pages';
 import type { BladePage, BladeExternalFooterAction } from './types';
 import styles from './ProfileModal.module.css';
 
@@ -36,9 +38,13 @@ interface ProfileModalProps {
 export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
   const stackUser = useUser();
   const { playSound } = useAudioManager();
+  const { showToast } = useToast();
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
   const [activePageId, setActivePageId] = useState<string>('profile');
+
+  // Ref for ThemePage imperative handle
+  const themePageRef = useRef<ThemePageRef>(null);
 
   const utils = trpc.useUtils();
 
@@ -210,7 +216,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
       {
         id: 'theme',
         label: 'Theme',
-        content: <ThemePage />,
+        content: <ThemePage ref={themePageRef} />,
         externalHeader: {
           title: 'Customize Theme',
           icon: <Palette className={iconClass} size={22} strokeWidth={1.5} />,
@@ -223,14 +229,27 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
               label: 'Apply',
               buttonIcon: 'A',
               variant: 'green',
-              tooltip: 'Apply selected theme',
+              tooltip: 'Apply theme changes',
+              onClick: () => {
+                if (themePageRef.current) {
+                  const wasDirty = themePageRef.current.isDirty;
+                  themePageRef.current.apply();
+                  playSound('navigation');
+
+                  if (wasDirty) {
+                    showToast(createSystemToast('Theme settings applied', 'success'));
+                  } else {
+                    showToast(createSystemToast('No changes to apply', 'info'));
+                  }
+                }
+              },
             },
             backAction,
           ],
         },
       },
     ];
-  }, [profile, avatars, selectedAvatar, handleAvatarSelect, handleSave, handleLogout, handleClose]);
+  }, [profile, avatars, selectedAvatar, handleAvatarSelect, handleSave, handleLogout, handleClose, playSound, showToast]);
 
   // Handle page change - track active page ID
   const handlePageChange = useCallback((pageId: string) => {

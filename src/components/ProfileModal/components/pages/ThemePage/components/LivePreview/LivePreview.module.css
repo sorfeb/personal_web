@@ -1,0 +1,241 @@
+/* ============================================
+   LIVE PREVIEW - Combined Background Preview
+   Xbox 360 blade aesthetic with metallic frame
+   ============================================ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.label {
+  font: var(--typography-label);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-size: 11px;
+  padding: 0 var(--spacing-1);
+}
+
+/* Preview frame with metallic border */
+.frame {
+  position: relative;
+  border-radius: var(--radius-base);
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+
+  /* Metallic frame styling */
+  background: linear-gradient(
+    135deg,
+    hsl(0 0% 20%) 0%,
+    hsl(0 0% 12%) 100%
+  );
+  border: 2px solid hsl(0 0% 30%);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Inner preview area */
+.preview {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Base image layer */
+.baseLayer {
+  position: absolute;
+  inset: 0;
+}
+
+.baseImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Animation layers container */
+.animationLayers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Circle ripples animation preview */
+.circleRipplesLayer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.circleRipplesSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.animatedCircle {
+  animation: circleRipple 8s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.ring0 {
+  animation-delay: 0s;
+}
+
+.ring1 {
+  animation-delay: 2s;
+}
+
+.ring2 {
+  animation-delay: 4s;
+}
+
+.ring3 {
+  animation-delay: 6s;
+}
+
+@keyframes circleRipple {
+  0%,
+  100% {
+    r: 8;
+    opacity: 0.3;
+  }
+  50% {
+    r: 20;
+    opacity: 0.1;
+  }
+}
+
+/* Water ripples animation preview */
+.waterRipplesLayer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 60%,
+    rgba(100, 180, 255, 0.05) 100%
+  );
+  overflow: hidden;
+}
+
+.waterEffect {
+  position: absolute;
+  bottom: 0;
+  left: -100%;
+  width: 300%;
+  height: 40%;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.03) 10%,
+    transparent 20%
+  );
+  animation: waterWave 4s linear infinite;
+}
+
+.waterEffect:nth-child(2) {
+  animation-delay: 1s;
+  opacity: 0.7;
+  height: 30%;
+}
+
+.waterEffect:nth-child(3) {
+  animation-delay: 2s;
+  opacity: 0.5;
+  height: 25%;
+}
+
+@keyframes waterWave {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(33.33%);
+  }
+}
+
+/* CRT scan line effect for authenticity */
+.scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Corner reflections for glass effect */
+.reflection {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    transparent 30%,
+    transparent 70%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  pointer-events: none;
+}
+
+/* Status indicator */
+.status {
+  position: absolute;
+  bottom: var(--spacing-2);
+  left: var(--spacing-2);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: var(--spacing-1) var(--spacing-2);
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(4px);
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-brand-primary);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.statusText {
+  font: var(--typography-caption);
+  font-size: 9px;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .frame {
+    aspect-ratio: 4 / 3;
+  }
+
+  .label {
+    font-size: 10px;
+  }
+}

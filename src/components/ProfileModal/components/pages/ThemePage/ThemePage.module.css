@@ -1,0 +1,121 @@
+/* ============================================
+   THEME PAGE - Layer Configuration Layout
+   Xbox 360 blade aesthetic with split sections
+   ============================================ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--spacing-4);
+  gap: var(--spacing-4);
+  overflow: hidden;
+}
+
+/* Upper section: Layer carousels (~60%) */
+.carouselSection {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: var(--spacing-1);
+
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: hsl(0 0% 30%) transparent;
+}
+
+.carouselSection::-webkit-scrollbar {
+  width: 4px;
+}
+
+.carouselSection::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.carouselSection::-webkit-scrollbar-thumb {
+  background: hsl(0 0% 30%);
+  border-radius: 2px;
+}
+
+.carouselSection::-webkit-scrollbar-thumb:hover {
+  background: hsl(0 0% 40%);
+}
+
+/* Section divider */
+.divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(0 0% 25%) 20%,
+    hsl(0 0% 25%) 80%,
+    transparent 100%
+  );
+  flex-shrink: 0;
+}
+
+/* Lower section: Live preview (~40%) */
+.previewSection {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Dirty state indicator */
+.dirtyIndicator {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  background: linear-gradient(
+    135deg,
+    hsla(45, 80%, 40%, 0.15) 0%,
+    hsla(45, 80%, 30%, 0.1) 100%
+  );
+  border: 1px solid hsla(45, 80%, 50%, 0.3);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--spacing-3);
+}
+
+.dirtyDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: hsl(45 80% 55%);
+  box-shadow: 0 0 8px hsla(45, 80%, 55%, 0.5);
+  animation: pulseDirty 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseDirty {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.9);
+  }
+}
+
+.dirtyText {
+  font: var(--typography-caption);
+  font-size: 11px;
+  color: hsl(45 80% 65%);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-3);
+    gap: var(--spacing-3);
+  }
+
+  .carouselSection {
+    gap: var(--spacing-3);
+  }
+}

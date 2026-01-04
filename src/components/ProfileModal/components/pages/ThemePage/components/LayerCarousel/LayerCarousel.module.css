@@ -1,0 +1,203 @@
+/* ============================================
+   LAYER CAROUSEL - Horizontal Scrolling Layer Selector
+   Xbox 360 blade aesthetic with metallic panels
+   ============================================ */
+
+.carousel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+/* Header row with toggle, title, and arrows */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: 0 var(--spacing-1);
+}
+
+.toggleWrapper {
+  flex-shrink: 0;
+}
+
+.title {
+  flex: 1;
+  font: var(--typography-label);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+/* Disabled title state */
+.carousel.disabled .title {
+  color: var(--color-text-tertiary);
+}
+
+/* Arrow navigation container */
+.arrows {
+  display: flex;
+  gap: var(--spacing-1);
+  flex-shrink: 0;
+}
+
+/* Arrow buttons */
+.arrow {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  /* Metallic button style */
+  background: linear-gradient(
+    180deg,
+    hsl(0 0% 25%) 0%,
+    hsl(0 0% 18%) 100%
+  );
+  border: 1px solid hsl(0 0% 30%);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  color: var(--color-text-secondary);
+}
+
+.arrow:hover:not(:disabled) {
+  background: linear-gradient(
+    180deg,
+    hsl(0 0% 30%) 0%,
+    hsl(0 0% 22%) 100%
+  );
+  border-color: hsl(0 0% 40%);
+  color: var(--color-text-primary);
+}
+
+.arrow:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.arrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.arrow:focus-visible {
+  outline: 2px solid var(--color-brand-primary);
+  outline-offset: 1px;
+}
+
+.arrowIcon {
+  width: 14px;
+  height: 14px;
+}
+
+/* Track container with scroll */
+.trackWrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gradient fade edges */
+.trackWrapper::before,
+.trackWrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 24px;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.trackWrapper::before {
+  left: 0;
+  background: linear-gradient(
+    to right,
+    hsl(0 0% 13%) 0%,
+    transparent 100%
+  );
+}
+
+.trackWrapper::after {
+  right: 0;
+  background: linear-gradient(
+    to left,
+    hsl(0 0% 13%) 0%,
+    transparent 100%
+  );
+}
+
+.trackWrapper.canScrollLeft::before {
+  opacity: 1;
+}
+
+.trackWrapper.canScrollRight::after {
+  opacity: 1;
+}
+
+/* Scrollable track */
+.track {
+  display: flex;
+  gap: var(--spacing-3);
+  padding: var(--spacing-2) var(--spacing-1);
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  cursor: grab;
+
+  /* Hide scrollbar but keep functionality */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+.track:active {
+  cursor: grabbing;
+}
+
+/* Disabled track state */
+.carousel.disabled .track {
+  pointer-events: none;
+}
+
+/* Empty state */
+.emptyState {
+  padding: var(--spacing-4);
+  text-align: center;
+  color: var(--color-text-tertiary);
+  font: var(--typography-caption);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .header {
+    gap: var(--spacing-2);
+  }
+
+  .title {
+    font-size: 10px;
+  }
+
+  .arrow {
+    width: 24px;
+    height: 24px;
+  }
+
+  .arrowIcon {
+    width: 12px;
+    height: 12px;
+  }
+
+  .track {
+    gap: var(--spacing-2);
+  }
+}
