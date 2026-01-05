@@ -67,7 +67,7 @@ const Toggle: React.FC<ToggleProps> = ({
     <button
       type="button"
       role="switch"
-      aria-checked={enabled}
+      aria-checked={enabled ? 'true' : 'false'}
       aria-label={ariaLabel}
       className={classNames}
       onClick={handleClick}
