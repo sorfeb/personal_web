@@ -19,6 +19,7 @@ const AUDIO_FILES = {
   channelUp: '/assets/audio/snd_channelup.wav',
   channelDown: '/assets/audio/snd_channeldown.wav',
   swing: '/assets/audio/ps2_swing.wav',
+  achievement: '/assets/audio/achievement-mp3-sound.mp3',
 } as const;
 
 // Global audio pool - only initialize on client

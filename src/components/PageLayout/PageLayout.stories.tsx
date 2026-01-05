@@ -48,47 +48,64 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     title: 'Sample Page',
-    children: (
-      <div style={{ padding: '20px', color: 'white' }}>
-        <h2>Page Content</h2>
-        <p>This is sample content within the page layout.</p>
-      </div>
-    ),
   },
+  render: (args) => (
+    <PageLayout {...args}>
+      <PageLayout.Header />
+      <PageLayout.Body>
+        <div style={{ padding: '20px', color: 'white' }}>
+          <h2>Page Content</h2>
+          <p>This is sample content within the page layout.</p>
+        </div>
+      </PageLayout.Body>
+    </PageLayout>
+  ),
 };
 
 /**
- * Page layout without window container
+ * Page layout without close button
  */
-export const WithoutWindow: Story = {
+export const WithoutCloseButton: Story = {
   args: {
-    title: 'No Window Layout',
-    children: (
-      <div style={{ padding: '20px', color: 'white' }}>
-        <h2>Direct Content</h2>
-        <p>Content displayed without window container.</p>
-      </div>
-    ),
+    title: 'No Close Button',
   },
+  render: (args) => (
+    <PageLayout {...args}>
+      <PageLayout.Header />
+      <PageLayout.Body>
+        <div style={{ padding: '20px', color: 'white' }}>
+          <h2>Direct Content</h2>
+          <p>Content displayed without close button.</p>
+        </div>
+      </PageLayout.Body>
+    </PageLayout>
+  ),
 };
 
 /**
- * Page layout with rich content
+ * Page layout with rich content and footer
  */
 export const WithRichContent: Story = {
   args: {
     title: 'Rich Content Page',
-    children: (
-      <div style={{ padding: '20px', color: 'white' }}>
-        <h2>Rich Content Example</h2>
-        <p>This demonstrates how the layout handles various content types.</p>
-        <ul>
-          <li>List item 1</li>
-          <li>List item 2</li>
-          <li>List item 3</li>
-        </ul>
-        <button style={{ padding: '10px', marginTop: '10px' }}>Sample Button</button>
-      </div>
-    ),
   },
+  render: (args) => (
+    <PageLayout {...args}>
+      <PageLayout.Header />
+      <PageLayout.Body>
+        <div style={{ padding: '20px', color: 'white' }}>
+          <h2>Rich Content Example</h2>
+          <p>This demonstrates how the layout handles various content types.</p>
+          <ul>
+            <li>List item 1</li>
+            <li>List item 2</li>
+            <li>List item 3</li>
+          </ul>
+        </div>
+      </PageLayout.Body>
+      <PageLayout.Footer>
+        <button style={{ padding: '10px', marginTop: '10px' }}>Sample Button</button>
+      </PageLayout.Footer>
+    </PageLayout>
+  ),
 };

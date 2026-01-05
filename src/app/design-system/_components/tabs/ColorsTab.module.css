@@ -1,0 +1,31 @@
+/* Colors Tab Specific Styles */
+
+.guidelinesList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.guideline {
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 3px solid hsl(var(--color-brand-hue), var(--color-brand-saturation), 45%, 0.5);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+}
+
+.guideline strong {
+  color: rgba(255, 255, 255, 0.95);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.tabPanel {
+  display: block;
+}
+
+.tabPanel[data-hidden="true"] {
+  display: none;
+}

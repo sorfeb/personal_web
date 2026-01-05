@@ -1,0 +1,206 @@
+/* ============================================
+   THEME PAGE - Collapsible Control Panel Layout
+   Xbox 360 blade aesthetic with preview section
+   ============================================ */
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Control panel wrapper - at top, above preview */
+.controlPanelWrapper {
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Collapsible control panel */
+.controlPanel {
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    hsla(0, 0%, 8%, 0.85) 0%,
+    hsla(0, 0%, 5%, 0.9) 100%
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid hsla(0, 0%, 30%, 0.5);
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.4),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.controlPanelContent {
+  padding: var(--spacing-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+/* Layer carousels section */
+.carouselSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  max-height: 280px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: var(--spacing-1);
+}
+
+/* Pull tab button */
+.pullTab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  width: 120px;
+  height: 28px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-3);
+  border: none;
+  border-radius: 0 0 var(--radius-base) var(--radius-base);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  /* Metallic pull tab styling */
+  background: linear-gradient(
+    180deg,
+    hsl(0 0% 20%) 0%,
+    hsl(0 0% 12%) 50%,
+    hsl(0 0% 8%) 100%
+  );
+  border: 1px solid hsl(0 0% 30%);
+  border-top: none;
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.pullTab:hover {
+  background: linear-gradient(
+    180deg,
+    hsl(0 0% 25%) 0%,
+    hsl(0 0% 15%) 50%,
+    hsl(0 0% 10%) 100%
+  );
+  border-color: hsl(0 0% 40%);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    0 0 8px rgba(107, 184, 43, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.pullTab:focus-visible {
+  outline: 2px solid var(--color-brand-primary);
+  outline-offset: 2px;
+}
+
+.pullTabLine {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(0 0% 40%) 50%,
+    transparent 100%
+  );
+  border-radius: 1px;
+}
+
+.pullTabIcon {
+  color: hsl(0 0% 60%);
+  transition: color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.pullTab:hover .pullTabIcon {
+  color: var(--color-brand-primary);
+}
+
+/* Preview section - fills remaining space */
+.previewSection {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-4);
+}
+
+/* Dirty state indicator */
+.dirtyIndicator {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  background: linear-gradient(
+    135deg,
+    hsla(45, 80%, 40%, 0.15) 0%,
+    hsla(45, 80%, 30%, 0.1) 100%
+  );
+  border: 1px solid hsla(45, 80%, 50%, 0.3);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.dirtyDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: hsl(45 80% 55%);
+  box-shadow: 0 0 8px hsla(45, 80%, 55%, 0.5);
+  animation: pulseDirty 1.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulseDirty {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.9);
+  }
+}
+
+.dirtyText {
+  font: var(--typography-caption);
+  font-size: 11px;
+  color: hsl(45 80% 65%);
+  white-space: nowrap;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .controlPanelContent {
+    padding: var(--spacing-3);
+    gap: var(--spacing-2);
+  }
+
+  .carouselSection {
+    gap: var(--spacing-2);
+    max-height: 220px;
+  }
+
+  .pullTab {
+    width: 100px;
+    height: 24px;
+  }
+
+  .dirtyText {
+    font-size: 10px;
+  }
+
+  .previewSection {
+    padding: var(--spacing-3);
+  }
+}

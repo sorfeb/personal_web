@@ -1,0 +1,238 @@
+/* ============================================
+   CAROUSEL ITEM - Selectable Thumbnail
+   Xbox 360 blade aesthetic with green glow selection
+   ============================================ */
+
+.item {
+  position: relative;
+  flex-shrink: 0;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Base container styling */
+  background: linear-gradient(
+    135deg,
+    hsl(0 0% 18%) 0%,
+    hsl(0 0% 12%) 100%
+  );
+  border: 2px solid hsl(0 0% 25%);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Background thumbnails - 16:9 aspect */
+.item.aspectWide {
+  width: 120px;
+  height: 68px;
+}
+
+/* Animation thumbnails - square */
+.item.aspectSquare {
+  width: 80px;
+  height: 80px;
+}
+
+/* Hover state */
+.item:hover:not(.disabled) {
+  border-color: hsl(0 0% 45%);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Focus state for accessibility */
+.item:focus-visible {
+  outline: 2px solid var(--color-brand-primary);
+  outline-offset: 2px;
+}
+
+/* Selected state - Xbox green glow */
+.item.selected {
+  border-color: var(--color-brand-primary);
+  box-shadow:
+    0 0 0 1px var(--color-brand-primary),
+    0 0 20px rgba(107, 184, 43, 0.5),
+    0 0 40px rgba(107, 184, 43, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Selected indicator checkmark */
+.item.selected::after {
+  content: '';
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 16px;
+  height: 16px;
+  background: var(--color-brand-primary);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+  /* Checkmark via clip-path */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-size: 10px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Disabled state */
+.item.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  filter: grayscale(60%);
+  border-color: hsl(0 0% 20%);
+}
+
+.item.disabled::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+/* Thumbnail image */
+.thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Label below thumbnail */
+.label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 4px 6px;
+  font: var(--typography-caption);
+  font-size: 10px;
+  color: var(--color-text-primary);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  /* Gradient overlay for readability */
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.4) 60%,
+    transparent 100%
+  );
+}
+
+/* Animation preview container */
+.animationPreview {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  /* Dark background for animations to show against */
+  background: linear-gradient(
+    135deg,
+    hsl(200 30% 8%) 0%,
+    hsl(200 20% 5%) 100%
+  );
+}
+
+/* Circle ripples preview */
+.circleRipplesPreview {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.rippleCircle {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: rippleExpand 3s ease-out infinite;
+}
+
+.rippleCircle:nth-child(1) {
+  width: 20px;
+  height: 20px;
+  top: 30%;
+  left: 60%;
+  animation-delay: 0s;
+}
+
+.rippleCircle:nth-child(2) {
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  left: 30%;
+  animation-delay: 0.5s;
+}
+
+.rippleCircle:nth-child(3) {
+  width: 24px;
+  height: 24px;
+  top: 65%;
+  left: 70%;
+  animation-delay: 1s;
+}
+
+@keyframes rippleExpand {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* Water ripples preview */
+.waterRipplesPreview {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(100, 180, 255, 0.1) 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.waterWave {
+  position: absolute;
+  bottom: 0;
+  left: -50%;
+  width: 200%;
+  height: 30px;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 25%,
+    transparent 50%
+  );
+  animation: waterMove 2s linear infinite;
+}
+
+.waterWave:nth-child(2) {
+  animation-delay: 0.3s;
+  opacity: 0.6;
+  bottom: 10px;
+}
+
+@keyframes waterMove {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(25%);
+  }
+}

@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PageLayout from '../../components/PageLayout/PageLayout';
-import styles from './page.module.css';
+import styles from './Playlists.module.css';
 import { useAudioManager } from '../../hooks/useAudioManager';
+import { trpc } from '../../utils/trpc';
 
 interface Playlist {
   id: string;
@@ -12,53 +13,31 @@ interface Playlist {
   images: { url: string; height: number; width: number }[];
 }
 
-const PAGE_SIZE = 12; // Number of playlists per page
-
 const PlaylistsPage = () => {
-  const [playlists, setPlaylists] = useState<Playlist[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const { playSound } = useAudioManager();
+  const { data, isLoading } = trpc.spotify.getPlaylists.useQuery();
 
-  useEffect(() => {
-    const fetchPlaylists = async () => {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/playlists`);
-        const data = await res.json();
-        setPlaylists(data.items);
-        setTotalPages(Math.ceil(data.items.length / PAGE_SIZE));
-      } catch (error) {
-        console.error("Failed to fetch playlists", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPlaylists();
-  }, []);
+  const playlists = (data?.items || []) as Playlist[];
 
   const playHoverSound = () => playSound('divine');
-  const playClickSound = () => playSound('ting');
-
-  const paginatedPlaylists = playlists.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
   return (
-    <PageLayout title="My Playlists" variant="wide">
-      <div className={styles.container}>
-        {loading ? (
-          <div className={styles.loadingContainer}>
-            <span className={styles.text}>Loading</span>
-            <div className={styles.dots}>
-              <span className={styles.dot}></span>
-              <span className={styles.dot}></span>
-              <span className={styles.dot}></span>
+    <PageLayout title="My Playlists" size="wide">
+      <PageLayout.Header />
+      <PageLayout.Body>
+        <div className={styles.container}>
+          {isLoading ? (
+            <div className={styles.loadingContainer}>
+              <span className={styles.text}>Loading</span>
+              <div className={styles.dots}>
+                <span className={styles.dot}></span>
+                <span className={styles.dot}></span>
+                <span className={styles.dot}></span>
+              </div>
             </div>
-          </div>
-        ) : (
-          <>
+          ) : (
             <div className={styles.gridContainer}>
-              {paginatedPlaylists.map((playlist) => (
+              {playlists.map((playlist) => (
                 <div 
                     key={playlist.id} 
                     className={styles.playlistCard} 
@@ -85,40 +64,9 @@ const PlaylistsPage = () => {
                 </div>
               ))}
             </div>
-
-            {/* Pagination Controls */}
-            <div className={styles.pagination}>
-              <button
-                className={styles.pageButton}
-                onClick={() => {
-                  if (currentPage > 1) {
-                    playClickSound();
-                    setCurrentPage((prev) => Math.max(prev - 1, 1));
-                  }
-                }}
-                disabled={currentPage === 1}
-              >
-                ←
-              </button>
-              <span className={styles.pageInfo}>
-                Page {currentPage} of {totalPages}
-              </span>
-              <button
-                className={styles.pageButton}
-                onClick={() => {
-                  if (currentPage < totalPages) {
-                    playClickSound();
-                    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-                  }
-                }}
-                disabled={currentPage === totalPages}
-              >
-                →
-              </button>
-            </div>
-          </>
-        )}
-      </div>
+          )}
+        </div>
+      </PageLayout.Body>
     </PageLayout>
   );
 };

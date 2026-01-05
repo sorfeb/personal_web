@@ -1,0 +1,94 @@
+/**
+ * CRTOverlay Styles
+ * 
+ * Recreates the look of a retro CRT monitor with scanlines,
+ * chromatic aberration, and subtle flicker effects.
+ * 
+ * All overlays use pointer-events: none to avoid blocking interactions.
+ */
+
+/* Flicker animation keyframes */
+@keyframes flicker {
+  0% { opacity: 0.2786; }
+  5% { opacity: 0.3477; }
+  10% { opacity: 0.2360; }
+  15% { opacity: 0.9063; }
+  20% { opacity: 0.1813; }
+  25% { opacity: 0.8389; }
+  30% { opacity: 0.6558; }
+  35% { opacity: 0.6781; }
+  40% { opacity: 0.2656; }
+  45% { opacity: 0.8469; }
+  50% { opacity: 0.9602; }
+  55% { opacity: 0.0859; }
+  60% { opacity: 0.2031; }
+  65% { opacity: 0.7199; }
+  70% { opacity: 0.5346; }
+  75% { opacity: 0.3729; }
+  80% { opacity: 0.7143; }
+  85% { opacity: 0.7042; }
+  90% { opacity: 0.7003; }
+  95% { opacity: 0.3611; }
+  100% { opacity: 0.2439; }
+}
+
+/* Text shadow glitch animation */
+@keyframes textShadow {
+  0% { text-shadow: 0.4389px 0 1px rgb(0 30 255 / 50%), -0.4390px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+  5% { text-shadow: 2.7929px 0 1px rgb(0 30 255 / 50%), -2.7929px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+  10% { text-shadow: 0.0296px 0 1px rgb(0 30 255 / 50%), -0.0296px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+  15% { text-shadow: 0.4022px 0 1px rgb(0 30 255 / 50%), -0.4022px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+  20% { text-shadow: 3.4794px 0 1px rgb(0 30 255 / 50%), -3.4794px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+  25% { text-shadow: 1.6126px 0 1px rgb(0 30 255 / 50%), -1.6126px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+  30% { text-shadow: 0.7016px 0 1px rgb(0 30 255 / 50%), -0.7016px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+  35% { text-shadow: 3.8969px 0 1px rgb(0 30 255 / 50%), -3.8969px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+  40% { text-shadow: 3.8709px 0 1px rgb(0 30 255 / 50%), -3.8709px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+  45% { text-shadow: 2.2311px 0 1px rgb(0 30 255 / 50%), -2.2311px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+  50% { text-shadow: 0.0808px 0 1px rgb(0 30 255 / 50%), -0.0808px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+  55% { text-shadow: 2.3758px 0 1px rgb(0 30 255 / 50%), -2.3758px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+  60% { text-shadow: 2.2022px 0 1px rgb(0 30 255 / 50%), -2.2022px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+  65% { text-shadow: 2.8639px 0 1px rgb(0 30 255 / 50%), -2.8639px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+  70% { text-shadow: 0.4887px 0 1px rgb(0 30 255 / 50%), -0.4887px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+  75% { text-shadow: 1.8948px 0 1px rgb(0 30 255 / 50%), -1.8948px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+  80% { text-shadow: 0.0833px 0 1px rgb(0 30 255 / 50%), -0.0833px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+  85% { text-shadow: 0.0977px 0 1px rgb(0 30 255 / 50%), -0.0977px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+  90% { text-shadow: 3.4433px 0 1px rgb(0 30 255 / 50%), -3.4433px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+  95% { text-shadow: 2.1842px 0 1px rgb(0 30 255 / 50%), -2.1842px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+  100% { text-shadow: 2.6209px 0 1px rgb(0 30 255 / 50%), -2.6209px 0 1px rgb(255 0 80 / 30%), 0 0 3px; }
+}
+
+/* Subtle flicker overlay */
+.flickerOverlay {
+  content: " ";
+  display: block;
+  position: fixed;
+  inset: 0;
+  background: rgb(18 16 16 / 6%);
+  opacity: 0;
+  z-index: 9999;
+  pointer-events: none;
+  animation: flicker 0.15s infinite;
+}
+
+/* Scanlines and RGB chromatic aberration overlay */
+.scanlinesOverlay {
+  content: " ";
+  display: block;
+  position: fixed;
+  inset: 0;
+  background: 
+    linear-gradient(rgb(18 16 16 / 0%) 60%, rgb(0 0 0 / 25%) 60%), 
+    linear-gradient(90deg, rgb(255 0 0 / 6%), rgb(0 255 0 / 2%), rgb(0 0 255 / 6%));
+  z-index: 9999;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+/* Text shadow glitch effect (applied to body via global animation) */
+.textShadowEffect {
+  position: fixed;
+  inset: 0;
+  z-index: -999;
+  pointer-events: none;
+  animation: textShadow 1.6s infinite;
+}

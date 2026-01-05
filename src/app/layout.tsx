@@ -1,9 +1,18 @@
 import { Roboto } from "next/font/google";
+// TODO: Re-enable Stack Auth when configured
+// import { StackProvider, StackTheme } from "@stackframe/stack";
+// import { stackServerApp } from "../stack";
 import { VolumeProvider } from "../context/VolumeContext";
+import { BackgroundProvider } from "../context/BackgroundContext";
+import { CRTFilterProvider } from "../context/CRTFilterContext";
+import { ToastProvider } from "../context/ToastContext";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import RipplesEffect from "../components/RipplesEffect/RipplesEffect";
+import { BackgroundComposer } from "../components/Background";
 import ConsoleEasterEgg from "../components/ConsoleEasterEgg/ConsoleEasterEgg";
+import TRPCProvider from "../components/Providers/TRPCProvider";
+import CRTOverlay from "../components/CRTOverlay/CRTOverlay";
+import ToastContainer from "../components/ToastNotification/ToastContainer";
 import "./globals.css";
 
 const inter = Roboto({ weight: "300", subsets: ["latin"] });
@@ -12,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <title>Soros Febriano</title>
+        <title>sorOS</title>
         <meta name="description" content="Personal website and portfolio of Soros Febriano, a passionate learner about the fusion of technology and art. Explore projects, photos, media and more." />
         {/* Open Graph tags */}
         <meta property="og:type" content="website" />
@@ -50,25 +59,40 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body className={inter.className}>
-        <div className="crt">
-          <svg className="mountainCurve" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="mountainGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="rgba(98, 98, 98, 0.5)" />
-                <stop offset="100%" stopColor="rgb(230, 230, 230)" />
-              </linearGradient>
-            </defs>
-            <path d="M0,8 Q50,2 100,15 V30 H0 Z" fill="url(#mountainGradient)" />
-          </svg>
-          <RipplesEffect>
-            <VolumeProvider>
-            <ConsoleEasterEgg />
-              {children}
-            </VolumeProvider>
-          </RipplesEffect>
-        </div>
-      </body>
+        <body className={inter.className}>
+          <BackgroundProvider>
+            <CRTFilterProvider>
+              <div className="crt">
+                {/* Layered background system: base image + animation overlays */}
+                <BackgroundComposer />
+                <CRTOverlay />
+                <svg className="mountainCurve" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="mountainGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="rgba(98, 98, 98, 0.5)" />
+                      <stop offset="100%" stopColor="rgb(230, 230, 230)" />
+                    </linearGradient>
+                  </defs>
+                  <path d="M0,8 Q50,2 100,15 V30 H0 Z" fill="url(#mountainGradient)" />
+                </svg>
+                {/* TODO: Re-enable StackProvider when Stack Auth is configured */}
+                {/* <StackProvider app={stackServerApp}> */}
+                {/* <StackTheme> */}
+                <TRPCProvider>
+                  <VolumeProvider>
+                    <ToastProvider>
+                      <ConsoleEasterEgg />
+                      {children}
+                      <ToastContainer />
+                    </ToastProvider>
+                  </VolumeProvider>
+                </TRPCProvider>
+                {/* </StackTheme> */}
+                {/* </StackProvider> */}
+              </div>
+            </CRTFilterProvider>
+          </BackgroundProvider>
+        </body>
       <Analytics />
       <SpeedInsights />
     </html>

@@ -1,0 +1,148 @@
+/* ============================================
+   TOGGLE - Xbox 360 Style Switch
+   Reusable toggle component with metallic appearance
+   ============================================ */
+
+.toggle {
+  position: relative;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+
+  /* Track background - dark metallic feel */
+  background: linear-gradient(
+    180deg,
+    hsl(0 0% 8%) 0%,
+    hsl(0 0% 15%) 50%,
+    hsl(0 0% 10%) 100%
+  );
+  border: 1px solid hsl(0 0% 25%);
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Size variants */
+.toggle.md {
+  width: 44px;
+  height: 24px;
+}
+
+.toggle.sm {
+  width: 36px;
+  height: 20px;
+}
+
+.toggle:hover {
+  border-color: hsl(0 0% 35%);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--color-brand-primary);
+  outline-offset: 2px;
+}
+
+/* Enabled state - Xbox green glow */
+.toggle.enabled {
+  background: linear-gradient(
+    180deg,
+    hsl(90 50% 20%) 0%,
+    hsl(90 60% 30%) 50%,
+    hsl(90 50% 25%) 100%
+  );
+  border-color: hsl(90 60% 40%);
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.3),
+    0 0 12px rgba(107, 184, 43, 0.4),
+    0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Thumb/knob */
+.thumb {
+  position: absolute;
+  top: 50%;
+  left: 2px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Metallic thumb appearance */
+  background: linear-gradient(
+    180deg,
+    hsl(0 0% 70%) 0%,
+    hsl(0 0% 50%) 50%,
+    hsl(0 0% 40%) 100%
+  );
+  border: 1px solid hsl(0 0% 30%);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Thumb sizes */
+.toggle.md .thumb {
+  width: 18px;
+  height: 18px;
+}
+
+.toggle.sm .thumb {
+  width: 14px;
+  height: 14px;
+}
+
+/* Thumb enabled state */
+.toggle.enabled .thumb {
+  background: linear-gradient(
+    180deg,
+    hsl(90 70% 70%) 0%,
+    hsl(90 60% 55%) 50%,
+    hsl(90 50% 45%) 100%
+  );
+  border-color: hsl(90 50% 35%);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    0 0 8px rgba(107, 184, 43, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.toggle.md.enabled .thumb {
+  left: calc(100% - 20px);
+}
+
+.toggle.sm.enabled .thumb {
+  left: calc(100% - 16px);
+}
+
+/* Inner highlight on thumb */
+.thumb::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.4) 0%,
+    transparent 70%
+  );
+}
+
+.toggle.md .thumb::after {
+  width: 6px;
+  height: 6px;
+}
+
+.toggle.sm .thumb::after {
+  width: 4px;
+  height: 4px;
+  top: 2px;
+  left: 2px;
+}
+
+/* Disabled state */
+.toggle.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}

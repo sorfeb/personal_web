@@ -2,8 +2,8 @@
 
 import React, { useEffect } from 'react';
 import PageLayout from '../../components/PageLayout/PageLayout';
-import styles from './page.module.css';
-import projects from '../../data/projects.json'; // Import projects JSON
+import styles from "./Projects.module.css";
+import projects from '../../data/projects.json';
 
 const ProjectsPage = () => {
   const technologies = [
@@ -23,31 +23,34 @@ const ProjectsPage = () => {
 
   return (
     <PageLayout title="Projects">
-      <div className={styles.container}>
-        {/* Technology Carousel */}
-        <div className={styles.carouselWrapper}>
-          <div className={styles.carousel}>
-            {technologies.map((tech, index) => (
-              <div key={index} className={styles.techItem}>
-                <img src={tech.logo} alt={tech.name} className={styles.techLogo} />
+      <PageLayout.Header />
+      <PageLayout.Body>
+        <div className={styles.container}>
+          {/* Technology Carousel */}
+          <div className={styles.carouselWrapper}>
+            <div className={styles.carousel}>
+              {technologies.map((tech, index) => (
+                <div key={index} className={styles.techItem}>
+                  <img src={tech.logo} alt={tech.name} className={styles.techLogo} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Scrollable Project Cards */}
+          <div className={styles.projects}>
+            {projects.map((project, index) => (
+              <div key={index} className={styles.projectCard}>
+                <h3>{project.projectName}</h3>
+                <p><strong>Role:</strong> {project.role}</p>
+                <p><strong>Date:</strong> {project.date}</p>
+                <p>{project.description}</p>
+                <p><strong>Technologies:</strong> {project.keyTechnologies.join(', ')}</p>
               </div>
             ))}
           </div>
         </div>
-
-        {/* Scrollable Project Cards */}
-        <div className={styles.projects}>
-          {projects.map((project, index) => (
-            <div key={index} className={styles.projectCard}>
-              <h3>{project.projectName}</h3>
-              <p><strong>Role:</strong> {project.role}</p>
-              <p><strong>Date:</strong> {project.date}</p>
-              <p>{project.description}</p>
-              <p><strong>Technologies:</strong> {project.keyTechnologies.join(', ')}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+      </PageLayout.Body>
     </PageLayout>
   );
 };

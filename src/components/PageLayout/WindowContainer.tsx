@@ -1,28 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { WindowContainerProps } from './types';
-import { getLayoutDimensions } from './layoutConfig';
+import { WindowContainerProps } from './PageLayout.types';
+import { getLayoutDimensions } from './PageLayout.config';
 import styles from './PageLayout.module.css';
 
 /**
- * WindowContainer component - Handles window styling and responsive behavior
- * 
  * @description
- * A specialized container component that follows the Single Responsibility Principle
- * by focusing solely on window container logic and styling. Uses CSS custom properties
- * for dynamic styling as an alternative to CSS-in-JS for better performance.
- * 
- * **Key Responsibilities:**
- * - Apply responsive window styling based on size configuration
- * - Handle custom dimensions through CSS custom properties
- * - Provide smooth animations for window appearance
- * - Maintain consistent window appearance across different content types
- * 
- * **Design Patterns:**
- * - **Single Responsibility**: Only handles container presentation logic
- * - **Composition**: Wraps children without modifying their behavior
- * - **Strategy Pattern**: Uses configuration-driven styling approach
- * 
  * The component uses CSS custom properties to dynamically set layout dimensions,
  * allowing for better performance compared to inline styles while maintaining
  * the flexibility of runtime customization.

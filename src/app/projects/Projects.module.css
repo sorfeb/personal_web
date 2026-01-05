@@ -1,0 +1,78 @@
+.container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.carouselWrapper {
+  width: 100%;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+  width: max-content;
+  animation: scroll 25s linear infinite;
+}
+
+.techItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+}
+
+.techLogo {
+  height: 100%;
+  object-fit: contain;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.projects {
+  margin-top: 20px;
+  max-height: 400px; /* Set scrollable height */
+  overflow-y: auto; 
+  padding: 10px;
+  background-color: transparent; 
+}
+
+.projectCard {
+  background-color: transparent; /* Transparent background for cards */
+  padding: 15px;
+  border-bottom: 1px solid rgb(255 255 255 / 30%); /* Thin separator line */
+  margin-bottom: 0; /* Remove bottom margin */
+}
+
+.projectCard:last-child {
+  border-bottom: none; /* Remove border for the last card */
+}
+
+.projectCard h3 {
+  margin: 0;
+  color: #fff; /* White text for titles */
+  font-size: 1rem;
+}
+
+.projectCard p {
+  margin: 5px 0;
+  color: #ccc; /* Muted text for descriptions */
+  font-size: 0.9rem;
+}
+
+.projectCard:hover {
+  transform: none; /* Disable scale animation on hover */
+  transition: none; /* Remove hover animation */
+}

@@ -1,45 +1,46 @@
 .dashboardContainer {
   display: flex;
   align-items: center; 
-  justify-content: flex-start; 
-  position: relative; 
+  width: 100%;
   height: 350px;
+  padding: 0 10%;
+  margin: 4% auto;
 }
 
-.arrowContainer {
+.positionContainer {
   display: flex;
-  align-items: center; /* Center the arrow within its container */
-  justify-content: center;
-  margin-right: 10px; /* Add spacing between arrow and section */
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: 25px;
 }
 
-.leftArrow,
-.rightArrow {
-  position: relative;
+.navArrow {
   background: none;
   border: none;
-  width: 50px;
-  height: 50px;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
   cursor: pointer;
-  z-index: 999;
-  margin-right: 40px;
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
+  padding: 0 1rem;
+  opacity: 0.8;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.leftArrow:hover,
-.rightArrow:hover {
-  transform: scale(1.6); 
-  animation: jiggle 0.5s ease-in-out infinite;
-  opacity: 8;
+.navArrow:hover:not(.disabled) {
+  opacity: 1;
+  transform: scale(1.2);
 }
 
+.navArrow.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
 
 .sectionContainer {
   display: flex;
-  flex-direction: column; /* Stack section and cardPosition vertically */
-  width: 100%; /* Ensure it takes full width */
-  height: 100%; /* Ensure it takes full height */
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
 }
 
 .section {
@@ -50,21 +51,14 @@
   z-index: 0;
   height: 50vh;
   width: auto;
-  padding-top: 50px;
-  padding-bottom:100px;
+  padding: 3.1rem 0 5rem 0;
   min-height: 220px;
 }
 
 .position {
-  height:auto;
-  margin-top: -50px;
-  margin-left: 25px;
-  text-align: left;
   font-size: 14px;
-  display: inline-block;
   color: white;
 }
-
 
 .card {
   height: 40vh;
@@ -73,9 +67,6 @@
   right: 0;
   transform-origin: center;
   transition: transform 0.3s ease, z-index 0.3s ease;
-  opacity: 0;
-  z-index: 0;
-  scroll-snap-align: center;
 }
 
 .card:first-child {
@@ -84,7 +75,7 @@
 }
 
 .card.selected {
-  border: 2px solid rgb(255 255 255 / 50%); /* Subtle border */
+  border: 2px solid rgb(255 255 255 / 50%);
   box-shadow: 0 0 20px 10px rgb(255 255 255 / 70%), 
               0 0 40px 20px rgb(255 255 255 / 50%), 
               0 0 60px 30px rgb(255 255 255 / 30%);
@@ -130,12 +121,6 @@
 }
 
 @media (max-width: 768px) {
-  .leftArrow,
-  .rightArrow {
-    width: 40px;
-    height: 40px;
-  }
-
   .section {
     position: relative;
     flex: 1;
@@ -147,6 +132,5 @@
     padding-top: 50px;
     padding-bottom:100px;
   }
-  
 }
 

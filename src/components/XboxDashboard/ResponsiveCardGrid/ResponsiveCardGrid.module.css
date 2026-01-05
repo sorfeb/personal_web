@@ -1,97 +1,4 @@
-.dashboardContainer {
-  display: flex;
-  align-items: center; 
-  justify-content: flex-start; 
-  position: relative; 
-  height: 350px;
-}
-
-.leftArrowContainer,
-.rightArrowContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 10px;
-}
-
-.leftArrow,
-.rightArrow {
-  background: none;
-  border: none;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  z-index: 100;
-  margin-right: 40px;
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
-}
-
-.leftArrow:hover,
-.rightArrow:hover {
-  transform: scale(1.6); 
-  animation: jiggle 0.5s ease-in-out infinite;
-  opacity: 8;
-}
-
-@keyframes jiggle {
-  0%, 100% {
-    transform: scale(1.2) rotate(0deg);
-  }
-  25% {
-    transform: scale(1.2) rotate(-10deg);
-  }
-  50% {
-    transform: scale(1.2) rotate(10deg);
-  }
-  75% {
-    transform: scale(1.2) rotate(-5deg);
-  }
-}
-
-.sectionContainer {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-}
-
-.section {
-  position: relative;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  z-index: 0;
-  height: 50vh;
-  width: auto;
-  padding-top: 50px;
-  padding-bottom: 100px;
-  min-height: 220px;
-}
-
-.position {
-  height: auto;
-  margin-top: -50px;
-  margin-left: 25px;
-  text-align: left;
-  font-size: 14px;
-  display: inline-block;
-  color: white;
-}
-
-.card {
-  height: 40vh;
-  position: absolute; 
-  left: 0;
-  right: 0;
-  transform-origin: center;
-  transition: transform 0.3s ease, z-index 0.3s ease;
-  opacity: 0;
-  z-index: 0;
-  scroll-snap-align: center;
-}
-
-/* Mobile styles */
+/* Mobile grid layout for Xbox cards */
 .mobileContainer {
   width: 100%;
   padding: 20px;
@@ -120,19 +27,19 @@
     gap: 15px;
     padding: 0 5px;
   }
-  
+
   .mobileCard {
     aspect-ratio: 1 / 1;
   }
 }
 
 @media (max-width: 320px) {
-  .mobileGrid {   
+  .mobileGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
     padding: 0 5px;
   }
-  
+
   .mobileCard {
     aspect-ratio: 1 / 1;
     min-height: 90px;

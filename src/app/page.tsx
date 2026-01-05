@@ -1,24 +1,38 @@
 'use client';
 
-import styles from "./page.module.css";
-import data from '../data/cardsList';
+import "./globals.css";
+import styles from "./Home.module.css";
+import dashboardDataList from '../data/cardsList';
 
-import React, {useState } from 'react';
+import React, {useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import XboxDashboard from "../components/XboxDashboard/XboxDashboard";
 import ScrollingMenu from "../components/ScrollingMenu/ScrollingMenu";
 import ProfileCard from "../components/ProfileCard/ProfileCard";
 import VolumeControl from "../components/VolumeControl/VolumeControl";
+import HelpButton from "../components/HelpButton";
+import { ChatManager } from "../components/Chat";
 import { ShepherdTourProvider } from "../context/ShepherdTourContext";
+import ProfileModal from "../components/ProfileModal/ProfileModal";
 
 export default function Home() {
-  const menuItems = ["Home", "Misc", "Gallery", "Credits"];
+
+  const menuItems = useMemo(() => 
+    Object.keys(dashboardDataList).map(key => 
+      key.charAt(0).toUpperCase() + key.slice(1)
+    ), 
+    []
+  );
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isProfileModalOpen, setProfileModalOpen] = useState(false);
   
   const handleSelectionChange = (index: number) => {
     setActiveIndex(index);
   };
+
+  const handleOpenProfileModal = () => setProfileModalOpen(true);
+  const handleCloseProfileModal = () => setProfileModalOpen(false);
 
   return (
     <ShepherdTourProvider>
@@ -39,14 +53,15 @@ export default function Home() {
                     <ScrollingMenu
                       items={menuItems}
                       onSelectionChange={handleSelectionChange}
+                      disabled={isProfileModalOpen}
                     />
                   </div>
-                  <div className={styles.ProfileCardContainer}>
-                    <ProfileCard
-                      name="Click Me!"
-                      level="20"
-                      gamerscore={2222}
-                    />
+                  <div className={styles.rightHeaderSection}>
+                    <div className={styles.ProfileCardRow}>
+                      <div className={styles.ProfileCardContainer}>
+                        <ProfileCard onClick={handleOpenProfileModal} />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </header>
@@ -54,13 +69,16 @@ export default function Home() {
               {/* Main Content Section */}
               <main className={styles.main}>
                 <div className={styles.DashboardContainer}>
-                  <XboxDashboard activeIndex={activeIndex} data={data} />
+                  <XboxDashboard activeIndex={activeIndex} data={dashboardDataList} />
                 </div>
               </main>
 
               {/* Footer */}
               <footer className={styles.footer}>
                 <div className={styles.VolumeControlContainer}>
+                  <div className={styles.HelpButtonContainer}>
+                    <HelpButton />
+                  </div>
                   <div id="volume-control-container"className={styles.VolumeControlWrapper}>
                     <VolumeControl/>
                   </div>
@@ -69,6 +87,12 @@ export default function Home() {
             </div>
           </motion.div>
         </AnimatePresence>
+        
+        {/* Chat System - Independent of main layout */}
+        {/* TODO: Re-enable when chat feature is complete */}
+        {/* <ChatManager /> */}
+
+        <ProfileModal isOpen={isProfileModalOpen} onClose={handleCloseProfileModal} />
       </div>
     </ShepherdTourProvider>
   );

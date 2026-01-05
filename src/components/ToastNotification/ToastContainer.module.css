@@ -1,0 +1,45 @@
+.toastStack {
+  position: fixed;
+  z-index: 10000;
+  pointer-events: none;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 20vh;
+  gap: 16px;
+}
+
+.toastItem {
+  pointer-events: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Stacking offset for multiple toasts (if needed) */
+.toastItem[data-index="1"] {
+  transform: translateY(-120px);
+}
+
+.toastItem[data-index="2"] {
+  transform: translateY(-240px);
+}
+
+@media (max-width: 768px) {
+  .toastStack {
+    padding-bottom: 15vh;
+  }
+  
+  .toastItem[data-index="1"] {
+    transform: translateY(-100px);
+  }
+  
+  .toastItem[data-index="2"] {
+    transform: translateY(-200px);
+  }
+}

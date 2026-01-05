@@ -27,6 +27,19 @@
     display: flex;
     justify-content: center;
   }
+  
+  .headerContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem 8rem;
+    margin-bottom: 2rem;
+    z-index: 10;
+  }
     
   .titleContainer {
     padding: 10px 20px;
@@ -35,18 +48,20 @@
     border-radius: 5px;
     font-size: 16px;
     transition: background-color 0.3s ease;
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: 3rem auto auto 10rem;
+  }
+  
+  .title {
+    margin: 0;
+    font-size: 2.1rem;
+    font-weight: 600;
   }
   
   /* Base window styles using CSS custom properties */
   .window {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+    justify-content: flex-start;
+    align-items: stretch;
     width: var(--layout-width, 70%);
     max-width: var(--layout-max-width, 900px);
     height: var(--layout-height, 65%);
@@ -56,6 +71,8 @@
     box-shadow: 0 0 15px rgb(0 0 0 / 20%);
     padding: var(--layout-padding, 20px);
     color: white;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
   
   /* Size-specific window variants */
@@ -111,9 +128,6 @@
   }
   
   .closeButtonWrapper {
-    position: absolute;
-    top: 80px;
-    right: 150px;
     background: rgb(0 0 0 / 0%);
   }
   
@@ -143,6 +157,17 @@
     filter: drop-shadow(0 0 15px rgb(255 255 255 / 100%));
     stroke-width: 3;
   }
+
+  /* Footer section for compound component */
+  .footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0 0;
+    margin-top: auto;
+    border-top: 1px solid rgb(255 255 255 / 10%);
+  }
   
   @media (max-width: 1400px) {
     .window {
@@ -162,14 +187,16 @@
       padding: calc(var(--layout-padding, 20px) * 0.75);
     }
     
-    .closeButtonWrapper {
-      right: 20px;
-      top: 60px;
+    .headerContainer {
+      padding: 1.5rem 2rem;
     }
     
     .titleContainer {
-      margin: 2rem auto auto 2rem;
       font-size: 14px;
+    }
+    
+    .title {
+      font-size: 1.25rem;
     }
   }
   

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PageLayout from '../../components/PageLayout/PageLayout';
-import styles from './page.module.css';
+import styles from './Profile.module.css';
 import { useAudioManager } from '../../hooks/useAudioManager';
 
 const ProfilePage: React.FC = () => {
@@ -12,7 +12,9 @@ const ProfilePage: React.FC = () => {
 
   return (
     <PageLayout title="Profile" variant='windowed' size='default'>
-      <div className={styles.profileContainer}>
+      <PageLayout.Header />
+      <PageLayout.Body>
+        <div className={styles.profileContainer}>
         <div className={styles.textSectionContainer}>
           <div className={styles.textSection}>
             <p>
@@ -64,6 +66,7 @@ const ProfilePage: React.FC = () => {
           />
         </div>
       </div>
+      </PageLayout.Body>
     </PageLayout>
   );
 };

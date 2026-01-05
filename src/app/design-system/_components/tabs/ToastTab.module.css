@@ -1,0 +1,280 @@
+/* Toast Tab Specific Styles */
+
+.demoButtonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+.demoButton {
+  padding: 1.25rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.demoButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.demoButton:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.buttonAchievement {
+  background: var(--gradient-brand);
+}
+
+.buttonAchievement:hover {
+  background: linear-gradient(135deg, var(--color-brand-primary-light) 0%, var(--color-brand-primary) 100%);
+}
+
+.buttonSuccess {
+  background: var(--gradient-brand);
+}
+
+.buttonSuccess:hover {
+  background: linear-gradient(135deg, var(--color-brand-primary-light) 0%, var(--color-brand-primary) 100%);
+}
+
+.buttonError {
+  background: linear-gradient(135deg, #FD2525 0%, #d91f1f 100%);
+}
+
+.buttonError:hover {
+  background: linear-gradient(135deg, #fe3a3a 0%, #e92929 100%);
+}
+
+.buttonInfo {
+  background: linear-gradient(135deg, #2F25FD 0%, #251dc8 100%);
+}
+
+.buttonInfo:hover {
+  background: linear-gradient(135deg, #4238fe 0%, #2f26db 100%);
+}
+
+.buttonWarning {
+  background: linear-gradient(135deg, #F4CC00 0%, #c9a700 100%);
+}
+
+.buttonWarning:hover {
+  background: linear-gradient(135deg, #f5d420 0%, #d6b500 100%);
+}
+
+.controlsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.controlGroup {
+  margin-bottom: 1.5rem;
+}
+
+.controlGroup:last-child {
+  margin-bottom: 0;
+}
+
+.label {
+  display: block;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.slider {
+  width: 100%;
+  height: var(--volume-slider-height);
+  border-radius: var(--radius-sm);
+  background: var(--color-border-primary);
+  outline: none;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: var(--volume-thumb-size);
+  height: var(--volume-thumb-size);
+  border-radius: var(--radius-full);
+  background: var(--gradient-brand);
+  cursor: pointer;
+  box-shadow: var(--shadow-glow-green);
+  transition: var(--transition-fast);
+}
+
+.slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: var(--shadow-glow-green-hover);
+}
+
+.slider::-moz-range-thumb {
+  width: var(--volume-thumb-size);
+  height: var(--volume-thumb-size);
+  border-radius: var(--radius-full);
+  background: var(--gradient-brand);
+  cursor: pointer;
+  border: none;
+  box-shadow: var(--shadow-glow-green);
+  transition: var(--transition-fast);
+}
+
+.slider::-moz-range-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: var(--shadow-glow-green-hover);
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.checkboxLabel:hover {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.checkbox {
+  width: var(--volume-thumb-size);
+  height: var(--volume-thumb-size);
+  cursor: pointer;
+  accent-color: var(--color-brand-primary);
+}
+
+.toastList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.toastListItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.toastListItem:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.toastInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.toastIndex {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  min-width: 30px;
+}
+
+.toastTitle {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.9);
+  flex: 1;
+}
+
+.toastBadge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.toastBadge[data-ring="success"] {
+  background: hsl(var(--color-brand-hue), var(--color-brand-saturation), 45%, 0.2);
+  color: var(--color-brand-primary);
+  border: 1px solid hsl(var(--color-brand-hue), var(--color-brand-saturation), 45%, 0.3);
+}
+
+.toastBadge[data-ring="error"] {
+  background: rgba(253, 37, 37, 0.2);
+  color: #FD2525;
+  border: 1px solid rgba(253, 37, 37, 0.3);
+}
+
+.toastBadge[data-ring="info"] {
+  background: rgba(47, 37, 253, 0.2);
+  color: #2F25FD;
+  border: 1px solid rgba(47, 37, 253, 0.3);
+}
+
+.toastBadge[data-ring="warning"] {
+  background: rgba(244, 204, 0, 0.2);
+  color: #F4CC00;
+  border: 1px solid rgba(244, 204, 0, 0.3);
+}
+
+.dismissButton {
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dismissButton:hover {
+  color: #FD2525;
+  background: rgba(253, 37, 37, 0.1);
+  border-color: rgba(253, 37, 37, 0.3);
+}
+
+.emptyState {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+  margin: 0;
+}
+
+.tabPanel {
+  display: block;
+}
+
+.tabPanel[data-hidden="true"] {
+  display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .demoButtonGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .toastInfo {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}

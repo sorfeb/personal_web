@@ -1,0 +1,155 @@
+/* ============================================
+   PAGE LAYOUT - Header/Content/Footer wrapper
+   Xbox 360 blade page structure
+   ============================================ */
+
+.pageLayout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ============================================
+   HEADER SECTION
+   ============================================ */
+
+.header {
+  flex-shrink: 0;
+  padding: var(--spacing-4) var(--spacing-5);
+  background: linear-gradient(
+    180deg,
+    hsla(var(--color-brand-hue), 60%, 25%, 0.8) 0%,
+    hsla(var(--color-brand-hue), 60%, 20%, 0.4) 100%
+  );
+  border-bottom: 1px solid hsla(var(--color-brand-hue), 60%, 40%, 0.5);
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.headerIcon {
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  min-width: 0;
+}
+
+.headerTitle {
+  font: var(--typography-h4);
+  color: var(--color-text-primary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.headerSubtitle {
+  font: var(--typography-caption);
+  color: var(--color-text-secondary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ============================================
+   CONTENT SECTION
+   ============================================ */
+
+.content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ============================================
+   FOOTER SECTION
+   ============================================ */
+
+.footer {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--spacing-4);
+  padding: var(--spacing-3) var(--spacing-5);
+  background: linear-gradient(
+    0deg,
+    hsla(0, 0%, 10%, 0.9) 0%,
+    hsla(0, 0%, 15%, 0.7) 100%
+  );
+  border-top: 1px solid hsla(0, 0%, 30%, 0.5);
+}
+
+.footerButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  background: transparent;
+  border: 1px solid hsla(0, 0%, 40%, 0.5);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.footerButton:hover:not(:disabled) {
+  background: hsla(0, 0%, 100%, 0.1);
+  border-color: hsla(0, 0%, 60%, 0.6);
+}
+
+.footerButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.buttonIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  font: var(--typography-label);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-background-primary);
+  background: var(--color-brand-primary);
+  border-radius: 50%;
+}
+
+.buttonLabel {
+  font: var(--typography-label);
+  color: var(--color-text-secondary);
+}
+
+.footerButton:hover:not(:disabled) .buttonLabel {
+  color: var(--color-text-primary);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .header {
+    padding: var(--spacing-3) var(--spacing-4);
+  }
+
+  .footer {
+    padding: var(--spacing-2) var(--spacing-4);
+    gap: var(--spacing-2);
+  }
+
+  .footerButton {
+    padding: var(--spacing-1) var(--spacing-2);
+  }
+}

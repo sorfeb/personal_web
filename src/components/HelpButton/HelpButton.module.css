@@ -1,0 +1,153 @@
+@keyframes helpGlow {
+  0%, 100% {
+    box-shadow: 0 2px 4px rgb(0 0 0 / 15%),
+                0 0 15px rgb(66 139 202 / 40%),
+                inset 0 1px 2px rgb(255 255 255 / 50%),
+                inset 0 -1px 2px rgb(0 0 0 / 15%);
+  }
+
+  50% {
+    box-shadow: 0 2px 6px rgb(0 0 0 / 20%),
+                0 0 25px rgb(66 139 202 / 60%),
+                inset 0 1px 2px rgb(255 255 255 / 60%),
+                inset 0 -1px 2px rgb(0 0 0 / 20%);
+  }
+}
+
+.helpButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 4px solid rgb(226, 231, 255);
+  cursor: pointer;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgb(100 170 220),
+    rgb(40 110 180) 50%,
+    rgb(25 85 145) 100%
+  );
+  opacity: 0.7;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 15%),
+              0 0 15px rgb(66 139 202 / 40%),
+              inset 0 1px 2px rgb(255 255 255 / 50%),
+              inset 0 -1px 2px rgb(0 0 0 / 15%);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  animation: helpGlow 3s infinite ease-in-out;
+  position: relative;
+  overflow: visible;
+}
+
+/* Shine */
+.helpButton::before {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: 20%;
+  width: 45%;
+  height: 35%;
+  background: radial-gradient(
+    ellipse at center,
+    rgb(255 255 255 / 60%) 0%,
+    rgb(255 255 255 / 30%) 50%,
+    transparent 100%
+  );
+  border-radius: 50%;
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.helpButton:hover {
+  transform: scale(1.1);
+  border-color: rgb(220 235 245);
+  box-shadow: 0 4px 8px rgb(0 0 0 / 20%),
+              0 0 25px rgb(66 139 202 / 60%),
+              inset 0 1px 2px rgb(255 255 255 / 60%),
+              inset 0 -1px 2px rgb(0 0 0 / 20%);
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgb(120 185 235),
+    rgb(50 120 190) 50%,
+    rgb(30 95 155) 100%
+  );
+  opacity: 1;
+}
+
+.helpButton:hover::before {
+  opacity: 1;
+}
+
+.helpButton:active {
+  transform: scale(1.05);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 30%),
+              inset 0 2px 4px rgb(0 0 0 / 30%),
+              inset 0 -1px 2px rgb(255 255 255 / 20%);
+}
+
+.questionMark {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: white;
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 40%),
+               0 2px 4px rgb(0 0 0 / 30%);
+  user-select: none;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.helpButton:hover .questionMark {
+  text-shadow: 0 0 8px rgb(255 255 255 / 60%),
+               0 1px 2px rgb(0 0 0 / 50%),
+               0 2px 4px rgb(0 0 0 / 30%);
+  transform: scale(1.5);
+}
+
+@media (max-width: 768px) {
+  .helpButton {
+    width: 50px;
+    height: 50px;
+  }
+
+  .questionMark {
+    font-size: 24px;
+  }
+}
+
+/* Storybook utility classes */
+:global(.storybook-decorator) {
+  padding: 2rem;
+  background-color: #0a0a0a;
+}
+
+:global(.storybook-flex) {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+:global(.storybook-layout) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 400px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgb(0 0 0 / 80%), rgb(20 20 20 / 90%));
+  border-radius: 10px;
+}
+
+:global(.storybook-content) {
+  color: white;
+  text-align: center;
+}
+
+:global(.storybook-content h3) {
+  margin: 0 0 8px 0;
+}
+
+:global(.storybook-content p) {
+  margin: 0;
+}

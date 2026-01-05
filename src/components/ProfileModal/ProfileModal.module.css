@@ -1,0 +1,411 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  gap: 16px;
+}
+
+/* External Header - Outside modal */
+.externalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: transparent;
+  width: 90%;
+  max-width: 900px;
+  color: white;
+}
+
+/* Blade navigation wrapper */
+.bladeWrapper {
+  width: 90vw;
+  max-width: 1100px;
+  height: 70vh;
+  max-height: 500px;
+}
+
+/* Modal container - the central content box */
+.modal {
+  background: var(--gradient-metallic);
+  border: var(--border-width-medium) solid var(--color-border-secondary);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  height: 100%;
+  box-shadow:
+    var(--shadow-xl),
+    0 0 0 1px hsl(0 0% 100% / 0.05),
+    inset 0 1px 0 hsl(0 0% 100% / 0.08);
+  display: flex;
+  flex-direction: column;
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+  position: relative;
+  z-index: 50;
+  overflow: hidden;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Header icon wrapper for Lucide icons */
+.headerIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Gray gradient icon styling matching Xbox 360 aesthetic */
+.headerIcon {
+  color: #a8a8a8;
+  filter:
+    drop-shadow(0 0 1px rgba(255, 255, 255, 0.3))
+    drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+  opacity: 0.85;
+  transition: opacity 0.2s ease, filter 0.2s ease, color 0.2s ease;
+}
+
+.headerIcon svg {
+  display: block;
+}
+
+.headerLeft:hover .headerIcon {
+  color: #d0d0d0;
+  opacity: 1;
+  filter:
+    drop-shadow(0 0 2px rgba(255, 255, 255, 0.4))
+    drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
+}
+
+/* Image-based header icon (for static assets like gamer picture) */
+.headerImageIcon {
+  filter:
+    brightness(0.9)
+    drop-shadow(0 0 1px rgba(255, 255, 255, 0.2))
+    drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
+  opacity: 0.9;
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+
+.headerLeft:hover .headerImageIcon {
+  opacity: 1;
+  filter:
+    brightness(1)
+    drop-shadow(0 0 2px rgba(255, 255, 255, 0.3))
+    drop-shadow(0 1px 3px rgba(0, 0, 0, 0.5));
+}
+
+.xboxIcon {
+  filter: brightness(0.8);
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: #ffffff;
+}
+
+.time {
+  font-size: 14px;
+  color: #cccccc;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  padding: 24px;
+  gap: 24px;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.avatarGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  flex: 1;
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.avatarOption {
+  background: #333333;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.avatarOption:hover {
+  border-color: #666666;
+  background: #404040;
+}
+
+.avatarOption.selected {
+  border-color: #00ff00;
+  background: #004400;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.previewPanel {
+  background: linear-gradient(135deg, #404040 0%, #333333 100%);
+  border-radius: 8px;
+  padding: 20px;
+  width: 280px;
+  min-width: 280px;
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.profilePreview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.previewAvatar {
+  background: #222222;
+  border: 2px solid #666666;
+  border-radius: 8px;
+  padding: 8px;
+  position: relative;
+  width: 112px;
+  height: 112px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarPlaceholder {
+  position: absolute;
+  width: 96px;
+  height: 96px;
+  background: #333333;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666666;
+  font-size: 14px;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  z-index: 1;
+}
+
+.previewImage {
+  border-radius: 4px;
+}
+
+.profileInfo {
+  text-align: center;
+  width: 100%;
+}
+
+.profileName {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  color: #ffffff;
+}
+
+.statsRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.statLabel {
+  font-size: 14px;
+  color: #cccccc;
+}
+
+.statValue {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.externalFooter {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding: 16px 24px;
+  background: transparent;
+  width: 90%;
+  max-width: 900px;
+}
+
+.gamerscoreIcon {
+  filter: brightness(1.2);
+}
+
+.controlButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-family: inherit;
+}
+
+.controlButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.controlButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.controlButton:disabled:hover {
+  background-color: transparent;
+}
+
+.footerActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.buttonIcon {
+  width: 20px;
+  height: 20px;
+  background: #00ff00;
+  color: #000000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Button color variants - Xbox controller style */
+.buttonIconGreen {
+  background: #00ff00;
+  color: #000000;
+  box-shadow: 0 0 8px rgba(0, 255, 0, 0.3);
+}
+
+.buttonIconRed {
+  background: #ff0000;
+  color: #000000;
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.3);
+}
+
+.buttonIconBlue {
+  background: #0078d4;
+  color: #ffffff;
+  box-shadow: 0 0 8px rgba(0, 120, 212, 0.3);
+}
+
+.buttonIconYellow {
+  background: #ffd700;
+  color: #000000;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+}
+
+.controlButton:hover .buttonIcon {
+  transform: scale(1.1);
+}
+
+.logoutIcon {
+  background: #ff0000;
+  color: #000000;
+}
+
+.buttonText {
+  font-size: 14px;
+  color: #ffffff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .modal {
+    width: 95vw;
+    height: 70vh;
+    max-height: none;
+  }
+
+  .externalHeader {
+    width: 95%;
+    padding: var(--spacing-3) var(--spacing-4);
+  }
+
+  .externalFooter {
+    width: 95%;
+    padding: var(--spacing-3) var(--spacing-4);
+  }
+
+  .content {
+    flex-direction: column;
+    padding: var(--spacing-4);
+    gap: var(--spacing-4);
+  }
+
+  .avatarGrid {
+    grid-template-columns: repeat(3, 1fr);
+    max-height: 200px;
+  }
+
+  .previewPanel {
+    width: 100%;
+    min-width: unset;
+    max-width: unset;
+  }
+}
