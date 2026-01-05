@@ -1,6 +1,7 @@
 import { initTRPC, TRPCError } from '@trpc/server';
 import { db } from '../utils/db';
-import { stackServerApp } from '../stack';
+// TODO: Re-enable Stack Auth when configured
+// import { stackServerApp } from '../stack';
 import { UserService } from './services/userService';
 
 /**
@@ -19,19 +20,21 @@ export const createTRPCContext = async (opts: CreateContextOptions) => {
   
   console.log('🔧 Creating tRPC context...');
 
-  let user = null;
-  try {
-    const cookieHeader = req.headers.get('cookie');
-    console.log('🍪 Cookie header:', cookieHeader ? 'Present' : 'Missing');
-    
-    // For App Router, we need to pass the request properly
-    user = await stackServerApp.getUser();
-    
-    console.log('✅ Authenticated user:', user?.displayName || user?.primaryEmail || 'Unknown');
-    
-  } catch (error) {
-    console.log('ℹ️  No authenticated user:', error instanceof Error ? error.message : 'Unknown error');
-  }
+  // TODO: Re-enable Stack Auth when configured
+  // Guest mode - all users are treated as guests
+  const user = null;
+  // try {
+  //   const cookieHeader = req.headers.get('cookie');
+  //   console.log('🍪 Cookie header:', cookieHeader ? 'Present' : 'Missing');
+  //
+  //   // For App Router, we need to pass the request properly
+  //   user = await stackServerApp.getUser();
+  //
+  //   console.log('✅ Authenticated user:', user?.displayName || user?.primaryEmail || 'Unknown');
+  //
+  // } catch (error) {
+  //   console.log('ℹ️  No authenticated user:', error instanceof Error ? error.message : 'Unknown error');
+  // }
 
   // Instantiate services
   const services = {

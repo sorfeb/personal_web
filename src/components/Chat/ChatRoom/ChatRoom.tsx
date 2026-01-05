@@ -2,7 +2,8 @@
 
 import React, { memo, useState, useEffect, useRef, useCallback } from 'react';
 import { trpc } from '../../../utils/trpc';
-import { useUser } from '@stackframe/stack';
+// TODO: Re-enable Stack Auth when configured
+// import { useUser } from '@stackframe/stack';
 import MessageItem from './MessageItem';
 import MessageInput from './MessageInput';
 import styles from './ChatRoom.module.css';
@@ -23,7 +24,9 @@ import styles from './ChatRoom.module.css';
 const ChatRoom = memo(() => {
   const [messageText, setMessageText] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const user = useUser();
+  // TODO: Re-enable Stack Auth when configured
+  // const user = useUser();
+  const user = null; // Guest mode - Stack Auth disabled
 
   // Fetch messages with caching for performance
   const {

@@ -4,7 +4,8 @@ import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { useUser } from '@stackframe/stack';
+// TODO: Re-enable Stack Auth when configured
+// import { useUser } from '@stackframe/stack';
 import { Settings } from 'lucide-react';
 import { useAudioManager } from '../../hooks/useAudioManager';
 import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
@@ -28,7 +29,9 @@ interface ProfileModalProps {
 }
 
 export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
-  const stackUser = useUser();
+  // TODO: Re-enable Stack Auth when configured
+  // const stackUser = useUser();
+  const stackUser = null; // Guest mode - Stack Auth disabled
   const { playSound } = useAudioManager();
   const { showToast } = useToast();
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
