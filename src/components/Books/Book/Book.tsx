@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import styles from './Book.module.css';
-import { Article } from '../BookRack';
+import { Article } from '../BookRack/BookRack';
 import Image from 'next/image';
 
 /**

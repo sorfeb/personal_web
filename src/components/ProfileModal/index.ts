@@ -13,8 +13,6 @@ export {
   BladeTab,
   PageLayout,
   SettingsPage,
-  GamesPage,
   ProfilePage,
-  MediaPage,
   ThemePage,
 } from './components';

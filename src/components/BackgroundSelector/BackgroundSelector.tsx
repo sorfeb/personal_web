@@ -117,7 +117,7 @@ const BackgroundSelector: React.FC<BackgroundSelectorProps> = ({ isOpen, onClose
                       <span>✓</span>
                     </div>
                   )}
-                  {background.type === 'animated' && (
+                  {background.animations?.some(a => a.enabled) && (
                     <div className={styles.animatedBadge}>
                       <span>🎬</span>
                     </div>
