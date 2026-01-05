@@ -11,7 +11,8 @@ import XboxDashboard from "../components/XboxDashboard/XboxDashboard";
 import ScrollingMenu from "../components/ScrollingMenu/ScrollingMenu";
 import ProfileCard from "../components/ProfileCard/ProfileCard";
 import VolumeControl from "../components/VolumeControl/VolumeControl";
-import HelpButton from "../components/HelpButton";
+// TODO: Re-enable when tour feature is reimplemented (shepherd.js requires commercial license)
+// import HelpButton from "../components/HelpButton";
 import { ChatManager } from "../components/Chat";
 import { ShepherdTourProvider } from "../context/ShepherdTourContext";
 import ProfileModal from "../components/ProfileModal/ProfileModal";
@@ -76,9 +77,11 @@ export default function Home() {
               {/* Footer */}
               <footer className={styles.footer}>
                 <div className={styles.VolumeControlContainer}>
+{/* TODO: Re-enable when tour feature is reimplemented
                   <div className={styles.HelpButtonContainer}>
                     <HelpButton />
                   </div>
+*/}
                   <div id="volume-control-container"className={styles.VolumeControlWrapper}>
                     <VolumeControl/>
                   </div>
