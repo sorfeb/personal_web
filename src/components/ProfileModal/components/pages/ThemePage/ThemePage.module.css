@@ -11,8 +11,10 @@
   overflow: hidden;
 }
 
-/* Control panel wrapper - at top */
+/* Control panel wrapper - at top, above preview */
 .controlPanelWrapper {
+  position: relative;
+  z-index: 10;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
