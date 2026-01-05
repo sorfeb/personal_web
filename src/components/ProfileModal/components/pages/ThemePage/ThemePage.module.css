@@ -52,27 +52,6 @@
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: var(--spacing-1);
-
-  /* Custom scrollbar */
-  scrollbar-width: thin;
-  scrollbar-color: hsl(0 0% 30%) transparent;
-}
-
-.carouselSection::-webkit-scrollbar {
-  width: 4px;
-}
-
-.carouselSection::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.carouselSection::-webkit-scrollbar-thumb {
-  background: hsl(0 0% 30%);
-  border-radius: 2px;
-}
-
-.carouselSection::-webkit-scrollbar-thumb:hover {
-  background: hsl(0 0% 40%);
 }
 
 /* Pull tab button */

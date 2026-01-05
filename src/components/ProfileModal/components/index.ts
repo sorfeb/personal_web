@@ -5,8 +5,6 @@ export { default as PageLayout } from './PageLayout';
 
 export {
   SettingsPage,
-  GamesPage,
   ProfilePage,
-  MediaPage,
   ThemePage,
 } from './pages';

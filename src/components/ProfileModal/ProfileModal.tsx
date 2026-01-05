@@ -5,13 +5,7 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { useUser } from '@stackframe/stack';
-import {
-  Settings,
-  Gamepad2,
-  UserCircle,
-  Music,
-  Palette,
-} from 'lucide-react';
+import { Settings } from 'lucide-react';
 import { useAudioManager } from '../../hooks/useAudioManager';
 import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
 import { trpc } from '../../utils/trpc';
@@ -21,9 +15,7 @@ import { useToast, createSystemToast } from '../ToastNotification';
 import {
   BladeNavigation,
   SettingsPage,
-  GamesPage,
   ProfilePage,
-  MediaPage,
   ThemePage,
 } from './components';
 import type { ThemePageRef } from './components/pages';
@@ -101,7 +93,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   };
 
   // Build blade pages configuration
-  // Order: Settings -> Games -> Profile (center) -> Media -> Theme
+  // Order: Settings -> Profile (center) -> Theme
   const bladePages: BladePage[] = useMemo(() => {
     if (!profile || !avatars) return [];
 
@@ -168,19 +160,6 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
         },
       },
       {
-        id: 'games',
-        label: 'Games',
-        content: <GamesPage />,
-        externalHeader: {
-          title: 'Games Library',
-          icon: <Gamepad2 className={iconClass} size={22} strokeWidth={1.5} />,
-          showClock: true,
-        },
-        externalFooter: {
-          actions: [selectAction, backAction],
-        },
-      },
-      {
         id: 'profile',
         label: profile.name,
         content: (
@@ -201,25 +180,12 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
         },
       },
       {
-        id: 'media',
-        label: 'Media',
-        content: <MediaPage />,
-        externalHeader: {
-          title: 'Media Center',
-          icon: <Music className={iconClass} size={22} strokeWidth={1.5} />,
-          showClock: true,
-        },
-        externalFooter: {
-          actions: [selectAction, backAction],
-        },
-      },
-      {
         id: 'theme',
         label: 'Theme',
         content: <ThemePage ref={themePageRef} />,
         externalHeader: {
           title: 'Customize Theme',
-          icon: <Palette className={iconClass} size={22} strokeWidth={1.5} />,
+          iconSrc: '/assets/icons/profile-modal/pallette.png',
           showClock: true,
         },
         externalFooter: {

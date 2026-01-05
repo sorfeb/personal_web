@@ -50,11 +50,6 @@ const CarouselItem: React.FC<CarouselItemProps> = ({
     onClick();
   };
 
-  const handleMouseEnter = () => {
-    if (!disabled) {
-      playSound('owawa');
-    }
-  };
 
   const renderContent = () => {
     // Animation preview for animation layers - contained preview versions
@@ -108,7 +103,6 @@ const CarouselItem: React.FC<CarouselItemProps> = ({
       type="button"
       className={classNames}
       onClick={handleClick}
-      onMouseEnter={handleMouseEnter}
       disabled={disabled}
       whileHover={disabled ? {} : { scale: 1.05 }}
       whileTap={disabled ? {} : { scale: 0.98 }}

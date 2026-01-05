@@ -28,10 +28,6 @@ const BladeTab = memo<BladeTabProps>(({
     onClick();
   };
 
-  const handleHover = () => {
-    playSound('owawa');
-  };
-
   // Position style based on side
   const positionStyle = side === 'left'
     ? { right: horizontalOffset }
@@ -42,7 +38,6 @@ const BladeTab = memo<BladeTabProps>(({
       className={`${styles.bladeTab} ${styles[side]}`}
       style={{ ...positionStyle, zIndex }}
       onClick={handleClick}
-      onMouseEnter={handleHover}
       initial={{
         x: side === 'left' ? -60 : 60,
         opacity: 0,
