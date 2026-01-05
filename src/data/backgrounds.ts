@@ -21,7 +21,7 @@ export const backgrounds: BackgroundConfig[] = [
     description: 'Classic Xbox 360 green dashboard with optional animations',
     category: 'official',
     animations: [
-      { id: 'circle-ripples', enabled: true },
+      { id: 'circle-ripples', enabled: false },
       { id: 'water-ripples', enabled: true },
     ],
   },
