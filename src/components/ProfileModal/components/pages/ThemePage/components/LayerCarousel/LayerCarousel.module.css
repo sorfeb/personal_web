@@ -9,38 +9,35 @@
   gap: var(--spacing-2);
 }
 
-/* Header row with toggle, title, and arrows */
+/* Header row: [<] [Title Toggle] [>] */
 .header {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--spacing-3);
   padding: 0 var(--spacing-1);
 }
 
-.toggleWrapper {
-  flex-shrink: 0;
+/* Title section with text and optional toggle */
+.titleSection {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
 }
 
 .title {
-  flex: 1;
   font: var(--typography-label);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
   letter-spacing: 0.02em;
   text-transform: uppercase;
   font-size: 11px;
+  white-space: nowrap;
 }
 
 /* Disabled title state */
 .carousel.disabled .title {
   color: var(--color-text-tertiary);
-}
-
-/* Arrow navigation container */
-.arrows {
-  display: flex;
-  gap: var(--spacing-1);
-  flex-shrink: 0;
 }
 
 /* Arrow buttons */
@@ -181,6 +178,10 @@
 @media (max-width: 768px) {
   .header {
     gap: var(--spacing-2);
+  }
+
+  .titleSection {
+    gap: var(--spacing-1);
   }
 
   .title {

@@ -3,7 +3,7 @@
 import React, { memo, useRef, useState, useCallback, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useAudioManager } from '../../../../../../../hooks/useAudioManager';
-import LayerToggle from '../LayerToggle';
+import { Toggle } from '../../../../../../ui/Toggle';
 import styles from './LayerCarousel.module.css';
 
 interface LayerCarouselProps {
@@ -120,36 +120,35 @@ const LayerCarousel: React.FC<LayerCarouselProps> = ({
   return (
     <div className={carouselClass}>
       <div className={styles.header}>
-        {showToggle && (
-          <div className={styles.toggleWrapper}>
-            <LayerToggle
+        <button
+          type="button"
+          className={styles.arrow}
+          onClick={() => scroll('left')}
+          disabled={!canScrollLeft || disabled}
+          aria-label="Scroll left"
+        >
+          <ChevronLeft className={styles.arrowIcon} />
+        </button>
+        <div className={styles.titleSection}>
+          <span className={styles.title}>{title}</span>
+          {showToggle && (
+            <Toggle
               enabled={toggleEnabled}
               onChange={onToggleChange || (() => {})}
               ariaLabel={`Toggle ${title}`}
+              size="md"
             />
-          </div>
-        )}
-        <span className={styles.title}>{title}</span>
-        <div className={styles.arrows}>
-          <button
-            type="button"
-            className={styles.arrow}
-            onClick={() => scroll('left')}
-            disabled={!canScrollLeft || disabled}
-            aria-label="Scroll left"
-          >
-            <ChevronLeft className={styles.arrowIcon} />
-          </button>
-          <button
-            type="button"
-            className={styles.arrow}
-            onClick={() => scroll('right')}
-            disabled={!canScrollRight || disabled}
-            aria-label="Scroll right"
-          >
-            <ChevronRight className={styles.arrowIcon} />
-          </button>
+          )}
         </div>
+        <button
+          type="button"
+          className={styles.arrow}
+          onClick={() => scroll('right')}
+          disabled={!canScrollRight || disabled}
+          aria-label="Scroll right"
+        >
+          <ChevronRight className={styles.arrowIcon} />
+        </button>
       </div>
 
       <div className={trackWrapperClass}>

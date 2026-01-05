@@ -7,6 +7,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-2);
+  width: 100%;
+  max-width: 500px;
 }
 
 .label {
@@ -79,7 +81,7 @@
 }
 
 .animatedCircle {
-  animation: circleRipple 8s ease-in-out infinite;
+  animation: circleRipple 4s ease-in-out infinite;
   transform-origin: center;
 }
 
@@ -88,25 +90,25 @@
 }
 
 .ring1 {
-  animation-delay: 2s;
+  animation-delay: 0.3s;
 }
 
 .ring2 {
-  animation-delay: 4s;
+  animation-delay: 0.6s;
 }
 
 .ring3 {
-  animation-delay: 6s;
+  animation-delay: 0.9s;
 }
 
 @keyframes circleRipple {
   0%,
   100% {
-    r: 8;
+    transform: scale(1);
     opacity: 0.3;
   }
   50% {
-    r: 20;
+    transform: scale(1.5);
     opacity: 0.1;
   }
 }

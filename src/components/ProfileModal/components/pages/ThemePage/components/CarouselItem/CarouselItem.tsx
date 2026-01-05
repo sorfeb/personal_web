@@ -57,7 +57,7 @@ const CarouselItem: React.FC<CarouselItemProps> = ({
   };
 
   const renderContent = () => {
-    // Animation preview for animation layers
+    // Animation preview for animation layers - contained preview versions
     if (animationType) {
       return (
         <div className={styles.animationPreview}>

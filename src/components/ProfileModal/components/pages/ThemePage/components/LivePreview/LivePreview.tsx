@@ -30,15 +30,6 @@ const LivePreview: React.FC<LivePreviewProps> = ({
   const circleRipplesEnabled = animationStates['circle-ripples'] ?? false;
   const waterRipplesEnabled = animationStates['water-ripples'] ?? false;
 
-  // Circle groups for ripple preview (simplified version)
-  const circleGroups = [
-    { x: 85, y: 30, delay: 0 },
-    { x: 78, y: 25, delay: 0.5 },
-    { x: 15, y: 75, delay: 1 },
-    { x: 25, y: 85, delay: 1.5 },
-    { x: 65, y: 50, delay: 2 },
-  ];
-
   return (
     <div className={styles.container}>
       <span className={styles.label}>Preview</span>
@@ -52,23 +43,27 @@ const LivePreview: React.FC<LivePreviewProps> = ({
                 src={imageSrc}
                 alt="Background preview"
                 fill
-                sizes="400px"
+                sizes="500px"
                 className={styles.baseImage}
                 priority
               />
             )}
           </div>
 
-          {/* Animation layers */}
+          {/* Animation layers - contained preview versions */}
           <div className={styles.animationLayers}>
-            {/* Circle Ripples */}
+            {/* Circle Ripples preview */}
             {circleRipplesEnabled && (
               <div className={styles.circleRipplesLayer}>
-                <svg
-                  className={styles.circleRipplesSvg}
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  {circleGroups.map((group, idx) => (
+                <svg className={styles.circleRipplesSvg} xmlns="http://www.w3.org/2000/svg">
+                  {/* Preview circles in similar positions to real component */}
+                  {[
+                    { x: 85, y: 30, delay: 0 },
+                    { x: 78, y: 25, delay: 0.5 },
+                    { x: 15, y: 75, delay: 1 },
+                    { x: 25, y: 85, delay: 1.5 },
+                    { x: 65, y: 50, delay: 2 },
+                  ].map((group, idx) => (
                     <g key={`group-${idx}`}>
                       {[0, 1, 2, 3].map((ringIndex) => (
                         <circle
@@ -78,7 +73,7 @@ const LivePreview: React.FC<LivePreviewProps> = ({
                           r={8}
                           className={`${styles.animatedCircle} ${styles[`ring${ringIndex}`]}`}
                           fill="none"
-                          stroke="rgba(255, 255, 255, 0.25)"
+                          stroke="rgba(255, 255, 255, 0.3)"
                           strokeWidth="1"
                           style={{ animationDelay: `${group.delay + ringIndex * 0.3}s` }}
                         />
@@ -89,7 +84,7 @@ const LivePreview: React.FC<LivePreviewProps> = ({
               </div>
             )}
 
-            {/* Water Ripples */}
+            {/* Water Ripples preview */}
             {waterRipplesEnabled && (
               <div className={styles.waterRipplesLayer}>
                 <div className={styles.waterEffect} />

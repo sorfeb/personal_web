@@ -31,7 +31,49 @@ export const BASE_IMAGE_OPTIONS: BaseImageOption[] = [
     thumbnail: '/assets/wallpapers/xbox360.webp',
     fullImage: '/assets/wallpapers/xbox360.webp',
   },
-  // Future wallpapers can be added here
+  // Placeholder items for testing carousel scroll
+  {
+    id: 'neon-city',
+    name: 'Neon City',
+    thumbnail: '/assets/wallpapers/xbox360.webp',
+    fullImage: '/assets/wallpapers/xbox360.webp',
+  },
+  {
+    id: 'mountain-sunset',
+    name: 'Mountain Sunset',
+    thumbnail: '/assets/wallpapers/xbox360.webp',
+    fullImage: '/assets/wallpapers/xbox360.webp',
+  },
+  {
+    id: 'deep-space',
+    name: 'Deep Space',
+    thumbnail: '/assets/wallpapers/xbox360.webp',
+    fullImage: '/assets/wallpapers/xbox360.webp',
+  },
+  {
+    id: 'ocean-waves',
+    name: 'Ocean Waves',
+    thumbnail: '/assets/wallpapers/xbox360.webp',
+    fullImage: '/assets/wallpapers/xbox360.webp',
+  },
+  {
+    id: 'forest-mist',
+    name: 'Forest Mist',
+    thumbnail: '/assets/wallpapers/xbox360.webp',
+    fullImage: '/assets/wallpapers/xbox360.webp',
+  },
+  {
+    id: 'aurora-borealis',
+    name: 'Aurora Borealis',
+    thumbnail: '/assets/wallpapers/xbox360.webp',
+    fullImage: '/assets/wallpapers/xbox360.webp',
+  },
+  {
+    id: 'desert-dunes',
+    name: 'Desert Dunes',
+    thumbnail: '/assets/wallpapers/xbox360.webp',
+    fullImage: '/assets/wallpapers/xbox360.webp',
+  },
 ];
 
 /** All available animation layers */

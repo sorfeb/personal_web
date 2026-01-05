@@ -1,10 +1,10 @@
 'use client';
 
 import React, { memo } from 'react';
-import { useAudioManager } from '../../../../../../../hooks/useAudioManager';
-import styles from './LayerToggle.module.css';
+import { useAudioManager } from '../../../hooks/useAudioManager';
+import styles from './Toggle.module.css';
 
-interface LayerToggleProps {
+interface ToggleProps {
   /** Whether the toggle is enabled */
   enabled: boolean;
   /** Callback when toggle state changes */
@@ -13,25 +13,33 @@ interface LayerToggleProps {
   disabled?: boolean;
   /** Accessible label */
   ariaLabel?: string;
+  /** Optional size variant */
+  size?: 'sm' | 'md';
+  /** Whether to play sound on toggle */
+  playAudio?: boolean;
 }
 
 /**
- * LayerToggle
+ * Toggle
  *
  * Xbox 360-style toggle switch with metallic appearance
  * and characteristic green glow when enabled.
  */
-const LayerToggle: React.FC<LayerToggleProps> = ({
+const Toggle: React.FC<ToggleProps> = ({
   enabled,
   onChange,
   disabled = false,
-  ariaLabel = 'Toggle layer',
+  ariaLabel = 'Toggle',
+  size = 'md',
+  playAudio = true,
 }) => {
   const { playSound } = useAudioManager();
 
   const handleClick = () => {
     if (disabled) return;
-    playSound('navigation');
+    if (playAudio) {
+      playSound('navigation');
+    }
     onChange(!enabled);
   };
 
@@ -39,10 +47,21 @@ const LayerToggle: React.FC<LayerToggleProps> = ({
     if (disabled) return;
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      playSound('navigation');
+      if (playAudio) {
+        playSound('navigation');
+      }
       onChange(!enabled);
     }
   };
+
+  const classNames = [
+    styles.toggle,
+    styles[size],
+    enabled && styles.enabled,
+    disabled && styles.disabled,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <button
@@ -50,7 +69,7 @@ const LayerToggle: React.FC<LayerToggleProps> = ({
       role="switch"
       aria-checked={enabled}
       aria-label={ariaLabel}
-      className={`${styles.toggle} ${enabled ? styles.enabled : ''} ${disabled ? styles.disabled : ''}`}
+      className={classNames}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       disabled={disabled}
@@ -60,4 +79,4 @@ const LayerToggle: React.FC<LayerToggleProps> = ({
   );
 };
 
-export default memo(LayerToggle);
+export default memo(Toggle);
