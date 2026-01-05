@@ -34,43 +34,22 @@ export const messagesRouter = createTRPCRouter({
       console.log('Messages.create - User in context:', ctx.user ? 'Present' : 'Not present');
       console.log('Messages.create - Input:', input);
       
-      // TEMPORARY: Use fake user data if no auth user is present
-      let dbUser;
-      
-      if (ctx.user) {
-        // Real authenticated user
-        dbUser = await ctx.db.user.findUnique({
-          where: { stackAuthId: ctx.user.id }
-        });
+      // Guest mode - Stack Auth disabled
+      // Create or find guest user for messaging
+      const guestUserId = input.tempUserId || 'guest-user';
+      let dbUser = await ctx.db.user.findUnique({
+        where: { stackAuthId: guestUserId }
+      });
 
-        if (!dbUser) {
-          dbUser ??= await ctx.db.user.create({
-            data: {
-              stackAuthId: ctx.user.id,
-              name: ctx.user.displayName || ctx.user.primaryEmail?.split('@')[0] || 'Anonymous',
-              image: ctx.user.profileImageUrl,
-              email: ctx.user.primaryEmail,
-            },
-          });
-        }
-      } else {
-        // TEMPORARY: Create a test user for debugging
-        const testUserId = input.tempUserId || 'temp-user-123';
-        dbUser = await ctx.db.user.findUnique({
-          where: { stackAuthId: testUserId }
+      if (!dbUser) {
+        dbUser = await ctx.db.user.create({
+          data: {
+            stackAuthId: guestUserId,
+            name: input.tempUserName || 'Guest',
+            image: input.tempUserImage || null,
+            email: 'guest@example.com',
+          },
         });
-
-        if (!dbUser) {
-          dbUser ??= await ctx.db.user.create({
-            data: {
-              stackAuthId: testUserId,
-              name: input.tempUserName || 'Test User',
-              image: input.tempUserImage || null,
-              email: 'test@example.com',
-            },
-          });
-          console.log('Created temp user for testing:', dbUser.id);
-        }
       }
 
       // Create the message

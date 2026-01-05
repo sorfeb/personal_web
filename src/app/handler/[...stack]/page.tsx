@@ -1,5 +1,7 @@
-import { StackHandler } from "@stackframe/stack";
+// TODO: Re-enable when Stack Auth is configured
+// import { StackHandler } from "@stackframe/stack";
 
 export default function Handler() {
-  return <StackHandler fullPage />;
+  // Stack Auth disabled - return null
+  return null;
 }

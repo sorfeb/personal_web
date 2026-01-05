@@ -84,15 +84,10 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   };
 
   const handleLogout = async () => {
+    // Stack Auth disabled - logout is a no-op for guests
     if (!stackUser) return;
-
-    try {
-      playSound('back');
-      await stackUser.signOut();
-      onClose();
-    } catch (error) {
-      console.error('Failed to log out:', error);
-    }
+    playSound('back');
+    onClose();
   };
 
   // Build blade pages configuration
