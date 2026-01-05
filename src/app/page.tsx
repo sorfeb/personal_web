@@ -89,7 +89,8 @@ export default function Home() {
         </AnimatePresence>
         
         {/* Chat System - Independent of main layout */}
-        <ChatManager />
+        {/* TODO: Re-enable when chat feature is complete */}
+        {/* <ChatManager /> */}
 
         <ProfileModal isOpen={isProfileModalOpen} onClose={handleCloseProfileModal} />
       </div>
