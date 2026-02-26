@@ -79,8 +79,8 @@ export interface SkinElement {
   mappingColor?: string; // For buttonelement in buttongroup
 
   // Slider-specific
-  min?: number;
-  max?: number;
+  min?: number | string; // Can be number or "wmpprop:..." binding
+  max?: number | string; // Can be number or "wmpprop:..." binding
   value?: string | number; // Can be "wmpprop:..." binding
   direction?: 'horizontal' | 'vertical';
   slide?: boolean;

@@ -38,8 +38,28 @@ export function WMPSlider({
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const isHorizontal = element.direction !== 'vertical';
-  const min = element.min ?? 0;
-  const max = element.max ?? 100;
+
+  // Parse min/max, handling WMP bindings
+  const getMinValue = () => {
+    if (typeof element.min === 'number' && Number.isFinite(element.min)) {
+      return element.min;
+    }
+    return 0;
+  };
+
+  const getMaxValue = () => {
+    if (typeof element.max === 'number' && Number.isFinite(element.max)) {
+      return element.max;
+    }
+    // Handle WMP bindings like "wmpprop:player.currentmedia.duration"
+    if (typeof element.max === 'string' && element.max.includes('duration')) {
+      return playerState.duration || 100;
+    }
+    return 100;
+  };
+
+  const min = getMinValue();
+  const max = getMaxValue();
 
   // Get current value based on slider ID/binding
   const getCurrentValue = useCallback(() => {
@@ -66,24 +86,46 @@ export function WMPSlider({
 
   // Calculate thumb position
   const calculateThumbPosition = useCallback(() => {
+    // Guard against invalid values - use Number.isFinite for strict checking
+    if (
+      !Number.isFinite(currentValue) ||
+      !Number.isFinite(min) ||
+      !Number.isFinite(max)
+    ) {
+      return 0;
+    }
+
     const range = max - min;
-    const valueRatio = (currentValue - min) / range;
+    if (range === 0) return 0;
+
+    const valueRatio = Math.max(0, Math.min(1, (currentValue - min) / range));
 
     if (isHorizontal) {
       const sliderWidth = element.dimensions?.width || 100;
       const borderSize = element.borderSize || 0;
       const usableWidth = sliderWidth - borderSize * 2;
-      return borderSize + valueRatio * usableWidth;
+
+      if (usableWidth <= 0) return borderSize || 0;
+
+      const position = borderSize + valueRatio * usableWidth;
+      return Number.isFinite(position) ? position : 0;
     } else {
       const sliderHeight = element.dimensions?.height || 100;
       const borderSize = element.borderSize || 0;
       const usableHeight = sliderHeight - borderSize * 2;
+
+      if (usableHeight <= 0) return borderSize || 0;
+
       // Vertical sliders are inverted (top = max, bottom = min)
-      return borderSize + (1 - valueRatio) * usableHeight;
+      const position = borderSize + (1 - valueRatio) * usableHeight;
+      return Number.isFinite(position) ? position : 0;
     }
   }, [currentValue, min, max, isHorizontal, element.dimensions, element.borderSize]);
 
   const thumbPosition = calculateThumbPosition();
+
+  // Additional safety check
+  const safeThumbPosition = isNaN(thumbPosition) ? 0 : thumbPosition;
 
   // Handle value changes
   const updateValue = useCallback(

@@ -188,14 +188,25 @@ export function parseElement(element: Element): SkinElement | null {
   // Parse slider-specific attributes
   if (type === 'slider') {
     if (element.hasAttribute('min')) {
-      skinElement.min = parseFloat(element.getAttribute('min')!);
+      const minValue = element.getAttribute('min')!;
+      // Keep WMP bindings as strings, otherwise parse as float
+      skinElement.min = minValue.includes('wmpprop:') || minValue.includes('wmpenabled:')
+        ? minValue
+        : parseFloat(minValue);
     }
     if (element.hasAttribute('max')) {
-      skinElement.max = parseFloat(element.getAttribute('max')!);
+      const maxValue = element.getAttribute('max')!;
+      // Keep WMP bindings as strings, otherwise parse as float
+      skinElement.max = maxValue.includes('wmpprop:') || maxValue.includes('wmpenabled:')
+        ? maxValue
+        : parseFloat(maxValue);
     }
     if (element.hasAttribute('value')) {
       const value = element.getAttribute('value')!;
-      skinElement.value = isNaN(parseFloat(value)) ? value : parseFloat(value);
+      // Keep WMP bindings as strings, otherwise try to parse as float
+      skinElement.value = value.includes('wmpprop:') || value.includes('wmpenabled:')
+        ? value
+        : (isNaN(parseFloat(value)) ? value : parseFloat(value));
     }
     if (element.hasAttribute('direction')) {
       skinElement.direction = element.getAttribute('direction') as
