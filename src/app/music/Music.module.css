@@ -1,3 +1,11 @@
+.playerWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 500px;
+  padding: 20px;
+}
+
 .loadingContainer {
   display: flex;
   align-items: center;
