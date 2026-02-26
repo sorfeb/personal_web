@@ -5,13 +5,13 @@
 
 'use client';
 
-import { useCallback, useEffect, useReducer, useRef, useContext } from 'react';
+import { useCallback, useEffect, useReducer, useRef } from 'react';
 import type {
   Track,
   WMPPlayerState,
   WMPPlayerAction,
 } from '@/types/wmp';
-import { VolumeContext } from '@/context/VolumeContext';
+import { useVolume } from '@/context/VolumeContext';
 
 // Initial state
 const initialState: WMPPlayerState = {
@@ -233,7 +233,7 @@ function playerReducer(
 export function useWMPPlayer() {
   const [state, dispatch] = useReducer(playerReducer, initialState);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const { volume: globalVolume } = useContext(VolumeContext);
+  const { volume: globalVolume } = useVolume();
 
   // Initialize audio element
   useEffect(() => {
