@@ -41,7 +41,7 @@ export function WMPSubview({
   const top = typeof element.position.top === 'number' ? element.position.top : 0;
 
   // Get background image if any
-  const backgroundImage = element.images?.background
+  const backgroundImageInfo = element.images?.background
     ? assets.images.get(element.images.background)
     : undefined;
 
@@ -126,11 +126,12 @@ export function WMPSubview({
         position: 'absolute',
         left: shouldAnimate ? undefined : left,
         top,
-        width: element.dimensions?.width,
-        height: element.dimensions?.height,
+        width: element.dimensions?.width ?? backgroundImageInfo?.width,
+        height: element.dimensions?.height ?? backgroundImageInfo?.height,
         zIndex: element.position.zIndex,
-        backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
+        backgroundImage: backgroundImageInfo ? `url(${backgroundImageInfo.url})` : undefined,
         backgroundRepeat: 'no-repeat',
+        backgroundSize: 'contain',
         backgroundColor: element.colors?.backgroundColor,
       }}
       {...(shouldAnimate && {

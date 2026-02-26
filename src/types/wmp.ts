@@ -116,8 +116,14 @@ export interface SkinElement {
   children?: SkinElement[];
 }
 
+export interface ImageInfo {
+  url: string;
+  width: number;
+  height: number;
+}
+
 export interface SkinAssets {
-  images: Map<string, string>; // filename -> data URL or blob URL
+  images: Map<string, ImageInfo>; // filename -> image info with dimensions
   mappings: Map<string, ImageData>; // mapping images -> pixel data for click detection
 }
 

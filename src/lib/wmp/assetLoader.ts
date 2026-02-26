@@ -3,7 +3,7 @@
  * Handles loading and processing of BMP images, transparency, and caching
  */
 
-import type { SkinAssets, SkinDefinition } from '@/types/wmp';
+import type { SkinAssets, SkinDefinition, ImageInfo } from '@/types/wmp';
 
 /**
  * Load all assets for a skin
@@ -15,7 +15,7 @@ export async function loadSkinAssets(
   skinPath: string,
   skinDef: SkinDefinition
 ): Promise<SkinAssets> {
-  const images = new Map<string, string>();
+  const images = new Map<string, ImageInfo>();
   const mappings = new Map<string, ImageData>();
 
   // Collect all unique image filenames from the skin definition
@@ -27,8 +27,8 @@ export async function loadSkinAssets(
   // Load all regular images
   const imagePromises = Array.from(imageFiles).map(async (filename) => {
     try {
-      const url = await loadImage(skinPath, filename);
-      images.set(filename, url);
+      const imageInfo = await loadImage(skinPath, filename);
+      images.set(filename, imageInfo);
     } catch (error) {
       console.warn(`Failed to load image ${filename}:`, error);
     }
@@ -82,20 +82,36 @@ function collectImageFiles(
 }
 
 /**
- * Load a single image and return as data URL or object URL
+ * Load a single image and return image info with dimensions
  * @param skinPath - Base path to skin folder
  * @param filename - Image filename
- * @returns URL to the loaded image
+ * @returns Object with URL and dimensions
  */
 export async function loadImage(
   skinPath: string,
   filename: string
-): Promise<string> {
+): Promise<{ url: string; width: number; height: number }> {
   const fullPath = `${skinPath}/${filename}`;
 
-  // For now, just return the path - browsers can handle BMP natively
-  // In production, we might want to convert to PNG/WebP for better performance
-  return fullPath;
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      resolve({
+        url: fullPath,
+        width: img.naturalWidth,
+        height: img.naturalHeight,
+      });
+    };
+    img.onerror = () => {
+      // Fallback if image fails to load
+      resolve({
+        url: fullPath,
+        width: 0,
+        height: 0,
+      });
+    };
+    img.src = fullPath;
+  });
 }
 
 /**

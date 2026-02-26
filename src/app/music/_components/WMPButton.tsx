@@ -53,9 +53,13 @@ export function WMPButton({
   }, [buttonState, element.enabled, element.images]);
 
   const currentImageFile = getCurrentImage();
-  const currentImageUrl = currentImageFile
+  const currentImageInfo = currentImageFile
     ? assets.images.get(currentImageFile)
     : undefined;
+
+  // Use image dimensions if element dimensions not specified
+  const width = element.dimensions?.width ?? currentImageInfo?.width ?? 0;
+  const height = element.dimensions?.height ?? currentImageInfo?.height ?? 0;
 
   // Handle mouse events for buttongroups with mapping
   const handleMouseMove = useCallback(
@@ -145,11 +149,12 @@ export function WMPButton({
         position: 'absolute',
         left,
         top,
-        width: element.dimensions?.width,
-        height: element.dimensions?.height,
+        width,
+        height,
         zIndex: element.position.zIndex,
-        backgroundImage: currentImageUrl ? `url(${currentImageUrl})` : undefined,
+        backgroundImage: currentImageInfo ? `url(${currentImageInfo.url})` : undefined,
         backgroundRepeat: 'no-repeat',
+        backgroundSize: 'contain',
         cursor: element.enabled !== false ? 'pointer' : 'default',
       }}
       onMouseMove={handleMouseMove}

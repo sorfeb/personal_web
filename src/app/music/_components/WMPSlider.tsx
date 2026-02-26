@@ -220,11 +220,11 @@ export function WMPSlider({
   }, [isDragging, element.borderSize, element.dimensions, isHorizontal, min, max, updateValue]);
 
   // Get images
-  const backgroundUrl = element.images?.background
+  const backgroundInfo = element.images?.background
     ? assets.images.get(element.images.background)
     : undefined;
 
-  const foregroundUrl = element.images?.foreground
+  const foregroundInfo = element.images?.foreground
     ? assets.images.get(element.images.foreground)
     : undefined;
 
@@ -240,7 +240,7 @@ export function WMPSlider({
   };
 
   const thumbImageFile = getThumbImage();
-  const thumbUrl = thumbImageFile ? assets.images.get(thumbImageFile) : undefined;
+  const thumbInfo = thumbImageFile ? assets.images.get(thumbImageFile) : undefined;
 
   return (
     <div
@@ -250,37 +250,43 @@ export function WMPSlider({
         position: 'absolute',
         left,
         top,
-        width: element.dimensions?.width,
-        height: element.dimensions?.height,
+        width: element.dimensions?.width ?? backgroundInfo?.width ?? 100,
+        height: element.dimensions?.height ?? backgroundInfo?.height ?? 20,
         zIndex: element.position.zIndex,
-        backgroundImage: backgroundUrl ? `url(${backgroundUrl})` : undefined,
+        backgroundImage: backgroundInfo ? `url(${backgroundInfo.url})` : undefined,
         backgroundRepeat: element.tiled ? 'repeat' : 'no-repeat',
+        backgroundSize: element.tiled ? 'auto' : 'contain',
         cursor: 'pointer',
       }}
       onMouseDown={handleMouseDown}
       title={element.toolTip}
     >
       {/* Foreground/progress overlay (for seek bar) */}
-      {foregroundUrl && element.useForegroundProgress && (
+      {foregroundInfo && element.useForegroundProgress && (
         <div
           className={styles.foreground}
           style={{
-            backgroundImage: `url(${foregroundUrl})`,
+            backgroundImage: `url(${foregroundInfo.url})`,
             width: isHorizontal ? `${thumbPosition}px` : '100%',
             height: isHorizontal ? '100%' : `${thumbPosition}px`,
+            backgroundSize: 'contain',
           }}
         />
       )}
 
       {/* Thumb */}
-      {thumbUrl && (
+      {thumbInfo && (
         <div
           className={styles.thumb}
           style={{
             position: 'absolute',
             left: isHorizontal ? thumbPosition : 0,
             top: isHorizontal ? 0 : thumbPosition,
-            backgroundImage: `url(${thumbUrl})`,
+            width: thumbInfo.width,
+            height: thumbInfo.height,
+            backgroundImage: `url(${thumbInfo.url})`,
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
             cursor: 'grab',
           }}
           onMouseEnter={() => !isDragging && setThumbState('hover')}

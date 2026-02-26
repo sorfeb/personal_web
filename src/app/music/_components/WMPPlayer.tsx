@@ -49,6 +49,11 @@ export function WMPPlayer({
 
         // Load skin assets
         const skinAssets = await loadSkinAssets(skinPath, definition);
+        console.log('Loaded skin assets:', {
+          imageCount: skinAssets.images.size,
+          mappingCount: skinAssets.mappings.size,
+          images: Array.from(skinAssets.images.keys()).slice(0, 5),
+        });
         setAssets(skinAssets);
 
         // Create click handlers map
