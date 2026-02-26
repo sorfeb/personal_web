@@ -4,8 +4,7 @@ import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-// TODO: Re-enable Stack Auth when configured
-// import { useUser } from '@stackframe/stack';
+import { authClient } from '../../lib/auth-client';
 import { Settings } from 'lucide-react';
 import { useAudioManager } from '../../hooks/useAudioManager';
 import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
@@ -29,9 +28,7 @@ interface ProfileModalProps {
 }
 
 export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
-  // TODO: Re-enable Stack Auth when configured
-  // const stackUser = useUser();
-  const stackUser = null; // Guest mode - Stack Auth disabled
+  const { data: session } = authClient.useSession();
   const { playSound } = useAudioManager();
   const { showToast } = useToast();
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
@@ -83,9 +80,14 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
     }
   };
 
+  const handleSignIn = async () => {
+    playSound('navigation');
+    await authClient.signIn.social({ provider: 'github', callbackURL: '/' });
+  };
+
   const handleLogout = async () => {
-    // Stack Auth disabled - logout is a no-op for guests
-    if (!stackUser) return;
+    if (!session?.user) return;
+    await authClient.signOut();
     playSound('back');
     onClose();
   };
@@ -108,17 +110,24 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
         : 'Save changes',
     };
 
-    // Shared logout action
+    // Shared sign-in action (for guests)
+    const signInAction: BladeExternalFooterAction = {
+      key: 'signIn',
+      label: 'Sign in',
+      buttonIcon: 'A',
+      variant: 'green',
+      onClick: handleSignIn,
+      tooltip: 'Sign in with GitHub',
+    };
+
+    // Shared logout action (for authenticated users)
     const logoutAction: BladeExternalFooterAction = {
       key: 'logout',
       label: 'Log out',
       buttonIcon: 'B',
       variant: 'red',
       onClick: handleLogout,
-      disabled: profile.isGuest,
-      tooltip: profile.isGuest
-        ? 'Sign in to access account features'
-        : 'Log out of your account',
+      tooltip: 'Log out of your account',
     };
 
     // Back action for navigation
@@ -174,7 +183,9 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
           showClock: true,
         },
         externalFooter: {
-          actions: [saveAction, logoutAction],
+          actions: profile.isGuest
+            ? [signInAction, backAction]
+            : [saveAction, logoutAction],
         },
       },
       {

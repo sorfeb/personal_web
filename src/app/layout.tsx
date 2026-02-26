@@ -1,7 +1,4 @@
 import { Roboto } from "next/font/google";
-// TODO: Re-enable Stack Auth when configured
-// import { StackProvider, StackTheme } from "@stackframe/stack";
-// import { stackServerApp } from "../stack";
 import { VolumeProvider } from "../context/VolumeContext";
 import { BackgroundProvider } from "../context/BackgroundContext";
 import { CRTFilterProvider } from "../context/CRTFilterContext";
@@ -75,9 +72,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   </defs>
                   <path d="M0,8 Q50,2 100,15 V30 H0 Z" fill="url(#mountainGradient)" />
                 </svg>
-                {/* TODO: Re-enable StackProvider when Stack Auth is configured */}
-                {/* <StackProvider app={stackServerApp}> */}
-                {/* <StackTheme> */}
                 <TRPCProvider>
                   <VolumeProvider>
                     <ToastProvider>
@@ -87,8 +81,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     </ToastProvider>
                   </VolumeProvider>
                 </TRPCProvider>
-                {/* </StackTheme> */}
-                {/* </StackProvider> */}
               </div>
             </CRTFilterProvider>
           </BackgroundProvider>

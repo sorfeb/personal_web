@@ -163,7 +163,25 @@
 
 .authPrompt p {
   color: #666;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.signInButton {
+  padding: 0.75rem 2rem;
+  background: #24292e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.signInButton:hover {
+  background: #1b1f23;
 }
 
 .loadingState {
