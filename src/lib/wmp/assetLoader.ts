@@ -83,6 +83,7 @@ function collectImageFiles(
 
 /**
  * Load a single image and return image info with dimensions
+ * Automatically applies transparency for common WMP transparency colors
  * @param skinPath - Base path to skin folder
  * @param filename - Image filename
  * @returns Object with URL and dimensions
@@ -95,14 +96,72 @@ export async function loadImage(
 
   return new Promise((resolve, reject) => {
     const img = new Image();
-    img.onload = () => {
-      resolve({
-        url: fullPath,
-        width: img.naturalWidth,
-        height: img.naturalHeight,
-      });
+    img.crossOrigin = 'anonymous'; // Enable CORS for canvas processing
+
+    img.onload = async () => {
+      try {
+        // Process image to apply transparency for magenta (#FF00FF) and red (#FF0000)
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          // Fallback to original image if canvas fails
+          resolve({
+            url: fullPath,
+            width: img.naturalWidth,
+            height: img.naturalHeight,
+          });
+          return;
+        }
+
+        // Draw image to canvas
+        ctx.drawImage(img, 0, 0);
+
+        // Get pixel data
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+
+        // Make magenta (#FF00FF) and red (#FF0000) transparent
+        for (let i = 0; i < data.length; i += 4) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+
+          // Check for magenta (FF00FF) or red (FF0000) with small tolerance
+          const isMagenta = Math.abs(r - 255) <= 5 && Math.abs(g - 0) <= 5 && Math.abs(b - 255) <= 5;
+          const isRed = Math.abs(r - 255) <= 5 && Math.abs(g - 0) <= 5 && Math.abs(b - 0) <= 5;
+
+          if (isMagenta || isRed) {
+            data[i + 3] = 0; // Set alpha to 0 (transparent)
+          }
+        }
+
+        // Put processed data back
+        ctx.putImageData(imageData, 0, 0);
+
+        // Convert to data URL
+        const processedUrl = canvas.toDataURL('image/png');
+
+        resolve({
+          url: processedUrl,
+          width: img.naturalWidth,
+          height: img.naturalHeight,
+        });
+      } catch (error) {
+        console.warn(`Failed to process transparency for ${filename}:`, error);
+        // Fallback to original image
+        resolve({
+          url: fullPath,
+          width: img.naturalWidth,
+          height: img.naturalHeight,
+        });
+      }
     };
+
     img.onerror = () => {
+      console.warn(`Failed to load image: ${fullPath}`);
       // Fallback if image fails to load
       resolve({
         url: fullPath,
@@ -110,6 +169,7 @@ export async function loadImage(
         height: 0,
       });
     };
+
     img.src = fullPath;
   });
 }
