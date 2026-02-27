@@ -19,12 +19,16 @@ interface WMPPlayerProps {
   skinPath: string; // Path to skin folder (e.g., "/assets/skins/headspace")
   playlist?: Track[]; // Optional playlist
   autoPlay?: boolean;
+  onClose?: () => void; // Callback when close button is clicked
+  onMinimize?: () => void; // Callback when minimize button is clicked
 }
 
 export function WMPPlayer({
   skinPath,
   playlist = [],
   autoPlay = false,
+  onClose,
+  onMinimize,
 }: WMPPlayerProps) {
   const [skinDef, setSkinDef] = useState<SkinDefinition | null>(null);
   const [assets, setAssets] = useState<any>(null);
@@ -151,19 +155,21 @@ export function WMPPlayer({
     // Minimize button
     handlers.set('minimize', () => {
       playSound('click');
-      // TODO: Implement minimize
-      console.log('Minimize clicked');
+      if (onMinimize) {
+        onMinimize();
+      }
     });
 
     // Close button
     handlers.set('close', () => {
       playSound('click');
-      // TODO: Implement close
-      console.log('Close clicked');
+      if (onClose) {
+        onClose();
+      }
     });
 
     return handlers;
-  }, [player, playSound]);
+  }, [player, playSound, onClose, onMinimize]);
 
   if (isLoading) {
     return (

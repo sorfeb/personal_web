@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import PageLayout from '../../components/PageLayout/PageLayout';
+import { WMPToggleButton } from '@/components/WMPPlayer/WMPToggleButton';
 import styles from './Playlists.module.css';
 import { useAudioManager } from '../../hooks/useAudioManager';
 import { trpc } from '../../utils/trpc';
@@ -23,7 +24,11 @@ const PlaylistsPage = () => {
 
   return (
     <PageLayout title="My Playlists" size="wide">
-      <PageLayout.Header />
+      <PageLayout.Header>
+        <div className={styles.headerContent}>
+          <WMPToggleButton variant="full" />
+        </div>
+      </PageLayout.Header>
       <PageLayout.Body>
         <div className={styles.container}>
           {isLoading ? (

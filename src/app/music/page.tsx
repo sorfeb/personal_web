@@ -1,13 +1,16 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import PageLayout from '../../components/PageLayout/PageLayout';
-import { WMPPlayer } from './_components/WMPPlayer';
+import { WMPToggleButton } from '@/components/WMPPlayer/WMPToggleButton';
+import { useWMPPlayerContext } from '@/context/WMPPlayerContext';
 import { trpc } from '@/utils/trpc';
 import type { Track } from '@/types/wmp';
 import styles from './Music.module.css';
 
 const MusicPage = () => {
+  const { setCurrentPlaylist } = useWMPPlayerContext();
+
   // Fetch playlists from Spotify
   const { data: playlistsData, isLoading } = trpc.spotify.getPlaylists.useQuery();
 
@@ -32,27 +35,24 @@ const MusicPage = () => {
     },
   ];
 
+  // Load sample tracks into global player on mount
+  useEffect(() => {
+    setCurrentPlaylist(sampleTracks);
+  }, []);
+
   return (
     <PageLayout title="Music">
       <PageLayout.Header />
       <PageLayout.Body>
         <div className={styles.playerWrapper}>
-          {isLoading ? (
-            <div className={styles.loadingContainer}>
-              <span className={styles.text}>Loading Music Player</span>
-              <div className={styles.dots}>
-                <span className={styles.dot}></span>
-                <span className={styles.dot}></span>
-                <span className={styles.dot}></span>
-              </div>
+          <div className={styles.instructions}>
+            <h2>Windows Media Player</h2>
+            <p>Click "Show Player" to open the global music player.</p>
+            <p>The player is draggable and persists across pages.</p>
+            <div className={styles.buttonContainer}>
+              <WMPToggleButton variant="full" />
             </div>
-          ) : (
-            <WMPPlayer
-              skinPath="/assets/skins/headspace"
-              playlist={sampleTracks}
-              autoPlay={false}
-            />
-          )}
+          </div>
         </div>
       </PageLayout.Body>
     </PageLayout>

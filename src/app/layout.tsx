@@ -3,6 +3,7 @@ import { VolumeProvider } from "../context/VolumeContext";
 import { BackgroundProvider } from "../context/BackgroundContext";
 import { CRTFilterProvider } from "../context/CRTFilterContext";
 import { ToastProvider } from "../context/ToastContext";
+import { WMPPlayerProvider } from "../context/WMPPlayerContext";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { BackgroundComposer } from "../components/Background";
@@ -10,6 +11,7 @@ import ConsoleEasterEgg from "../components/ConsoleEasterEgg/ConsoleEasterEgg";
 import TRPCProvider from "../components/Providers/TRPCProvider";
 import CRTOverlay from "../components/CRTOverlay/CRTOverlay";
 import ToastContainer from "../components/ToastNotification/ToastContainer";
+import { GlobalWMPPlayer } from "../components/WMPPlayer/GlobalWMPPlayer";
 import "./globals.css";
 
 const inter = Roboto({ weight: "300", subsets: ["latin"] });
@@ -74,11 +76,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </svg>
                 <TRPCProvider>
                   <VolumeProvider>
-                    <ToastProvider>
-                      <ConsoleEasterEgg />
-                      {children}
-                      <ToastContainer />
-                    </ToastProvider>
+                    <WMPPlayerProvider>
+                      <ToastProvider>
+                        <ConsoleEasterEgg />
+                        {children}
+                        <GlobalWMPPlayer />
+                        <ToastContainer />
+                      </ToastProvider>
+                    </WMPPlayerProvider>
                   </VolumeProvider>
                 </TRPCProvider>
               </div>
