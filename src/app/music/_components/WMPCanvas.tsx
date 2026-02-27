@@ -43,19 +43,27 @@ export function WMPCanvas({
         backgroundColor: skinDef.view.backgroundColor || 'transparent',
       }}
     >
-      {skinDef.view.elements.map((element, index) => (
-        <WMPSubview
-          key={element.id || `element_${index}`}
-          element={element}
-          assets={assets}
-          clickRegions={clickRegions}
-          playerState={playerState}
-          onSeek={onSeek}
-          onVolumeChange={onVolumeChange}
-          onBalanceChange={onBalanceChange}
-          onEqGainChange={onEqGainChange}
-        />
-      ))}
+      {skinDef.view.elements
+        .filter((element) => {
+          // Skip elements marked as not visible
+          if (element.visible === false || element.visible === 'false') {
+            return false;
+          }
+          return true;
+        })
+        .map((element, index) => (
+          <WMPSubview
+            key={element.id || `element_${index}`}
+            element={element}
+            assets={assets}
+            clickRegions={clickRegions}
+            playerState={playerState}
+            onSeek={onSeek}
+            onVolumeChange={onVolumeChange}
+            onBalanceChange={onBalanceChange}
+            onEqGainChange={onEqGainChange}
+          />
+        ))}
     </div>
   );
 }

@@ -166,6 +166,10 @@ export interface WMPPlayerState {
   currentTrack: Track | null;
   currentTime: number; // in seconds
   duration: number; // in seconds
+  positionString: string; // formatted time (e.g., "1:23")
+  durationString: string; // formatted duration (e.g., "3:45")
+  trackName: string;
+  artist: string;
 
   // Playlist
   playlist: Track[];

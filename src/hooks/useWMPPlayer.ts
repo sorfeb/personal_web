@@ -13,6 +13,14 @@ import type {
 } from '@/types/wmp';
 import { useVolume } from '@/context/VolumeContext';
 
+// Helper to format time in M:SS format
+function formatTime(seconds: number): string {
+  if (!Number.isFinite(seconds) || seconds < 0) return '0:00';
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
 // Initial state
 const initialState: WMPPlayerState = {
   isPlaying: false,
@@ -21,6 +29,10 @@ const initialState: WMPPlayerState = {
   currentTrack: null,
   currentTime: 0,
   duration: 0,
+  positionString: '0:00',
+  durationString: '0:00',
+  trackName: '',
+  artist: '',
   playlist: [],
   playlistIndex: -1,
   volume: 75,
@@ -43,15 +55,19 @@ function playerReducer(
   action: WMPPlayerAction
 ): WMPPlayerState {
   switch (action.type) {
-    case 'PLAY':
+    case 'PLAY': {
+      const track = action.track || state.currentTrack;
       return {
         ...state,
         isPlaying: true,
         isPaused: false,
         isStopped: false,
-        currentTrack: action.track || state.currentTrack,
+        currentTrack: track,
+        trackName: track?.name || '',
+        artist: track?.artist || '',
         error: null,
       };
+    }
 
     case 'PAUSE':
       return {
@@ -142,12 +158,14 @@ function playerReducer(
       return {
         ...state,
         currentTime: action.time,
+        positionString: formatTime(action.time),
       };
 
     case 'UPDATE_DURATION':
       return {
         ...state,
         duration: action.duration,
+        durationString: formatTime(action.duration),
       };
 
     case 'TOGGLE_EQ_DRAWER':

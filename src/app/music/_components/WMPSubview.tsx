@@ -93,9 +93,42 @@ export function WMPSubview({
   }
 
   if (element.type === 'text') {
-    const textValue = element.textValue || '';
+    // Translate WMP bindings to actual values
+    const getTextValue = () => {
+      const rawValue = element.textValue || '';
+
+      // Handle WMP property bindings
+      if (rawValue.includes('wmpprop:')) {
+        if (rawValue.includes('currentmedia.durationstring')) {
+          return playerState.durationString || '0:00';
+        }
+        if (rawValue.includes('currentmedia.positionstring')) {
+          return playerState.positionString || '0:00';
+        }
+        if (rawValue.includes('currentmedia.name')) {
+          return playerState.trackName || '';
+        }
+        if (rawValue.includes('currentmedia.author') || rawValue.includes('currentmedia.artist')) {
+          return playerState.artist || '';
+        }
+        if (rawValue.includes('visEffects.currentPresetTitle')) {
+          return ''; // No visualization preset for now
+        }
+        // Unknown binding - return empty
+        return '';
+      }
+
+      return rawValue;
+    };
+
+    const textValue = getTextValue();
     const color = element.colors?.foregroundColor || '#FFFFFF';
     const fontSize = element.fontSize || 12;
+
+    // Don't render if text is empty
+    if (!textValue) {
+      return null;
+    }
 
     return (
       <div
