@@ -1,3 +1,4 @@
+import type { Metadata, Viewport } from "next";
 import { Roboto } from "next/font/google";
 import Script from "next/script";
 import { VolumeProvider } from "../context/VolumeContext";
@@ -14,6 +15,46 @@ import CRTOverlay from "../components/CRTOverlay/CRTOverlay";
 import ToastContainer from "../components/ToastNotification/ToastContainer";
 import { GlobalWMPPlayer } from "../components/WMPPlayer/GlobalWMPPlayer";
 import "./globals.css";
+
+const siteUrl = "https://www.sorosfebria.co";
+const siteDescription = "Personal website and portfolio of Soros Febriano, a passionate learner about the fusion of technology and art. Explore projects, photos, media and more.";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "sorOS",
+    template: "%s | sorOS",
+  },
+  description: siteDescription,
+  authors: [{ name: "Soros Febriano", url: siteUrl }],
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    title: "Soros Febriano",
+    description: siteDescription,
+    url: siteUrl,
+    siteName: "sorOS",
+    images: [{ url: "/assets/images/thumbnail-sorOS.jpg", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Soros Febriano",
+    description: siteDescription,
+    images: ["/assets/images/thumbnail-sorOS.jpg"],
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#1a1a2e",
+};
 
 const inter = Roboto({ weight: "300", subsets: ["latin"] });
 
@@ -34,25 +75,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             strategy="lazyOnload"
           />
         )}
-        <title>sorOS</title>
-        <meta name="description" content="Personal website and portfolio of Soros Febriano, a passionate learner about the fusion of technology and art. Explore projects, photos, media and more." />
-        {/* Open Graph tags */}
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Soros Febriano" />
-        <meta property="og:description" content="Personal website and portfolio of Soros Febriano, a passionate learner about the fusion of technology and art. Explore projects, photos, media and more." />
-        <meta property="og:image" content="https://www.sorosfebria.co/assets/images/thumbnail-sorOS.jpg" />
-        <meta property="og:url" content="https://www.sorosfebria.co/" />
-        {/* Twitter Card tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Soros Febriano" />
-        <meta name="twitter:description" content="Personal website and portfolio of Soros Febriano, a passionate learner about the fusion of technology and art. Explore projects, photos, media and more." />
-        <meta name="twitter:image" content="https://www.sorosfebria.co/assets/images/thumbnail-sorOS.jpg" />
-        <link rel="icon" href="/favicon.svg" />
+        {/* Title, description, OG, Twitter, favicon & viewport now handled by the Metadata API above. */}
         <link rel="preconnect" href="https://mosaic.scdn.co" />
         <link rel="preconnect" href="https://i.scdn.co" />
         <link rel="dns-prefetch" href="https://img.shields.io" />
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
