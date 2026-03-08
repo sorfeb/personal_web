@@ -1,4 +1,5 @@
 import { Roboto } from "next/font/google";
+import Script from "next/script";
 import { VolumeProvider } from "../context/VolumeContext";
 import { BackgroundProvider } from "../context/BackgroundContext";
 import { CRTFilterProvider } from "../context/CRTFilterContext";
@@ -20,6 +21,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
+        {process.env.NODE_ENV === "development" && (
+          <Script
+            src="//unpkg.com/react-grab/dist/index.global.js"
+            crossOrigin="anonymous"
+            strategy="beforeInteractive"
+          />
+        )}
+        {process.env.NODE_ENV === "development" && (
+          <Script
+            src="//unpkg.com/@react-grab/mcp/dist/client.global.js"
+            strategy="lazyOnload"
+          />
+        )}
         <title>sorOS</title>
         <meta name="description" content="Personal website and portfolio of Soros Febriano, a passionate learner about the fusion of technology and art. Explore projects, photos, media and more." />
         {/* Open Graph tags */}
