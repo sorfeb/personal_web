@@ -96,3 +96,28 @@
   justify-content: center;
 }
 
+.loading {
+  color: #aaa;
+  font-size: 14px;
+  animation: pulse-density 1.5s infinite;
+}
+
+.error {
+  color: #ff6b6b;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .playerWrapper {
+    min-height: 400px;
+    padding: 16px;
+  }
+
+  .instructions h2 {
+    font-size: 24px;
+  }
+
+  .instructions p {
+    font-size: 14px;
+  }
+}
