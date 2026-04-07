@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { useBackground } from '../../context/BackgroundContext';
 import { useAudioManager } from '../../hooks/useAudioManager';
 import { backgrounds } from '../../data/backgrounds';
@@ -107,10 +108,12 @@ const BackgroundSelector: React.FC<BackgroundSelectorProps> = ({ isOpen, onClose
                 aria-current={isSelected}
               >
                 <div className={styles.thumbnail}>
-                  <img
+                  <Image
                     src={background.thumbnail}
                     alt={background.name}
                     className={styles.thumbnailImage}
+                    fill
+                    sizes="(max-width: 768px) 180px, 250px"
                   />
                   {isSelected && (
                     <div className={styles.selectedBadge}>

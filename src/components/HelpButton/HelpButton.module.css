@@ -116,38 +116,3 @@
     font-size: 24px;
   }
 }
-
-/* Storybook utility classes */
-:global(.storybook-decorator) {
-  padding: 2rem;
-  background-color: #0a0a0a;
-}
-
-:global(.storybook-flex) {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
-
-:global(.storybook-layout) {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 400px;
-  padding: 20px;
-  background: linear-gradient(135deg, rgb(0 0 0 / 80%), rgb(20 20 20 / 90%));
-  border-radius: 10px;
-}
-
-:global(.storybook-content) {
-  color: white;
-  text-align: center;
-}
-
-:global(.storybook-content h3) {
-  margin: 0 0 8px 0;
-}
-
-:global(.storybook-content p) {
-  margin: 0;
-}

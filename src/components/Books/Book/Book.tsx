@@ -118,12 +118,13 @@ export const Book: React.FC<BookProps> = ({
         {/* Cover Image Section */}
         <div className={styles.coverImageSection}>
           {article.coverImage ? (
-            <Image 
-              src={article.coverImage} 
+            <Image
+              src={article.coverImage}
               alt={article.title}
               className={styles.coverImage}
               width={140}
               height={120}
+              sizes="140px"
             />
           ) : (
             <div 

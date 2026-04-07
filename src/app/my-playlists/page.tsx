@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import PageLayout from '../../components/PageLayout/PageLayout';
 import styles from './Playlists.module.css';
 import { useAudioManager } from '../../hooks/useAudioManager';
@@ -47,10 +48,13 @@ const PlaylistsPage = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <img
+                    <Image
                       src={playlist.images[0]?.url || "/placeholder.jpg"}
                       alt={playlist.name}
                       className={styles.playlistImage}
+                      width={300}
+                      height={300}
+                      sizes="(max-width: 768px) 150px, 200px"
                     />
                   </a>
                   <a
