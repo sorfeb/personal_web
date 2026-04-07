@@ -1,6 +1,7 @@
 'use client';
 
 import React, { memo, useMemo } from 'react';
+import Image from 'next/image';
 import styles from './ChatRoom.module.css';
 
 /**
@@ -54,10 +55,12 @@ const MessageItem = memo<MessageDisplayProps>(({ text, createdAt, author }) => {
     <div className={styles.messageItem}>
       <div className={styles.messageAvatar}>
         {author.image ? (
-          <img 
-            src={author.image} 
-            alt={author.name || 'User'} 
-            className={styles.avatarImage} 
+          <Image
+            src={author.image}
+            alt={author.name || 'User'}
+            className={styles.avatarImage}
+            width={40}
+            height={40}
           />
         ) : (
           <span>{authorInitials}</span>

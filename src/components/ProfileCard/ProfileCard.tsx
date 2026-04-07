@@ -127,13 +127,14 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
           {isContentLoaded ? (
             <>
               {/* Guest avatar placeholder */}
-              <Image 
-                src="/assets/avatars/guest_gamerpic.svg"
+              <Image
+                src="/assets/avatars/guest_gamerpic.webp"
                 alt="Loading Avatar"
                 width={64}
                 height={64}
+                sizes="64px"
                 className={styles.profileIcon}
-                style={{ 
+                style={{
                   position: 'absolute',
                   opacity: avatarLoaded ? 0 : 1,
                   transition: 'opacity 0.3s ease'
@@ -146,11 +147,12 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                 transition={{ duration: 0.3 }}
                 style={{ position: 'absolute' }}
               >
-                <Image 
+                <Image
                   src={avatarPath}
                   alt="Profile Icon"
                   width={64}
                   height={64}
+                  sizes="64px"
                   className={styles.profileIcon}
                   onLoad={() => setAvatarLoaded(true)}
                   priority
@@ -158,11 +160,12 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
               </motion.div>
             </>
           ) : (
-            <Image 
-              src="/assets/avatars/guest_gamerpic.svg"
+            <Image
+              src="/assets/avatars/guest_gamerpic.webp"
               alt="Loading Avatar"
               width={64}
               height={64}
+              sizes="64px"
               className={styles.profileIcon}
             />
           )}

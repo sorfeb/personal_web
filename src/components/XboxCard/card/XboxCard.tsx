@@ -84,8 +84,9 @@ const XboxCard: React.FC<XboxCardProps> = memo(({ title, iconUrl, route, images 
             alt={title}
             width={40}
             height={40}
+            sizes="40px"
             className={styles.icon}
-            priority 
+            priority
           />
         </div>
       )}
