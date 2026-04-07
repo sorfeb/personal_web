@@ -19,5 +19,8 @@
       "Write(**/*.env.*)"
     ],
     "defaultMode": "acceptEdits"
+  },
+  "enabledPlugins": {
+    "claude-blog@agricidaniel-blog": true
   }
 }
