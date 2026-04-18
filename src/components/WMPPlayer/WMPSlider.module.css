@@ -1,0 +1,22 @@
+.slider {
+  position: absolute;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.foreground {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.thumb {
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.thumb:active {
+  cursor: grabbing !important;
+}

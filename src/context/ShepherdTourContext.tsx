@@ -1,8 +1,9 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import Shepherd from "shepherd.js";
 import "shepherd.js/dist/css/shepherd.css";
+import { useMountEffect } from "../hooks";
 import styles from './ShepherdTourContext.module.css';
 
 interface ShepherdContextProps {
@@ -16,7 +17,7 @@ export const ShepherdTourProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const [tour, setTour] = useState<any>(null);
   const [tourStarted, setTourStarted] = useState(false);
 
-  useEffect(() => {
+  useMountEffect(() => {
     const newTour = new Shepherd.Tour({
       defaultStepOptions: {
         cancelIcon: { enabled: true },
@@ -57,7 +58,7 @@ export const ShepherdTourProvider: React.FC<{ children: React.ReactNode }> = ({ 
     ]);
 
     setTour(newTour);
-  }, []);
+  });
 
   const startTour = () => {
     if (tour) {

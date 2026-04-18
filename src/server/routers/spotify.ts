@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { createTRPCRouter, publicProcedure } from '../trpc';
 import { TRPCError } from '@trpc/server';
 
@@ -77,7 +78,7 @@ export const spotifyRouter = createTRPCRouter({
       const response = await fetch(
         `https://api.spotify.com/v1/users/${userId}/playlists`,
         {
-          headers: { 
+          headers: {
             Authorization: `Bearer ${token}`,
           },
         }
@@ -94,15 +95,78 @@ export const spotifyRouter = createTRPCRouter({
 
       return data;
     } catch (error) {
-      
+
       if (error instanceof TRPCError) {
         throw error;
       }
-      
+
       throw new TRPCError({
         code: 'INTERNAL_SERVER_ERROR',
         message: 'Failed to fetch Spotify playlists',
       });
     }
   }),
+
+  /**
+   * Get tracks from a Spotify playlist
+   * Converts Spotify track data to Track interface format
+   * Filters out tracks without preview URLs
+   */
+  getPlaylistTracks: publicProcedure
+    .input(z.object({ playlistId: z.string().min(1) }))
+    .query(async ({ input }) => {
+      try {
+        const token = await getSpotifyToken();
+
+        // Fetch all playlist items (paginate if needed)
+        const response = await fetch(
+          `https://api.spotify.com/v1/playlists/${input.playlistId}/tracks?limit=50`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new TRPCError({
+            code: 'INTERNAL_SERVER_ERROR',
+            message: `Spotify API error: ${data.error?.message || 'Unknown error'}`,
+          });
+        }
+
+        // Transform Spotify tracks to Track interface format
+        const tracks = (data.items || [])
+          .map((item: any) => {
+            const track = item.track;
+            if (!track || !track.preview_url) return null;
+
+            return {
+              id: track.id,
+              name: track.name,
+              artist: track.artists.map((a: any) => a.name).join(', '),
+              album: track.album?.name,
+              duration: 30, // Spotify previews are ~30 seconds
+              url: track.preview_url,
+              imageUrl: track.album?.images?.[0]?.url,
+              isPreview: true,
+            };
+          })
+          .filter((track: any) => track !== null);
+
+        return tracks;
+      } catch (error) {
+
+        if (error instanceof TRPCError) {
+          throw error;
+        }
+
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Failed to fetch playlist tracks',
+        });
+      }
+    }),
 });

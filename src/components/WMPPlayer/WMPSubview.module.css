@@ -1,0 +1,9 @@
+.subview {
+  position: absolute;
+}
+
+.text {
+  position: absolute;
+  white-space: nowrap;
+  font-family: 'Verdana', sans-serif;
+}

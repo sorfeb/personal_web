@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 import { ToastConfig } from './types';
 import { TOAST_COLORS } from '@/constants/toastConfig';
 import { useAudioManager } from '@/hooks/useAudioManager';
+import { useMountEffect, useTimeout } from '@/hooks';
 import styles from './ToastNotification.module.css';
 
 interface ToastNotificationProps extends ToastConfig {}
@@ -25,29 +26,15 @@ export default function ToastNotification({
   playSound: customPlaySound,
 }: ToastNotificationProps) {
   const [isExiting, setIsExiting] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const exitTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  
+
   const audioManager = useAudioManager?.();
   const soundPlayer = customPlaySound || audioManager?.playSound;
-  
+
   const ringColor = TOAST_COLORS[badge.ringColor];
-  
+
   // Use custom image component or default to Next.js Image
   const ImageComponent = imageComponent || Image;
-
-  useEffect(() => {
-    soundPlayer?.('achievement');
-
-    timeoutRef.current = setTimeout(() => {
-      handleDismiss();
-    }, duration);
-
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      if (exitTimeoutRef.current) clearTimeout(exitTimeoutRef.current);
-    };
-  }, [duration, soundPlayer]);
 
   /**
    * Triggers exit animation sequence:
@@ -58,13 +45,24 @@ export default function ToastNotification({
    */
   const handleDismiss = () => {
     if (isExiting) return;
-    
+
     setIsExiting(true);
 
     exitTimeoutRef.current = setTimeout(() => {
       onDismiss?.();
     }, 500);
   };
+
+  // Play achievement sound on mount; clear the imperative exit timer on unmount.
+  useMountEffect(() => {
+    soundPlayer?.('achievement');
+    return () => {
+      if (exitTimeoutRef.current) clearTimeout(exitTimeoutRef.current);
+    };
+  });
+
+  // Auto-dismiss after `duration`, pause once the exit animation is running.
+  useTimeout(handleDismiss, isExiting ? null : duration);
 
   const badgeSize = badge.size || 72;
   const iconSize = badge.iconSize || 40;

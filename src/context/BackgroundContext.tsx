@@ -1,8 +1,9 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, useMemo, useCallback, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useMemo, useCallback, ReactNode } from 'react';
 import type { BackgroundConfig, AnimationLayerId, AnimationLayerState } from '../components/Background/types';
 import { backgrounds, getBackgroundById, getDefaultBackground } from '../data/backgrounds';
+import { useMountEffect } from '../hooks';
 
 /**
  * BackgroundContext
@@ -58,43 +59,40 @@ export const BackgroundProvider: React.FC<BackgroundProviderProps> = ({ children
   }, []);
 
   /**
-   * Load saved preferences from localStorage on mount
+   * Load saved preferences from localStorage on mount.
+   * initializeAnimationLayers is a stable useCallback, so mount-only semantics hold.
    */
-  useEffect(() => {
-    const loadSavedPreferences = () => {
-      try {
-        // Load saved background
-        const savedBackgroundId = localStorage.getItem(BACKGROUND_STORAGE_KEY);
-        let background = getDefaultBackground();
+  useMountEffect(() => {
+    try {
+      // Load saved background
+      const savedBackgroundId = localStorage.getItem(BACKGROUND_STORAGE_KEY);
+      let background = getDefaultBackground();
 
-        if (savedBackgroundId) {
-          const found = getBackgroundById(savedBackgroundId);
-          if (found) {
-            background = found;
-          } else {
-            console.warn(`Background "${savedBackgroundId}" not found, using default`);
-          }
+      if (savedBackgroundId) {
+        const found = getBackgroundById(savedBackgroundId);
+        if (found) {
+          background = found;
+        } else {
+          console.warn(`Background "${savedBackgroundId}" not found, using default`);
         }
-
-        setCurrentBackground(background);
-
-        // Load saved animation states
-        const savedAnimationsJson = localStorage.getItem(ANIMATIONS_STORAGE_KEY);
-        const savedAnimations: AnimationLayerState[] | undefined = savedAnimationsJson
-          ? JSON.parse(savedAnimationsJson)
-          : undefined;
-
-        initializeAnimationLayers(background, savedAnimations);
-      } catch (error) {
-        console.error('Failed to load background preferences:', error);
-        initializeAnimationLayers(getDefaultBackground());
-      } finally {
-        setIsLoading(false);
       }
-    };
 
-    loadSavedPreferences();
-  }, [initializeAnimationLayers]);
+      setCurrentBackground(background);
+
+      // Load saved animation states
+      const savedAnimationsJson = localStorage.getItem(ANIMATIONS_STORAGE_KEY);
+      const savedAnimations: AnimationLayerState[] | undefined = savedAnimationsJson
+        ? JSON.parse(savedAnimationsJson)
+        : undefined;
+
+      initializeAnimationLayers(background, savedAnimations);
+    } catch (error) {
+      console.error('Failed to load background preferences:', error);
+      initializeAnimationLayers(getDefaultBackground());
+    } finally {
+      setIsLoading(false);
+    }
+  });
 
   /**
    * Save animation layer states to localStorage

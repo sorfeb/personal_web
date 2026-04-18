@@ -10,7 +10,7 @@ interface VolumeContextProps {
 const VolumeContext = createContext<VolumeContextProps | undefined>(undefined);
 
 export const VolumeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [volume, setVolume] = useState(0.3); // Default global volume: 50%
+  const [volume, setVolume] = useState(0.2);
 
   return (
     <VolumeContext.Provider value={{ volume, setVolume }}>
