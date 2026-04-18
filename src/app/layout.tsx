@@ -1,11 +1,10 @@
 import { Roboto } from "next/font/google";
-// TODO: Re-enable Stack Auth when configured
-// import { StackProvider, StackTheme } from "@stackframe/stack";
-// import { stackServerApp } from "../stack";
+import Script from "next/script";
 import { VolumeProvider } from "../context/VolumeContext";
 import { BackgroundProvider } from "../context/BackgroundContext";
 import { CRTFilterProvider } from "../context/CRTFilterContext";
 import { ToastProvider } from "../context/ToastContext";
+import { WMPPlayerProvider } from "../context/WMPPlayerContext";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { BackgroundComposer } from "../components/Background";
@@ -13,6 +12,7 @@ import ConsoleEasterEgg from "../components/ConsoleEasterEgg/ConsoleEasterEgg";
 import TRPCProvider from "../components/Providers/TRPCProvider";
 import CRTOverlay from "../components/CRTOverlay/CRTOverlay";
 import ToastContainer from "../components/ToastNotification/ToastContainer";
+import { GlobalWMPPlayer } from "../components/WMPPlayer/GlobalWMPPlayer";
 import "./globals.css";
 
 const inter = Roboto({ weight: "300", subsets: ["latin"] });
@@ -21,6 +21,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
+        {process.env.NODE_ENV === "development" && (
+          <Script
+            src="//unpkg.com/react-grab/dist/index.global.js"
+            crossOrigin="anonymous"
+            strategy="beforeInteractive"
+          />
+        )}
+        {process.env.NODE_ENV === "development" && (
+          <Script
+            src="//unpkg.com/@react-grab/mcp/dist/client.global.js"
+            strategy="lazyOnload"
+          />
+        )}
         <title>sorOS</title>
         <meta name="description" content="Personal website and portfolio of Soros Febriano, a passionate learner about the fusion of technology and art. Explore projects, photos, media and more." />
         {/* Open Graph tags */}
@@ -75,20 +88,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   </defs>
                   <path d="M0,8 Q50,2 100,15 V30 H0 Z" fill="url(#mountainGradient)" />
                 </svg>
-                {/* TODO: Re-enable StackProvider when Stack Auth is configured */}
-                {/* <StackProvider app={stackServerApp}> */}
-                {/* <StackTheme> */}
                 <TRPCProvider>
                   <VolumeProvider>
-                    <ToastProvider>
-                      <ConsoleEasterEgg />
-                      {children}
-                      <ToastContainer />
-                    </ToastProvider>
+                    <WMPPlayerProvider>
+                      <ToastProvider>
+                        <ConsoleEasterEgg />
+                        {children}
+                        <GlobalWMPPlayer />
+                        <ToastContainer />
+                      </ToastProvider>
+                    </WMPPlayerProvider>
                   </VolumeProvider>
                 </TRPCProvider>
-                {/* </StackTheme> */}
-                {/* </StackProvider> */}
               </div>
             </CRTFilterProvider>
           </BackgroundProvider>

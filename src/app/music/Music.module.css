@@ -1,3 +1,11 @@
+.playerWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 500px;
+  padding: 20px;
+}
+
 .loadingContainer {
   display: flex;
   align-items: center;
@@ -61,3 +69,55 @@
   }
 }
 
+.instructions {
+  text-align: center;
+  color: white;
+  max-width: 600px;
+  margin: auto;
+}
+
+.instructions h2 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.instructions p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+  color: #ccc;
+}
+
+.buttonContainer {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.loading {
+  color: #aaa;
+  font-size: 14px;
+  animation: pulse-density 1.5s infinite;
+}
+
+.error {
+  color: #ff6b6b;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .playerWrapper {
+    min-height: 400px;
+    padding: 16px;
+  }
+
+  .instructions h2 {
+    font-size: 24px;
+  }
+
+  .instructions p {
+    font-size: 14px;
+  }
+}

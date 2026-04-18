@@ -1,0 +1,9 @@
+.button {
+  position: absolute;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.button:active {
+  opacity: 0.95;
+}
