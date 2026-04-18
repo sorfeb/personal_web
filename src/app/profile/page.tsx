@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import PageLayout from '../../components/PageLayout/PageLayout';
 import styles from './Profile.module.css';
 import { useAudioManager } from '../../hooks/useAudioManager';
@@ -45,9 +46,10 @@ const ProfilePage: React.FC = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <img
-                    src="assets/icons/pages/profile/linkedin.svg"
-                    width="30"
+                  <Image
+                    src="/assets/icons/pages/profile/linkedin.svg"
+                    width={30}
+                    height={30}
                     alt="LinkedIn"
                     className={`${styles.icon} ${styles.linkedinIcon}`}
                     onMouseEnter={playHoverSound}
@@ -59,10 +61,13 @@ const ProfilePage: React.FC = () => {
         </div>
 
         <div className={styles.imageSection}>
-          <img
-            src="/assets/images/myBody.png"
+          <Image
+            src="/assets/images/myBody.webp"
             alt="Profile Picture"
             className={styles.profileImage}
+            width={669}
+            height={1615}
+            sizes="20vw"
           />
         </div>
       </div>

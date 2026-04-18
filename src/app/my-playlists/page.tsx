@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import PageLayout from '../../components/PageLayout/PageLayout';
 import { WMPToggleButton } from '@/components/WMPPlayer/WMPToggleButton';
 import styles from './Playlists.module.css';
@@ -36,7 +37,12 @@ const PlaylistsPage = () => {
     setSelectedPlaylistId(playlistId);
   };
 
-  // Load tracks into player when available
+  // effect:audited — orchestrate side-effects when the user-selected
+  // playlist's tracks arrive (push into global player, or surface empty-
+  // playlist error). React Query v5 removed useQuery's onSuccess callback,
+  // and the side-effect depends on multiple fetched values, so no clean
+  // declarative replacement exists.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (tracks !== undefined) {
       if (tracks.length > 0) {
@@ -84,10 +90,13 @@ const PlaylistsPage = () => {
                     className={styles.imageButton}
                     aria-label={`Load ${playlist.name}`}
                   >
-                    <img
+                    <Image
                       src={playlist.images[0]?.url || '/placeholder.jpg'}
                       alt={playlist.name}
                       className={styles.playlistImage}
+                      width={300}
+                      height={300}
+                      sizes="(max-width: 768px) 150px, 200px"
                     />
                     {selectedPlaylistId === playlist.id && isLoadingTracks && (
                       <div className={styles.loadingOverlay}>

@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useRef, memo } from 'react';
+import React, { useState, useCallback, useRef, memo } from 'react';
 import { createPortal } from 'react-dom';
 import { WMPPlayer } from './WMPPlayer';
 import { useWMPPlayerContext, PLAYER_DIMENSIONS } from '@/context/WMPPlayerContext';
 import { useAudioManager } from '@/hooks/useAudioManager';
+import { useEventListener, useMountEffect } from '@/hooks';
 import { constrainPosition, calculateDragOffset, calculateDragPosition, setUserSelectNone } from '@/utils/windowUtils';
 import styles from './GlobalWMPPlayer.module.css';
 
@@ -46,13 +47,17 @@ export const GlobalWMPPlayer = memo(function GlobalWMPPlayer() {
   const cleanupRef = useRef<(() => void) | null>(null);
   const internalPlayerRef = useRef<{ pause: () => void; play: () => void } | null>(null);
 
-  // Connect internal player ref to context
-  useEffect(() => {
+  // effect:audited — planned ref sync for external playback control via context.
+  // `internalPlayerRef` is not yet wired through to WMPPlayer's audio element,
+  // so this is a no-op today, but the plumbing is kept so context consumers can
+  // pause/play once WMPPlayer forwards a handle.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  React.useEffect(() => {
     contextPlayerRef.current = internalPlayerRef.current;
   }, [contextPlayerRef]);
 
   // Set up portal container
-  useEffect(() => {
+  useMountEffect(() => {
     const container = document.createElement('div');
     container.id = 'wmp-player-portal';
     container.style.cssText = `
@@ -73,36 +78,23 @@ export const GlobalWMPPlayer = memo(function GlobalWMPPlayer() {
         document.body.removeChild(container);
       }
     };
-  }, []);
+  });
 
   // Handle viewport resize - constrain position to stay within bounds
-  useEffect(() => {
-    const handleResize = () => {
-      const constrained = constrainPosition(position);
-      if (constrained.x !== position.x || constrained.y !== position.y) {
-        setPosition(constrained);
-      }
-    };
+  useEventListener(window, 'resize', () => {
+    const constrained = constrainPosition(position);
+    if (constrained.x !== position.x || constrained.y !== position.y) {
+      setPosition(constrained);
+    }
+  });
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [position, setPosition]);
-
-  // Keyboard shortcuts
-  useEffect(() => {
-    if (!isVisible) return;
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Esc to close player
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        hidePlayer();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isVisible, hidePlayer]);
+  // Keyboard shortcuts: Esc closes the player when visible
+  useEventListener(isVisible ? window : null, 'keydown', (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      hidePlayer();
+    }
+  });
 
   // Drag handlers
   const handleDragStart = useCallback((e: React.MouseEvent) => {
@@ -138,18 +130,11 @@ export const GlobalWMPPlayer = memo(function GlobalWMPPlayer() {
     cleanupRef.current = null;
   }, []);
 
-  // Set up drag event listeners
-  useEffect(() => {
-    if (!isDragging) return;
-
-    document.addEventListener('mousemove', handleMouseMove, { passive: true });
-    document.addEventListener('mouseup', handleMouseUp, { once: true });
-
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [isDragging, handleMouseMove, handleMouseUp]);
+  // Drag event listeners — only bound while actively dragging
+  useEventListener(isDragging ? document : null, 'mousemove', handleMouseMove, {
+    passive: true,
+  });
+  useEventListener(isDragging ? document : null, 'mouseup', handleMouseUp);
 
   // Control handler for empty state
   const handleClose = useCallback(() => {

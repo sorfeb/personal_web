@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PageLayout from '../../components/PageLayout/PageLayout';
 import { WMPToggleButton } from '@/components/WMPPlayer/WMPToggleButton';
 import { useWMPPlayerContext } from '@/context/WMPPlayerContext';
 import { trpc } from '@/utils/trpc';
+import { useTimeout } from '@/hooks';
 import styles from './Music.module.css';
 
 const MusicPage = () => {
@@ -24,24 +25,25 @@ const MusicPage = () => {
     { enabled: !!playlistId }
   );
 
-  // Auto-advance to next playlist if current one has no playable tracks
-  useEffect(() => {
-    if (
-      tracks !== undefined &&
-      tracks.length === 0 &&
-      playlistsData?.items &&
-      currentPlaylistIndex < playlistsData.items.length - 1
-    ) {
-      // Try next playlist after a short delay to avoid rapid requests
-      const timer = setTimeout(() => {
-        setCurrentPlaylistIndex((prev) => prev + 1);
-      }, 500);
-      return () => clearTimeout(timer);
-    }
-  }, [tracks, currentPlaylistIndex, playlistsData?.items]);
+  // Auto-advance to next playlist if the current one has no playable tracks.
+  // useTimeout with a conditional delay replaces the prior setTimeout+cleanup
+  // choreography — null delay pauses the timer cleanly.
+  const shouldAdvance =
+    tracks !== undefined &&
+    tracks.length === 0 &&
+    !!playlistsData?.items &&
+    currentPlaylistIndex < (playlistsData?.items.length ?? 0) - 1;
 
-  // Load tracks into global player when available
-  useEffect(() => {
+  useTimeout(
+    () => setCurrentPlaylistIndex((prev) => prev + 1),
+    shouldAdvance ? 500 : null,
+  );
+
+  // effect:audited — push fetched tracks into the global player context.
+  // React Query v5 removed useQuery's onSuccess callback, so a side-effect
+  // on tracks arrival has no first-class declarative form.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  React.useEffect(() => {
     if (tracks && tracks.length > 0) {
       setCurrentPlaylist(tracks);
       showPlayer();

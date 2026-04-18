@@ -3,6 +3,7 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import { useToastContext } from '../../context/ToastContext';
+import { useIsMounted } from '@/hooks';
 import ToastNotification from './ToastNotification';
 import styles from './ToastContainer.module.css';
 
@@ -12,11 +13,7 @@ import styles from './ToastContainer.module.css';
  */
 export default function ToastContainer() {
   const { toasts } = useToastContext();
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useIsMounted();
 
   if (!mounted || globalThis.window === undefined) {
     return null;

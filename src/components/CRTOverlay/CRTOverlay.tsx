@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useCRTFilter } from '../../context/CRTFilterContext';
+import { useIsMounted } from '@/hooks';
 import styles from './CRTOverlay.module.css';
 
 /**
@@ -45,12 +46,7 @@ const CRTOverlayContent: React.FC = () => {
 };
 
 const CRTOverlay: React.FC = () => {
-  const [mounted, setMounted] = useState(false);
-
-  // Ensure we only render on client side after mount
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useIsMounted();
 
   if (!mounted) {
     return null;
