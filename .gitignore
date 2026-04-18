@@ -46,3 +46,6 @@ storybook-static
 .vercel
 
 /src/generated/prisma
+
+# Local Claude Code worktrees (checked out inside the repo)
+.claude/worktrees/
