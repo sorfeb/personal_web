@@ -39,7 +39,10 @@ export function WMPPlayer({
   const { playSound } = useAudioManager();
   const player = useWMPPlayer();
 
-  // Load skin on mount
+  // effect:audited — multi-step async skin load (XML parse + asset preload + region parse).
+  // Converting to useQuery would require decoupling the click-handler map from the
+  // skin-load pipeline; deferred. Deps [skinPath] are intentional.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     async function loadSkinData() {
       try {
@@ -82,14 +85,19 @@ export function WMPPlayer({
     loadSkinData();
   }, [skinPath]);
 
-  // Set playlist when provided
+  // effect:audited — sync incoming playlist prop into the useWMPPlayer hook's
+  // internal state. Using useEffect because the hook exposes imperative setters
+  // (setPlaylist, play) rather than accepting the playlist as a controlled prop.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (playlist.length > 0) {
       player.setPlaylist(playlist);
     }
   }, [playlist]);
 
-  // Auto-play if enabled
+  // effect:audited — honor autoPlay on first load. Same imperative-setter
+  // constraint as above; fires when either `autoPlay` or `playlist` change.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (autoPlay && playlist.length > 0 && !player.state.isPlaying) {
       player.play();

@@ -4,13 +4,13 @@ import React, {
   createContext,
   useContext,
   useState,
-  useEffect,
   useCallback,
   useMemo,
   useRef,
   ReactNode,
 } from 'react';
 import type { Track } from '@/types/wmp';
+import { useMountEffect } from '@/hooks';
 
 /**
  * WMPPlayerContext
@@ -100,38 +100,34 @@ export const WMPPlayerProvider: React.FC<WMPPlayerProviderProps> = ({ children }
   /**
    * Load saved preferences from localStorage on mount
    */
-  useEffect(() => {
-    const loadSavedPreferences = () => {
-      try {
-        // Load saved position
-        const savedPosition = localStorage.getItem(STORAGE_KEYS.POSITION);
-        if (savedPosition) {
-          const parsed = JSON.parse(savedPosition);
-          setPositionState(parsed);
-        } else {
-          setPositionState(getDefaultPosition());
-        }
-
-        // Load saved visibility
-        const savedVisible = localStorage.getItem(STORAGE_KEYS.VISIBLE);
-        if (savedVisible !== null) {
-          setIsVisible(savedVisible === 'true');
-        }
-
-        // Load saved minimized state
-        const savedMinimized = localStorage.getItem(STORAGE_KEYS.MINIMIZED);
-        if (savedMinimized !== null) {
-          setIsMinimized(savedMinimized === 'true');
-        }
-      } catch (error) {
-        console.error('Failed to load WMP player preferences:', error);
-      } finally {
-        setIsLoading(false);
+  useMountEffect(() => {
+    try {
+      // Load saved position
+      const savedPosition = localStorage.getItem(STORAGE_KEYS.POSITION);
+      if (savedPosition) {
+        const parsed = JSON.parse(savedPosition);
+        setPositionState(parsed);
+      } else {
+        setPositionState(getDefaultPosition());
       }
-    };
 
-    loadSavedPreferences();
-  }, []);
+      // Load saved visibility
+      const savedVisible = localStorage.getItem(STORAGE_KEYS.VISIBLE);
+      if (savedVisible !== null) {
+        setIsVisible(savedVisible === 'true');
+      }
+
+      // Load saved minimized state
+      const savedMinimized = localStorage.getItem(STORAGE_KEYS.MINIMIZED);
+      if (savedMinimized !== null) {
+        setIsMinimized(savedMinimized === 'true');
+      }
+    } catch (error) {
+      console.error('Failed to load WMP player preferences:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  });
 
   /**
    * Show player (manual toggle only per user preference)

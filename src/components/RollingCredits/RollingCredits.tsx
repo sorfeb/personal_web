@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useMountEffect } from '@/hooks';
 import styles from './RollingCredits.module.css';
 
 interface CreditsData {
@@ -13,11 +14,11 @@ interface RollingCreditsProps {
 const RollingCredits: React.FC<RollingCreditsProps> = ({ displayType }) => {
   const [credits, setCredits] = useState<CreditsData | null>(null);
 
-  useEffect(() => {
+  useMountEffect(() => {
     import('@/data/credits.json')
       .then((data) => setCredits(data.default))
       .catch((error) => console.error('Error loading credits:', error));
-  }, []);
+  });
 
   if (!credits) {
     return <div>Loading...</div>;

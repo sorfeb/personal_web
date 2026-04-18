@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useCallback, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -8,6 +8,7 @@ import { authClient } from '../../lib/auth-client';
 import { Settings } from 'lucide-react';
 import { useAudioManager } from '../../hooks/useAudioManager';
 import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
+import { useIsMounted } from '@/hooks';
 import { trpc } from '../../utils/trpc';
 import Tooltip from '../ui/Tooltip/Tooltip';
 import { Clock } from '../ui/Clock/Clock';
@@ -32,17 +33,13 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   const { playSound } = useAudioManager();
   const { showToast } = useToast();
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useIsMounted();
   const [activePageId, setActivePageId] = useState<string>('profile');
 
   // Ref for ThemePage imperative handle
   const themePageRef = useRef<ThemePageRef>(null);
 
   const utils = trpc.useUtils();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const handleClose = useCallback(() => {
     playSound('back');

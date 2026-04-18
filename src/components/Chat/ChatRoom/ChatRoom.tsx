@@ -1,8 +1,9 @@
 'use client';
 
-import React, { memo, useState, useEffect, useRef, useCallback } from 'react';
+import React, { memo, useState, useRef, useCallback } from 'react';
 import { trpc } from '../../../utils/trpc';
 import { authClient } from '../../../lib/auth-client';
+import { useAutoScroll } from '@/hooks';
 import MessageItem from './MessageItem';
 import MessageInput from './MessageInput';
 import styles from './ChatRoom.module.css';
@@ -46,9 +47,7 @@ const ChatRoom = memo(() => {
   });
 
   // Auto-scroll to bottom when new messages arrive
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  useAutoScroll(messagesEndRef, [messages]);
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();

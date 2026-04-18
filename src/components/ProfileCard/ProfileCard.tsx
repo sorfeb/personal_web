@@ -37,7 +37,11 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   
   const { data: profile, isLoading, error } = trpc.user.getProfile.useQuery();
 
-  // Show welcome toast once per session
+  // effect:audited — run-once welcome toast gated on async tRPC query state.
+  // The skill's "call from event handler" pattern doesn't apply: no user
+  // interaction triggers this — it fires the first time the guarded conditions
+  // become satisfiable after the query resolves.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (profile && !isLoading && !error) {
       if (typeof window === 'undefined') return;
@@ -47,9 +51,9 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 
       if (!hasShownThisSession) {
         sessionStorage.setItem(sessionKey, 'true');
-        
+
         const isGuest = profile.name === 'Guest';
-        
+
         showToast(
           createSystemToast(
             isGuest ? 'Browsing as Guest' : `Welcome back, ${profile.name}!`,
@@ -62,6 +66,11 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     }
   }, [profile, isLoading, error, showToast]);
 
+  // effect:audited — reset avatarLoaded crossfade state when the avatar source
+  // changes. The skill recommends `key={id}` remounting, but avatarLoaded is
+  // co-located with the crossfade transitions of two sibling <Image>s, so
+  // lifting it into a subcomponent would fragment the JSX.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (profile) {
       setAvatarLoaded(false);

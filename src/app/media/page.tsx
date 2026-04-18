@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import PageLayout from '../../components/PageLayout/PageLayout';
 import styles from './Media.module.css';
 import { useVolume } from '@/context/VolumeContext';
+import { useMountEffect } from '@/hooks';
 import { CldImage } from 'next-cloudinary';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -30,11 +31,11 @@ const MediaPage = () => {
   const hoverSound = '/assets/audio/ps2_divine.wav';
   const selectSound = '/assets/audio/snd_buttonselect.wav';
 
-  useEffect(() => {
+  useMountEffect(() => {
     import('@/data/medias.json')
       .then((data) => setImageList(data.images))
       .catch((error) => console.error('Error loading images:', error));
-  }, []);
+  });
 
   const playHoverSound = () => {
     if (audioRef.current) {

@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import styles from './ScrollingMenu.module.css';
 import { useAudioManager } from '../../hooks/useAudioManager';
 import { useKeyboardNavigation } from '../../hooks/useKeyboardNavigation';
+import { useEventListener } from '@/hooks';
 
 interface ScrollingMenuProps {
   items: string[];
@@ -44,10 +45,10 @@ const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items, onSelectionChange,
   });
 
   // Scroll wheel navigation
-  useEffect(() => {
-    if (disabled) return;
-    
-    const handleScroll = (event: WheelEvent) => {
+  useEventListener(
+    disabled ? null : window,
+    'wheel',
+    (event: WheelEvent) => {
       const direction = Math.sign(event.deltaY);
       const newIndex = Math.min(Math.max(selectedIndex + direction, 0), items.length - 1);
 
@@ -56,14 +57,9 @@ const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items, onSelectionChange,
         onSelectionChange(newIndex);
         playSound(direction > 0 ? 'channelDown' : 'channelUp');
       }
-    };
-
-    window.addEventListener('wheel', handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener('wheel', handleScroll);
-    };
-  }, [selectedIndex, items.length, onSelectionChange, playSound, disabled]);
+    },
+    { passive: true },
+  );
 
   const playHoverSound = () => playSound('ting');
   const playClickSound = () => playSound('navigation');

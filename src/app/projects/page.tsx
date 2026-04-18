@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import PageLayout from '../../components/PageLayout/PageLayout';
+import { useMountEffect } from '@/hooks';
 import styles from "./Projects.module.css";
 import projects from '../../data/projects.json';
 
@@ -13,13 +14,13 @@ const ProjectsPage = () => {
     { name: 'JavaScript', logo: 'https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black' }
   ];
 
-  useEffect(() => {
+  useMountEffect(() => {
     const carousel = document.querySelector(`.${styles.carousel}`);
     if (carousel) {
       const clone = carousel.innerHTML;
       carousel.innerHTML += clone; // Duplicate elements for seamless scrolling
     }
-  }, []);
+  });
 
   return (
     <PageLayout title="Projects">

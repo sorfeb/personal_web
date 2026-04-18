@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useState } from 'react';
+import { useInterval, useMountEffect } from '@/hooks';
 import styles from './Clock.module.css';
 
 interface ClockProps {
@@ -26,30 +27,29 @@ export const Clock: React.FC<ClockProps> = ({
 }) => {
   const [currentTime, setCurrentTime] = useState('');
 
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      
-      const timeOptions: Intl.DateTimeFormatOptions = {
-        hour: 'numeric',
-        minute: '2-digit',
-        ...(showSeconds && { second: '2-digit' }),
-        ...(format === '12h' && { hour12: true }),
-        ...(format === '24h' && { hour12: false })
-      };
+  const updateTime = useCallback(() => {
+    const now = new Date();
 
-      setCurrentTime(now.toLocaleTimeString('en-US', timeOptions));
+    const timeOptions: Intl.DateTimeFormatOptions = {
+      hour: 'numeric',
+      minute: '2-digit',
+      ...(showSeconds && { second: '2-digit' }),
+      ...(format === '12h' && { hour12: true }),
+      ...(format === '24h' && { hour12: false }),
     };
 
-    // Initial time set
-    updateTime();
-    
-    // Update every second
-    const interval = setInterval(updateTime, 1000);
-
-    // Cleanup interval on unmount
-    return () => clearInterval(interval);
+    setCurrentTime(now.toLocaleTimeString('en-US', timeOptions));
   }, [format, showSeconds]);
+
+  // Initial client-side set (avoids SSR hydration mismatch)
+  useMountEffect(() => {
+    updateTime();
+  });
+
+  // Keep the clock ticking every second. useInterval saves the latest
+  // callback via ref, so format/showSeconds changes take effect on the
+  // next tick (up to 1s later) without tearing down the interval.
+  useInterval(updateTime, 1000);
 
   return (
     <div className={`${styles.clock} ${className}`}>

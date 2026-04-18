@@ -4,8 +4,9 @@
 
 'use client';
 
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import type { SkinElement, SkinAssets, WMPPlayerState } from '@/types/wmp';
+import { useEventListener } from '@/hooks';
 import styles from './WMPSlider.module.css';
 
 interface WMPSliderProps {
@@ -179,45 +180,34 @@ export function WMPSlider({
     [element.borderSize, element.dimensions, isHorizontal, min, max, updateValue]
   );
 
-  useEffect(() => {
-    if (!isDragging) return;
+  // Drag tracking — only bound while actively dragging the thumb.
+  useEventListener(isDragging ? document : null, 'mousemove', (e: MouseEvent) => {
+    if (!sliderRef.current) return;
 
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!sliderRef.current) return;
+    const rect = sliderRef.current.getBoundingClientRect();
+    const borderSize = element.borderSize || 0;
 
-      const rect = sliderRef.current.getBoundingClientRect();
-      const borderSize = element.borderSize || 0;
+    let newValue: number;
 
-      let newValue: number;
+    if (isHorizontal) {
+      const x = e.clientX - rect.left - borderSize;
+      const usableWidth = (element.dimensions?.width || 100) - borderSize * 2;
+      const ratio = Math.max(0, Math.min(1, x / usableWidth));
+      newValue = min + ratio * (max - min);
+    } else {
+      const y = e.clientY - rect.top - borderSize;
+      const usableHeight = (element.dimensions?.height || 100) - borderSize * 2;
+      const ratio = 1 - Math.max(0, Math.min(1, y / usableHeight));
+      newValue = min + ratio * (max - min);
+    }
 
-      if (isHorizontal) {
-        const x = e.clientX - rect.left - borderSize;
-        const usableWidth = (element.dimensions?.width || 100) - borderSize * 2;
-        const ratio = Math.max(0, Math.min(1, x / usableWidth));
-        newValue = min + ratio * (max - min);
-      } else {
-        const y = e.clientY - rect.top - borderSize;
-        const usableHeight = (element.dimensions?.height || 100) - borderSize * 2;
-        const ratio = 1 - Math.max(0, Math.min(1, y / usableHeight));
-        newValue = min + ratio * (max - min);
-      }
+    updateValue(newValue);
+  });
 
-      updateValue(newValue);
-    };
-
-    const handleMouseUp = () => {
-      setIsDragging(false);
-      setThumbState('default');
-    };
-
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [isDragging, element.borderSize, element.dimensions, isHorizontal, min, max, updateValue]);
+  useEventListener(isDragging ? document : null, 'mouseup', () => {
+    setIsDragging(false);
+    setThumbState('default');
+  });
 
   // Get images
   const backgroundInfo = element.images?.background

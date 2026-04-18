@@ -132,7 +132,11 @@ export function WMPButton({
     [clickRegions, element.images?.mapping, assets.mappings, playSound]
   );
 
-  // Update button state based on hover region
+  // effect:audited — buttonState is partially derived from hoveredRegion
+  // (the clickRegions/mapping path) and partially from imperative mouse
+  // handlers (the non-region path, plus the `down` transition in both).
+  // Unifying would require promoting hoveredRegion/isMouseDown to a single
+  // state machine; deferred.
   useEffect(() => {
     if (hoveredRegion) {
       setButtonState('hover');

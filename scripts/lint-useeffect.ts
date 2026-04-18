@@ -49,12 +49,18 @@ function findOffenders(file: string, source: string): Offender[] {
     const line = lines[i];
     if (!USE_EFFECT.test(line)) continue;
 
+    // Walk back through blank lines and single-line comments above the
+    // useEffect call; a `// effect:audited` on any of those preceding
+    // comment lines tags the call. Bail once we hit a non-comment line.
     let tagged = false;
-    for (let j = i - 1; j >= 0 && j >= i - 5; j -= 1) {
+    for (let j = i - 1; j >= 0 && j >= i - 10; j -= 1) {
       const prev = lines[j].trim();
       if (prev === '') continue;
-      if (AUDITED_TAG.test(prev)) tagged = true;
-      break;
+      if (!prev.startsWith('//')) break;
+      if (AUDITED_TAG.test(prev)) {
+        tagged = true;
+        break;
+      }
     }
 
     if (!tagged) {
