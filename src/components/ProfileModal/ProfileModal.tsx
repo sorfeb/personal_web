@@ -191,7 +191,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
         content: <ThemePage ref={themePageRef} />,
         externalHeader: {
           title: 'Customize Theme',
-          iconSrc: '/assets/icons/profile-modal/pallette.png',
+          iconSrc: '/assets/icons/profile-modal/pallette.webp',
           showClock: true,
         },
         externalFooter: {

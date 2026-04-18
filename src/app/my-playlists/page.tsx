@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import PageLayout from '../../components/PageLayout/PageLayout';
 import { WMPToggleButton } from '@/components/WMPPlayer/WMPToggleButton';
 import styles from './Playlists.module.css';
@@ -89,10 +90,13 @@ const PlaylistsPage = () => {
                     className={styles.imageButton}
                     aria-label={`Load ${playlist.name}`}
                   >
-                    <img
+                    <Image
                       src={playlist.images[0]?.url || '/placeholder.jpg'}
                       alt={playlist.name}
                       className={styles.playlistImage}
+                      width={300}
+                      height={300}
+                      sizes="(max-width: 768px) 150px, 200px"
                     />
                     {selectedPlaylistId === playlist.id && isLoadingTracks && (
                       <div className={styles.loadingOverlay}>

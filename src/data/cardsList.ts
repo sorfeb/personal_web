@@ -2,22 +2,22 @@ const data = {
   home: [
     { 
       title: "About", 
-      iconUrl: "assets/icons/dashboard/home/about.svg",
+      iconUrl: "/assets/icons/dashboard/home/about.svg",
       route: "/about" 
     },
     { 
       title: "Profile", 
-      iconUrl: "/assets/icons/dashboard/home/myface.png",
+      iconUrl: "/assets/icons/dashboard/home/myface.webp",
       route: "/profile"
     },
     { 
       title: "Certifications", 
-      iconUrl: "assets/icons/dashboard/home/certificate.svg",
+      iconUrl: "/assets/icons/dashboard/home/certificate.svg",
       route: "/certifications"
     },
     { 
       title: "Projects", 
-      iconUrl: "assets/icons/dashboard/home/project.svg",
+      iconUrl: "/assets/icons/dashboard/home/project.svg",
       route: "/projects"
     },
   ],
@@ -34,61 +34,61 @@ const data = {
     },
     { 
       title: "Photos", 
-      iconUrl: "assets/icons/dashboard/gallery/camera.svg",
+      iconUrl: "/assets/icons/dashboard/gallery/camera.webp",
       route: "/photos"
     },
     {
       title: "Design System",
-      iconUrl: "assets/icons/dashboard/gallery/design-system.svg",
+      iconUrl: "/assets/icons/dashboard/gallery/design-system.webp",
       route: "/design-system"
     },
     { 
       title: "Digital Gems", 
-      iconUrl: "assets/icons/dashboard/gallery/gemstone.svg",
+      iconUrl: "/assets/icons/dashboard/gallery/gemstone.svg",
       route: "/digital-gems"
     },
     { 
       title: "Media", 
-      iconUrl: "assets/icons/dashboard/gallery/gallery.svg",
+      iconUrl: "/assets/icons/dashboard/gallery/gallery.svg",
       route: "/media" 
     },
     { 
       title: "Music", 
-      iconUrl: "assets/icons/dashboard/gallery/music.svg",
+      iconUrl: "/assets/icons/dashboard/gallery/music.svg",
       route: "/music"
     },
     { 
       title: "Books", 
-      iconUrl: "assets/icons/dashboard/gallery/books.svg",
+      iconUrl: "/assets/icons/dashboard/gallery/books.webp",
       route: "/books" 
     }
   ],
   misc: [
     { 
       title: "Blog", 
-      iconUrl: "assets/icons/dashboard/misc/blog.svg",
+      iconUrl: "/assets/icons/dashboard/misc/blog.svg",
       route: "/blog" 
     },
     { 
       title: "Github", 
-      iconUrl: "assets/icons/dashboard/misc/github.svg",
+      iconUrl: "/assets/icons/dashboard/misc/github.svg",
       route: "https://github.com/sorfeb"
     },
     { 
       title: "Leetcode", 
-      iconUrl: "assets/icons/dashboard/misc/leetcode.svg",
+      iconUrl: "/assets/icons/dashboard/misc/leetcode.svg",
       route: "/leetcode"
     },
     { 
       title: "Letterboxd", 
-      iconUrl: "assets/icons/dashboard/misc/letterboxd.svg",
+      iconUrl: "/assets/icons/dashboard/misc/letterboxd.svg",
       route: "https://letterboxd.com/21watchingeyes/"
     },
   ],
   credits: [
     { 
       title: "Technologies", 
-      iconUrl: "assets/icons/dashboard/home/settings.svg",
+      iconUrl: "/assets/icons/dashboard/home/settings.webp",
       route: "/credits-tech"
     },
     { 

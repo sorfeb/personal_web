@@ -48,6 +48,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="twitter:description" content="Personal website and portfolio of Soros Febriano, a passionate learner about the fusion of technology and art. Explore projects, photos, media and more." />
         <meta name="twitter:image" content="https://www.sorosfebria.co/assets/images/thumbnail-sorOS.jpg" />
         <link rel="icon" href="/favicon.svg" />
+        <link rel="preconnect" href="https://mosaic.scdn.co" />
+        <link rel="preconnect" href="https://i.scdn.co" />
+        <link rel="dns-prefetch" href="https://img.shields.io" />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <script
