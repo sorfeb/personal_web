@@ -15,10 +15,15 @@ const data = {
       iconUrl: "assets/icons/dashboard/home/certificate.svg",
       route: "/certifications"
     },
-    { 
-      title: "Projects", 
+    {
+      title: "Projects",
       iconUrl: "assets/icons/dashboard/home/project.svg",
       route: "/projects"
+    },
+    {
+      title: "Music",
+      iconUrl: "assets/icons/dashboard/gallery/music.svg",
+      route: "/music"
     },
   ],
   gallery: [
