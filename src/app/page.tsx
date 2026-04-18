@@ -16,6 +16,7 @@ import VolumeControl from "../components/VolumeControl/VolumeControl";
 import { ChatManager } from "../components/Chat";
 import { ShepherdTourProvider } from "../context/ShepherdTourContext";
 import ProfileModal from "../components/ProfileModal/ProfileModal";
+import { WMPGuideButton } from "../components/WMPPlayer/WMPGuideButton";
 
 export default function Home() {
 
@@ -59,6 +60,7 @@ export default function Home() {
                   </div>
                   <div className={styles.rightHeaderSection}>
                     <div className={styles.ProfileCardRow}>
+                      <WMPGuideButton />
                       <div className={styles.ProfileCardContainer}>
                         <ProfileCard onClick={handleOpenProfileModal} />
                       </div>
