@@ -13,6 +13,7 @@ import { parseAllButtonGroups } from '@/lib/wmp/regionMapper';
 import { useWMPPlayer } from '@/hooks/useWMPPlayer';
 import { useAudioManager } from '@/hooks/useAudioManager';
 import { WMPCanvas } from './WMPCanvas';
+import { SpotifyEmbed } from './engines/SpotifyEmbed';
 import styles from './WMPPlayer.module.css';
 
 interface WMPPlayerProps {
@@ -216,8 +217,13 @@ export function WMPPlayer({
         onEqGainChange={player.setEqGain}
       />
 
-      {/* Hidden audio element managed by useWMPPlayer */}
-      {/* Audio ref is handled internally by the hook */}
+      {player.state.currentTrack?.source === 'spotify-embed' && (
+        <div className={styles.embedOverlay}>
+          <SpotifyEmbed track={player.state.currentTrack} />
+        </div>
+      )}
+
+      {/* Hidden audio element managed by useWMPPlayer for `source: 'audio'` tracks. */}
     </div>
   );
 }

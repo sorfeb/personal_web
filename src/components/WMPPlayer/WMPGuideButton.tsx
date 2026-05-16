@@ -12,10 +12,10 @@ import styles from './WMPGuideButton.module.css';
  * Xbox 360 Guide Button-style toggle for the WMP player.
  * Sits in the dashboard header next to the ProfileCard.
  * Shows a green "ring of light" glow when the player is active.
- * Fetches a default playlist on first click if none is loaded.
+ * Loads the default audio catalog on first click when no playlist is set.
  */
 export const WMPGuideButton = memo(function WMPGuideButton() {
-  const { isVisible, currentPlaylist, showPlayer, hidePlayer, setCurrentPlaylist } = useWMPPlayerContext();
+  const { isVisible, currentPlaylist, hidePlayer, openWithPlaylist, showPlayer } = useWMPPlayerContext();
   const { playSound } = useAudioManager();
   const [isLoadingPlaylist, setIsLoadingPlaylist] = useState(false);
   const hasFetchedRef = useRef(false);
@@ -29,31 +29,17 @@ export const WMPGuideButton = memo(function WMPGuideButton() {
     setIsLoadingPlaylist(true);
 
     try {
-      const playlists = await utils.spotify.getPlaylists.fetch();
-      const items = playlists?.items;
-
-      if (!items || items.length === 0) return false;
-
-      // Try playlists until we find one with preview tracks
-      for (const playlist of items) {
-        const tracks = await utils.spotify.getPlaylistTracks.fetch({
-          playlistId: playlist.id,
-        });
-
-        if (tracks && tracks.length > 0) {
-          setCurrentPlaylist(tracks);
-          hasFetchedRef.current = true;
-          return true;
-        }
-      }
-
-      return false;
+      const catalog = await utils.audio.getCatalog.fetch();
+      if (!catalog || catalog.length === 0) return false;
+      openWithPlaylist(catalog);
+      hasFetchedRef.current = true;
+      return true;
     } catch {
       return false;
     } finally {
       setIsLoadingPlaylist(false);
     }
-  }, [utils, setCurrentPlaylist]);
+  }, [utils, openWithPlaylist]);
 
   const handleClick = useCallback(async () => {
     playSound('click');
@@ -68,11 +54,7 @@ export const WMPGuideButton = memo(function WMPGuideButton() {
       return;
     }
 
-    // No playlist loaded — fetch one, then show player
-    const loaded = await loadDefaultPlaylist();
-    if (loaded) {
-      showPlayer();
-    }
+    await loadDefaultPlaylist();
   }, [isVisible, currentPlaylist, playSound, showPlayer, hidePlayer, loadDefaultPlaylist]);
 
   return (
