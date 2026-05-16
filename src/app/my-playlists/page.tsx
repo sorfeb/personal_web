@@ -9,16 +9,9 @@ import { useAudioManager } from '../../hooks/useAudioManager';
 import { useWMPPlayerContext } from '@/context/WMPPlayerContext';
 import { trpc } from '../../utils/trpc';
 
-interface Playlist {
-  id: string;
-  name: string;
-  external_urls: { spotify: string };
-  images: { url: string; height: number; width: number }[];
-}
-
 const PlaylistsPage = () => {
   const { playSound } = useAudioManager();
-  const { setCurrentPlaylist, showPlayer } = useWMPPlayerContext();
+  const { openWithPlaylist } = useWMPPlayerContext();
   const [selectedPlaylistId, setSelectedPlaylistId] = useState<string | null>(null);
   const [emptyPlaylistName, setEmptyPlaylistName] = useState<string | null>(null);
 
@@ -28,7 +21,7 @@ const PlaylistsPage = () => {
     { enabled: !!selectedPlaylistId }
   );
 
-  const playlists = (data?.items || []) as Playlist[];
+  const playlists = data?.items ?? [];
 
   const playHoverSound = () => playSound('divine');
 
@@ -46,16 +39,14 @@ const PlaylistsPage = () => {
   useEffect(() => {
     if (tracks !== undefined) {
       if (tracks.length > 0) {
-        setCurrentPlaylist(tracks);
-        showPlayer();
+        openWithPlaylist(tracks);
         setEmptyPlaylistName(null);
       } else if (selectedPlaylistId) {
-        // Find playlist name for better error message
-        const playlist = playlists.find(p => p.id === selectedPlaylistId);
+        const playlist = playlists.find((p) => p.id === selectedPlaylistId);
         setEmptyPlaylistName(playlist?.name || 'Unknown playlist');
       }
     }
-  }, [tracks, setCurrentPlaylist, showPlayer, selectedPlaylistId, playlists]);
+  }, [tracks, openWithPlaylist, selectedPlaylistId, playlists]);
 
   return (
     <PageLayout title="My Playlists" size="wide">
@@ -122,8 +113,7 @@ const PlaylistsPage = () => {
           )}
           {emptyPlaylistName && (
             <div className={styles.errorMessage}>
-              <p>"{emptyPlaylistName}" has no preview tracks available.</p>
-              <p>Spotify preview URLs are deprecated and may not be available for all tracks.</p>
+              <p>"{emptyPlaylistName}" has no playable tracks.</p>
             </div>
           )}
         </div>
