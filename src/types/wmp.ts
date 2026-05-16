@@ -138,16 +138,38 @@ export interface ClickableRegion {
 
 // Playback state types
 
-export interface Track {
+/**
+ * Track is a discriminated union keyed on `source`. Each variant maps to a
+ * playback engine in `src/components/WMPPlayer/engines/`. Add a new variant
+ * + engine pair when you want WMP to drive another audio backend.
+ */
+export interface BaseTrack {
   id: string;
   name: string;
   artist?: string;
   album?: string;
-  duration: number; // in seconds
-  url: string; // Audio file URL or Spotify preview URL
   imageUrl?: string; // Album art
-  isPreview?: boolean; // True if Spotify 30s preview
 }
+
+/** Plays via the HTMLAudioElement engine. Real seeking, real duration. */
+export interface AudioTrack extends BaseTrack {
+  source: 'audio';
+  url: string;       // Direct media URL (MP3/OGG/etc.)
+  duration: number;  // Seconds
+}
+
+/**
+ * Plays via the Spotify Embed iframe engine. Spotify owns playback; WMP
+ * transport controls are proxied via postMessage. Duration/seek may be
+ * unavailable depending on the user's Spotify session.
+ */
+export interface SpotifyEmbedTrack extends BaseTrack {
+  source: 'spotify-embed';
+  spotifyTrackId: string; // For https://open.spotify.com/embed/track/{id}
+  spotifyUrl: string;     // Canonical https://open.spotify.com/track/{id} link
+}
+
+export type Track = AudioTrack | SpotifyEmbedTrack;
 
 export interface Playlist {
   id: string;
