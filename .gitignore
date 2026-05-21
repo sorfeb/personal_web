@@ -49,3 +49,6 @@ storybook-static
 
 # Local Claude Code worktrees (checked out inside the repo)
 .claude/worktrees/
+.mcp.json
+
+.playwright-mcp
