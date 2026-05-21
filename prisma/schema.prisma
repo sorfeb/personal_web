@@ -77,3 +77,23 @@ model Message {
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
 }
+
+model LastfmTrack {
+  id            String   @id @default(cuid())
+  artistKey     String
+  trackKey      String
+  artist        String
+  track         String
+  mbid          String?
+  listeners     Int?
+  playcount     Int?
+  url           String?
+  tags          Json
+  similar       Json?
+  source        String   @default("lastfm")
+  fetchedAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([artistKey, trackKey])
+  @@index([artistKey])
+}
