@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "lint:useeffect": "tsx scripts/lint-useeffect.ts",
+    "enrich:lastfm": "tsx --env-file=.env.local scripts/enrich-lastfm.ts",
     "compile": "tsc",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
@@ -19,6 +20,7 @@
     "@prisma/client": "^6.14.0",
     "@prisma/extension-accelerate": "^2.0.2",
     "@react-hook/media-query": "^1.1.1",
+    "@spotify/web-api-ts-sdk": "1.2.0",
     "@tanstack/react-query": "^5.85.3",
     "@trpc/client": "^11.4.4",
     "@trpc/next": "^11.4.4",
