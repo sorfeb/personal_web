@@ -24,16 +24,43 @@
   color: #ff6b6b;
 }
 
+/*
+ * Spotify embed sits inside the headspace skin's visualizer rectangle.
+ * Coordinates pulled from headspace.wms: <head> subview at (261, 0) +
+ * <vis> subview at (9, 59) → absolute (270, 59), size 216×158.
+ */
 .embedOverlay {
   position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 64px;
+  left: 270px;
+  top: 59px;
+  width: 216px;
+  height: 158px;
   z-index: 10;
-  background: rgba(0, 0, 0, 0.75);
-  border-radius: 8px;
-  padding: 8px;
+  overflow: hidden;
   pointer-events: auto;
+}
+
+.embedOverlay iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  display: block;
+}
+
+/*
+ * Playlist drawer content area. `left` is driven by framer-motion in
+ * WMPPlayer.tsx to sync with the sPlEar slide animation, so it is NOT
+ * declared here. Static coords pin top/size to the inner sPlView region.
+ */
+.playlistDrawerOverlay {
+  position: absolute;
+  top: 96px;
+  width: 172px;
+  height: 140px;
+  z-index: 5;
+  overflow: hidden;
+  background: #285f03;
 }
 
 .loading::after {

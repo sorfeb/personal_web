@@ -27,9 +27,6 @@ export const SpotifyEmbed = memo<SpotifyEmbedProps>(function SpotifyEmbed({ trac
     <iframe
       title={`Spotify embed: ${track.name}`}
       src={src}
-      width="100%"
-      height="152"
-      style={{ border: 0, borderRadius: 6 }}
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       loading="lazy"
     />

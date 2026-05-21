@@ -11,7 +11,13 @@
   position: absolute;
   pointer-events: auto;
   cursor: move;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+  /*
+   * drop-shadow (not box-shadow) — the headspace skin has transparent pixels
+   * around its irregular silhouette, and box-shadow would draw around the
+   * rectangular bounding box. drop-shadow reads the rendered alpha so the
+   * shadow follows the actual skin shape.
+   */
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.8));
   animation: fadeInScale 0.3s ease-out;
   user-select: none;
 }
