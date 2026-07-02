@@ -80,8 +80,12 @@ export const GlobalWMPPlayer = memo(function GlobalWMPPlayer() {
     };
   });
 
+  // SSR-safe references — `window`/`document` are undefined during server render
+  const win = typeof window !== 'undefined' ? window : null;
+  const doc = typeof document !== 'undefined' ? document : null;
+
   // Handle viewport resize - constrain position to stay within bounds
-  useEventListener(window, 'resize', () => {
+  useEventListener(win, 'resize', () => {
     const constrained = constrainPosition(position);
     if (constrained.x !== position.x || constrained.y !== position.y) {
       setPosition(constrained);
@@ -89,7 +93,7 @@ export const GlobalWMPPlayer = memo(function GlobalWMPPlayer() {
   });
 
   // Keyboard shortcuts: Esc closes the player when visible
-  useEventListener(isVisible ? window : null, 'keydown', (e: KeyboardEvent) => {
+  useEventListener(isVisible ? win : null, 'keydown', (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
       e.preventDefault();
       hidePlayer();
@@ -131,10 +135,10 @@ export const GlobalWMPPlayer = memo(function GlobalWMPPlayer() {
   }, []);
 
   // Drag event listeners — only bound while actively dragging
-  useEventListener(isDragging ? document : null, 'mousemove', handleMouseMove, {
+  useEventListener(isDragging ? doc : null, 'mousemove', handleMouseMove, {
     passive: true,
   });
-  useEventListener(isDragging ? document : null, 'mouseup', handleMouseUp);
+  useEventListener(isDragging ? doc : null, 'mouseup', handleMouseUp);
 
   // Control handler for empty state
   const handleClose = useCallback(() => {
@@ -175,9 +179,9 @@ export const GlobalWMPPlayer = memo(function GlobalWMPPlayer() {
           }}
         >
           <div className={styles.emptyState}>
-            <p className={styles.emptyText}>No playlist loaded</p>
+            <p className={styles.emptyText}>Nothing queued up yet</p>
             <p className={styles.emptyHint}>
-              Go to Music or My Playlists to load tracks
+              Open Music to load the default catalog, or pick something from My Playlists.
             </p>
             <button onClick={handleClose} className={styles.closeEmpty}>
               Close

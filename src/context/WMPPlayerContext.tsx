@@ -45,6 +45,8 @@ interface WMPPlayerContextValue {
   restore: () => void;
   setPosition: (pos: { x: number; y: number }) => void;
   setCurrentPlaylist: (tracks: Track[]) => void;
+  /** Atomic: load a playlist AND show the player in one step. */
+  openWithPlaylist: (tracks: Track[]) => void;
 
   // Refs for controlling playback
   playerRef: React.RefObject<{ pause: () => void; play: () => void } | null>;
@@ -53,10 +55,10 @@ interface WMPPlayerContextValue {
 const WMPPlayerContext = createContext<WMPPlayerContextValue | undefined>(undefined);
 
 const STORAGE_KEYS = {
-  VISIBLE: 'sorosfebria-wmp-visible',
   MINIMIZED: 'sorosfebria-wmp-minimized',
   POSITION: 'sorosfebria-wmp-position',
-  // Note: Playlist NOT persisted per user preference
+  // Visibility and playlist are session-only: a session always starts hidden
+  // and opens when the user explicitly loads a playlist.
 };
 
 const PLAYER_DIMENSIONS = {
@@ -98,11 +100,13 @@ export const WMPPlayerProvider: React.FC<WMPPlayerProviderProps> = ({ children }
   const playerRef = useRef<{ pause: () => void; play: () => void } | null>(null);
 
   /**
-   * Load saved preferences from localStorage on mount
+   * Load saved preferences from localStorage on mount. Visibility intentionally
+   * does NOT rehydrate: `currentPlaylist` is session-only, so the player would
+   * otherwise wake up empty and show "No playlist loaded". Each session starts
+   * hidden and waits for an explicit open.
    */
   useMountEffect(() => {
     try {
-      // Load saved position
       const savedPosition = localStorage.getItem(STORAGE_KEYS.POSITION);
       if (savedPosition) {
         const parsed = JSON.parse(savedPosition);
@@ -111,13 +115,6 @@ export const WMPPlayerProvider: React.FC<WMPPlayerProviderProps> = ({ children }
         setPositionState(getDefaultPosition());
       }
 
-      // Load saved visibility
-      const savedVisible = localStorage.getItem(STORAGE_KEYS.VISIBLE);
-      if (savedVisible !== null) {
-        setIsVisible(savedVisible === 'true');
-      }
-
-      // Load saved minimized state
       const savedMinimized = localStorage.getItem(STORAGE_KEYS.MINIMIZED);
       if (savedMinimized !== null) {
         setIsMinimized(savedMinimized === 'true');
@@ -130,24 +127,34 @@ export const WMPPlayerProvider: React.FC<WMPPlayerProviderProps> = ({ children }
   });
 
   /**
-   * Show player (manual toggle only per user preference)
+   * Show player. No-op when there's no playlist — opening empty would surface
+   * the "No playlist loaded" empty state we just designed away. Callers that
+   * have tracks should use `openWithPlaylist` instead.
    */
   const showPlayer = useCallback(() => {
-    setIsVisible(true);
-    localStorage.setItem(STORAGE_KEYS.VISIBLE, 'true');
+    setCurrentPlaylist((tracks) => {
+      if (tracks.length > 0) setIsVisible(true);
+      return tracks;
+    });
   }, []);
 
   /**
    * Hide player and pause music (per user preference)
    */
   const hidePlayer = useCallback(() => {
-    // Pause music when closing player
     if (playerRef.current) {
       playerRef.current.pause();
     }
-
     setIsVisible(false);
-    localStorage.setItem(STORAGE_KEYS.VISIBLE, 'false');
+  }, []);
+
+  /**
+   * Atomic open: set the playlist and reveal the player together. This is the
+   * intended path for "user clicked play on something".
+   */
+  const openWithPlaylist = useCallback((tracks: Track[]) => {
+    setCurrentPlaylist(tracks);
+    setIsVisible(tracks.length > 0);
   }, []);
 
   /**
@@ -203,6 +210,7 @@ export const WMPPlayerProvider: React.FC<WMPPlayerProviderProps> = ({ children }
       restore,
       setPosition,
       setCurrentPlaylist,
+      openWithPlaylist,
       playerRef,
     }),
     [
@@ -217,6 +225,7 @@ export const WMPPlayerProvider: React.FC<WMPPlayerProviderProps> = ({ children }
       minimize,
       restore,
       setPosition,
+      openWithPlaylist,
     ]
   );
 

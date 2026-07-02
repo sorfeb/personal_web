@@ -17,6 +17,7 @@ interface WMPCanvasProps {
   skinDef: SkinDefinition;
   assets: SkinAssets;
   clickRegions: Map<string, ClickableRegion[]>;
+  topLevelHandlers: Map<string, () => void>;
   playerState: WMPPlayerState;
   onSeek: (time: number) => void;
   onVolumeChange: (volume: number) => void;
@@ -28,6 +29,7 @@ export function WMPCanvas({
   skinDef,
   assets,
   clickRegions,
+  topLevelHandlers,
   playerState,
   onSeek,
   onVolumeChange,
@@ -57,6 +59,7 @@ export function WMPCanvas({
             element={element}
             assets={assets}
             clickRegions={clickRegions}
+            topLevelHandlers={topLevelHandlers}
             playerState={playerState}
             onSeek={onSeek}
             onVolumeChange={onVolumeChange}

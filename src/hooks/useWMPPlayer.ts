@@ -318,11 +318,19 @@ export function useWMPPlayer() {
     audioRef.current.volume = state.muted ? 0 : effectiveVolume;
   }, [state.volume, state.muted, globalVolume]);
 
-  // Handle track changes
+  // Handle track changes — only the <audio>-backed variant drives audioRef.
+  // The Spotify embed engine renders its own iframe at the component level.
   useEffect(() => {
     if (!audioRef.current || !state.currentTrack) return;
 
     const audio = audioRef.current;
+
+    if (state.currentTrack.source !== 'audio') {
+      audio.pause();
+      audio.src = '';
+      return;
+    }
+
     audio.src = state.currentTrack.url;
 
     if (state.isPlaying) {

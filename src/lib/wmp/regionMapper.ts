@@ -30,8 +30,15 @@ export function parseButtonGroup(
       continue;
     }
 
+    /*
+     * Region id resolution: explicit `id` attr wins (e.g. <buttonelement id="vis">),
+     * otherwise fall back to the element's WMS tag type (e.g. <playelement> →
+     * 'playelement') so typed transport buttons can be looked up by their type
+     * rather than a positional `button_N` index. The positional fallback only
+     * applies to anonymous, untyped button children.
+     */
     const region: ClickableRegion = {
-      id: buttonElement.id || `button_${regions.length}`,
+      id: buttonElement.id || buttonElement.type || `button_${regions.length}`,
       elementId: buttonElement.id,
       color: normalizeColor(buttonElement.mappingColor),
       toolTip: buttonElement.toolTip,

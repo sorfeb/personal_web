@@ -19,6 +19,7 @@ interface WMPSubviewProps {
   element: SkinElement;
   assets: SkinAssets;
   clickRegions: Map<string, ClickableRegion[]>;
+  topLevelHandlers: Map<string, () => void>;
   playerState: WMPPlayerState;
   onSeek: (time: number) => void;
   onVolumeChange: (volume: number) => void;
@@ -30,6 +31,7 @@ export function WMPSubview({
   element,
   assets,
   clickRegions,
+  topLevelHandlers,
   playerState,
   onSeek,
   onVolumeChange,
@@ -64,12 +66,26 @@ export function WMPSubview({
   }
 
   // Render based on element type
-  if (element.type === 'button' || element.type === 'buttongroup') {
+  if (
+    element.type === 'button' ||
+    element.type === 'buttongroup' ||
+    element.type === 'pausebutton'
+  ) {
+    /*
+     * Buttongroups receive their per-region map (regionMapper output).
+     * Top-level buttons (including <pausebutton>, which is not nested in any
+     * group) receive the id-keyed handler map so their clicks can fire.
+     */
     return (
       <WMPButton
         element={element}
         assets={assets}
-        clickRegions={clickRegions.get(element.id || '')}
+        clickRegions={
+          element.type === 'buttongroup'
+            ? clickRegions.get(element.id || '')
+            : undefined
+        }
+        topLevelHandlers={topLevelHandlers}
         left={left}
         top={top}
       />
@@ -178,6 +194,7 @@ export function WMPSubview({
           element={child}
           assets={assets}
           clickRegions={clickRegions}
+          topLevelHandlers={topLevelHandlers}
           playerState={playerState}
           onSeek={onSeek}
           onVolumeChange={onVolumeChange}

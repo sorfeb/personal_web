@@ -14,6 +14,13 @@ interface WMPButtonProps {
   element: SkinElement;
   assets: SkinAssets;
   clickRegions?: ClickableRegion[];
+  /**
+   * Handlers for non-buttongroup ("top-level") buttons, keyed by `element.id`
+   * first then by `element.type`. The WMS authors typed-only elements (like
+   * <pausebutton>) and id'd elements (like <button id="bPl">) — both paths
+   * land here. Without this map, top-level button clicks silently no-op.
+   */
+  topLevelHandlers?: Map<string, () => void>;
   left: number;
   top: number;
 }
@@ -22,6 +29,7 @@ export function WMPButton({
   element,
   assets,
   clickRegions,
+  topLevelHandlers,
   left,
   top,
 }: WMPButtonProps) {
@@ -33,6 +41,35 @@ export function WMPButton({
   );
   const containerRef = useRef<HTMLDivElement>(null);
   const { playSound } = useAudioManager();
+
+  /*
+   * Resolve a top-level button's handler. Tries the explicit id first, then
+   * the WMS tag type (catches <pausebutton> which has no id), then the
+   * "Return to Full Mode" themebutton heuristic — it has neither id nor a
+   * unique type, only its WMS onClick string identifies it.
+   */
+  const topLevelHandler = (() => {
+    if (!topLevelHandlers) return undefined;
+    if (element.id && topLevelHandlers.has(element.id)) {
+      return topLevelHandlers.get(element.id);
+    }
+    if (element.type && topLevelHandlers.has(element.type)) {
+      return topLevelHandlers.get(element.type);
+    }
+    if (
+      element.onClick?.includes('returnToMediaCenter') &&
+      topLevelHandlers.has('returnToMediaCenter')
+    ) {
+      return topLevelHandlers.get('returnToMediaCenter');
+    }
+    return undefined;
+  })();
+
+  // A button is "live" if it has a click target. Buttongroups manage liveness
+  // per-region internally; top-level buttons are live only when a handler
+  // resolves. Inert buttons render only their default image and use the
+  // default cursor — no misleading hover/down promises.
+  const isLive = clickRegions !== undefined || topLevelHandler !== undefined;
 
   // Get the appropriate image based on state
   const getCurrentImage = useCallback(() => {
@@ -88,11 +125,11 @@ export function WMPButton({
   );
 
   const handleMouseEnter = useCallback(() => {
-    if (!clickRegions) {
+    if (!clickRegions && isLive) {
       setButtonState('hover');
       playSound('hover');
     }
-  }, [clickRegions, playSound]);
+  }, [clickRegions, isLive, playSound]);
 
   const handleMouseLeave = useCallback(() => {
     setButtonState('default');
@@ -100,17 +137,20 @@ export function WMPButton({
   }, []);
 
   const handleMouseDown = useCallback(() => {
-    setButtonState('down');
-  }, []);
+    if (isLive) setButtonState('down');
+  }, [isLive]);
 
   const handleMouseUp = useCallback(() => {
-    setButtonState('hover');
-  }, []);
+    if (isLive) setButtonState('hover');
+  }, [isLive]);
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (!clickRegions || !containerRef.current) {
-        playSound('click');
+        if (topLevelHandler) {
+          playSound('click');
+          topLevelHandler();
+        }
         return;
       }
 
@@ -129,7 +169,7 @@ export function WMPButton({
         }
       }
     },
-    [clickRegions, element.images?.mapping, assets.mappings, playSound]
+    [clickRegions, element.images?.mapping, assets.mappings, playSound, topLevelHandler]
   );
 
   // effect:audited — buttonState is partially derived from hoveredRegion
@@ -159,7 +199,7 @@ export function WMPButton({
         backgroundImage: currentImageInfo ? `url(${currentImageInfo.url})` : undefined,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'contain',
-        cursor: element.enabled !== false ? 'pointer' : 'default',
+        cursor: element.enabled !== false && isLive ? 'pointer' : 'default',
       }}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}

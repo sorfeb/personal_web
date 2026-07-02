@@ -3,6 +3,7 @@ import { messagesRouter } from './messages';
 import { userRouter } from './user';
 import { spotifyRouter } from './spotify';
 import { blogRouter } from './blog';
+import { audioRouter } from './audio';
 import { lastfmRouter } from './lastfm';
 
 /**
@@ -15,6 +16,7 @@ export const appRouter = createTRPCRouter({
   user: userRouter,
   spotify: spotifyRouter,
   blog: blogRouter,
+  audio: audioRouter,
   lastfm: lastfmRouter,
 });
 
