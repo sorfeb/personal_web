@@ -169,7 +169,20 @@ export interface SpotifyEmbedTrack extends BaseTrack {
   spotifyUrl: string;     // Canonical https://open.spotify.com/track/{id} link
 }
 
-export type Track = AudioTrack | SpotifyEmbedTrack;
+/**
+ * Plays via the YouTube IFrame Player API engine (`src/lib/wmp/youtubeEngine.ts`).
+ * YouTube is the audio backend: the video surface is mounted hidden and WMP
+ * transport drives playback programmatically (play/pause/seek/volume/ended),
+ * unlike the Spotify embed which owns its own transport. Gives full-length
+ * playback for every visitor with no login.
+ */
+export interface YouTubeTrack extends BaseTrack {
+  source: 'youtube';
+  youtubeVideoId: string; // 11-char YouTube video id
+  spotifyUrl?: string;    // Optional deep-link back to the original Spotify track
+}
+
+export type Track = AudioTrack | SpotifyEmbedTrack | YouTubeTrack;
 
 export interface Playlist {
   id: string;

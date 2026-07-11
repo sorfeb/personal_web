@@ -11,16 +11,22 @@ const MusicPage = () => {
   const { openWithPlaylist, currentPlaylist } = useWMPPlayerContext();
 
   const { data: catalog, isLoading } = trpc.audio.getCatalog.useQuery();
+  const { data: youtubeAlbum } = trpc.audio.getYouTubePlaylist.useQuery();
 
-  // effect:audited — auto-load the default catalog into the player on first
-  // visit so the page demonstrates a working player rather than an empty UI.
-  // Guarded so we don't trample a playlist the user already loaded elsewhere.
+  // effect:audited — auto-load a playlist into the player on first visit so the
+  // page demonstrates a working player rather than an empty UI. Prefers the
+  // curated YouTube album (full-length streaming, no login); falls back to the
+  // self-hosted audio catalog. Guarded so we don't trample a playlist the user
+  // already loaded elsewhere.
   // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(() => {
-    if (catalog && catalog.length > 0 && currentPlaylist.length === 0) {
+    if (currentPlaylist.length > 0) return;
+    if (youtubeAlbum && youtubeAlbum.length > 0) {
+      openWithPlaylist(youtubeAlbum);
+    } else if (catalog && catalog.length > 0) {
       openWithPlaylist(catalog);
     }
-  }, [catalog]);
+  }, [catalog, youtubeAlbum]);
 
   return (
     <PageLayout title="Music">
