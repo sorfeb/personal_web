@@ -12,6 +12,7 @@ import type {
   WMPPlayerAction,
 } from '@/types/wmp';
 import { useVolume } from '@/context/VolumeContext';
+import { YouTubeEngine } from '@/lib/wmp/youtubeEngine';
 
 // Helper to format time in M:SS format
 function formatTime(seconds: number): string {
@@ -251,6 +252,11 @@ function playerReducer(
 export function useWMPPlayer() {
   const [state, dispatch] = useReducer(playerReducer, initialState);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const youtubeEngineRef = useRef<YouTubeEngine | null>(null);
+  // Mirror the current track into a ref so effects/callbacks that must not
+  // re-subscribe on every track change can still read the latest source.
+  const currentTrackRef = useRef<Track | null>(null);
+  currentTrackRef.current = state.currentTrack;
   const { volume: globalVolume } = useVolume();
 
   // Initialize audio element
@@ -309,49 +315,107 @@ export function useWMPPlayer() {
     };
   }, []);
 
-  // Sync volume with global volume context and player state
+  // Initialize the YouTube engine. Headless and self-mounting (like the <audio>
+  // element above), it drives `source: 'youtube'` tracks and reports playback
+  // progress/lifecycle back into the reducer.
   useEffect(() => {
-    if (!audioRef.current) return;
+    if (typeof window === 'undefined') return;
 
-    // Use player state volume, but scale by global volume
+    const engine = new YouTubeEngine({
+      onTime: (time) => dispatch({ type: 'UPDATE_TIME', time }),
+      onDuration: (duration) => dispatch({ type: 'UPDATE_DURATION', duration }),
+      onEnded: () => dispatch({ type: 'TRACK_ENDED' }),
+      onLoadingChange: (isLoading) => dispatch({ type: 'SET_LOADING', isLoading }),
+      onError: (error) => dispatch({ type: 'SET_ERROR', error }),
+    });
+    youtubeEngineRef.current = engine;
+    engine.init();
+
+    return () => {
+      engine.destroy();
+      youtubeEngineRef.current = null;
+    };
+  }, []);
+
+  // Sync volume with the global volume context, scaled into each engine's range.
+  useEffect(() => {
     const effectiveVolume = (state.volume / 100) * (globalVolume / 100);
-    audioRef.current.volume = state.muted ? 0 : effectiveVolume;
+    const gain = state.muted ? 0 : effectiveVolume;
+
+    if (audioRef.current) {
+      audioRef.current.volume = gain; // HTMLAudioElement: 0-1
+    }
+    youtubeEngineRef.current?.setVolume(gain * 100); // YouTube: 0-100
   }, [state.volume, state.muted, globalVolume]);
 
-  // Handle track changes — only the <audio>-backed variant drives audioRef.
-  // The Spotify embed engine renders its own iframe at the component level.
+  // Handle track changes. Each backend acts only for its own `source`; the
+  // others are told to stand down so two engines never play at once. The
+  // Spotify embed engine renders its own iframe at the component level.
   useEffect(() => {
-    if (!audioRef.current || !state.currentTrack) return;
-
     const audio = audioRef.current;
+    const youtube = youtubeEngineRef.current;
+    const track = state.currentTrack;
 
-    if (state.currentTrack.source !== 'audio') {
-      audio.pause();
-      audio.src = '';
+    if (!track) {
+      audio?.pause();
+      if (audio) audio.src = '';
+      youtube?.stop();
       return;
     }
 
-    audio.src = state.currentTrack.url;
-
-    if (state.isPlaying) {
-      audio.play().catch((error) => {
-        console.error('Failed to play audio:', error);
-        dispatch({ type: 'SET_ERROR', error: 'Failed to play audio' });
-      });
+    if (track.source === 'audio') {
+      youtube?.stop();
+      if (audio) {
+        audio.src = track.url;
+        if (state.isPlaying) {
+          audio
+            .play()
+            .catch(() =>
+              dispatch({ type: 'SET_ERROR', error: 'Failed to play audio' })
+            );
+        }
+      }
+      return;
     }
+
+    if (track.source === 'youtube') {
+      if (audio) {
+        audio.pause();
+        audio.src = '';
+      }
+      youtube?.load(track.youtubeVideoId, { autoplay: state.isPlaying });
+      return;
+    }
+
+    // spotify-embed (and any future embed): silence the imperative engines and
+    // let the embed component own playback.
+    if (audio) {
+      audio.pause();
+      audio.src = '';
+    }
+    youtube?.stop();
   }, [state.currentTrack]);
 
-  // Handle play/pause state changes
+  // Handle play/pause state changes for whichever engine owns the current track.
   useEffect(() => {
-    if (!audioRef.current) return;
+    const shouldPlay = state.isPlaying && !state.isPaused;
+
+    if (currentTrackRef.current?.source === 'youtube') {
+      const youtube = youtubeEngineRef.current;
+      if (shouldPlay) youtube?.play();
+      else youtube?.pause();
+      return;
+    }
 
     const audio = audioRef.current;
+    if (!audio) return;
 
-    if (state.isPlaying && !state.isPaused) {
-      audio.play().catch((error) => {
-        console.error('Failed to play audio:', error);
-        dispatch({ type: 'SET_ERROR', error: 'Failed to play audio' });
-      });
+    if (shouldPlay) {
+      audio
+        .play()
+        .catch(() =>
+          dispatch({ type: 'SET_ERROR', error: 'Failed to play audio' })
+        );
     } else {
       audio.pause();
     }
@@ -377,6 +441,7 @@ export function useWMPPlayer() {
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
     }
+    youtubeEngineRef.current?.stop();
   }, []);
 
   const next = useCallback(() => {
@@ -388,7 +453,9 @@ export function useWMPPlayer() {
   }, []);
 
   const seek = useCallback((time: number) => {
-    if (audioRef.current) {
+    if (currentTrackRef.current?.source === 'youtube') {
+      youtubeEngineRef.current?.seek(time);
+    } else if (audioRef.current) {
       audioRef.current.currentTime = time;
     }
     dispatch({ type: 'SEEK', time });
