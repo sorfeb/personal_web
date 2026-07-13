@@ -1,0 +1,378 @@
+/* Shared styles for the GamerCard content panes */
+
+.pane {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4);
+}
+
+.paneHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding-bottom: var(--spacing-2);
+  border-bottom: 1px solid var(--color-border-primary);
+}
+
+.paneHeaderIcon {
+  color: #a8a8a8;
+  filter:
+    drop-shadow(0 0 1px rgb(255 255 255 / 30%))
+    drop-shadow(0 1px 2px rgb(0 0 0 / 50%));
+}
+
+.paneTitle {
+  margin: 0;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+/* ============ Experience — achievement rows ============ */
+
+.achievementList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.achievement {
+  display: flex;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3);
+  background: hsl(0 0% 100% / 0.04);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-base);
+  box-shadow: var(--shadow-inset-light);
+  transition: background var(--duration-normal) var(--ease-smooth),
+    transform var(--duration-normal) var(--ease-smooth);
+}
+
+.achievement:hover {
+  background: hsl(0 0% 100% / 0.07);
+  transform: translateY(-2px);
+}
+
+.achievementIcon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, hsl(200 4% 33%), hsl(200 6% 20%));
+  border: 1px solid hsl(0 0% 100% / 0.15);
+  border-radius: var(--radius-sm);
+  color: var(--color-brand-primary-light);
+  box-shadow: var(--shadow-inset-light);
+}
+
+.achievementBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  min-width: 0;
+}
+
+.achievementTitle {
+  margin: 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.achievementMeta {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+}
+
+.bullets {
+  margin: var(--spacing-1) 0 0;
+  padding-left: var(--spacing-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-light);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-secondary);
+}
+
+.bullets li::marker {
+  color: var(--color-brand-primary);
+}
+
+/* ============ Selected work ============ */
+
+.workList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.workItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  padding-bottom: var(--spacing-3);
+  border-bottom: 1px solid hsl(0 0% 100% / 0.06);
+}
+
+.workItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.workHeading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-3);
+  flex-wrap: wrap;
+}
+
+.workName {
+  margin: 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+.workStack {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  color: var(--color-brand-primary-light);
+}
+
+.workDescription {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-light);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+
+/* ============ Skills & certs ============ */
+
+.skillGroups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.skillGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.skillGroupLabel {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-regular);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wider);
+  color: var(--color-text-tertiary);
+}
+
+.chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+}
+
+.chip {
+  padding: var(--spacing-1) var(--spacing-3);
+  background: hsl(0 0% 100% / 0.06);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-light);
+  color: var(--color-text-secondary);
+}
+
+.educationLine {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.educationLine svg {
+  flex-shrink: 0;
+  color: var(--color-brand-primary-light);
+}
+
+.credGrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--spacing-2);
+}
+
+.credTile {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2);
+  background: hsl(0 0% 100% / 0.04);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-sm);
+}
+
+.credIcon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, hsl(200 4% 33%), hsl(200 6% 20%));
+  border: 1px solid hsl(0 0% 100% / 0.15);
+  border-radius: var(--radius-sm);
+  color: var(--color-brand-primary-light);
+}
+
+.credLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+
+.credIssuer {
+  color: var(--color-text-tertiary);
+  font-weight: var(--font-weight-light);
+}
+
+/* ============ Contact ============ */
+
+.contactList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.contactRow,
+.contactRowSecondary {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  border-bottom: 1px solid hsl(0 0% 100% / 0.06);
+}
+
+.contactRow:last-child,
+.contactRowSecondary:last-child {
+  border-bottom: none;
+}
+
+.contactRowSecondary {
+  opacity: 0.65;
+}
+
+.contactLink {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  min-height: 44px;
+  padding: var(--spacing-2) 0;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: color var(--duration-fast) var(--ease-smooth);
+  min-width: 0;
+}
+
+.contactLink:hover,
+.contactLink:focus-visible {
+  color: var(--color-brand-primary-light);
+}
+
+.contactLink:focus-visible {
+  outline-color: var(--color-brand-primary);
+}
+
+.contactLink svg {
+  flex-shrink: 0;
+}
+
+.contactLabel {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  min-width: 5.5rem;
+}
+
+.contactDisplay {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.copyButton {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-smooth),
+    border-color var(--duration-fast) var(--ease-smooth),
+    background var(--duration-fast) var(--ease-smooth);
+}
+
+.copyButton:hover,
+.copyButton:focus-visible {
+  color: var(--color-brand-primary-light);
+  border-color: var(--color-brand-primary);
+  background: hsl(var(--color-brand-hue) var(--color-brand-saturation) 45% / 0.1);
+}
+
+/* Mobile — tighter padding, everything remains tappable */
+@media (max-width: 768px) {
+  .pane {
+    padding: var(--spacing-4) var(--spacing-4) var(--spacing-5);
+  }
+
+  .credGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .contactDisplay {
+    display: none;
+  }
+}
