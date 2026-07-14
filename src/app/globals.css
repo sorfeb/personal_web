@@ -37,6 +37,13 @@ html, body {
   height: 100%;
   overflow: hidden;
   font-family: var(--font-primary);
+  /* Dark UA surfaces (scrollbar corners, form controls, autofill) */
+  color-scheme: dark;
+  /* No pull-to-refresh or rubber-band bounce — the console doesn't wobble */
+  overscroll-behavior: none;
+  /* Prevent iOS/Android font inflation in landscape */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -67,6 +74,11 @@ img {
 button {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+}
+
+::selection {
+  background: var(--color-brand-primary);
+  color: hsl(95 85% 8%);
 }
 
 .crt {
@@ -104,6 +116,16 @@ button {
 /* ============================================
    Global Scrollbar
    ============================================ */
+
+/* Firefox-only fallback for the WebKit scrollbar below. Gated so
+   Chromium (which honors scrollbar-color since 121) keeps the custom
+   ::-webkit-scrollbar styling instead of the flat standard one. */
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(0 0% 60%) hsl(0 0% 14%);
+  }
+}
 
 *::-webkit-scrollbar {
   width: 8px;
