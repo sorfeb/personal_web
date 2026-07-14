@@ -23,6 +23,7 @@
   text-align: left;
   cursor: pointer;
   outline: none;
+  user-select: none;
   transition: color var(--duration-fast) var(--ease-smooth);
 }
 
