@@ -32,7 +32,6 @@ const IdentityPanel = memo<IdentityPanelProps>(({ onSaveContact, onHoverSound })
             height={96}
             sizes="96px"
             className={styles.avatarImage}
-            draggable={false}
             priority
           />
         </div>
@@ -52,7 +51,6 @@ const IdentityPanel = memo<IdentityPanelProps>(({ onSaveContact, onHoverSound })
                 width={18}
                 height={18}
                 className={styles.gamerscoreIcon}
-                draggable={false}
               />
             </dd>
           </div>

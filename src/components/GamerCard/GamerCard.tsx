@@ -118,7 +118,6 @@ const GamerCard: React.FC = () => {
             height={44}
             sizes="44px"
             className={styles.chromeAvatarImage}
-            draggable={false}
           />
         </div>
         <Clock className={styles.chromeClock} />
