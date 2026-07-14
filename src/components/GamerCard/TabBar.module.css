@@ -1,0 +1,66 @@
+.tabBar {
+  /* Mobile-only: shown in the 768px media query below */
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .tabBar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-overlay);
+    display: flex;
+    background: hsl(0 0% 7% / 0.95);
+    backdrop-filter: var(--backdrop-blur);
+    border-top: 1px solid var(--color-border-secondary);
+    box-shadow: 0 -6px 16px hsl(0 0% 0% / 0.4);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .tab {
+    position: relative;
+    flex: 1;
+    min-height: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: var(--spacing-2) 0;
+    background: transparent;
+    border: none;
+    color: var(--color-text-tertiary);
+    font-family: inherit;
+    cursor: pointer;
+    transition: color var(--duration-fast) var(--ease-smooth);
+  }
+
+  /* Green indicator bar along the top edge of the active tab */
+  .tab::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 20%;
+    right: 20%;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+    background: transparent;
+    transition: background var(--duration-fast) var(--ease-smooth),
+      box-shadow var(--duration-fast) var(--ease-smooth);
+  }
+
+  .tabActive {
+    color: var(--color-brand-primary-light);
+  }
+
+  .tabActive::before {
+    background: var(--color-brand-primary);
+    box-shadow: var(--shadow-glow-green);
+  }
+
+  .tabLabel {
+    font-size: var(--font-size-xs);
+    letter-spacing: var(--letter-spacing-wide);
+  }
+}

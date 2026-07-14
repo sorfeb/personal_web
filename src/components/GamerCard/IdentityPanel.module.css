@@ -1,0 +1,181 @@
+.identity {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Gamertag strip — the light bar holding the name, like "Kylirez" */
+.gamertagStrip {
+  padding: var(--spacing-2) var(--spacing-4);
+  background: linear-gradient(180deg, hsl(0 0% 100% / 0.1), hsl(0 0% 100% / 0.05));
+  border-bottom: 1px solid var(--color-border-primary);
+  box-shadow: var(--shadow-inset-light);
+}
+
+.gamertag {
+  margin: 0;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-text-primary);
+  text-shadow: var(--shadow-text);
+}
+
+.body {
+  display: flex;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4);
+}
+
+/* Framed gamerpic like the console's avatar tiles */
+.avatarFrame {
+  flex-shrink: 0;
+  width: 96px;
+  height: 96px;
+  padding: 4px;
+  background: hsl(0 0% 13%);
+  border: 2px solid hsl(0 0% 40%);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-inset-light);
+  overflow: hidden;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 2px;
+}
+
+.statList {
+  flex: 1;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--spacing-2);
+  min-width: 0;
+}
+
+.statRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-3);
+}
+
+.statLabel {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-light);
+  color: var(--color-text-secondary);
+}
+
+.statValue {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.gamerscoreIcon {
+  filter: brightness(1.2);
+}
+
+.headline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  padding: 0 var(--spacing-4) var(--spacing-3);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-brand-primary-light);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+.status {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-brand-primary);
+  box-shadow: var(--shadow-glow-green);
+}
+
+.tagline {
+  margin: var(--spacing-1) 0 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-light);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-tertiary);
+  max-width: 48ch;
+}
+
+/* Save Contact — the primary recruiter action */
+.saveButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  align-self: flex-start;
+  margin: 0 var(--spacing-4) var(--spacing-4);
+  min-height: 44px;
+  padding: var(--spacing-2) var(--spacing-5);
+  background: var(--gradient-brand);
+  border: 1px solid var(--color-brand-primary-light);
+  border-radius: var(--radius-sm);
+  color: hsl(95 80% 8%);
+  font-family: inherit;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
+  cursor: pointer;
+  box-shadow: var(--shadow-glow-green), var(--shadow-inset-light);
+  transition: transform var(--duration-normal) var(--ease-smooth),
+    box-shadow var(--duration-normal) var(--ease-smooth),
+    filter var(--duration-normal) var(--ease-smooth);
+}
+
+.saveButton:hover,
+.saveButton:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow-green-hover), var(--shadow-inset-light);
+  filter: brightness(1.08);
+}
+
+.saveButton:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .body {
+    padding: var(--spacing-4) var(--spacing-4) var(--spacing-3);
+  }
+
+  /* Save-contact goes full width and prominent on phones */
+  .saveButton {
+    align-self: stretch;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .saveButton,
+  .saveButton:hover {
+    transform: none;
+  }
+}
