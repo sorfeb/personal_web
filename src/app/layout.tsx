@@ -10,6 +10,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { BackgroundComposer } from "../components/Background";
 import ConsoleEasterEgg from "../components/ConsoleEasterEgg/ConsoleEasterEgg";
+import ImageDragGuard from "../components/ImageDragGuard";
 import TRPCProvider from "../components/Providers/TRPCProvider";
 import CRTOverlay from "../components/CRTOverlay/CRTOverlay";
 import ToastContainer from "../components/ToastNotification/ToastContainer";
@@ -122,6 +123,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <WMPPlayerProvider>
                       <ToastProvider>
                         <ConsoleEasterEgg />
+                        <ImageDragGuard />
                         {children}
                         <GlobalWMPPlayer />
                         <ToastContainer />

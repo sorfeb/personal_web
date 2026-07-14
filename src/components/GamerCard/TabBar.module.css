@@ -33,6 +33,7 @@
     color: var(--color-text-tertiary);
     font-family: inherit;
     cursor: pointer;
+    user-select: none;
     transition: color var(--duration-fast) var(--ease-smooth);
   }
 
