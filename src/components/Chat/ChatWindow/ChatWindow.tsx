@@ -55,7 +55,9 @@ const ChatWindow = memo<ChatWindowProps>(({ isOpen, onClose, onMinimize }) => {
   });
 
   // Keep mobile flag in sync with viewport width
-  useEventListener(window, 'resize', () => setMobile(isMobile()));
+  useEventListener(typeof window === 'undefined' ? null : window, 'resize', () =>
+    setMobile(isMobile())
+  );
 
   const handleDragStart = useCallback((e: React.MouseEvent) => {
     if (isMaximized || mobile) return;

@@ -113,7 +113,7 @@ const PlaylistsPage = () => {
           )}
           {emptyPlaylistName && (
             <div className={styles.errorMessage}>
-              <p>"{emptyPlaylistName}" has no playable tracks.</p>
+              <p>&ldquo;{emptyPlaylistName}&rdquo; has no playable tracks.</p>
             </div>
           )}
         </div>

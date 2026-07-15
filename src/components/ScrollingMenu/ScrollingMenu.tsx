@@ -46,7 +46,7 @@ const ScrollingMenu: React.FC<ScrollingMenuProps> = ({ items, onSelectionChange,
 
   // Scroll wheel navigation
   useEventListener(
-    disabled ? null : window,
+    disabled || typeof window === 'undefined' ? null : window,
     'wheel',
     (event: WheelEvent) => {
       const direction = Math.sign(event.deltaY);
