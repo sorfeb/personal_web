@@ -2,5 +2,11 @@
   "extends": [
     "next/core-web-vitals",
     "plugin:storybook/recommended"
-  ]
+  ],
+  "rules": {
+    // Storybook 7 requires importing Meta/StoryObj from the renderer
+    // package (@storybook/react) — framework packages don't re-export
+    // them until SB9. Re-enable this rule after upgrading Storybook.
+    "storybook/no-renderer-packages": "off"
+  }
 }

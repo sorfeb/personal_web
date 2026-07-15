@@ -35,7 +35,7 @@ const MusicPage = () => {
         <div className={styles.playerWrapper}>
           <div className={styles.instructions}>
             <h2>Windows Media Player</h2>
-            <p>Click "Show Player" to open the global music player.</p>
+            <p>Click &ldquo;Show Player&rdquo; to open the global music player.</p>
             <p>The player is draggable and persists across pages.</p>
             {isLoading && <p className={styles.loading}>Loading playlist...</p>}
             {!isLoading && catalog && catalog.length === 0 && (

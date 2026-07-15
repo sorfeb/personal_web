@@ -84,4 +84,6 @@ const XboxCard: React.FC<XboxCardProps> = memo(({ title, iconUrl, route, images 
   );
 });
 
+XboxCard.displayName = 'XboxCard';
+
 export default XboxCard;
