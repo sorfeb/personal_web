@@ -3,6 +3,13 @@
 import React, { useMemo } from 'react';
 import Link from 'next/link';
 import projectsData from '../../data/projects.json';
+import {
+  CARD_COLOPHON,
+  CARD_CONCEPT_SOURCES,
+  CARD_INSPIRATIONS,
+  CARD_INTERESTS,
+} from '../../data/concepts';
+import { ChipGroup, ConceptGraphProvider, Passage } from '../../components/Concept';
 import { useAudioManager } from '../../hooks/useAudioManager';
 import { useMountEffect } from '../../hooks';
 import { useNavigationSound } from '../../hooks/useNavigationSound';
@@ -84,6 +91,7 @@ const CardPage: React.FC = () => {
 
   return (
     <main className={styles.page}>
+      <ConceptGraphProvider sources={CARD_CONCEPT_SOURCES}>
       <div className={styles.column}>
         <div className={styles.chip}>
           <span className={styles.chipBar} aria-hidden="true" />
@@ -101,6 +109,11 @@ const CardPage: React.FC = () => {
         </p>
 
         <section className={styles.section}>
+          <h2 className={styles.sectionLabel}>Current interests</h2>
+          <Passage section={CARD_INTERESTS} />
+        </section>
+
+        <section className={styles.section}>
           <h2 className={styles.sectionLabel}>Selected work</h2>
           <ul className={styles.workList}>
             {featured.map((entry) => (
@@ -113,6 +126,16 @@ const CardPage: React.FC = () => {
               </li>
             ))}
           </ul>
+        </section>
+
+        <section className={styles.section}>
+          <h2 className={styles.sectionLabel}>Colophon</h2>
+          <ChipGroup chips={CARD_COLOPHON.chips} />
+        </section>
+
+        <section className={styles.section}>
+          <h2 className={styles.sectionLabel}>Inspirations</h2>
+          <ChipGroup chips={CARD_INSPIRATIONS.chips} />
         </section>
 
         <section className={styles.section}>
@@ -147,6 +170,7 @@ const CardPage: React.FC = () => {
           </Link>
         </footer>
       </div>
+      </ConceptGraphProvider>
     </main>
   );
 };
