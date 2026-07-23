@@ -21,7 +21,8 @@ export type ConceptType =
   | 'site'
   | 'person'
   | 'project'
-  | 'idea';
+  | 'idea'
+  | 'brand';
 
 export interface Concept {
   /** Path-shaped id, OKF concept-ID style (`tools/claude-code`). */
@@ -121,6 +122,41 @@ export const CONCEPTS: Concept[] = [
     description: 'Pieter Levels’ indie-hacker personal site.',
     resource: 'https://levels.io',
   },
+  {
+    id: 'ideas/japanese-americana',
+    type: 'idea',
+    title: 'Japanese Americana',
+    description: 'Ametora — Japan’s reinterpretation of American workwear and denim.',
+    tags: ['likes'],
+  },
+  {
+    id: 'ideas/vintage-band-tees',
+    type: 'idea',
+    title: 'Vintage Band Tees',
+    tags: ['likes'],
+  },
+  {
+    id: 'ideas/anime-bootleg-tees',
+    type: 'idea',
+    title: 'Anime Bootleg Tees',
+    description: '90s unlicensed anime prints — the shadier the license, the better.',
+    tags: ['likes'],
+  },
+  {
+    id: 'ideas/cd-collecting',
+    type: 'idea',
+    title: 'CD Collecting',
+    description: 'Physical media over streams; jewel cases as artifacts.',
+    tags: ['likes'],
+  },
+  {
+    id: 'brands/redwing',
+    type: 'brand',
+    title: 'Red Wing',
+    description: 'Heritage work boots out of Minnesota.',
+    resource: 'https://www.redwingheritage.com',
+    tags: ['likes'],
+  },
 ];
 
 const CONCEPT_INDEX = new Map(CONCEPTS.map((concept) => [concept.id, concept]));
@@ -200,6 +236,18 @@ export const CARD_INSPIRATIONS: CardChipSection = {
   ],
 };
 
+export const CARD_LIKES: CardChipSection = {
+  id: 'card/likes',
+  label: 'likes',
+  chips: [
+    { label: '[[ideas/anime-bootleg-tees|anime bootleg tees]]' },
+    { label: '[[ideas/japanese-americana|japanese americana]]' },
+    { label: '[[ideas/vintage-band-tees|vintage band tees]]' },
+    { label: '[[brands/redwing|red wing]]' },
+    { label: '[[ideas/cd-collecting|cd collecting]]' },
+  ],
+};
+
 function chipSectionToSource(section: CardChipSection): ConceptSource {
   return {
     id: section.id,
@@ -219,4 +267,5 @@ export const CARD_CONCEPT_SOURCES: ConceptSource[] = [
   },
   chipSectionToSource(CARD_COLOPHON),
   chipSectionToSource(CARD_INSPIRATIONS),
+  chipSectionToSource(CARD_LIKES),
 ];
