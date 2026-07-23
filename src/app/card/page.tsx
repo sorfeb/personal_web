@@ -8,6 +8,7 @@ import {
   CARD_CONCEPT_SOURCES,
   CARD_INSPIRATIONS,
   CARD_INTERESTS,
+  CARD_LIKES,
 } from '../../data/concepts';
 import { ChipGroup, ConceptGraphProvider, Passage } from '../../components/Concept';
 import { useAudioManager } from '../../hooks/useAudioManager';
@@ -136,6 +137,11 @@ const CardPage: React.FC = () => {
         <section className={styles.section}>
           <h2 className={styles.sectionLabel}>Inspirations</h2>
           <ChipGroup chips={CARD_INSPIRATIONS.chips} />
+        </section>
+
+        <section className={styles.section}>
+          <h2 className={styles.sectionLabel}>Likes</h2>
+          <ChipGroup chips={CARD_LIKES.chips} />
         </section>
 
         <section className={styles.section}>
