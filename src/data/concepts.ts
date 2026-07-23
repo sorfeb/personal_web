@@ -21,8 +21,7 @@ export type ConceptType =
   | 'site'
   | 'person'
   | 'project'
-  | 'idea'
-  | 'brand';
+  | 'idea';
 
 export interface Concept {
   /** Path-shaped id, OKF concept-ID style (`tools/claude-code`). */
@@ -149,14 +148,6 @@ export const CONCEPTS: Concept[] = [
     description: 'Physical media over streams; jewel cases as artifacts.',
     tags: ['likes'],
   },
-  {
-    id: 'brands/redwing',
-    type: 'brand',
-    title: 'Red Wing',
-    description: 'Heritage work boots out of Minnesota.',
-    resource: 'https://www.redwingheritage.com',
-    tags: ['likes'],
-  },
 ];
 
 const CONCEPT_INDEX = new Map(CONCEPTS.map((concept) => [concept.id, concept]));
@@ -243,7 +234,6 @@ export const CARD_LIKES: CardChipSection = {
     { label: '[[ideas/anime-bootleg-tees|anime bootleg tees]]' },
     { label: '[[ideas/japanese-americana|japanese americana]]' },
     { label: '[[ideas/vintage-band-tees|vintage band tees]]' },
-    { label: '[[brands/redwing|red wing]]' },
     { label: '[[ideas/cd-collecting|cd collecting]]' },
   ],
 };
