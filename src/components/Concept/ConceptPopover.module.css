@@ -1,0 +1,203 @@
+.popover {
+  /* Anchored panel on desktop; bottom sheet on mobile */
+  position: fixed;
+  top: var(--popover-top);
+  left: var(--popover-left);
+  z-index: var(--z-popover);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+
+  width: min(320px, calc(100vw - 24px));
+  padding: var(--spacing-4);
+
+  background: hsl(0 0% 7% / 0.97);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xl);
+
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-light);
+
+  outline: none;
+  animation: popoverIn var(--duration-fast) var(--ease-smooth);
+}
+
+.above {
+  transform: translateY(-100%);
+}
+
+@keyframes popoverIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-3);
+}
+
+.meta {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wider);
+  text-transform: lowercase;
+  color: var(--color-brand-primary);
+}
+
+.close {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: var(--spacing-1);
+  margin: 0;
+
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+.close:hover,
+.close:focus-visible {
+  color: var(--color-text-primary);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-light);
+  letter-spacing: var(--letter-spacing-wide);
+  line-height: var(--line-height-tight);
+}
+
+.description {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-secondary);
+}
+
+.resource {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  align-self: flex-start;
+
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+.resource:hover,
+.resource:focus-visible {
+  color: var(--color-brand-primary-light);
+}
+
+.resourceArrow {
+  color: var(--color-brand-primary);
+}
+
+.backlinks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  padding-top: var(--spacing-2);
+  border-top: 1px solid hsl(0 0% 100% / 0.06);
+}
+
+.backlinksLabel {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wider);
+  text-transform: lowercase;
+  color: var(--color-text-tertiary);
+}
+
+.backlinkList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--spacing-3);
+  row-gap: var(--spacing-1);
+}
+
+.backlinkButton {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  font: inherit;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  border-bottom: 1px dotted hsl(0 0% 100% / 0.35);
+  cursor: pointer;
+  transition:
+    color var(--duration-fast) var(--ease-smooth),
+    border-color var(--duration-fast) var(--ease-smooth);
+}
+
+.backlinkButton:hover,
+.backlinkButton:focus-visible {
+  color: var(--color-brand-primary-light);
+  border-bottom-color: var(--color-brand-primary);
+}
+
+.backlinkText {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+/* Bottom sheet on mobile — anchor coordinates are ignored */
+@media (max-width: 768px) {
+  .popover,
+  .above {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: none;
+
+    width: auto;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    border-bottom: none;
+    padding-bottom: calc(var(--spacing-4) + env(safe-area-inset-bottom, 0px));
+
+    animation: sheetIn var(--duration-normal) var(--ease-smooth);
+  }
+
+  .close {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: calc(-1 * var(--spacing-2));
+  }
+
+  @keyframes sheetIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popover {
+    animation: none;
+  }
+}
