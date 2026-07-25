@@ -72,6 +72,10 @@ const ConceptPopover: React.FC<ConceptPopoverProps> = ({
         <p className={styles.description}>{concept.description}</p>
       )}
 
+      {concept.rationale && (
+        <p className={styles.rationale}>{concept.rationale}</p>
+      )}
+
       {concept.resource && (
         <a
           className={styles.resource}

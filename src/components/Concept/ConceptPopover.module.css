@@ -83,6 +83,17 @@
   color: var(--color-text-secondary);
 }
 
+.rationale {
+  margin: 0;
+  padding-left: var(--spacing-3);
+  border-left: 2px solid var(--color-brand-primary);
+
+  font-size: var(--font-size-sm);
+  font-style: italic;
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-tertiary);
+}
+
 .resource {
   display: inline-flex;
   align-items: center;

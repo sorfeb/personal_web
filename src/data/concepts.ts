@@ -32,6 +32,11 @@ export interface Concept {
   description?: string;
   /** Canonical URI for the underlying asset; absent for abstract ideas. */
   resource?: string;
+  /**
+   * Personal note — why this particular thing, in my own voice.
+   * Producer-defined OKF extension key; `description` stays objective.
+   */
+  rationale?: string;
   tags?: string[];
 }
 
@@ -124,6 +129,8 @@ export const CONCEPTS: Concept[] = [
     type: 'tool',
     title: 'Claude Code',
     description: 'Agentic coding harness in the terminal.',
+    rationale:
+      'The harness that built most of this site — skills, hooks, and memory made it feel like a colleague, not a tool.',
     resource: 'https://claude.com/claude-code',
   },
   {
@@ -159,6 +166,8 @@ export const CONCEPTS: Concept[] = [
     type: 'site',
     title: 'ryOS',
     description: 'Ryo Lu’s personal site as an operating system.',
+    rationale:
+      'Proof that a personal site can be a fully committed bit — the same energy this Xbox dashboard chases.',
     resource: 'https://os.ryo.lu',
   },
   {
@@ -173,6 +182,8 @@ export const CONCEPTS: Concept[] = [
     type: 'idea',
     title: 'Japanese Americana',
     description: 'Ametora — Japan’s reinterpretation of American workwear and denim.',
+    rationale:
+      'Borrowed style, studied obsessively until it became its own thing — a philosophy I recognize.',
     tags: ['likes'],
   },
   {
