@@ -73,7 +73,8 @@
 .section:nth-of-type(4) { animation-delay: 420ms; }
 .section:nth-of-type(5) { animation-delay: 480ms; }
 .section:nth-of-type(6) { animation-delay: 540ms; }
-.footer   { animation-delay: 600ms; }
+.section:nth-of-type(7) { animation-delay: 600ms; }
+.footer   { animation-delay: 660ms; }
 
 .chip {
   display: inline-flex;

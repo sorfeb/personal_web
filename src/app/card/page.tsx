@@ -7,6 +7,7 @@ import {
   CARD_COLOPHON,
   CARD_CONCEPT_SOURCES,
   CARD_INSPIRATIONS,
+  CARD_GEAR,
   CARD_INTERESTS,
   CARD_LIKES,
 } from '../../data/concepts';
@@ -142,6 +143,11 @@ const CardPage: React.FC = () => {
         <section className={styles.section}>
           <h2 className={styles.sectionLabel}>Likes</h2>
           <ChipGroup chips={CARD_LIKES.chips} />
+        </section>
+
+        <section className={styles.section}>
+          <h2 className={styles.sectionLabel}>Gear</h2>
+          <ChipGroup chips={CARD_GEAR.chips} />
         </section>
 
         <section className={styles.section}>

@@ -21,7 +21,8 @@ export type ConceptType =
   | 'site'
   | 'person'
   | 'project'
-  | 'idea';
+  | 'idea'
+  | 'device';
 
 export interface Concept {
   /** Path-shaped id, OKF concept-ID style (`tools/claude-code`). */
@@ -148,6 +149,27 @@ export const CONCEPTS: Concept[] = [
     description: 'Physical media over streams; jewel cases as artifacts.',
     tags: ['likes'],
   },
+  {
+    id: 'devices/hp-pavilion-gaming-15',
+    type: 'device',
+    title: 'HP Pavilion Gaming 15-ec1xxx',
+    description:
+      'Daily driver — Ryzen 5 4600H, GTX 1650, 16 GB RAM on Windows 11 Home 25H2. SKU 230L2PA.',
+  },
+  {
+    id: 'devices/galaxy-s21-plus',
+    type: 'device',
+    title: 'Galaxy S21+',
+    description:
+      'Rides Android 15 / One UI 7, its final major OS; Samsung ended support January 2026 after five years.',
+  },
+  {
+    id: 'devices/galaxy-note-8',
+    type: 'device',
+    title: 'Galaxy Note 8',
+    description:
+      'Frozen at Android 9 Pie; official support ended 2021 — plus one surprise stability patch in 2026.',
+  },
 ];
 
 const CONCEPT_INDEX = new Map(CONCEPTS.map((concept) => [concept.id, concept]));
@@ -238,6 +260,25 @@ export const CARD_LIKES: CardChipSection = {
   ],
 };
 
+export const CARD_GEAR: CardChipSection = {
+  id: 'card/gear',
+  label: 'gear',
+  chips: [
+    {
+      label: '[[devices/hp-pavilion-gaming-15|Pavilion Gaming 15]]',
+      note: 'ryzen 5 4600H · gtx 1650 · 16 gb · win 11',
+    },
+    {
+      label: '[[devices/galaxy-s21-plus|Galaxy S21+]]',
+      note: 'android 15 · one ui 7 (final)',
+    },
+    {
+      label: '[[devices/galaxy-note-8|Galaxy Note 8]]',
+      note: 'android 9 · retired 2021',
+    },
+  ],
+};
+
 function chipSectionToSource(section: CardChipSection): ConceptSource {
   return {
     id: section.id,
@@ -258,4 +299,5 @@ export const CARD_CONCEPT_SOURCES: ConceptSource[] = [
   chipSectionToSource(CARD_COLOPHON),
   chipSectionToSource(CARD_INSPIRATIONS),
   chipSectionToSource(CARD_LIKES),
+  chipSectionToSource(CARD_GEAR),
 ];
