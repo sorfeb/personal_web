@@ -21,7 +21,8 @@ export type ConceptType =
   | 'site'
   | 'person'
   | 'project'
-  | 'idea';
+  | 'idea'
+  | 'device';
 
 export interface Concept {
   /** Path-shaped id, OKF concept-ID style (`tools/claude-code`). */
@@ -31,6 +32,11 @@ export interface Concept {
   description?: string;
   /** Canonical URI for the underlying asset; absent for abstract ideas. */
   resource?: string;
+  /**
+   * Personal note — why this particular thing, in my own voice.
+   * Producer-defined OKF extension key; `description` stays objective.
+   */
+  rationale?: string;
   tags?: string[];
 }
 
@@ -70,22 +76,47 @@ export const CONCEPTS: Concept[] = [
     tags: ['current-interest'],
   },
   {
-    id: 'models/gemini',
+    id: 'models/gemini-2-5-pro',
     type: 'model',
-    title: 'Gemini',
-    description: 'Google DeepMind model family.',
+    title: 'Gemini 2.5 Pro',
+    description: 'Google DeepMind — official model card.',
+    resource:
+      'https://storage.googleapis.com/deepmind-media/Model-Cards/Gemini-2-5-Pro-Model-Card.pdf',
   },
   {
-    id: 'models/glm',
+    id: 'models/gemini-3-pro',
     type: 'model',
-    title: 'GLM',
-    description: 'Z.ai open-weight model family.',
+    title: 'Gemini 3 Pro',
+    description: 'Google DeepMind — official model card.',
+    resource: 'https://deepmind.google/models/model-cards/gemini-3-pro/',
   },
   {
-    id: 'models/claude',
+    id: 'models/glm-4-6',
     type: 'model',
-    title: 'Claude',
-    description: 'Anthropic model family.',
+    title: 'GLM 4.6',
+    description: 'Z.ai open-weight model — Hugging Face model card, MIT license.',
+    resource: 'https://huggingface.co/zai-org/GLM-4.6',
+  },
+  {
+    id: 'models/glm-5-1',
+    type: 'model',
+    title: 'GLM 5.1',
+    description: 'Z.ai agentic-engineering flagship — Hugging Face model card.',
+    resource: 'https://huggingface.co/zai-org/GLM-5.1',
+  },
+  {
+    id: 'models/claude-3-5',
+    type: 'model',
+    title: 'Claude 3.5 Sonnet',
+    description: 'Anthropic — where the Claude era of this site began.',
+    resource: 'https://www.anthropic.com/news/claude-3-5-sonnet',
+  },
+  {
+    id: 'models/claude-fable-5',
+    type: 'model',
+    title: 'Claude Fable 5',
+    description: 'Anthropic’s most capable model — Mythos-class tier.',
+    resource: 'https://www.anthropic.com/news/claude-fable-5-mythos-5',
   },
   {
     id: 'tools/copilot',
@@ -98,6 +129,8 @@ export const CONCEPTS: Concept[] = [
     type: 'tool',
     title: 'Claude Code',
     description: 'Agentic coding harness in the terminal.',
+    rationale:
+      'The harness that built most of this site — skills, hooks, and memory made it feel like a colleague, not a tool.',
     resource: 'https://claude.com/claude-code',
   },
   {
@@ -108,10 +141,33 @@ export const CONCEPTS: Concept[] = [
     resource: 'https://opencode.ai',
   },
   {
+    id: 'tools/superwhisper',
+    type: 'tool',
+    title: 'superwhisper',
+    description: 'Whisper-powered AI dictation — voice to text, system-wide.',
+    resource: 'https://superwhisper.com',
+  },
+  {
+    id: 'tools/vscode',
+    type: 'tool',
+    title: 'Visual Studio Code',
+    description: 'Microsoft’s code editor.',
+    resource: 'https://code.visualstudio.com',
+  },
+  {
+    id: 'tools/warp',
+    type: 'tool',
+    title: 'Warp',
+    description: 'Agentic development environment — the AI-native terminal.',
+    resource: 'https://www.warp.dev',
+  },
+  {
     id: 'sites/ryoos',
     type: 'site',
     title: 'ryOS',
     description: 'Ryo Lu’s personal site as an operating system.',
+    rationale:
+      'Proof that a personal site can be a fully committed bit — the same energy this Xbox dashboard chases.',
     resource: 'https://os.ryo.lu',
   },
   {
@@ -126,6 +182,8 @@ export const CONCEPTS: Concept[] = [
     type: 'idea',
     title: 'Japanese Americana',
     description: 'Ametora — Japan’s reinterpretation of American workwear and denim.',
+    rationale:
+      'Borrowed style, studied obsessively until it became its own thing — a philosophy I recognize.',
     tags: ['likes'],
   },
   {
@@ -147,6 +205,27 @@ export const CONCEPTS: Concept[] = [
     title: 'CD Collecting',
     description: 'Physical media over streams; jewel cases as artifacts.',
     tags: ['likes'],
+  },
+  {
+    id: 'devices/hp-pavilion-gaming-15',
+    type: 'device',
+    title: 'HP Pavilion Gaming 15-ec1xxx',
+    description:
+      'Daily driver — Ryzen 5 4600H, GTX 1650, 16 GB RAM on Windows 11 Home 25H2. SKU 230L2PA.',
+  },
+  {
+    id: 'devices/galaxy-s21-plus',
+    type: 'device',
+    title: 'Galaxy S21+',
+    description:
+      'Rides Android 15 / One UI 7, its final major OS; Samsung ended support January 2026 after five years.',
+  },
+  {
+    id: 'devices/galaxy-note-8',
+    type: 'device',
+    title: 'Galaxy Note 8',
+    description:
+      'Frozen at Android 9 Pie; official support ended 2021 — plus one surprise stability patch in 2026.',
   },
 ];
 
@@ -204,16 +283,24 @@ export const CARD_COLOPHON: CardChipSection = {
   label: 'colophon',
   chips: [
     {
-      label: '[[models/gemini|Gemini 2.5 Pro → 3.0]]',
+      label: '[[models/gemini-2-5-pro|Gemini 2.5 Pro]] → [[models/gemini-3-pro|3 Pro]]',
       note: '[[tools/copilot|Copilot]]',
     },
     {
-      label: '[[models/glm|GLM 4.6 → 5.1]]',
+      label: '[[models/glm-4-6|GLM 4.6]] → [[models/glm-5-1|5.1]]',
       note: '[[tools/claude-code|Claude Code]] & [[tools/opencode|opencode]]',
     },
     {
-      label: '[[models/claude|Claude 3.5 → Fable 5]]',
+      label: '[[models/claude-3-5|Claude 3.5]] → [[models/claude-fable-5|Fable 5]]',
       note: '[[tools/claude-code|Claude Code]]',
+    },
+    {
+      label: '[[tools/vscode|Visual Studio Code]]',
+      note: 'ide',
+    },
+    {
+      label: '[[tools/warp|Warp]]',
+      note: 'terminal',
     },
   ],
 };
@@ -238,6 +325,29 @@ export const CARD_LIKES: CardChipSection = {
   ],
 };
 
+export const CARD_GEAR: CardChipSection = {
+  id: 'card/gear',
+  label: 'gear',
+  chips: [
+    {
+      label: '[[devices/hp-pavilion-gaming-15|Pavilion Gaming 15]]',
+      note: 'ryzen 5 4600H · gtx 1650 · 16 gb · win 11',
+    },
+    {
+      label: '[[devices/galaxy-s21-plus|Galaxy S21+]]',
+      note: 'android 15 · one ui 7 (final)',
+    },
+    {
+      label: '[[devices/galaxy-note-8|Galaxy Note 8]]',
+      note: 'android 9 · retired 2021',
+    },
+    {
+      label: '[[tools/superwhisper]]',
+      note: 'dictation',
+    },
+  ],
+};
+
 function chipSectionToSource(section: CardChipSection): ConceptSource {
   return {
     id: section.id,
@@ -258,4 +368,5 @@ export const CARD_CONCEPT_SOURCES: ConceptSource[] = [
   chipSectionToSource(CARD_COLOPHON),
   chipSectionToSource(CARD_INSPIRATIONS),
   chipSectionToSource(CARD_LIKES),
+  chipSectionToSource(CARD_GEAR),
 ];
