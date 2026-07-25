@@ -109,6 +109,13 @@ export const CONCEPTS: Concept[] = [
     resource: 'https://opencode.ai',
   },
   {
+    id: 'tools/superwhisper',
+    type: 'tool',
+    title: 'superwhisper',
+    description: 'Whisper-powered AI dictation — voice to text, system-wide.',
+    resource: 'https://superwhisper.com',
+  },
+  {
     id: 'sites/ryoos',
     type: 'site',
     title: 'ryOS',
@@ -275,6 +282,10 @@ export const CARD_GEAR: CardChipSection = {
     {
       label: '[[devices/galaxy-note-8|Galaxy Note 8]]',
       note: 'android 9 · retired 2021',
+    },
+    {
+      label: '[[tools/superwhisper]]',
+      note: 'dictation',
     },
   ],
 };
