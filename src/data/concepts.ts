@@ -116,6 +116,20 @@ export const CONCEPTS: Concept[] = [
     resource: 'https://superwhisper.com',
   },
   {
+    id: 'tools/vscode',
+    type: 'tool',
+    title: 'Visual Studio Code',
+    description: 'Microsoft’s code editor.',
+    resource: 'https://code.visualstudio.com',
+  },
+  {
+    id: 'tools/warp',
+    type: 'tool',
+    title: 'Warp',
+    description: 'Agentic development environment — the AI-native terminal.',
+    resource: 'https://www.warp.dev',
+  },
+  {
     id: 'sites/ryoos',
     type: 'site',
     title: 'ryOS',
@@ -243,6 +257,14 @@ export const CARD_COLOPHON: CardChipSection = {
     {
       label: '[[models/claude|Claude 3.5 → Fable 5]]',
       note: '[[tools/claude-code|Claude Code]]',
+    },
+    {
+      label: '[[tools/vscode|Visual Studio Code]]',
+      note: 'ide',
+    },
+    {
+      label: '[[tools/warp|Warp]]',
+      note: 'terminal',
     },
   ],
 };
