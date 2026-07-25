@@ -71,25 +71,47 @@ export const CONCEPTS: Concept[] = [
     tags: ['current-interest'],
   },
   {
-    id: 'models/gemini',
+    id: 'models/gemini-2-5-pro',
     type: 'model',
-    title: 'Gemini',
-    description: 'Google DeepMind model family.',
-    resource: 'https://deepmind.google/models/gemini/',
+    title: 'Gemini 2.5 Pro',
+    description: 'Google DeepMind — official model card.',
+    resource:
+      'https://storage.googleapis.com/deepmind-media/Model-Cards/Gemini-2-5-Pro-Model-Card.pdf',
   },
   {
-    id: 'models/glm',
+    id: 'models/gemini-3-pro',
     type: 'model',
-    title: 'GLM',
-    description: 'Z.ai open-weight model family.',
-    resource: 'https://z.ai',
+    title: 'Gemini 3 Pro',
+    description: 'Google DeepMind — official model card.',
+    resource: 'https://deepmind.google/models/model-cards/gemini-3-pro/',
   },
   {
-    id: 'models/claude',
+    id: 'models/glm-4-6',
     type: 'model',
-    title: 'Claude',
-    description: 'Anthropic model family.',
-    resource: 'https://claude.com',
+    title: 'GLM 4.6',
+    description: 'Z.ai open-weight model — Hugging Face model card, MIT license.',
+    resource: 'https://huggingface.co/zai-org/GLM-4.6',
+  },
+  {
+    id: 'models/glm-5-1',
+    type: 'model',
+    title: 'GLM 5.1',
+    description: 'Z.ai agentic-engineering flagship — Hugging Face model card.',
+    resource: 'https://huggingface.co/zai-org/GLM-5.1',
+  },
+  {
+    id: 'models/claude-3-5',
+    type: 'model',
+    title: 'Claude 3.5 Sonnet',
+    description: 'Anthropic — where the Claude era of this site began.',
+    resource: 'https://www.anthropic.com/news/claude-3-5-sonnet',
+  },
+  {
+    id: 'models/claude-fable-5',
+    type: 'model',
+    title: 'Claude Fable 5',
+    description: 'Anthropic’s most capable model — Mythos-class tier.',
+    resource: 'https://www.anthropic.com/news/claude-fable-5-mythos-5',
   },
   {
     id: 'tools/copilot',
@@ -250,15 +272,15 @@ export const CARD_COLOPHON: CardChipSection = {
   label: 'colophon',
   chips: [
     {
-      label: '[[models/gemini|Gemini 2.5 Pro → 3.0]]',
+      label: '[[models/gemini-2-5-pro|Gemini 2.5 Pro]] → [[models/gemini-3-pro|3 Pro]]',
       note: '[[tools/copilot|Copilot]]',
     },
     {
-      label: '[[models/glm|GLM 4.6 → 5.1]]',
+      label: '[[models/glm-4-6|GLM 4.6]] → [[models/glm-5-1|5.1]]',
       note: '[[tools/claude-code|Claude Code]] & [[tools/opencode|opencode]]',
     },
     {
-      label: '[[models/claude|Claude 3.5 → Fable 5]]',
+      label: '[[models/claude-3-5|Claude 3.5]] → [[models/claude-fable-5|Fable 5]]',
       note: '[[tools/claude-code|Claude Code]]',
     },
     {
