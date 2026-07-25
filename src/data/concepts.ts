@@ -75,18 +75,21 @@ export const CONCEPTS: Concept[] = [
     type: 'model',
     title: 'Gemini',
     description: 'Google DeepMind model family.',
+    resource: 'https://deepmind.google/models/gemini/',
   },
   {
     id: 'models/glm',
     type: 'model',
     title: 'GLM',
     description: 'Z.ai open-weight model family.',
+    resource: 'https://z.ai',
   },
   {
     id: 'models/claude',
     type: 'model',
     title: 'Claude',
     description: 'Anthropic model family.',
+    resource: 'https://claude.com',
   },
   {
     id: 'tools/copilot',
