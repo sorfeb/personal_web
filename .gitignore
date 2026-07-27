@@ -1,5 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 nul
+settings.local.json
 
 # dependencies
 /node_modules
@@ -26,7 +27,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-
 .env*
 
 # vercel
@@ -46,3 +46,9 @@ storybook-static
 .vercel
 
 /src/generated/prisma
+
+# Local Claude Code worktrees (checked out inside the repo)
+.claude/worktrees/
+.mcp.json
+
+.playwright-mcp

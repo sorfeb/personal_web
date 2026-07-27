@@ -1,0 +1,9 @@
+---
+name: Open PR into dev
+command: gh pr create --base dev --web
+description: >-
+  Push the current branch first, then open a browser-prefilled PR against dev
+  (the integration branch — main is release only).
+tags:
+  - git
+  - github

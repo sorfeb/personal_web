@@ -1,9 +1,10 @@
 'use client';
 
-import React, { memo, useState, useCallback, useRef, useEffect } from 'react';
+import React, { memo, useState, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import ChatRoom from '../ChatRoom/ChatRoom';
 import { useWindowDrag } from '../../../hooks/useWindowDrag';
+import { useEventListener, useMountEffect } from '@/hooks';
 import { isMobile } from '../../../utils/windowUtils';
 import type { ChatWindowProps } from '../../../types/chat';
 import styles from './ChatWindow.module.css';
@@ -27,11 +28,10 @@ const ChatWindow = memo<ChatWindowProps>(({ isOpen, onClose, onMinimize }) => {
   const windowRef = useRef<HTMLDivElement>(null);
   const { position, isDragging, startDrag } = useWindowDrag();
 
-  // Client-side initialization to prevent SSR issues
-  useEffect(() => {
+  // Client-side initialization: establish mobile flag + portal container.
+  useMountEffect(() => {
     setMobile(isMobile());
-    
-    // Create portal container
+
     let container = document.getElementById('chat-portal');
     if (!container) {
       container = document.createElement('div');
@@ -44,20 +44,20 @@ const ChatWindow = memo<ChatWindowProps>(({ isOpen, onClose, onMinimize }) => {
       document.body.appendChild(container);
     }
     setPortalContainer(container);
-    
-    // Handle window resize for mobile detection
-    const handleResize = () => setMobile(isMobile());
-    window.addEventListener('resize', handleResize);
-    
+
     return () => {
-      window.removeEventListener('resize', handleResize);
       // Clean up portal container if empty
       const existingContainer = document.getElementById('chat-portal');
       if (existingContainer && existingContainer.children.length === 0) {
         existingContainer.remove();
       }
     };
-  }, []);
+  });
+
+  // Keep mobile flag in sync with viewport width
+  useEventListener(typeof window === 'undefined' ? null : window, 'resize', () =>
+    setMobile(isMobile())
+  );
 
   const handleDragStart = useCallback((e: React.MouseEvent) => {
     if (isMaximized || mobile) return;

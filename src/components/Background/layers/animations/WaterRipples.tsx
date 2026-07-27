@@ -26,6 +26,10 @@ declare global {
  * - Performance optimized (only runs on home page)
  */
 const WaterRipples: React.FC<AnimationLayerProps> = ({ enabled, isHomePage }) => {
+  // effect:audited — async jQuery Ripples init with dynamic imports,
+  // rain-drop interval, and destroy-on-cleanup sequencing. Converting this
+  // to the approved hooks would require replicating the promise chain and
+  // ordering guarantees inline; kept as useEffect deliberately.
   useEffect(() => {
     if (typeof window === 'undefined') return;
 

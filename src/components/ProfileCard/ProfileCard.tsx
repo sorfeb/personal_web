@@ -37,7 +37,11 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   
   const { data: profile, isLoading, error } = trpc.user.getProfile.useQuery();
 
-  // Show welcome toast once per session
+  // effect:audited — run-once welcome toast gated on async tRPC query state.
+  // The skill's "call from event handler" pattern doesn't apply: no user
+  // interaction triggers this — it fires the first time the guarded conditions
+  // become satisfiable after the query resolves.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (profile && !isLoading && !error) {
       if (typeof window === 'undefined') return;
@@ -47,9 +51,9 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 
       if (!hasShownThisSession) {
         sessionStorage.setItem(sessionKey, 'true');
-        
+
         const isGuest = profile.name === 'Guest';
-        
+
         showToast(
           createSystemToast(
             isGuest ? 'Browsing as Guest' : `Welcome back, ${profile.name}!`,
@@ -62,6 +66,11 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     }
   }, [profile, isLoading, error, showToast]);
 
+  // effect:audited — reset avatarLoaded crossfade state when the avatar source
+  // changes. The skill recommends `key={id}` remounting, but avatarLoaded is
+  // co-located with the crossfade transitions of two sibling <Image>s, so
+  // lifting it into a subcomponent would fragment the JSX.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (profile) {
       setAvatarLoaded(false);
@@ -127,13 +136,14 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
           {isContentLoaded ? (
             <>
               {/* Guest avatar placeholder */}
-              <Image 
-                src="/assets/avatars/guest_gamerpic.svg"
+              <Image
+                src="/assets/avatars/guest_gamerpic.webp"
                 alt="Loading Avatar"
                 width={64}
                 height={64}
+                sizes="64px"
                 className={styles.profileIcon}
-                style={{ 
+                style={{
                   position: 'absolute',
                   opacity: avatarLoaded ? 0 : 1,
                   transition: 'opacity 0.3s ease'
@@ -146,11 +156,12 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                 transition={{ duration: 0.3 }}
                 style={{ position: 'absolute' }}
               >
-                <Image 
+                <Image
                   src={avatarPath}
                   alt="Profile Icon"
                   width={64}
                   height={64}
+                  sizes="64px"
                   className={styles.profileIcon}
                   onLoad={() => setAvatarLoaded(true)}
                   priority
@@ -158,11 +169,12 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
               </motion.div>
             </>
           ) : (
-            <Image 
-              src="/assets/avatars/guest_gamerpic.svg"
+            <Image
+              src="/assets/avatars/guest_gamerpic.webp"
               alt="Loading Avatar"
               width={64}
               height={64}
+              sizes="64px"
               className={styles.profileIcon}
             />
           )}

@@ -1,10 +1,11 @@
 'use client';
 
-import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
+import React, { memo, useCallback, useRef, useState } from 'react';
 import styles from './XboxCard.module.css';
 import Image from 'next/image';
 import { useAudioManager } from '../../../hooks/useAudioManager';
 import { useNavigationSound } from '../../../hooks/useNavigationSound';
+import { useEventListener, useInterval } from '@/hooks';
 
 interface XboxCardProps {
   title: string;
@@ -15,44 +16,31 @@ interface XboxCardProps {
 
 const XboxCard: React.FC<XboxCardProps> = memo(({ title, iconUrl, route, images }) => {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [, setMousePosition] = useState({ x: 0, y: 0 });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { playSound } = useAudioManager();
   const { navigateWithSound } = useNavigationSound();
 
-  useEffect(() => {
+  useEventListener(cardRef, 'mousemove', (event) => {
     const element = cardRef.current;
-    const handleMouseMove = (event: MouseEvent) => {
-      if (element) {
-        const rect = element.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-        setMousePosition({ x, y });
-        element.style.setProperty('--mouse-x', `${x}px`);
-        element.style.setProperty('--mouse-y', `${y}px`);
-      }
-    };
+    if (!element) return;
+    const rect = element.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    setMousePosition({ x, y });
+    element.style.setProperty('--mouse-x', `${x}px`);
+    element.style.setProperty('--mouse-y', `${y}px`);
+  });
 
-    if (element) {
-      element.addEventListener('mousemove', handleMouseMove);
-    }
-
-    return () => {
-      if (element) {
-        element.removeEventListener('mousemove', handleMouseMove);
-      }
-    };
-  }, []);
-
-  // Slideshow Effect
-  useEffect(() => {
-    if (images && images.length > 1) {
-      const interval = setInterval(() => {
+  // Slideshow
+  useInterval(
+    () => {
+      if (images && images.length > 1) {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-      }, 2000);
-      return () => clearInterval(interval);
-    }
-  }, [images]);
+      }
+    },
+    images && images.length > 1 ? 2000 : null,
+  );
 
   const handleCardClick = useCallback(() => {
     if (route) {
@@ -84,8 +72,9 @@ const XboxCard: React.FC<XboxCardProps> = memo(({ title, iconUrl, route, images 
             alt={title}
             width={40}
             height={40}
+            sizes="40px"
             className={styles.icon}
-            priority 
+            priority
           />
         </div>
       )}
@@ -94,5 +83,7 @@ const XboxCard: React.FC<XboxCardProps> = memo(({ title, iconUrl, route, images 
     </div>
   );
 });
+
+XboxCard.displayName = 'XboxCard';
 
 export default XboxCard;

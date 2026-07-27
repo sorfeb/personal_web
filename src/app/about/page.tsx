@@ -9,7 +9,7 @@ const AboutPage = () => {
       <PageLayout.Header />
       <PageLayout.Body>
         <p>
-        <i>The "NXE" update, which stands for "New Xbox Experience," 
+        <i>The &ldquo;NXE&rdquo; update, which stands for &ldquo;New Xbox Experience,&rdquo;
           was a major system update for the Xbox 360 that significantly 
           redesigned the dashboard, adding features like avatar creation, 
           the ability to install games directly to the hard drive for faster loading times, 

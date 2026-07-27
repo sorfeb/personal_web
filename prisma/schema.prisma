@@ -10,32 +10,90 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id               String   @id @default(cuid())
-  name             String?
-  image            String?
-  email            String?  @unique
-  stackAuthId      String?  @unique
-  gamerscore       Int      @default(0)
-  avatar           String?  @default("guest_gamerpic.svg")
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  
-  // Relations
-  messages         Message[]
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  gamerscore    Int       @default(0)
+  avatar        String?   @default("guest_gamerpic.svg")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  messages      Message[]
+  sessions      Session[]
+  accounts      Account[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String   @unique
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Message {
-  id           String   @id @default(cuid())
-  text         String
-  createdAt    DateTime @default(now())
-  
-  // Author relation
-  author       User     @relation(fields: [authorId], references: [id])
-  authorId     String
+  id        String   @id @default(cuid())
+  text      String
+  createdAt DateTime @default(now())
+
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+}
+
+model LastfmTrack {
+  id            String   @id @default(cuid())
+  artistKey     String
+  trackKey      String
+  artist        String
+  track         String
+  mbid          String?
+  listeners     Int?
+  playcount     Int?
+  url           String?
+  tags          Json
+  similar       Json?
+  source        String   @default("lastfm")
+  fetchedAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([artistKey, trackKey])
+  @@index([artistKey])
 }

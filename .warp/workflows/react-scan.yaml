@@ -1,0 +1,13 @@
+---
+name: React Scan
+command: npx react-scan@latest {{url}}
+description: >-
+  Profile re-renders against the running dev server. CLI-only by policy —
+  never add react-scan to the repo as a dependency or script tag.
+arguments:
+  - name: url
+    description: Page to scan
+    default_value: http://localhost:3000
+tags:
+  - perf
+  - debug

@@ -1,0 +1,251 @@
+.page {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  background:
+    radial-gradient(ellipse at 25% 12%, hsl(95 28% 15% / 0.9), transparent 60%),
+    radial-gradient(ellipse at 80% 95%, hsl(95 22% 10% / 0.8), transparent 55%),
+    hsl(0 0% 5%);
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+  overflow-x: hidden;
+}
+
+/* ============ Chrome: title / gamerpic / clock ============ */
+
+.chrome {
+  position: relative;
+  width: min(1100px, 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-2);
+  user-select: none;
+}
+
+.chromeTitle {
+  margin: 0;
+  font-size: 20px;
+  font-weight: var(--font-weight-semibold);
+  color: #ffffff;
+  text-shadow: var(--shadow-text);
+}
+
+.chromeAvatar {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 44px;
+  border: 2px solid hsl(0 0% 40%);
+  border-radius: var(--radius-sm);
+  background: hsl(0 0% 13%);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.chromeAvatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.chromeClock {
+  font-size: 14px;
+  color: #cccccc;
+}
+
+/* ============ The main panel ============ */
+
+.panel {
+  width: min(1100px, 100%);
+  height: clamp(420px, 72vh, 620px);
+  display: flex;
+  background: var(--gradient-metallic);
+  border: var(--border-width-medium) solid var(--color-border-secondary);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    var(--shadow-xl),
+    0 0 0 1px hsl(0 0% 100% / 0.05),
+    inset 0 1px 0 hsl(0 0% 100% / 0.08);
+  overflow: hidden;
+}
+
+.menuColumn {
+  width: 38%;
+  min-width: 250px;
+  max-width: 380px;
+  border-right: 1px solid var(--color-border-primary);
+  background: hsl(0 0% 100% / 0.02);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.rightPane {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.identitySection {
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--color-border-primary);
+  background: hsl(0 0% 0% / 0.15);
+}
+
+.paneViewport {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.section {
+  scroll-margin-top: var(--spacing-3);
+}
+
+/* Desktop: only the menu-selected pane is visible; switching
+   replays the slide-in like the console swapping panels. */
+@media (min-width: 769px) {
+  .section {
+    display: none;
+  }
+
+  .sectionActive {
+    display: block;
+    animation: paneIn var(--duration-slow) var(--ease-smooth);
+  }
+}
+
+@keyframes paneIn {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ============ Footer: Ⓐ Select / Ⓑ Back ============ */
+
+.chromeFooter {
+  width: min(1100px, 100%);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: 0 var(--spacing-2);
+}
+
+.controlButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--duration-fast) var(--ease-smooth);
+}
+
+.controlButton:hover {
+  background-color: hsl(0 0% 100% / 0.1);
+}
+
+.buttonIcon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: var(--font-weight-bold);
+  transition: transform 0.15s ease;
+}
+
+.buttonIconGreen {
+  background: #00ff00;
+  color: #000000;
+  box-shadow: 0 0 8px rgb(0 255 0 / 30%);
+}
+
+.buttonIconRed {
+  background: #ff0000;
+  color: #000000;
+  box-shadow: 0 0 8px rgb(255 0 0 / 30%);
+}
+
+.controlButton:hover .buttonIcon {
+  transform: scale(1.1);
+}
+
+.buttonText {
+  font-size: 14px;
+  color: #ffffff;
+}
+
+/* ============ Mobile: single scrolling column + tab bar ============ */
+
+@media (max-width: 768px) {
+  .page {
+    justify-content: flex-start;
+    padding: var(--spacing-3);
+    /* Clear the fixed bottom tab bar */
+    padding-bottom: calc(72px + env(safe-area-inset-bottom));
+    /* html/body are overflow:hidden site-wide — the page must be
+       its own scroll container for the stacked column to scroll */
+    height: 100dvh;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+  }
+
+  .chromeAvatar {
+    display: none;
+  }
+
+  .panel {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+
+  .menuColumn {
+    display: none;
+  }
+
+  .paneViewport {
+    overflow: visible;
+  }
+
+  .section {
+    border-bottom: 1px solid var(--color-border-primary);
+  }
+
+  .section:last-child {
+    border-bottom: none;
+  }
+
+  .chromeFooter {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sectionActive {
+    animation: none;
+  }
+}

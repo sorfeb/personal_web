@@ -1,9 +1,9 @@
 'use client';
 
-import React, { memo, useState, useEffect, useRef, useCallback } from 'react';
+import React, { memo, useState, useRef, useCallback } from 'react';
 import { trpc } from '../../../utils/trpc';
-// TODO: Re-enable Stack Auth when configured
-// import { useUser } from '@stackframe/stack';
+import { authClient } from '../../../lib/auth-client';
+import { useAutoScroll } from '@/hooks';
 import MessageItem from './MessageItem';
 import MessageInput from './MessageInput';
 import styles from './ChatRoom.module.css';
@@ -24,9 +24,8 @@ import styles from './ChatRoom.module.css';
 const ChatRoom = memo(() => {
   const [messageText, setMessageText] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  // TODO: Re-enable Stack Auth when configured
-  // const user = useUser();
-  const user = null; // Guest mode - Stack Auth disabled
+  const { data: session } = authClient.useSession();
+  const user = session?.user ?? null;
 
   // Fetch messages with caching for performance
   const {
@@ -48,9 +47,7 @@ const ChatRoom = memo(() => {
   });
 
   // Auto-scroll to bottom when new messages arrive
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  useAutoScroll(messagesEndRef, [messages]);
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,6 +92,12 @@ const ChatRoom = memo(() => {
         <div className={styles.authPrompt}>
           <h3>Welcome to the Chat Room!</h3>
           <p>Please sign in to participate in the conversation.</p>
+          <button
+            onClick={() => authClient.signIn.social({ provider: 'github', callbackURL: '/chatroom' })}
+            className={styles.signInButton}
+          >
+            Sign in with GitHub
+          </button>
         </div>
       </div>
     );

@@ -1,8 +1,9 @@
 'use client';
 
-import React, { memo, useRef, useState, useCallback, useEffect } from 'react';
+import React, { memo, useRef, useState, useCallback } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useAudioManager } from '../../../../../../../hooks/useAudioManager';
+import { useMountEffect } from '../../../../../../../hooks';
 import { Toggle } from '../../../../../../ui/Toggle';
 import styles from './LayerCarousel.module.css';
 
@@ -53,8 +54,9 @@ const LayerCarousel: React.FC<LayerCarouselProps> = ({
     setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 1);
   }, []);
 
-  // Check scroll state on mount and resize
-  useEffect(() => {
+  // Check scroll state on mount and track resizes. updateScrollState is
+  // stable (useCallback with []), so mount-only semantics are correct.
+  useMountEffect(() => {
     updateScrollState();
 
     const track = trackRef.current;
@@ -64,7 +66,7 @@ const LayerCarousel: React.FC<LayerCarouselProps> = ({
     resizeObserver.observe(track);
 
     return () => resizeObserver.disconnect();
-  }, [updateScrollState]);
+  });
 
   // Scroll by amount
   const scroll = useCallback((direction: 'left' | 'right') => {

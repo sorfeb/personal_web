@@ -1,6 +1,7 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, useMemo, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useMemo, ReactNode } from 'react';
+import { useMountEffect } from '../hooks';
 
 /**
  * CRTFilterContext
@@ -37,23 +38,19 @@ export const CRTFilterProvider: React.FC<CRTFilterProviderProps> = ({ children }
   /**
    * Load saved CRT filter preference from localStorage on mount
    */
-  useEffect(() => {
-    const loadSavedPreference = () => {
-      try {
-        const savedPreference = localStorage.getItem(STORAGE_KEY);
-        
-        if (savedPreference !== null) {
-          setIsEnabled(savedPreference === 'true');
-        }
-      } catch (error) {
-        console.error('Failed to load CRT filter preference:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  useMountEffect(() => {
+    try {
+      const savedPreference = localStorage.getItem(STORAGE_KEY);
 
-    loadSavedPreference();
-  }, []);
+      if (savedPreference !== null) {
+        setIsEnabled(savedPreference === 'true');
+      }
+    } catch (error) {
+      console.error('Failed to load CRT filter preference:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  });
 
   /**
    * Toggle CRT filter on/off and save preference

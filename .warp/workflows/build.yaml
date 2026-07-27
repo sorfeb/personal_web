@@ -1,0 +1,6 @@
+---
+name: Production build
+command: npm run build
+description: prisma generate + next build + sitemap generation (postbuild).
+tags:
+  - build

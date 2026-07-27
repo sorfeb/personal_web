@@ -1,19 +1,61 @@
+import type { Metadata, Viewport } from "next";
 import { Roboto } from "next/font/google";
-// TODO: Re-enable Stack Auth when configured
-// import { StackProvider, StackTheme } from "@stackframe/stack";
-// import { stackServerApp } from "../stack";
+import Script from "next/script";
 import { VolumeProvider } from "../context/VolumeContext";
 import { BackgroundProvider } from "../context/BackgroundContext";
 import { CRTFilterProvider } from "../context/CRTFilterContext";
 import { ToastProvider } from "../context/ToastContext";
+import { WMPPlayerProvider } from "../context/WMPPlayerContext";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { BackgroundComposer } from "../components/Background";
 import ConsoleEasterEgg from "../components/ConsoleEasterEgg/ConsoleEasterEgg";
+import ImageDragGuard from "../components/ImageDragGuard";
 import TRPCProvider from "../components/Providers/TRPCProvider";
 import CRTOverlay from "../components/CRTOverlay/CRTOverlay";
 import ToastContainer from "../components/ToastNotification/ToastContainer";
+import { GlobalWMPPlayer } from "../components/WMPPlayer/GlobalWMPPlayer";
 import "./globals.css";
+
+const siteUrl = "https://www.sorosfebria.co";
+const siteDescription = "Personal website and portfolio of Soros Febriano, a passionate learner about the fusion of technology and art. Explore projects, photos, media and more.";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "sorOS",
+    template: "%s | sorOS",
+  },
+  description: siteDescription,
+  authors: [{ name: "Soros Febriano", url: siteUrl }],
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    title: "Soros Febriano",
+    description: siteDescription,
+    url: siteUrl,
+    siteName: "sorOS",
+    images: [{ url: "/assets/images/thumbnail-sorOS.jpg", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Soros Febriano",
+    description: siteDescription,
+    images: ["/assets/images/thumbnail-sorOS.jpg"],
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#101510",
+};
 
 const inter = Roboto({ weight: "300", subsets: ["latin"] });
 
@@ -21,22 +63,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <title>sorOS</title>
-        <meta name="description" content="Personal website and portfolio of Soros Febriano, a passionate learner about the fusion of technology and art. Explore projects, photos, media and more." />
-        {/* Open Graph tags */}
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Soros Febriano" />
-        <meta property="og:description" content="Personal website and portfolio of Soros Febriano, a passionate learner about the fusion of technology and art. Explore projects, photos, media and more." />
-        <meta property="og:image" content="https://www.sorosfebria.co/assets/images/thumbnail-sorOS.jpg" />
-        <meta property="og:url" content="https://www.sorosfebria.co/" />
-        {/* Twitter Card tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Soros Febriano" />
-        <meta name="twitter:description" content="Personal website and portfolio of Soros Febriano, a passionate learner about the fusion of technology and art. Explore projects, photos, media and more." />
-        <meta name="twitter:image" content="https://www.sorosfebria.co/assets/images/thumbnail-sorOS.jpg" />
-        <link rel="icon" href="/favicon.svg" />
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {process.env.NODE_ENV === "development" && (
+          <Script
+            src="//unpkg.com/react-grab/dist/index.global.js"
+            crossOrigin="anonymous"
+            strategy="beforeInteractive"
+          />
+        )}
+        {process.env.NODE_ENV === "development" && (
+          <Script
+            src="//unpkg.com/@react-grab/mcp/dist/client.global.js"
+            strategy="lazyOnload"
+          />
+        )}
+        {/* Title, description, OG, Twitter, favicon & viewport now handled by the Metadata API above. */}
+        <link rel="preconnect" href="https://mosaic.scdn.co" />
+        <link rel="preconnect" href="https://i.scdn.co" />
+        <link rel="dns-prefetch" href="https://img.shields.io" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -75,20 +118,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   </defs>
                   <path d="M0,8 Q50,2 100,15 V30 H0 Z" fill="url(#mountainGradient)" />
                 </svg>
-                {/* TODO: Re-enable StackProvider when Stack Auth is configured */}
-                {/* <StackProvider app={stackServerApp}> */}
-                {/* <StackTheme> */}
                 <TRPCProvider>
                   <VolumeProvider>
-                    <ToastProvider>
-                      <ConsoleEasterEgg />
-                      {children}
-                      <ToastContainer />
-                    </ToastProvider>
+                    <WMPPlayerProvider>
+                      <ToastProvider>
+                        <ConsoleEasterEgg />
+                        <ImageDragGuard />
+                        {children}
+                        <GlobalWMPPlayer />
+                        <ToastContainer />
+                      </ToastProvider>
+                    </WMPPlayerProvider>
                   </VolumeProvider>
                 </TRPCProvider>
-                {/* </StackTheme> */}
-                {/* </StackProvider> */}
               </div>
             </CRTFilterProvider>
           </BackgroundProvider>

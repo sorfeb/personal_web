@@ -1,0 +1,8 @@
+---
+name: useEffect policy check
+command: npm run lint:useeffect
+description: >-
+  Enforce the no-direct-useEffect policy — every useEffect in components/app
+  must be refactored to a custom hook or tagged with an effect:audited comment.
+tags:
+  - check

@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PageLayout from '../../components/PageLayout/PageLayout';
 import styles from './Photos.module.css';
 import { useAudioManager } from '../../hooks/useAudioManager';
+import { useMountEffect } from '@/hooks';
 import { CldImage } from 'next-cloudinary';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -24,11 +25,11 @@ const PhotosPage = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { playSound } = useAudioManager();
 
-  useEffect(() => {
+  useMountEffect(() => {
     import('@/data/photos.json')
       .then((data) => setImageList(data.images))
       .catch((error) => console.error('Error loading images:', error));
-  }, []);
+  });
 
   const playHoverSound = () => playSound('divine');
   const playSelectSound = () => playSound('navigation');

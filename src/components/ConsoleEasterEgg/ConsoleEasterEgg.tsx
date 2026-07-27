@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from "react";
+import { useMountEffect } from "@/hooks";
 
 const asciiArt = `
 ++++++++++++============================+++++++++++++=
@@ -41,8 +41,8 @@ const asciiArt = `
 ++=+++%%%%%%%%#%@%%%%%%#=+++=+=====+=====*%%%%%%%%%%%##*+==`;
 
 export default function ConsoleEasterEgg() {
-  useEffect(() => {
+  useMountEffect(() => {
     console.log(asciiArt);
-  }, []);
+  });
   return null;
 }
