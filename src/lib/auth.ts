@@ -5,7 +5,13 @@ import { db } from "../utils/db";
 
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
-  trustedOrigins: ["http://localhost:3000"],
+  trustedOrigins: [
+    "http://localhost:3000",
+    "https://sorosfebria.co",
+    "https://www.sorosfebria.co",
+    "https://s11o.online",
+    "https://www.s11o.online",
+  ],
   database: prismaAdapter(db, { provider: "postgresql" }),
   socialProviders: {
     github: {
