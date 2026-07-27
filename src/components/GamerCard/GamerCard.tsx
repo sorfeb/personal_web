@@ -9,6 +9,8 @@ import { useToast, createSystemToast } from '../ToastNotification';
 import { Clock } from '../ui/Clock/Clock';
 import { downloadVCard } from '../../utils/vcard';
 import { identity } from '../../data/card';
+import { CARD_CONCEPT_SOURCES } from '../../data/concepts';
+import { ConceptGraphProvider } from '../Concept';
 import type { MenuItem, SectionId } from './sections';
 import { MENU_ITEMS, SECTION_DOM_IDS, sectionDomId } from './sections';
 import MenuList from './MenuList';
@@ -17,6 +19,7 @@ import IdentityPanel from './IdentityPanel';
 import ExperiencePane from './panes/ExperiencePane';
 import WorkPane from './panes/WorkPane';
 import SkillsPane from './panes/SkillsPane';
+import AboutPane from './panes/AboutPane';
 import ContactPane from './panes/ContactPane';
 import styles from './GamerCard.module.css';
 
@@ -107,6 +110,7 @@ const GamerCard: React.FC = () => {
     `${styles.section} ${activeSection === id ? styles.sectionActive : ''}`;
 
   return (
+    <ConceptGraphProvider sources={CARD_CONCEPT_SOURCES}>
     <div className={styles.page}>
       <header className={styles.chrome}>
         <h1 className={styles.chromeTitle}>Profile</h1>
@@ -151,6 +155,9 @@ const GamerCard: React.FC = () => {
             <section id={sectionDomId('skills')} className={sectionClass('skills')}>
               <SkillsPane />
             </section>
+            <section id={sectionDomId('about')} className={sectionClass('about')}>
+              <AboutPane />
+            </section>
             <section id={sectionDomId('contact')} className={sectionClass('contact')}>
               <ContactPane />
             </section>
@@ -181,6 +188,7 @@ const GamerCard: React.FC = () => {
 
       <TabBar activeId={spySection} onSelect={handleTabSelect} />
     </div>
+    </ConceptGraphProvider>
   );
 };
 
