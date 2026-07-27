@@ -14,7 +14,6 @@ module.exports = {
   exclude: [
     '/api/*',
     '/404',
-    '/card-pilot',
   ],
   additionalPaths: async (config) => {
     return [
