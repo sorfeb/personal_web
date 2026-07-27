@@ -1,0 +1,7 @@
+---
+name: Dev server
+command: npm run dev
+description: Start the Next.js dev server with Turbopack on port 3000.
+tags:
+  - dev
+  - next

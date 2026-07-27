@@ -1,0 +1,9 @@
+---
+name: Prisma db push
+command: npx -y dotenv-cli -e .env.local -- npx prisma db push
+description: >-
+  Sync prisma/schema.prisma to Neon. This repo uses db push, not migrate dev,
+  and env vars load only from .env.local via dotenv-cli.
+tags:
+  - db
+  - prisma

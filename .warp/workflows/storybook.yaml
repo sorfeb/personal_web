@@ -1,0 +1,7 @@
+---
+name: Storybook
+command: npm run storybook
+description: Component development environment on port 6006.
+tags:
+  - dev
+  - storybook
