@@ -1,0 +1,8 @@
+---
+name: Install dependencies
+command: npm install --legacy-peer-deps
+description: >-
+  Install with --legacy-peer-deps — required in this repo (peer-dep conflicts
+  until the Storybook 9 upgrade); a plain npm install will fail.
+tags:
+  - setup

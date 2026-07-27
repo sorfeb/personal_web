@@ -1,0 +1,6 @@
+---
+name: Lint
+command: npm run lint
+description: ESLint (next/core-web-vitals + storybook rules).
+tags:
+  - check

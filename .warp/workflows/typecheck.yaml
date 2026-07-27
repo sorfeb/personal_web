@@ -1,0 +1,6 @@
+---
+name: Typecheck
+command: npm run compile
+description: TypeScript type checking (tsc, no emit).
+tags:
+  - check

@@ -1,0 +1,9 @@
+---
+name: Verify all
+command: npm run compile && npm run lint && npm run lint:useeffect
+description: >-
+  Fail-fast pre-PR gate: typecheck, then ESLint, then the useEffect policy
+  check. Requires a shell with && (PowerShell 7 / bash / zsh).
+tags:
+  - check
+  - ci

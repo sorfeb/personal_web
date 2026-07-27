@@ -1,0 +1,12 @@
+---
+name: New feature branch
+command: git checkout dev && git pull && git checkout -b {{branch}} dev
+description: >-
+  Start work the repo way: sync dev, then branch from it. Feature branches
+  merge back into dev via PR. Requires a shell with && (PowerShell 7 / bash).
+arguments:
+  - name: branch
+    description: Branch name (feat/..., fix/..., chore/...)
+    default_value: feat/
+tags:
+  - git

@@ -1,0 +1,7 @@
+---
+name: Prisma Studio
+command: npx -y dotenv-cli -e .env.local -- npx prisma studio
+description: Browse the Neon database in Prisma Studio (env from .env.local).
+tags:
+  - db
+  - prisma
