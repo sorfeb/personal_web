@@ -54,23 +54,23 @@
   /* Metallic button style */
   background: linear-gradient(
     180deg,
-    hsl(0 0% 25%) 0%,
-    hsl(0 0% 18%) 100%
+    hsl(0deg 0% 25%) 0%,
+    hsl(0deg 0% 18%) 100%
   );
-  border: 1px solid hsl(0 0% 30%);
+  border: 1px solid hsl(0deg 0% 30%);
   box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    0 2px 4px rgb(0 0 0 / 30%),
+    inset 0 1px 0 rgb(255 255 255 / 8%);
   color: var(--color-text-secondary);
 }
 
 .arrow:hover:not(:disabled) {
   background: linear-gradient(
     180deg,
-    hsl(0 0% 30%) 0%,
-    hsl(0 0% 22%) 100%
+    hsl(0deg 0% 30%) 0%,
+    hsl(0deg 0% 22%) 100%
   );
-  border-color: hsl(0 0% 40%);
+  border-color: hsl(0deg 0% 40%);
   color: var(--color-text-primary);
 }
 
@@ -117,7 +117,7 @@
   left: 0;
   background: linear-gradient(
     to right,
-    hsl(0 0% 13%) 0%,
+    hsl(0deg 0% 13%) 0%,
     transparent 100%
   );
 }
@@ -126,7 +126,7 @@
   right: 0;
   background: linear-gradient(
     to left,
-    hsl(0 0% 13%) 0%,
+    hsl(0deg 0% 13%) 0%,
     transparent 100%
   );
 }
@@ -175,7 +175,7 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .header {
     gap: var(--spacing-2);
   }

@@ -293,7 +293,7 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .typeScaleItem {
     grid-template-columns: 1fr;
     gap: var(--spacing-2);

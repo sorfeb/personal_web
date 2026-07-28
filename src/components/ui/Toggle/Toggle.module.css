@@ -13,14 +13,14 @@
   /* Track background - dark metallic feel */
   background: linear-gradient(
     180deg,
-    hsl(0 0% 8%) 0%,
-    hsl(0 0% 15%) 50%,
-    hsl(0 0% 10%) 100%
+    hsl(0deg 0% 8%) 0%,
+    hsl(0deg 0% 15%) 50%,
+    hsl(0deg 0% 10%) 100%
   );
-  border: 1px solid hsl(0 0% 25%);
+  border: 1px solid hsl(0deg 0% 25%);
   box-shadow:
-    inset 0 2px 4px rgba(0, 0, 0, 0.5),
-    0 1px 0 rgba(255, 255, 255, 0.05);
+    inset 0 2px 4px rgb(0 0 0 / 50%),
+    0 1px 0 rgb(255 255 255 / 5%);
 }
 
 /* Size variants */
@@ -35,7 +35,7 @@
 }
 
 .toggle:hover {
-  border-color: hsl(0 0% 35%);
+  border-color: hsl(0deg 0% 35%);
 }
 
 .toggle:focus-visible {
@@ -47,15 +47,15 @@
 .toggle.enabled {
   background: linear-gradient(
     180deg,
-    hsl(90 50% 20%) 0%,
-    hsl(90 60% 30%) 50%,
-    hsl(90 50% 25%) 100%
+    hsl(90deg 50% 20%) 0%,
+    hsl(90deg 60% 30%) 50%,
+    hsl(90deg 50% 25%) 100%
   );
-  border-color: hsl(90 60% 40%);
+  border-color: hsl(90deg 60% 40%);
   box-shadow:
-    inset 0 2px 4px rgba(0, 0, 0, 0.3),
-    0 0 12px rgba(107, 184, 43, 0.4),
-    0 1px 0 rgba(255, 255, 255, 0.1);
+    inset 0 2px 4px rgb(0 0 0 / 30%),
+    0 0 12px rgb(107 184 43 / 40%),
+    0 1px 0 rgb(255 255 255 / 10%);
 }
 
 /* Thumb/knob */
@@ -70,14 +70,14 @@
   /* Metallic thumb appearance */
   background: linear-gradient(
     180deg,
-    hsl(0 0% 70%) 0%,
-    hsl(0 0% 50%) 50%,
-    hsl(0 0% 40%) 100%
+    hsl(0deg 0% 70%) 0%,
+    hsl(0deg 0% 50%) 50%,
+    hsl(0deg 0% 40%) 100%
   );
-  border: 1px solid hsl(0 0% 30%);
+  border: 1px solid hsl(0deg 0% 30%);
   box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    0 2px 4px rgb(0 0 0 / 40%),
+    inset 0 1px 0 rgb(255 255 255 / 30%);
 }
 
 /* Thumb sizes */
@@ -95,15 +95,15 @@
 .toggle.enabled .thumb {
   background: linear-gradient(
     180deg,
-    hsl(90 70% 70%) 0%,
-    hsl(90 60% 55%) 50%,
-    hsl(90 50% 45%) 100%
+    hsl(90deg 70% 70%) 0%,
+    hsl(90deg 60% 55%) 50%,
+    hsl(90deg 50% 45%) 100%
   );
-  border-color: hsl(90 50% 35%);
+  border-color: hsl(90deg 50% 35%);
   box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.4),
-    0 0 8px rgba(107, 184, 43, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    0 2px 4px rgb(0 0 0 / 40%),
+    0 0 8px rgb(107 184 43 / 50%),
+    inset 0 1px 0 rgb(255 255 255 / 40%);
 }
 
 .toggle.md.enabled .thumb {
@@ -123,7 +123,7 @@
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(255, 255, 255, 0.4) 0%,
+    rgb(255 255 255 / 40%) 0%,
     transparent 70%
   );
 }

@@ -13,7 +13,7 @@
   overflow-y: auto;
   font-family: var(--font-family, 'Verdana', sans-serif);
   font-size: 10px;
-  color: #ffffff;
+  color: #fff;
   scrollbar-width: thin;
   scrollbar-color: #77ce07 #285f03;
 }
@@ -42,11 +42,11 @@
 
 .row:hover,
 .activeRow:hover {
-  background: rgba(119, 206, 7, 0.18);
+  background: rgb(119 206 7 / 18%);
 }
 
 .activeRow {
-  background: rgba(119, 206, 7, 0.28);
+  background: rgb(119 206 7 / 28%);
   border-left-color: #c8ff70;
 }
 

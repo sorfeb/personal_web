@@ -4,23 +4,18 @@
   top: var(--popover-top);
   left: var(--popover-left);
   z-index: var(--z-popover);
-
   display: flex;
   flex-direction: column;
   gap: var(--spacing-2);
-
   width: min(320px, calc(100vw - 24px));
   padding: var(--spacing-4);
-
-  background: hsl(0 0% 7% / 0.97);
+  background: hsl(0deg 0% 7% / 97%);
   border: 1px solid var(--color-border-primary);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-xl);
-
   color: var(--color-text-primary);
   font-family: var(--font-primary);
   font-weight: var(--font-weight-light);
-
   outline: none;
   animation: popoverIn var(--duration-fast) var(--ease-smooth);
 }
@@ -55,7 +50,6 @@
   border: none;
   padding: var(--spacing-1);
   margin: 0;
-
   font-size: var(--font-size-xs);
   color: var(--color-text-tertiary);
   cursor: pointer;
@@ -87,7 +81,6 @@
   margin: 0;
   padding-left: var(--spacing-3);
   border-left: 2px solid var(--color-brand-primary);
-
   font-size: var(--font-size-sm);
   font-style: italic;
   line-height: var(--line-height-relaxed);
@@ -99,7 +92,6 @@
   align-items: center;
   gap: var(--spacing-1);
   align-self: flex-start;
-
   font-family: var(--font-mono);
   font-size: var(--font-size-xs);
   letter-spacing: var(--letter-spacing-wide);
@@ -125,7 +117,7 @@
   flex-direction: column;
   gap: var(--spacing-1);
   padding-top: var(--spacing-2);
-  border-top: 1px solid hsl(0 0% 100% / 0.06);
+  border-top: 1px solid hsl(0deg 0% 100% / 6%);
 }
 
 .backlinksLabel {
@@ -142,8 +134,7 @@
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  column-gap: var(--spacing-3);
-  row-gap: var(--spacing-1);
+  gap: var(--spacing-1) var(--spacing-3);
 }
 
 .backlinkButton {
@@ -152,11 +143,10 @@
   border: none;
   padding: 0;
   margin: 0;
-
   font: inherit;
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
-  border-bottom: 1px dotted hsl(0 0% 100% / 0.35);
+  border-bottom: 1px dotted hsl(0deg 0% 100% / 35%);
   cursor: pointer;
   transition:
     color var(--duration-fast) var(--ease-smooth),
@@ -175,20 +165,15 @@
 }
 
 /* Bottom sheet on mobile — anchor coordinates are ignored */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .popover,
   .above {
-    top: auto;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: auto 0 0;
     transform: none;
-
     width: auto;
     border-radius: var(--radius-md) var(--radius-md) 0 0;
     border-bottom: none;
     padding-bottom: calc(var(--spacing-4) + env(safe-area-inset-bottom, 0px));
-
     animation: sheetIn var(--duration-normal) var(--ease-smooth);
   }
 
@@ -202,8 +187,15 @@
   }
 
   @keyframes sheetIn {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 

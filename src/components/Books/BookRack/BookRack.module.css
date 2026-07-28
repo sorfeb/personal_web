@@ -22,20 +22,20 @@
   color: white;
   font-size: 14px;
   box-shadow: 
-    inset 2px 2px 4px rgba(0, 0, 0, 0.3),
-    inset -2px -2px 4px rgba(101, 67, 33, 0.1);
+    inset 2px 2px 4px rgb(0 0 0 / 30%),
+    inset -2px -2px 4px rgb(101 67 33 / 10%);
 }
 
 .searchInput::placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgb(255 255 255 / 60%);
 }
 
 .searchInput:focus {
   outline: none;
   border-color: #CD853F;
   box-shadow: 
-    0 0 10px rgba(205, 133, 63, 0.3),
-    inset 2px 2px 4px rgba(0, 0, 0, 0.3);
+    0 0 10px rgb(205 133 63 / 30%),
+    inset 2px 2px 4px rgb(0 0 0 / 30%);
 }
 
 /* Wooden Bookshelf Container - Now a unified structure */
@@ -45,20 +45,20 @@
   background: 
     url('/assets/patterns/wood-pattern.webp'),
     linear-gradient(145deg, 
-      rgba(101, 67, 33, 0.3),
-      rgba(139, 69, 19, 0.3),
-      rgba(93, 78, 55, 0.3)
+      rgb(101 67 33 / 30%),
+      rgb(139 69 19 / 30%),
+      rgb(93 78 55 / 30%)
     );
   background-size: 400px 400px, cover;
   background-repeat: repeat, no-repeat;
   background-blend-mode: multiply, normal;
   border-radius: 15px;
   box-shadow: 
-    0 20px 40px rgba(0, 0, 0, 0.5),
-    inset 0 3px 0 rgba(255, 255, 255, 0.1),
-    inset 0 -3px 0 rgba(0, 0, 0, 0.4),
-    inset 3px 0 0 rgba(139, 69, 19, 0.3),
-    inset -3px 0 0 rgba(139, 69, 19, 0.3);
+    0 20px 40px rgb(0 0 0 / 50%),
+    inset 0 3px 0 rgb(255 255 255 / 10%),
+    inset 0 -3px 0 rgb(0 0 0 / 40%),
+    inset 3px 0 0 rgb(139 69 19 / 30%),
+    inset -3px 0 0 rgb(139 69 19 / 30%);
   overflow: visible;
 }
 
@@ -66,24 +66,21 @@
 .bookshelfContainer::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: 
     repeating-linear-gradient(
       90deg,
       transparent,
       transparent 4px,
-      rgba(101, 67, 33, 0.1) 4px,
-      rgba(101, 67, 33, 0.1) 8px
+      rgb(101 67 33 / 10%) 4px,
+      rgb(101 67 33 / 10%) 8px
     ),
     repeating-linear-gradient(
       0deg,
       transparent,
       transparent 25px,
-      rgba(93, 78, 55, 0.08) 25px,
-      rgba(93, 78, 55, 0.08) 50px
+      rgb(93 78 55 / 8%) 25px,
+      rgb(93 78 55 / 8%) 50px
     );
   border-radius: 15px;
   pointer-events: none;
@@ -94,7 +91,7 @@
 .bookshelf {
   position: relative;
   margin-bottom: 0; /* Remove gap between shelves */
-  padding: 30px 20px 0 20px; /* Remove bottom padding */
+  padding: 30px 20px 0; /* Remove bottom padding */
   background: transparent; /* Remove individual backgrounds */
   border-radius: 0; /* Remove individual border radius */
   box-shadow: none; /* Remove individual shadows */
@@ -116,17 +113,17 @@
   background: 
     url('/assets/patterns/wood-pattern.webp'),
     linear-gradient(145deg, 
-      rgba(81, 54, 27, 0.9),
-      rgba(75, 47, 24, 0.9),
-      rgba(69, 42, 21, 0.9)
+      rgb(81 54 27 / 90%),
+      rgb(75 47 24 / 90%),
+      rgb(69 42 21 / 90%)
     );
   background-size: 300px 300px, cover;
   background-repeat: repeat, no-repeat;
   background-blend-mode: multiply, normal;
   box-shadow: 
-    0 -2px 4px rgba(0, 0, 0, 0.3),
-    inset 0 2px 0 rgba(255, 255, 255, 0.1),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.4);
+    0 -2px 4px rgb(0 0 0 / 30%),
+    inset 0 2px 0 rgb(255 255 255 / 10%),
+    inset 0 -2px 0 rgb(0 0 0 / 40%);
   z-index: 1;
 }
 
@@ -153,19 +150,19 @@
   background: 
     url('/assets/patterns/wood-pattern.webp'),
     linear-gradient(145deg, 
-      rgba(81, 54, 27, 0.9),    /* Darker than main shelf */
-      rgba(75, 47, 24, 0.9),    /* Even darker middle */
-      rgba(69, 42, 21, 0.9)     /* Darkest bottom */
+      rgb(81 54 27 / 90%),    /* Darker than main shelf */
+      rgb(75 47 24 / 90%),    /* Even darker middle */
+      rgb(69 42 21 / 90%)     /* Darkest bottom */
     );
   background-size: 300px 300px, cover;
   background-repeat: repeat, no-repeat;
   background-blend-mode: multiply, normal;
   border-radius: 0;
   box-shadow: 
-    0 -2px 4px rgba(0, 0, 0, 0.3),
-    inset 0 2px 0 rgba(255, 255, 255, 0.1),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.4),
-    0 2px 4px rgba(0, 0, 0, 0.2);
+    0 -2px 4px rgb(0 0 0 / 30%),
+    inset 0 2px 0 rgb(255 255 255 / 10%),
+    inset 0 -2px 0 rgb(0 0 0 / 40%),
+    0 2px 4px rgb(0 0 0 / 20%);
   z-index: 1;
 }
 
@@ -173,17 +170,14 @@
 .shelfPlank::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: 
     repeating-linear-gradient(
       90deg,
       transparent,
       transparent 2px,
-      rgba(0, 0, 0, 0.1) 2px,
-      rgba(0, 0, 0, 0.1) 4px
+      rgb(0 0 0 / 10%) 2px,
+      rgb(0 0 0 / 10%) 4px
     );
   pointer-events: none;
   opacity: 0.8;
@@ -199,16 +193,16 @@
   background: 
     url('/assets/patterns/wood-pattern.webp'),
     linear-gradient(145deg, 
-      rgba(69, 42, 21, 1),      /* Darkest front edge */
-      rgba(60, 36, 18, 1)       /* Even darker for depth */
+      rgb(69 42 21 / 100%),      /* Darkest front edge */
+      rgb(60 36 18 / 100%)       /* Even darker for depth */
     );
   background-size: 200px 200px, cover;
   background-repeat: repeat, no-repeat;
   background-blend-mode: multiply, normal;
   border-radius: 0 0 8px 8px;
   box-shadow: 
-    0 4px 8px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    0 4px 8px rgb(0 0 0 / 40%),
+    inset 0 1px 0 rgb(255 255 255 / 10%);
   z-index: 2;
 }
 
@@ -217,10 +211,9 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Reduced from 140px to 120px */
   gap: 12px; /* Reduced from 15px */
-  justify-items: center;
-  padding: 0 5px 5px 5px; /* Reduced side padding */
+  place-items: end center;
+  padding: 0 5px 5px; /* Reduced side padding */
   min-height: 200px;
-  align-items: end;
   position: relative;
   z-index: 3; /* Above shelf planks */
 }
@@ -236,16 +229,16 @@
   background: 
     url('/assets/patterns/wood-pattern.webp'),
     linear-gradient(90deg, 
-      rgba(101, 67, 33, 0.8),
-      rgba(83, 55, 28, 0.8)
+      rgb(101 67 33 / 80%),
+      rgb(83 55 28 / 80%)
     );
   background-size: 200px 200px, cover;
   background-repeat: repeat, no-repeat;
   background-blend-mode: multiply, normal;
   border-radius: 15px 0 0 15px;
   box-shadow: 
-    inset 2px 0 0 rgba(255, 255, 255, 0.1),
-    inset -2px 0 0 rgba(0, 0, 0, 0.3);
+    inset 2px 0 0 rgb(255 255 255 / 10%),
+    inset -2px 0 0 rgb(0 0 0 / 30%);
 }
 
 /* Right side panel */
@@ -258,16 +251,16 @@
   background: 
     url('/assets/patterns/wood-pattern.webp'),
     linear-gradient(90deg, 
-      rgba(83, 55, 28, 0.8),
-      rgba(101, 67, 33, 0.8)
+      rgb(83 55 28 / 80%),
+      rgb(101 67 33 / 80%)
     );
   background-size: 200px 200px, cover;
   background-repeat: repeat, no-repeat;
   background-blend-mode: multiply, normal;
   border-radius: 0 15px 15px 0;
   box-shadow: 
-    inset 2px 0 0 rgba(0, 0, 0, 0.3),
-    inset -2px 0 0 rgba(255, 255, 255, 0.1);
+    inset 2px 0 0 rgb(0 0 0 / 30%),
+    inset -2px 0 0 rgb(255 255 255 / 10%);
 }
 
 /* Remove the old shelf edge styles */
@@ -282,7 +275,7 @@
   left: 10%;
   right: 10%;
   height: 8px;
-  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.4), transparent);
+  background: radial-gradient(ellipse, rgb(0 0 0 / 40%), transparent);
   border-radius: 50%;
   transition: all 0.3s ease;
   z-index: 2; /* Above shelf plank, below books */
@@ -293,7 +286,7 @@
   left: 5%;
   right: 5%;
   height: 12px;
-  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.5), transparent);
+  background: radial-gradient(ellipse, rgb(0 0 0 / 50%), transparent);
 }
 
 /* Empty State */
@@ -306,17 +299,17 @@
 
 .emptyShelf {
   text-align: center;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgb(255 255 255 / 60%);
   font-style: italic;
   background: linear-gradient(145deg, #8B4513, #A0522D);
   padding: 40px;
   border-radius: 12px;
-  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border: 2px dashed rgb(255 255 255 / 30%);
 }
 
 .emptyMessage p {
   font-size: 18px;
-  margin: 0 0 10px 0;
+  margin: 0 0 10px;
 }
 
 .emptyMessage small {
@@ -325,20 +318,20 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 1200px) {
+@media (width <= 1200px) {
   .booksRow {
     grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); /* Further reduced */
     gap: 10px;
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .bookshelfContainer {
     padding: 10px; /* Reduced from 15px */
   }
   
   .bookshelf {
-    padding: 20px 10px 0 10px; /* Reduced from 25px 15px */
+    padding: 20px 10px 0; /* Reduced from 25px 15px */
   }
   
   .shelfPlank {
@@ -353,11 +346,11 @@
   .booksRow {
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Further reduced */
     gap: 8px;
-    padding: 0 2px 20px 2px; /* Reduced padding */
+    padding: 0 2px 20px; /* Reduced padding */
   }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .booksRow {
     grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); /* Further reduced */
     gap: 6px;

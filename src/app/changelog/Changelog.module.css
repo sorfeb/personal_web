@@ -12,20 +12,20 @@
   width: 100%;
   max-width: 720px;
   overflow: hidden;
-  border-radius: 12px;
-  background: linear-gradient(180deg, hsl(0 0% 100% / 0.95) 0%, hsl(0 0% 88% / 0.95) 100%);
-  box-shadow: 0 8px 32px hsl(0 0% 0% / 0.35);
-  color: hsl(0 0% 15%);
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, hsl(0deg 0% 100% / 95%) 0%, hsl(0deg 0% 88% / 95%) 100%);
+  box-shadow: var(--shadow-xl);
+  color: var(--color-text-inverse);
 }
 
 .dialogAccent {
   height: 6px;
-  background: linear-gradient(90deg, #79b933 0%, #a5d054 50%, #79b933 100%);
+  background: linear-gradient(90deg, var(--color-brand-primary) 0%, var(--color-brand-primary-light) 50%, var(--color-brand-primary) 100%);
 }
 
 .dialogHeader {
   padding: 1.25rem 1.5rem 0.75rem;
-  border-bottom: 1px solid hsl(0 0% 0% / 0.1);
+  border-bottom: var(--border-width-thin) solid var(--color-shadow-medium);
 }
 
 .dialogTitle {
@@ -38,18 +38,18 @@
 .dialogSubtitle {
   margin: 0.25rem 0 0;
   font-size: 0.9rem;
-  color: hsl(0 0% 35%);
+  color: var(--color-text-inverse);
 }
 
 .version {
   font-weight: 600;
-  color: #4c7a14;
+  color: var(--color-brand-primary-darker);
 }
 
 .emptyState {
   padding: 2rem 1.5rem;
   text-align: center;
-  color: hsl(0 0% 40%);
+  color: var(--color-text-inverse);
 }
 
 .releaseList {
@@ -59,7 +59,7 @@
 }
 
 .release {
-  border-bottom: 1px solid hsl(0 0% 0% / 0.06);
+  border-bottom: var(--border-width-thin) solid var(--color-shadow-medium);
 }
 
 .release:last-child {
@@ -77,28 +77,28 @@
   font: inherit;
   text-align: left;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background var(--duration-normal) var(--ease-in-out);
 }
 
 .releaseHeader:hover,
 .releaseHeaderActive {
-  background: linear-gradient(90deg, hsl(84 55% 46% / 0.18) 0%, transparent 80%);
+  background: linear-gradient(90deg, var(--color-brand-glow) 0%, transparent 80%);
 }
 
 .releaseVersion {
   font-size: 1.05rem;
   font-weight: 600;
-  color: hsl(0 0% 15%);
+  color: var(--color-text-inverse);
 }
 
 .releaseDate {
   font-size: 0.8rem;
-  color: hsl(0 0% 45%);
+  color: var(--color-text-inverse);
 }
 
 .releaseChevron {
   margin-left: auto;
-  color: #79b933;
+  color: var(--color-brand-primary);
 }
 
 .releaseBody {
@@ -115,7 +115,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #4c7a14;
+  color: var(--color-brand-primary-darker);
 }
 
 .itemList {
@@ -137,11 +137,11 @@
 .itemScope {
   flex-shrink: 0;
   padding: 0.05rem 0.4rem;
-  border-radius: 4px;
-  background: hsl(84 55% 46% / 0.15);
+  border-radius: var(--radius-sm);
+  background: var(--color-brand-glow);
   font-size: 0.72rem;
   font-weight: 600;
-  color: #4c7a14;
+  color: var(--color-brand-primary-darker);
 }
 
 .itemText {
@@ -152,29 +152,29 @@
 .itemCommit {
   font-family: var(--font-mono, monospace);
   font-size: 0.75rem;
-  color: hsl(0 0% 45%);
+  color: var(--color-text-inverse);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: var(--transition-color);
 }
 
 .itemCommit:hover {
-  color: #4c7a14;
+  color: var(--color-brand-primary-darker);
 }
 
 .compareLink {
   display: inline-block;
   margin-top: 0.75rem;
   font-size: 0.85rem;
-  color: #4c7a14;
+  color: var(--color-brand-primary-darker);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: var(--transition-color);
 }
 
 .compareLink:hover {
-  color: #79b933;
+  color: var(--color-brand-primary);
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .container {
     padding: 0.5rem 0;
   }

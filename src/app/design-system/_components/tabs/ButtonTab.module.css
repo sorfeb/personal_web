@@ -3,7 +3,7 @@
 .placeholderDemo {
   text-align: center;
   padding: 3rem 1rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgb(255 255 255 / 50%);
   font-style: italic;
 }
 
@@ -15,11 +15,11 @@
 
 .specItem {
   padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgb(255 255 255 / 3%);
+  border: 1px solid rgb(255 255 255 / 8%);
   border-radius: 8px;
   font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgb(255 255 255 / 80%);
 }
 
 .specItem strong {

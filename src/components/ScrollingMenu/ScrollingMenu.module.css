@@ -10,7 +10,7 @@
 
 .dotIndicator {
   position: absolute;
-  left: -10;
+  left: -10px;
   top: 0;
   width: var(--menu-dot-size);
   height: var(--menu-dot-size);
