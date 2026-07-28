@@ -1,0 +1,193 @@
+.container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem 0;
+}
+
+/* Modeled on the Xbox 360 "A system update is available" dialog:
+   pale panel, rounded corners, single green accent band. */
+.updateDialog {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: linear-gradient(180deg, hsl(0 0% 100% / 0.95) 0%, hsl(0 0% 88% / 0.95) 100%);
+  box-shadow: 0 8px 32px hsl(0 0% 0% / 0.35);
+  color: hsl(0 0% 15%);
+}
+
+.dialogAccent {
+  height: 6px;
+  background: linear-gradient(90deg, #79b933 0%, #a5d054 50%, #79b933 100%);
+}
+
+.dialogHeader {
+  padding: 1.25rem 1.5rem 0.75rem;
+  border-bottom: 1px solid hsl(0 0% 0% / 0.1);
+}
+
+.dialogTitle {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.dialogSubtitle {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+  color: hsl(0 0% 35%);
+}
+
+.version {
+  font-weight: 600;
+  color: #4c7a14;
+}
+
+.emptyState {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  color: hsl(0 0% 40%);
+}
+
+.releaseList {
+  margin: 0;
+  padding: 0.5rem 0;
+  list-style: none;
+}
+
+.release {
+  border-bottom: 1px solid hsl(0 0% 0% / 0.06);
+}
+
+.release:last-child {
+  border-bottom: none;
+}
+
+.releaseHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.releaseHeader:hover,
+.releaseHeaderActive {
+  background: linear-gradient(90deg, hsl(84 55% 46% / 0.18) 0%, transparent 80%);
+}
+
+.releaseVersion {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: hsl(0 0% 15%);
+}
+
+.releaseDate {
+  font-size: 0.8rem;
+  color: hsl(0 0% 45%);
+}
+
+.releaseChevron {
+  margin-left: auto;
+  color: #79b933;
+}
+
+.releaseBody {
+  padding: 0 1.5rem 1rem;
+}
+
+.section {
+  margin-top: 0.5rem;
+}
+
+.sectionTitle {
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #4c7a14;
+}
+
+.itemList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.2rem 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.itemScope {
+  flex-shrink: 0;
+  padding: 0.05rem 0.4rem;
+  border-radius: 4px;
+  background: hsl(84 55% 46% / 0.15);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #4c7a14;
+}
+
+.itemText {
+  flex: 1;
+  min-width: 12rem;
+}
+
+.itemCommit {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  color: hsl(0 0% 45%);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.itemCommit:hover {
+  color: #4c7a14;
+}
+
+.compareLink {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: #4c7a14;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.compareLink:hover {
+  color: #79b933;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0.5rem 0;
+  }
+
+  .dialogHeader {
+    padding: 1rem 1rem 0.6rem;
+  }
+
+  .releaseHeader {
+    padding: 0.6rem 1rem;
+  }
+
+  .releaseBody {
+    padding: 0 1rem 0.8rem;
+  }
+}
