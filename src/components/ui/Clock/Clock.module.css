@@ -1,6 +1,6 @@
 .clock {
   font-size: 14px;
-  color: #cccccc;
+  color: #ccc;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   white-space: nowrap;
 }
@@ -15,10 +15,10 @@
 }
 
 .clock.bright {
-  color: #ffffff;
+  color: #fff;
 }
 
 .clock.xbox {
-  color: #00ff00;
-  text-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+  color: #0f0;
+  text-shadow: 0 0 5px rgb(0 255 0 / 30%);
 }

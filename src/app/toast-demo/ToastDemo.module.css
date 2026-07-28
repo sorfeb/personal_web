@@ -15,14 +15,14 @@
 .title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.95);
+  color: rgb(255 255 255 / 95%);
   margin-bottom: 0.5rem;
   text-align: center;
 }
 
 .description {
   font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgb(255 255 255 / 70%);
   margin-bottom: 2rem;
   text-align: center;
 }
@@ -33,10 +33,10 @@
   gap: 2rem;
   justify-content: center;
   padding: 1.5rem;
-  background: rgba(59, 130, 246, 0.1);
+  background: rgb(59 130 246 / 10%);
   border-radius: 12px;
   margin-bottom: 2rem;
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  border: 1px solid rgb(59 130 246 / 20%);
 }
 
 .statusItem {
@@ -48,7 +48,7 @@
 
 .statusLabel {
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgb(255 255 255 / 60%);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -56,22 +56,22 @@
 .statusValue {
   font-size: 1.5rem;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.95);
+  color: rgb(255 255 255 / 95%);
 }
 
 /* Configuration Controls */
 .controlsSection {
   padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgb(255 255 255 / 5%);
   border-radius: 12px;
   margin-bottom: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgb(255 255 255 / 10%);
 }
 
 .sectionTitle {
   font-size: 1.25rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgb(255 255 255 / 90%);
   margin-bottom: 1rem;
 }
 
@@ -86,7 +86,7 @@
 .label {
   display: block;
   font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgb(255 255 255 / 80%);
   margin-bottom: 0.5rem;
   font-weight: 500;
 }
@@ -95,7 +95,7 @@
   width: 100%;
   height: 8px;
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgb(255 255 255 / 10%);
   outline: none;
   cursor: pointer;
 }
@@ -107,13 +107,13 @@
   border-radius: 50%;
   background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 2px 8px rgb(59 130 246 / 40%);
   transition: all 0.2s ease;
 }
 
 .slider::-webkit-slider-thumb:hover {
   transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.6);
+  box-shadow: 0 4px 12px rgb(59 130 246 / 60%);
 }
 
 .slider::-moz-range-thumb {
@@ -123,13 +123,13 @@
   background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
   cursor: pointer;
   border: none;
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 2px 8px rgb(59 130 246 / 40%);
   transition: all 0.2s ease;
 }
 
 .slider::-moz-range-thumb:hover {
   transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.6);
+  box-shadow: 0 4px 12px rgb(59 130 246 / 60%);
 }
 
 .checkboxLabel {
@@ -137,7 +137,7 @@
   align-items: center;
   gap: 0.75rem;
   font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgb(255 255 255 / 80%);
   cursor: pointer;
   user-select: none;
 }
@@ -170,12 +170,12 @@
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 30%);
 }
 
 .buttonGrid button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 16px rgb(0 0 0 / 40%);
 }
 
 .buttonGrid button:active {
@@ -216,39 +216,39 @@
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 12px rgb(59 130 246 / 30%);
   width: 100%;
 }
 
 .button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 6px 16px rgb(59 130 246 / 40%);
 }
 
 .button:active {
   transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 2px 8px rgb(59 130 246 / 30%);
 }
 
 .buttonDanger {
   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  box-shadow: 0 4px 12px rgb(239 68 68 / 30%);
 }
 
 .buttonDanger:hover {
-  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+  box-shadow: 0 6px 16px rgb(239 68 68 / 40%);
 }
 
 .buttonDanger:active {
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+  box-shadow: 0 2px 8px rgb(239 68 68 / 30%);
 }
 
 /* Active Toasts Section */
 .activeToastsSection {
   padding: 1.5rem;
-  background: rgba(16, 185, 129, 0.1);
+  background: rgb(16 185 129 / 10%);
   border-radius: 12px;
-  border: 1px solid rgba(16, 185, 129, 0.2);
+  border: 1px solid rgb(16 185 129 / 20%);
 }
 
 .toastList {
@@ -265,15 +265,15 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgb(255 255 255 / 5%);
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgb(255 255 255 / 10%);
   transition: all 0.2s ease;
 }
 
 .toastListItem:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: rgb(255 255 255 / 8%);
+  border-color: rgb(255 255 255 / 20%);
 }
 
 .toastInfo {
@@ -285,7 +285,7 @@
 
 .toastIndex {
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgb(255 255 255 / 50%);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -293,14 +293,14 @@
 .toastTitle {
   font-size: 1rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.95);
+  color: rgb(255 255 255 / 95%);
 }
 
 .toastMeta {
   display: flex;
   gap: 1rem;
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgb(255 255 255 / 60%);
 }
 
 .toastType,
@@ -325,7 +325,7 @@
   font-size: 0.9rem;
   font-weight: 600;
   color: white;
-  background: rgba(239, 68, 68, 0.8);
+  background: rgb(239 68 68 / 80%);
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -334,7 +334,7 @@
 }
 
 .dismissButton:hover {
-  background: rgba(239, 68, 68, 1);
+  background: rgb(239 68 68 / 100%);
   transform: scale(1.05);
 }
 
@@ -345,53 +345,53 @@
 .emptyState {
   text-align: center;
   padding: 2rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgb(255 255 255 / 50%);
   font-style: italic;
 }
 
 /* Tips Section */
 .tips {
   padding: 1.5rem;
-  background: rgba(245, 158, 11, 0.1);
+  background: rgb(245 158 11 / 10%);
   border-radius: 12px;
-  border: 1px solid rgba(245, 158, 11, 0.2);
+  border: 1px solid rgb(245 158 11 / 20%);
   margin-top: 2rem;
 }
 
 .tips p {
   margin: 0;
   font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgb(255 255 255 / 70%);
   line-height: 1.6;
 }
 
 .tips strong {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgb(255 255 255 / 90%);
 }
 
 .note {
   padding: 1.5rem;
-  background: rgba(59, 130, 246, 0.1);
+  background: rgb(59 130 246 / 10%);
   border-left: 4px solid #3b82f6;
   border-radius: 8px;
 }
 
 .note p {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgb(255 255 255 / 80%);
   font-size: 0.9rem;
   margin: 0;
   line-height: 1.6;
 }
 
 .note code {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgb(0 0 0 / 30%);
   padding: 0.2rem 0.5rem;
   border-radius: 4px;
   font-family: 'Courier New', monospace;
   font-size: 0.85rem;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .title {
     font-size: 2rem;
   }
@@ -421,7 +421,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .title {
     font-size: 1.75rem;
   }

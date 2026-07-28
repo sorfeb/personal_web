@@ -135,10 +135,12 @@
     transform: scale(1);
     opacity: 1;
   }
+
   50% {
     transform: scale(1.5);
     opacity: 0.3;
   }
+
   100% {
     transform: scale(1);
     opacity: 1;
@@ -153,7 +155,7 @@
 }
 
 /* Mobile optimization - reduce animation complexity */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .animatedCircle {
     animation-duration: 5s;
   }

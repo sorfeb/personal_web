@@ -11,13 +11,14 @@
   position: absolute;
   pointer-events: auto;
   cursor: move;
+
   /*
    * drop-shadow (not box-shadow) — the headspace skin has transparent pixels
    * around its irregular silhouette, and box-shadow would draw around the
    * rectangular bounding box. drop-shadow reads the rendered alpha so the
    * shadow follows the actual skin shape.
    */
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.8));
+  filter: drop-shadow(0 10px 20px rgb(0 0 0 / 80%));
   animation: fadeInScale 0.3s ease-out;
   user-select: none;
 }
@@ -34,7 +35,7 @@
   background: #1a1a1a;
   border: 2px solid #444;
   border-radius: 8px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 10px 40px rgb(0 0 0 / 60%);
   animation: fadeInScale 0.3s ease-out;
 }
 
@@ -83,6 +84,7 @@
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -90,7 +92,7 @@
 }
 
 /* Mobile Responsiveness (< 768px) */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .playerWindow {
     position: fixed !important;
     top: 50% !important;

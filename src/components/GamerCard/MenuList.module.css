@@ -14,7 +14,7 @@
   padding: 0 var(--spacing-4);
   background: transparent;
   border: none;
-  border-bottom: 1px solid hsl(0 0% 100% / 0.08);
+  border-bottom: 1px solid hsl(0deg 0% 100% / 8%);
   color: var(--color-text-secondary);
   font-family: inherit;
   font-size: var(--font-size-md);
@@ -42,10 +42,10 @@
   );
   border-radius: 3px;
   border-bottom-color: transparent;
-  color: hsl(95 85% 8%);
+  color: hsl(95deg 85% 8%);
   font-weight: var(--font-weight-regular);
-  text-shadow: 0 1px 0 hsl(0 0% 100% / 0.25);
+  text-shadow: 0 1px 0 hsl(0deg 0% 100% / 25%);
   box-shadow:
-    inset 0 1px 0 hsl(0 0% 100% / 0.35),
+    inset 0 1px 0 hsl(0deg 0% 100% / 35%),
     var(--shadow-glow-green);
 }

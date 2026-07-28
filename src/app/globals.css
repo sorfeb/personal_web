@@ -1,4 +1,4 @@
-@import './design-tokens.css';
+@import url('./design-tokens.css');
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -37,12 +37,14 @@ html, body {
   height: 100%;
   overflow: hidden;
   font-family: var(--font-primary);
+
   /* Dark UA surfaces (scrollbar corners, form controls, autofill) */
   color-scheme: dark;
+
   /* No pull-to-refresh or rubber-band bounce — the console doesn't wobble */
   overscroll-behavior: none;
+
   /* Prevent iOS/Android font inflation in landscape */
-  -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
 
@@ -78,7 +80,7 @@ button {
 
 ::selection {
   background: var(--color-brand-primary);
-  color: hsl(95 85% 8%);
+  color: hsl(95deg 85% 8%);
 }
 
 .crt {
@@ -107,7 +109,7 @@ button {
   overflow: hidden;
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .mountainCurve {
     width: 130%;
   }
@@ -123,7 +125,7 @@ button {
 @supports not selector(::-webkit-scrollbar) {
   * {
     scrollbar-width: thin;
-    scrollbar-color: hsl(0 0% 60%) hsl(0 0% 14%);
+    scrollbar-color: hsl(0deg 0% 60%) hsl(0deg 0% 14%);
   }
 }
 

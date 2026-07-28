@@ -6,7 +6,7 @@
 /* Gamertag strip — the light bar holding the name, like "Kylirez" */
 .gamertagStrip {
   padding: var(--spacing-2) var(--spacing-4);
-  background: linear-gradient(180deg, hsl(0 0% 100% / 0.1), hsl(0 0% 100% / 0.05));
+  background: linear-gradient(180deg, hsl(0deg 0% 100% / 10%), hsl(0deg 0% 100% / 5%));
   border-bottom: 1px solid var(--color-border-primary);
   box-shadow: var(--shadow-inset-light);
 }
@@ -32,8 +32,8 @@
   width: 96px;
   height: 96px;
   padding: 4px;
-  background: hsl(0 0% 13%);
-  border: 2px solid hsl(0 0% 40%);
+  background: hsl(0deg 0% 13%);
+  border: 2px solid hsl(0deg 0% 40%);
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-inset-light);
   overflow: hidden;
@@ -138,7 +138,7 @@
   background: var(--gradient-brand);
   border: 1px solid var(--color-brand-primary-light);
   border-radius: var(--radius-sm);
-  color: hsl(95 80% 8%);
+  color: hsl(95deg 80% 8%);
   font-family: inherit;
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
@@ -162,7 +162,7 @@
   transform: translateY(0);
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .body {
     padding: var(--spacing-4) var(--spacing-4) var(--spacing-3);
   }

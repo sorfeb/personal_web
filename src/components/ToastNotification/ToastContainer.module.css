@@ -30,7 +30,7 @@
   transform: translateY(-240px);
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .toastStack {
     padding-bottom: 15vh;
   }

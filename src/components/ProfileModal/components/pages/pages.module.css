@@ -51,14 +51,13 @@
   gap: var(--spacing-3);
   flex: 1;
   max-height: 400px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden auto;
   padding-right: var(--spacing-2);
   min-width: 0;
 }
 
 .avatarOption {
-  background: hsl(0 0% 20%);
+  background: hsl(0deg 0% 20%);
   border: var(--border-width-medium) solid transparent;
   border-radius: var(--radius-base);
   padding: var(--spacing-2);
@@ -71,8 +70,8 @@
 }
 
 .avatarOption:hover {
-  border-color: hsl(0 0% 40%);
-  background: hsl(0 0% 25%);
+  border-color: hsl(0deg 0% 40%);
+  background: hsl(0deg 0% 25%);
 }
 
 .avatarOption.selected {
@@ -90,7 +89,7 @@
 
 /* Preview panel */
 .previewPanel {
-  background: linear-gradient(135deg, hsl(0 0% 25%) 0%, hsl(0 0% 20%) 100%);
+  background: linear-gradient(135deg, hsl(0deg 0% 25%) 0%, hsl(0deg 0% 20%) 100%);
   border-radius: var(--radius-base);
   padding: var(--spacing-5);
   width: 280px;
@@ -110,8 +109,8 @@
 }
 
 .previewAvatar {
-  background: hsl(0 0% 13%);
-  border: var(--border-width-medium) solid hsl(0 0% 40%);
+  background: hsl(0deg 0% 13%);
+  border: var(--border-width-medium) solid hsl(0deg 0% 40%);
   border-radius: var(--radius-base);
   padding: var(--spacing-2);
   width: 112px;
@@ -182,14 +181,14 @@
   align-items: center;
   gap: var(--spacing-2);
   padding: var(--spacing-3);
-  background: hsl(0 0% 15%);
+  background: hsl(0deg 0% 15%);
   border-radius: var(--radius-base);
   cursor: pointer;
   transition: var(--transition-fast);
 }
 
 .themeOption:hover {
-  background: hsl(0 0% 20%);
+  background: hsl(0deg 0% 20%);
 }
 
 .themePreview {
@@ -208,7 +207,7 @@
    RESPONSIVE
    ============================================ */
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .profilePageContainer {
     flex-direction: column;
     padding: var(--spacing-4);

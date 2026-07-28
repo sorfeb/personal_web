@@ -107,7 +107,7 @@
   font-size: 14px;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .playerWrapper {
     min-height: 400px;
     padding: 16px;

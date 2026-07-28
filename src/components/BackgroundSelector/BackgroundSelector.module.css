@@ -6,11 +6,8 @@
 
 .backdrop {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.85);
+  inset: 0;
+  background: rgb(0 0 0 / 85%);
   backdrop-filter: blur(10px);
   z-index: 1000;
   display: flex;
@@ -20,8 +17,8 @@
 }
 
 .container {
-  background: linear-gradient(135deg, rgba(50, 50, 50, 0.95), rgba(30, 30, 30, 0.95));
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgb(50 50 50 / 95%), rgb(30 30 30 / 95%));
+  border: 2px solid rgb(255 255 255 / 10%);
   border-radius: 12px;
   max-width: 900px;
   width: 100%;
@@ -29,7 +26,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 40px rgb(0 0 0 / 50%);
 }
 
 .header {
@@ -37,7 +34,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 24px 32px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgb(255 255 255 / 10%);
 }
 
 .title {
@@ -51,7 +48,7 @@
 
 .closeButton {
   background: transparent;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid rgb(255 255 255 / 30%);
   color: #fff;
   font-size: 24px;
   width: 44px;
@@ -65,8 +62,8 @@
 }
 
 .closeButton:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: rgb(255 255 255 / 10%);
+  border-color: rgb(255 255 255 / 50%);
   transform: rotate(90deg);
 }
 
@@ -80,8 +77,8 @@
 }
 
 .backgroundCard {
-  background: rgba(40, 40, 40, 0.6);
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: rgb(40 40 40 / 60%);
+  border: 2px solid rgb(255 255 255 / 10%);
   border-radius: 8px;
   padding: 0;
   cursor: pointer;
@@ -93,17 +90,17 @@
 
 .backgroundCard:hover {
   transform: translateY(-4px);
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  border-color: rgb(255 255 255 / 30%);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 40%);
 }
 
 .backgroundCard.selected {
   border-color: #9acd32;
-  box-shadow: 0 0 20px rgba(154, 205, 50, 0.4);
+  box-shadow: 0 0 20px rgb(154 205 50 / 40%);
 }
 
 .backgroundCard.hovered {
-  background: rgba(50, 50, 50, 0.8);
+  background: rgb(50 50 50 / 80%);
 }
 
 .thumbnail {
@@ -135,14 +132,14 @@
   justify-content: center;
   font-size: 18px;
   font-weight: bold;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 30%);
 }
 
 .animatedBadge {
   position: absolute;
   top: 12px;
   left: 12px;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgb(0 0 0 / 70%);
   color: #fff;
   padding: 6px 12px;
   border-radius: 4px;
@@ -157,7 +154,7 @@
 }
 
 .backgroundName {
-  margin: 0 0 8px 0;
+  margin: 0 0 8px;
   font-size: 18px;
   font-weight: 400;
   color: #fff;
@@ -166,12 +163,12 @@
 .description {
   margin: 0;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgb(255 255 255 / 60%);
   line-height: 1.4;
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .grid {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 16px;
