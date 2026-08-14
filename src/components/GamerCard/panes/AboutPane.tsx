@@ -1,7 +1,8 @@
 'use client';
 
 import React, { memo } from 'react';
-import { Sparkles } from 'lucide-react';
+import Link from 'next/link';
+import { ScrollText, Sparkles } from 'lucide-react';
 import {
   CARD_COLOPHON,
   CARD_GEAR,
@@ -9,6 +10,8 @@ import {
   CARD_INTERESTS,
   CARD_LIKES,
 } from '../../../data/concepts';
+import { useAudioManager } from '@/hooks/useAudioManager';
+import { useNavigationSound } from '@/hooks/useNavigationSound';
 import { ChipGroup, Passage } from '../../Concept';
 import styles from './panes.module.css';
 
@@ -18,6 +21,9 @@ import styles from './panes.module.css';
  * All mentions share the popover hosted by ConceptGraphProvider.
  */
 const AboutPane = memo(() => {
+  const { playSound } = useAudioManager();
+  const { playNavigationSound } = useNavigationSound();
+
   return (
     <div className={styles.pane}>
       <div className={styles.paneHeader}>
@@ -49,6 +55,15 @@ const AboutPane = memo(() => {
         <div className={styles.skillGroup}>
           <h3 className={styles.skillGroupLabel}>Colophon</h3>
           <ChipGroup chips={CARD_COLOPHON.chips} />
+          <Link
+            href="/changelog"
+            className={styles.colophonLink}
+            onClick={playNavigationSound}
+            onMouseEnter={() => playSound('hover')}
+          >
+            <ScrollText size={14} strokeWidth={1.5} aria-hidden />
+            <span>System Update — what shipped, and when</span>
+          </Link>
         </div>
       </div>
     </div>
