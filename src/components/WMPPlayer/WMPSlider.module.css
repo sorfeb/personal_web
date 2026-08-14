@@ -1,7 +1,6 @@
 .slider {
   position: absolute;
   user-select: none;
-  -webkit-user-select: none;
 }
 
 .foreground {

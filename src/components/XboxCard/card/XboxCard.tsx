@@ -45,8 +45,6 @@ const XboxCard: React.FC<XboxCardProps> = memo(({ title, iconUrl, route, images 
   const handleCardClick = useCallback(() => {
     if (route) {
       navigateWithSound(route);
-    } else {
-      console.log('No route specified');
     }
   }, [route, navigateWithSound]);
 

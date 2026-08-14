@@ -8,16 +8,16 @@
 
 .guideline {
   padding: 1rem 1.25rem;
-  background: rgba(255, 255, 255, 0.03);
-  border-left: 3px solid hsl(var(--color-brand-hue), var(--color-brand-saturation), 45%, 0.5);
+  background: rgb(255 255 255 / 3%);
+  border-left: 3px solid hsl(var(--color-brand-hue) var(--color-brand-saturation) 45% / 50%);
   border-radius: 6px;
   font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgb(255 255 255 / 80%);
   line-height: 1.6;
 }
 
 .guideline strong {
-  color: rgba(255, 255, 255, 0.95);
+  color: rgb(255 255 255 / 95%);
   display: block;
   margin-bottom: 0.5rem;
 }

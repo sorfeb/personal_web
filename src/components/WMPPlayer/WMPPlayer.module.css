@@ -2,7 +2,6 @@
   position: relative;
   margin: 0 auto;
   user-select: none;
-  -webkit-user-select: none;
 }
 
 .loading,
@@ -73,9 +72,11 @@
   20% {
     content: '.';
   }
+
   40% {
     content: '..';
   }
+
   60%,
   100% {
     content: '...';

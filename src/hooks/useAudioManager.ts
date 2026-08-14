@@ -22,6 +22,9 @@ const AUDIO_FILES = {
   achievement: '/assets/audio/achievement-mp3-sound.mp3',
 } as const;
 
+/** Union of every pooled sound name, for components that take sound props */
+export type SoundType = keyof typeof AUDIO_FILES;
+
 // Global audio pool - only initialize on client
 let globalAudioPool: AudioPool = {};
 let isInitialized = false;

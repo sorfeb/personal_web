@@ -21,7 +21,7 @@
   box-sizing: border-box;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .mobileGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
@@ -33,7 +33,7 @@
   }
 }
 
-@media (max-width: 320px) {
+@media (width <= 320px) {
   .mobileGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;

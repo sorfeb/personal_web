@@ -144,7 +144,7 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .contentArea {
     padding-top: var(--spacing-5);
   }

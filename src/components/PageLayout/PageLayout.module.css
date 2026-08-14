@@ -71,8 +71,7 @@
     box-shadow: 0 0 15px rgb(0 0 0 / 20%);
     padding: var(--layout-padding, 20px);
     color: white;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden auto;
   }
   
   /* Size-specific window variants */
@@ -169,19 +168,19 @@
     border-top: 1px solid rgb(255 255 255 / 10%);
   }
   
-  @media (max-width: 1400px) {
+  @media (width <= 1400px) {
     .window {
       width: var(--layout-width-xl, calc(var(--layout-width, 70%) + 5%));
     }
   }
   
-  @media (max-width: 1200px) {
+  @media (width <= 1200px) {
     .window {
       width: var(--layout-width-lg, calc(var(--layout-width, 70%) + 10%));
     }
   }
   
-  @media (max-width: 768px) {
+  @media (width <= 768px) {
     .window {
       width: var(--layout-width-md, 98%);
       padding: calc(var(--layout-padding, 20px) * 0.75);
@@ -200,7 +199,7 @@
     }
   }
   
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     .window {
       width: var(--layout-width-sm, 80%);
       padding: calc(var(--layout-padding, 20px) * 0.5);

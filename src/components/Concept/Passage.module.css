@@ -7,7 +7,7 @@
   max-width: 48ch;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .passage {
     font-size: var(--font-size-base);
   }

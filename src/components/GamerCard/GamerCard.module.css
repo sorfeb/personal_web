@@ -8,9 +8,9 @@
   gap: var(--spacing-3);
   padding: var(--spacing-4);
   background:
-    radial-gradient(ellipse at 25% 12%, hsl(95 28% 15% / 0.9), transparent 60%),
-    radial-gradient(ellipse at 80% 95%, hsl(95 22% 10% / 0.8), transparent 55%),
-    hsl(0 0% 5%);
+    radial-gradient(ellipse at 25% 12%, hsl(95deg 28% 15% / 90%), transparent 60%),
+    radial-gradient(ellipse at 80% 95%, hsl(95deg 22% 10% / 80%), transparent 55%),
+    hsl(0deg 0% 5%);
   color: var(--color-text-primary);
   font-family: var(--font-primary);
   overflow-x: hidden;
@@ -32,7 +32,7 @@
   margin: 0;
   font-size: 20px;
   font-weight: var(--font-weight-semibold);
-  color: #ffffff;
+  color: #fff;
   text-shadow: var(--shadow-text);
 }
 
@@ -42,9 +42,9 @@
   transform: translateX(-50%);
   width: 44px;
   height: 44px;
-  border: 2px solid hsl(0 0% 40%);
+  border: 2px solid hsl(0deg 0% 40%);
   border-radius: var(--radius-sm);
-  background: hsl(0 0% 13%);
+  background: hsl(0deg 0% 13%);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
 }
@@ -58,7 +58,7 @@
 
 .chromeClock {
   font-size: 14px;
-  color: #cccccc;
+  color: #ccc;
 }
 
 /* ============ The main panel ============ */
@@ -72,8 +72,8 @@
   border-radius: var(--radius-lg);
   box-shadow:
     var(--shadow-xl),
-    0 0 0 1px hsl(0 0% 100% / 0.05),
-    inset 0 1px 0 hsl(0 0% 100% / 0.08);
+    0 0 0 1px hsl(0deg 0% 100% / 5%),
+    inset 0 1px 0 hsl(0deg 0% 100% / 8%);
   overflow: hidden;
 }
 
@@ -82,7 +82,7 @@
   min-width: 250px;
   max-width: 380px;
   border-right: 1px solid var(--color-border-primary);
-  background: hsl(0 0% 100% / 0.02);
+  background: hsl(0deg 0% 100% / 2%);
   overflow-y: auto;
   overscroll-behavior: contain;
 }
@@ -97,7 +97,7 @@
 .identitySection {
   flex-shrink: 0;
   border-bottom: 1px solid var(--color-border-primary);
-  background: hsl(0 0% 0% / 0.15);
+  background: hsl(0deg 0% 0% / 15%);
 }
 
 .paneViewport {
@@ -113,7 +113,7 @@
 
 /* Desktop: only the menu-selected pane is visible; switching
    replays the slide-in like the console swapping panels. */
-@media (min-width: 769px) {
+@media (width >= 769px) {
   .section {
     display: none;
   }
@@ -162,7 +162,7 @@
 }
 
 .controlButton:hover {
-  background-color: hsl(0 0% 100% / 0.1);
+  background-color: hsl(0deg 0% 100% / 10%);
 }
 
 .buttonIcon {
@@ -178,14 +178,14 @@
 }
 
 .buttonIconGreen {
-  background: #00ff00;
-  color: #000000;
+  background: #0f0;
+  color: #000;
   box-shadow: 0 0 8px rgb(0 255 0 / 30%);
 }
 
 .buttonIconRed {
-  background: #ff0000;
-  color: #000000;
+  background: #f00;
+  color: #000;
   box-shadow: 0 0 8px rgb(255 0 0 / 30%);
 }
 
@@ -195,17 +195,19 @@
 
 .buttonText {
   font-size: 14px;
-  color: #ffffff;
+  color: #fff;
 }
 
 /* ============ Mobile: single scrolling column + tab bar ============ */
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .page {
     justify-content: flex-start;
     padding: var(--spacing-3);
+
     /* Clear the fixed bottom tab bar */
     padding-bottom: calc(72px + env(safe-area-inset-bottom));
+
     /* html/body are overflow:hidden site-wide — the page must be
        its own scroll container for the stacked column to scroll */
     height: 100dvh;

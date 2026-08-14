@@ -1,7 +1,6 @@
 .button {
   position: absolute;
   user-select: none;
-  -webkit-user-select: none;
 }
 
 .button:active {

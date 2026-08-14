@@ -18,6 +18,7 @@ Before substantial work:
 npm run dev          # Next.js dev server with Turbopack (port 3000)
 npm run build        # Production build + sitemap generation
 npm run lint         # ESLint (next/core-web-vitals + storybook rules)
+npm run lint:css     # Stylelint (design-token enforcement; warnings must not increase)
 npm run compile      # TypeScript type checking
 npm run storybook    # Component development environment (port 6006)
 ```
@@ -27,6 +28,8 @@ npm run storybook    # Component development environment (port 6006)
 - **Never start the dev server** unless explicitly requested - user runs it locally
 - **Never install packages** without explicit approval - always check existing packages first
 - **Avoid console.log** - use proper error handling; remove debug logs before completing work
+- **Design tokens, not literals** - never hardcode colors, radii, or transition timings in CSS; use `var(--*)` from `src/app/design-tokens.css` (add missing tokens there first). Boy-scout rule: any `.module.css` line you touch that has a hardcoded color gets tokenized; new CSS must pass `npm run lint:css` with zero new warnings
+- **Prefer `ui/` primitives** - use `src/components/ui/Button` (and `ui/Toggle`) instead of hand-rolling buttons; audio feedback and focus-visible are built in
 
 ## Architecture Overview
 

@@ -45,7 +45,7 @@
   display: flex;
   gap: var(--spacing-3);
   padding: var(--spacing-3);
-  background: hsl(0 0% 100% / 0.04);
+  background: hsl(0deg 0% 100% / 4%);
   border: 1px solid var(--color-border-primary);
   border-radius: var(--radius-base);
   box-shadow: var(--shadow-inset-light);
@@ -54,7 +54,7 @@
 }
 
 .achievement:hover {
-  background: hsl(0 0% 100% / 0.07);
+  background: hsl(0deg 0% 100% / 7%);
   transform: translateY(-2px);
 }
 
@@ -65,8 +65,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, hsl(200 4% 33%), hsl(200 6% 20%));
-  border: 1px solid hsl(0 0% 100% / 0.15);
+  background: linear-gradient(135deg, hsl(200deg 4% 33%), hsl(200deg 6% 20%));
+  border: 1px solid hsl(0deg 0% 100% / 15%);
   border-radius: var(--radius-sm);
   color: var(--color-brand-primary-light);
   box-shadow: var(--shadow-inset-light);
@@ -125,7 +125,7 @@
   flex-direction: column;
   gap: var(--spacing-1);
   padding-bottom: var(--spacing-3);
-  border-bottom: 1px solid hsl(0 0% 100% / 0.06);
+  border-bottom: 1px solid hsl(0deg 0% 100% / 6%);
 }
 
 .workItem:last-child {
@@ -198,12 +198,44 @@
 
 .chip {
   padding: var(--spacing-1) var(--spacing-3);
-  background: hsl(0 0% 100% / 0.06);
+  background: hsl(0deg 0% 100% / 6%);
   border: 1px solid var(--color-border-primary);
   border-radius: var(--radius-sm);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-light);
   color: var(--color-text-secondary);
+}
+
+/* Colophon footer link through to the release history page */
+.colophonLink {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: var(--spacing-2);
+  min-height: 44px;
+  padding: var(--spacing-1) 0;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-text-tertiary);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+.colophonLink:hover,
+.colophonLink:focus-visible {
+  color: var(--color-brand-primary-light);
+}
+
+.colophonLink:focus-visible {
+  outline-color: var(--color-brand-primary);
+}
+
+.colophonLink svg {
+  flex-shrink: 0;
 }
 
 .educationLine {
@@ -234,7 +266,7 @@
   align-items: center;
   gap: var(--spacing-2);
   padding: var(--spacing-2);
-  background: hsl(0 0% 100% / 0.04);
+  background: hsl(0deg 0% 100% / 4%);
   border: 1px solid var(--color-border-primary);
   border-radius: var(--radius-sm);
 }
@@ -246,8 +278,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, hsl(200 4% 33%), hsl(200 6% 20%));
-  border: 1px solid hsl(0 0% 100% / 0.15);
+  background: linear-gradient(135deg, hsl(200deg 4% 33%), hsl(200deg 6% 20%));
+  border: 1px solid hsl(0deg 0% 100% / 15%);
   border-radius: var(--radius-sm);
   color: var(--color-brand-primary-light);
 }
@@ -282,7 +314,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
-  border-bottom: 1px solid hsl(0 0% 100% / 0.06);
+  border-bottom: 1px solid hsl(0deg 0% 100% / 6%);
 }
 
 .contactRow:last-child,
@@ -359,11 +391,11 @@
 .copyButton:focus-visible {
   color: var(--color-brand-primary-light);
   border-color: var(--color-brand-primary);
-  background: hsl(var(--color-brand-hue) var(--color-brand-saturation) 45% / 0.1);
+  background: hsl(var(--color-brand-hue) var(--color-brand-saturation) 45% / 10%);
 }
 
 /* Mobile — tighter padding, everything remains tappable */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .pane {
     padding: var(--spacing-4) var(--spacing-4) var(--spacing-5);
   }

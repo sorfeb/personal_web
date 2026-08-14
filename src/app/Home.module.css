@@ -97,7 +97,7 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .topContainer {
     margin-top: 15%;
     margin-left: 4%;

@@ -14,7 +14,7 @@
   background: #1a1a1a;
   border: 1px solid #333;
   border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 50%);
   overflow: hidden;
   pointer-events: auto;
   will-change: transform;
@@ -75,7 +75,7 @@
 }
 
 .title {
-  color: #ffffff;
+  color: #fff;
   font-size: 13px;
   font-weight: 400;
   margin: 0;
@@ -93,7 +93,7 @@
   height: 20px;
   border: none;
   background: transparent;
-  color: #ffffff;
+  color: #fff;
   font-size: 12px;
   display: flex;
   align-items: center;
@@ -103,7 +103,7 @@
 }
 
 .controlBtn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgb(255 255 255 / 10%);
 }
 
 .closeBtn:hover {
@@ -123,6 +123,7 @@
     opacity: 0;
     transform: scale(0.95) translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
@@ -130,7 +131,7 @@
 }
 
 /* Performance optimizations */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .titleBar {
     cursor: default;
   }

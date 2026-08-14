@@ -63,7 +63,7 @@
    RESPONSIVE
    ============================================ */
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .bladeSide {
     display: none;
   }
