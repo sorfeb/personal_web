@@ -1,6 +1,6 @@
 # Feature Planning Template
 
-Copy this template to `.github/plans/feature-name-plan.md`:
+Use this structure for the Linear design document (project `personal_web`):
 
 ---
 
@@ -131,7 +131,7 @@ After implementation, create `.github/documentation/feature-name-complete.md`:
 # Feature: [Name] - Completed
 
 **Date**: YYYY-MM-DD
-**Plan**: `.github/plans/feature-name-plan.md`
+**Design record**: Linear document · **Issue**: SOR-XXX
 
 ## Summary
 

@@ -8,7 +8,7 @@ Use this template when documenting completed features. Copy and rename to match 
 **Completion Date**: YYYY-MM-DD  
 **Implementation Date**: YYYY-MM-DD  
 **Agent**: Frontend | Backend | Full-Stack  
-**Related Plan**: `.github/plans/[plan-name].md`
+**Related issue**: SOR-XXX (Linear)
 
 ## Summary
 [Brief overview of what was built and its purpose]
@@ -322,7 +322,7 @@ To use this feature:
 - **Solution**: Check Zod schema validation and error messages
 
 ## Related Documentation
-- Original Plan: `.github/plans/[plan-name].md`
+- Design record: Linear document in project `personal_web`
 - Component Storybook: `src/components/ComponentName/ComponentName.stories.tsx`
 - API Router: `src/server/routers/[name].ts`
 - Database Schema: `prisma/schema.prisma`

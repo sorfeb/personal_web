@@ -1,3 +1,17 @@
+# AGENTS.md
+
+Cross-harness entry point for agentic coding tools (opencode, Codex, Cursor, and others
+following the `AGENTS.md` convention).
+
+**Read [`CLAUDE.md`](./CLAUDE.md) — it is the canonical and complete guide for this repo.**
+It covers build commands, critical rules, architecture, the input/navigation model, the React
+effects policy, and the development flow. This file exists only so harnesses that look for
+`AGENTS.md` find their way there; it is deliberately not a second copy, because two copies
+drift.
+
+Domain-specific guidance lives in `.claude/skills/` — these are plain `SKILL.md` files and are
+readable by any harness, not just Claude Code.
+
 <!-- intent-skills:start -->
 ## Skill Loading
 

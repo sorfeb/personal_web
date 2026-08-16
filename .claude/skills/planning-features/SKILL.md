@@ -34,17 +34,28 @@ Skip planning for:
 - [ ] Step 5: Get user approval before implementing
 ```
 
-## Plan Location
+## Plan Location — Linear, not the repo
 
-```
-.github/plans/feature-name-plan.md
-```
+**Plans live in Linear. There is no `.github/plans/` directory; do not create one.**
 
-Use kebab-case for filenames.
+- Team `s11o`, project `personal_web`, issue keys `SOR-*`
+- **Issue** per unit of work. Multi-phase work gets a parent issue with a sub-issue per phase,
+  wired with `blockedBy` so the sequence is explicit.
+- **Document** attached to the project for the design record — decisions and their rationale,
+  prior art, architecture — when the reasoning is substantial enough to outlive the issue.
+- Issue descriptions carry what someone picking up that phase needs, plus a link to the
+  document. They do not restate it.
+
+Use the Linear MCP tools (`list_issues`, `save_issue`, `save_document`). Check for an existing
+issue before creating one. Diagrams and other binary artifacts attach to the parent issue via
+`prepare_attachment_upload`.
+
+Conventions distilled from a design review belong in `/CLAUDE.md`; the reasoning stays in
+Linear. Never both — they drift.
 
 ## Plan Template
 
-See [TEMPLATE.md](TEMPLATE.md) for the full template.
+See [TEMPLATE.md](TEMPLATE.md) for the section structure to use in the Linear document.
 
 ## Quick Plan Structure
 
