@@ -69,8 +69,12 @@ const BackgroundSelector: React.FC<BackgroundSelectorProps> = ({ isOpen, onClose
   };
 
   return (
-    <div 
-      className={styles.backdrop} 
+    // Backdrop click-to-dismiss is a pointer-only convenience; the keyboard
+    // equivalent is Escape, handled by onKeyDown below. A backdrop must not be
+    // a tab stop, so the native-element fix does not apply here.
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+    <div
+      className={styles.backdrop}
       onClick={handleBackdropClick}
       onKeyDown={handleKeyDown}
       role="dialog"

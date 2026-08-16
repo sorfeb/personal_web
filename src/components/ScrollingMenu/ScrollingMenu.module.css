@@ -14,7 +14,7 @@
   top: 0;
   width: var(--menu-dot-size);
   height: var(--menu-dot-size);
-  background-color: white;
+  background-color: var(--color-white);
   border-radius: var(--menu-dot-radius);
   transform-origin: center;
   transition: transform var(--duration-normal) var(--ease-sharp);
@@ -24,6 +24,12 @@
 }
 
 .menuItem {
+  /* Reset the UA button styling — this is a tab, drawn entirely by the rules below */
+  appearance: none;
+  background: none;
+  border: 0;
+  width: 100%;
+  text-align: left;
   height: var(--menu-item-height);
   display: flex;
   align-items: center;
@@ -39,10 +45,16 @@
   padding-left: var(--menu-item-padding-left); /* Reserve space for dot: 9px width + 12px gap */
 }
 
-.menuItem:hover {
+.menuItem:hover,
+.menuItem:focus-visible {
   opacity: 0.8;
   transform: translateZ(var(--menu-transform-z-hover)) scale(1.05);
   text-shadow: var(--shadow-text-strong);
+}
+
+.menuItem:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .menuItem.selected {
@@ -50,6 +62,15 @@
   opacity: 1;
 }
 
-.menuItem.selected:hover {
+.menuItem.selected:hover,
+.menuItem.selected:focus-visible {
   transform: translateZ(var(--menu-transform-z-selected)) scale(1.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu,
+  .dotIndicator,
+  .menuItem {
+    transition: none;
+  }
 }

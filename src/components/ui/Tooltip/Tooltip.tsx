@@ -58,11 +58,19 @@ export const Tooltip: React.FC<TooltipProps> = ({
   };
 
   return (
-    <span 
+    // A passive wrapper, not a control: it listens for events bubbling from the
+    // interactive `children` it wraps, and must not become a tab stop itself —
+    // that would put a second stop in front of every tooltipped button.
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+    <span
       ref={containerRef}
       className={styles.tooltipContainer}
       onMouseEnter={showTooltip}
       onMouseLeave={hideTooltip}
+      // Focus/blur mirror the mouse handlers so the tooltip also appears for
+      // keyboard and gamepad users, who never generate a mouseenter.
+      onFocus={showTooltip}
+      onBlur={hideTooltip}
     >
       {children}
       

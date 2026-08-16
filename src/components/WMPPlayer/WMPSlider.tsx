@@ -233,6 +233,11 @@ export function WMPSlider({
   const thumbInfo = thumbImageFile ? assets.images.get(thumbImageFile) : undefined;
 
   return (
+    // DEFERRED — tracked as SOR-137. Correct
+    // exposure is role="slider" with aria-valuenow/min/max and arrow-key
+    // stepping, wired to the same seek/volume model the pointer drag uses —
+    // real work inside the skin engine rather than an element swap.
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
       ref={sliderRef}
       className={styles.slider}
@@ -268,6 +273,7 @@ export function WMPSlider({
       {thumbInfo && (
         <div
           className={styles.thumb}
+          aria-hidden="true"
           style={{
             position: 'absolute',
             left: isHorizontal ? thumbPosition : 0,

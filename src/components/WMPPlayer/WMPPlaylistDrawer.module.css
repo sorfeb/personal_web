@@ -32,22 +32,45 @@
 
 .row,
 .activeRow {
+  /* Reset UA button styling — these are rows that happen to be buttons */
+  appearance: none;
+  border: 0;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
   display: flex;
   flex-direction: column;
   padding: 3px 8px;
   cursor: pointer;
   border-left: 2px solid transparent;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  transition: background var(--duration-fast) var(--ease-in-out), border-color var(--duration-fast) var(--ease-in-out);
 }
 
 .row:hover,
-.activeRow:hover {
-  background: rgb(119 206 7 / 18%);
+.activeRow:hover,
+.row:focus-visible,
+.activeRow:focus-visible {
+  background: var(--color-wmp-row-hover);
+}
+
+.row:focus-visible,
+.activeRow:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: calc(var(--focus-ring-offset) * -1);
 }
 
 .activeRow {
-  background: rgb(119 206 7 / 28%);
-  border-left-color: #c8ff70;
+  background: var(--color-wmp-row-active);
+  border-left-color: var(--color-wmp-accent-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row,
+  .activeRow {
+    transition: none;
+  }
 }
 
 .name {
@@ -59,7 +82,7 @@
 
 .artist {
   font-size: 9px;
-  color: #c8ff70;
+  color: var(--color-wmp-accent-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

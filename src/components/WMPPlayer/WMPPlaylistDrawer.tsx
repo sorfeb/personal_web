@@ -29,19 +29,23 @@ export const WMPPlaylistDrawer = memo<WMPPlaylistDrawerProps>(
         {playlist.map((track, index) => {
           const isActive = index === currentIndex;
           return (
-            <li
-              key={track.id}
-              className={isActive ? styles.activeRow : styles.row}
-              onMouseEnter={() => playSound('hover')}
-              onClick={() => {
-                playSound('click');
-                onSelect(index);
-              }}
-            >
-              <span className={styles.name}>{track.name}</span>
-              {track.artist && (
-                <span className={styles.artist}>{track.artist}</span>
-              )}
+            <li key={track.id}>
+              <button
+                type="button"
+                className={isActive ? styles.activeRow : styles.row}
+                aria-current={isActive ? 'true' : undefined}
+                onMouseEnter={() => playSound('hover')}
+                onFocus={() => playSound('hover')}
+                onClick={() => {
+                  playSound('click');
+                  onSelect(index);
+                }}
+              >
+                <span className={styles.name}>{track.name}</span>
+                {track.artist && (
+                  <span className={styles.artist}>{track.artist}</span>
+                )}
+              </button>
             </li>
           );
         })}

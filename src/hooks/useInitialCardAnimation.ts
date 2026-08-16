@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type RefObject } from 'react';
 import { useAudioManager } from './useAudioManager';
 import { ANIMATION_CONFIG } from '../constants/cardAnimationConfig';
 
@@ -12,30 +12,35 @@ interface UseInitialCardAnimationProps {
    */
   isMobile: boolean;
   /**
-   * CSS class name for the card elements
+   * The card elements, in DOM order — the same ref array `useCardNavigation`
+   * reads, so both hooks are guaranteed to be animating the same nodes.
    */
-  cardSelector: string;
+  cardRefs: RefObject<(HTMLElement | null)[]>;
+  /**
+   * How many cards the active section has. The ref array is reused across
+   * sections and can retain trailing entries from a longer one.
+   */
+  cardCount: number;
 }
 
 /**
  * Custom hook that handles the initial "unfold" animation for Xbox dashboard cards.
- * 
+ *
  * Features:
  * - Staggered card entrance animation with scale and translation
  * - Audio feedback (unfold sound)
  * - Proper cleanup of timeouts and transitions
  * - Uses centralized ANIMATION_CONFIG for consistency
  * - Skips animation on mobile devices
- * 
+ *
  * @param props - Configuration for the animation
- * @returns A ref that must be attached to the section container element
  */
 export const useInitialCardAnimation = ({
   activeIndex,
   isMobile,
-  cardSelector,
+  cardRefs,
+  cardCount,
 }: UseInitialCardAnimationProps) => {
-  const sectionRef = useRef<HTMLDivElement>(null);
   const timeoutsRef = useRef<number[]>([]);
   const isAudioPlayingRef = useRef(false);
   const { playSound } = useAudioManager();
@@ -43,11 +48,10 @@ export const useInitialCardAnimation = ({
   useEffect(() => {
     if (isMobile) return;
 
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const cards = section.querySelectorAll(cardSelector);
-    if (!cards || cards.length === 0) return;
+    const cards = (cardRefs.current ?? [])
+      .slice(0, cardCount)
+      .filter((card): card is HTMLElement => card !== null);
+    if (cards.length === 0) return;
 
     timeoutsRef.current.forEach((timeout) => clearTimeout(timeout));
     timeoutsRef.current = [];
@@ -63,10 +67,10 @@ export const useInitialCardAnimation = ({
      */
     const playUnfoldSound = () => {
       if (isAudioPlayingRef.current) return;
-      
+
       isAudioPlayingRef.current = true;
       playSound('unfold');
-      
+
       setTimeout(() => {
         isAudioPlayingRef.current = false;
       }, durationMs + 100);
@@ -75,16 +79,14 @@ export const useInitialCardAnimation = ({
     playUnfoldSound();
 
     // Step 1: Set initial state for all cards (invisible, off-screen)
-    cards.forEach((card) => {
-      const el = card as HTMLElement;
+    cards.forEach((el) => {
       el.style.transition = 'none';
       el.style.opacity = '0';
       el.style.transform = `translateX(-100px) scale(${1 - ANIMATION_CONFIG.SCALE_DECREMENT_PER_POSITION})`;
     });
 
     // Step 2: Stagger the animation for each card
-    cards.forEach((card, index) => {
-      const el = card as HTMLElement;
+    cards.forEach((el, index) => {
       const scale = 1 - index * ANIMATION_CONFIG.SCALE_DECREMENT_PER_POSITION;
 
       const timeout = window.setTimeout(() => {
@@ -106,12 +108,9 @@ export const useInitialCardAnimation = ({
       timeoutsRef.current.forEach((timeout) => clearTimeout(timeout));
       timeoutsRef.current = [];
 
-      cards.forEach((card) => {
-        const el = card as HTMLElement;
+      cards.forEach((el) => {
         el.style.transition = 'none';
       });
     };
-  }, [activeIndex, isMobile, cardSelector, playSound]);
-
-  return sectionRef;
+  }, [activeIndex, isMobile, cardRefs, cardCount, playSound]);
 };

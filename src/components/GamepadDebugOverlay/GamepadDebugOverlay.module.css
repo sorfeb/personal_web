@@ -1,0 +1,114 @@
+.panel {
+  position: fixed;
+  bottom: var(--spacing-4);
+  left: var(--spacing-4);
+  z-index: var(--z-max);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  width: 18rem;
+  padding: var(--spacing-3);
+  border: var(--border-width-thin) solid var(--color-border-primary);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-overlay);
+  backdrop-filter: var(--backdrop-filter-glass);
+  box-shadow: var(--shadow-lg);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  pointer-events: none;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-2);
+  color: var(--color-text-primary);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.status {
+  color: var(--color-text-muted);
+}
+
+.status[data-connected='true'] {
+  color: var(--color-xbox-green);
+}
+
+.mode {
+  margin-left: auto;
+  color: var(--color-text-tertiary);
+}
+
+.deviceId {
+  overflow: hidden;
+  color: var(--color-text-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.button {
+  padding: var(--spacing-1);
+  border: var(--border-width-thin) solid var(--color-border-secondary);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-tertiary);
+  text-align: center;
+  transition: var(--transition-fast);
+}
+
+.button[data-on='true'] {
+  border-color: var(--color-xbox-green);
+  background: var(--color-xbox-green);
+  color: var(--color-text-inverse);
+}
+
+.axes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-1);
+  margin: 0;
+}
+
+.axis {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.axis dt {
+  color: var(--color-text-tertiary);
+}
+
+.axis dd {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.log {
+  min-height: 6rem;
+  margin: 0;
+  padding-top: var(--spacing-2);
+  border-top: var(--border-width-thin) solid var(--color-border-secondary);
+  color: var(--color-text-muted);
+  font-family: inherit;
+  font-size: inherit;
+  line-height: var(--line-height-tight);
+  white-space: pre-wrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+}

@@ -13,12 +13,18 @@
 }
 
 .card {
+  /* Reset UA button styling — this is a card that happens to be a button */
+  appearance: none;
+  background: none;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
   display: flex;
   border-radius: 10px;
   padding: 15px;
-  color: white;
+  color: var(--color-text-primary);
   font-family: "Segoe UI", Arial, sans-serif;
-  transition: all 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all var(--duration-slower) var(--ease-smooth);
   overflow: hidden;
   width: fit-content;
 }
@@ -27,24 +33,38 @@
   animation: card-glow 2s infinite ease-in-out;
 }
 
-.card:hover {
+.card:hover,
+.card:focus-visible {
   transform: translateY(-5px) scale(1.03);
-  box-shadow: 0 8px 15px rgb(0 0 0 / 20%),
-    inset 0 1px 0 rgb(255 255 255 / 20%);
-  background: linear-gradient(
-    145deg,
-    rgb(255 255 255 / 30%),
-    rgb(111 175 68 / 40%)
-  );
+  box-shadow: var(--shadow-md), var(--shadow-inset-medium);
+  background: var(--gradient-profile-card-hover);
 }
 
-.card:hover::before {
+.card:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.card:hover::before,
+.card:focus-visible::before {
   top: -30%;
   left: -30%;
 }
 
-.card:hover::after {
+.card:hover::after,
+.card:focus-visible::after {
   opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+
+  .card:hover,
+  .card:focus-visible {
+    transform: none;
+  }
 }
 
 .avatarWrapper {
@@ -75,6 +95,7 @@
 }
 
 .name {
+  display: block; /* was an <h2>; span needs this to keep the stacked layout */
   font-size: 18px;
   margin: 0 0 4px;
 }
@@ -83,7 +104,7 @@
 .gamerscore {
   display: flex;
   font-size: 20px;
-  color: white;
+  color: var(--color-text-primary);
   margin: 0;
 }
 

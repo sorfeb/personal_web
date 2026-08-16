@@ -152,6 +152,9 @@ export const GlobalWMPPlayer = memo(function GlobalWMPPlayer() {
   const content = (
     <div className={styles.overlay}>
       {currentPlaylist.length > 0 ? (
+        // Window dragging is a pointer-only affordance — repositioning a
+        // floating window has no keyboard equivalent to lose.
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div
           ref={windowRef}
           className={`${styles.playerWindow} ${isDragging ? styles.dragging : ''}`}

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Roboto } from "next/font/google";
 import Script from "next/script";
 import { VolumeProvider } from "../context/VolumeContext";
+import { GamepadProvider } from "../context/GamepadContext";
 import { BackgroundProvider } from "../context/BackgroundContext";
 import { CRTFilterProvider } from "../context/CRTFilterContext";
 import { ToastProvider } from "../context/ToastContext";
@@ -15,6 +16,7 @@ import TRPCProvider from "../components/Providers/TRPCProvider";
 import CRTOverlay from "../components/CRTOverlay/CRTOverlay";
 import ToastContainer from "../components/ToastNotification/ToastContainer";
 import { GlobalWMPPlayer } from "../components/WMPPlayer/GlobalWMPPlayer";
+import GamepadDebugOverlay from "../components/GamepadDebugOverlay/GamepadDebugOverlay";
 import "./globals.css";
 
 const siteUrl = "https://www.sorosfebria.co";
@@ -120,15 +122,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </svg>
                 <TRPCProvider>
                   <VolumeProvider>
-                    <WMPPlayerProvider>
-                      <ToastProvider>
-                        <ConsoleEasterEgg />
-                        <ImageDragGuard />
-                        {children}
-                        <GlobalWMPPlayer />
-                        <ToastContainer />
-                      </ToastProvider>
-                    </WMPPlayerProvider>
+                    <GamepadProvider>
+                      <WMPPlayerProvider>
+                        <ToastProvider>
+                          <ConsoleEasterEgg />
+                          <ImageDragGuard />
+                          {children}
+                          <GlobalWMPPlayer />
+                          <ToastContainer />
+                          <GamepadDebugOverlay />
+                        </ToastProvider>
+                      </WMPPlayerProvider>
+                    </GamepadProvider>
                   </VolumeProvider>
                 </TRPCProvider>
               </div>
