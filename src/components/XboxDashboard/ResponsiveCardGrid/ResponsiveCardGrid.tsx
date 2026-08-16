@@ -3,10 +3,13 @@
 import React from 'react';
 import XboxCard from '../../XboxCard/card/XboxCard';
 import styles from './ResponsiveCardGrid.module.css';
+import { DASHBOARD_PANEL_ID } from '../../../constants/dashboardNavigation';
 
 interface ResponsiveCardGridProps {
   cards: { route: string; title: string; iconUrl?: string; images?: string[] }[];
   sectionName: string;
+  /** Id of the blade tab this grid is the panel for (WAI-ARIA tabs relationship). */
+  labelledBy: string;
 }
 
 /**
@@ -17,9 +20,15 @@ interface ResponsiveCardGridProps {
 const ResponsiveCardGrid: React.FC<ResponsiveCardGridProps> = ({
   cards,
   sectionName,
+  labelledBy,
 }) => {
   return (
-    <div className={styles.mobileContainer}>
+    <div
+      className={styles.mobileContainer}
+      id={DASHBOARD_PANEL_ID}
+      role="tabpanel"
+      aria-labelledby={labelledBy}
+    >
       <div className={styles.mobileGrid}>
         {cards.map((card, index) => (
           <div

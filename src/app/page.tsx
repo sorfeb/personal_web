@@ -73,7 +73,11 @@ export default function Home() {
               {/* Main Content Section */}
               <main className={styles.main}>
                 <div className={styles.DashboardContainer}>
-                  <XboxDashboard activeIndex={activeIndex} data={dashboardDataList} />
+                  <XboxDashboard
+                    activeIndex={activeIndex}
+                    data={dashboardDataList}
+                    disabled={isProfileModalOpen}
+                  />
                 </div>
               </main>
 

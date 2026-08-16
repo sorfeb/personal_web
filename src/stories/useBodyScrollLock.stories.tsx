@@ -47,6 +47,8 @@ const BodyScrollLockDemo = ({ withEscapeHandler }: { withEscapeHandler: boolean 
 
       {/* Modal */}
       {isModalOpen && (
+        // Story-only backdrop demonstrating the hook; not shipped UI.
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
         <div
           style={{
             position: 'fixed',

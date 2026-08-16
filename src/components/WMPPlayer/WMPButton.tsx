@@ -186,6 +186,12 @@ export function WMPButton({
   }, [hoveredRegion, clickRegions]);
 
   return (
+    // DEFERRED — tracked as SOR-136. A skin
+    // button can carry several hit regions addressed by pointer position, which
+    // has no keyboard equivalent — exposing it needs the regions surfaced as
+    // separate controls, a design change rather than an element swap. Converting
+    // the container alone would add every decorative skin element to the tab order.
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
     <div
       ref={containerRef}
       className={styles.button}

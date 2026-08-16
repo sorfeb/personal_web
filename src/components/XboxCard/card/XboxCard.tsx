@@ -3,33 +3,38 @@
 import React, { memo, useCallback, useRef, useState } from 'react';
 import styles from './XboxCard.module.css';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useAudioManager } from '../../../hooks/useAudioManager';
 import { useNavigationSound } from '../../../hooks/useNavigationSound';
 import { useEventListener, useInterval } from '@/hooks';
 
 interface XboxCardProps {
   title: string;
-  iconUrl?: string; 
+  iconUrl?: string;
   route: string;
   images?: string[];
+  /**
+   * Card has been scrolled out of the stack (`useCardNavigation` parks it
+   * off-screen at zero opacity). Invisible elements are still tabbable, so it
+   * must be pulled out of the tab order and the accessibility tree.
+   */
+  offscreen?: boolean;
 }
 
-const XboxCard: React.FC<XboxCardProps> = memo(({ title, iconUrl, route, images }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [, setMousePosition] = useState({ x: 0, y: 0 });
+const XboxCard: React.FC<XboxCardProps> = memo(({ title, iconUrl, route, images, offscreen = false }) => {
+  const cardRef = useRef<HTMLAnchorElement>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { playSound } = useAudioManager();
-  const { navigateWithSound } = useNavigationSound();
+  const { playNavigationSound } = useNavigationSound();
 
+  // Spotlight follows the pointer via CSS custom properties — written straight to
+  // the element so pointer movement never triggers a React render.
   useEventListener(cardRef, 'mousemove', (event) => {
     const element = cardRef.current;
     if (!element) return;
     const rect = element.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    setMousePosition({ x, y });
-    element.style.setProperty('--mouse-x', `${x}px`);
-    element.style.setProperty('--mouse-y', `${y}px`);
+    element.style.setProperty('--mouse-x', `${event.clientX - rect.left}px`);
+    element.style.setProperty('--mouse-y', `${event.clientY - rect.top}px`);
   });
 
   // Slideshow
@@ -42,20 +47,19 @@ const XboxCard: React.FC<XboxCardProps> = memo(({ title, iconUrl, route, images 
     images && images.length > 1 ? 2000 : null,
   );
 
-  const handleCardClick = useCallback(() => {
-    if (route) {
-      navigateWithSound(route);
-    }
-  }, [route, navigateWithSound]);
-
+  // Link performs the navigation; we only supply the audio.
   const playHoverSound = useCallback(() => playSound('hover'), [playSound]);
 
   return (
-    <div
+    <Link
+      href={route}
       className={`${styles.card} ${styles.cardReflection}`}
       ref={cardRef}
-      onClick={handleCardClick}
+      onClick={playNavigationSound}
       onMouseEnter={playHoverSound}
+      onFocus={playHoverSound}
+      tabIndex={offscreen ? -1 : undefined}
+      aria-hidden={offscreen || undefined}
       style={images ? { backgroundImage: `url(${images[currentImageIndex]})`, backgroundSize: 'cover' } : {}}
     >
       <div className={styles.shadowWrapper}></div>
@@ -67,7 +71,7 @@ const XboxCard: React.FC<XboxCardProps> = memo(({ title, iconUrl, route, images 
         <div className={`${styles.iconWrapper} ${styles.reflection}`}>
           <Image
             src={iconUrl || ''}
-            alt={title}
+            alt=""
             width={40}
             height={40}
             sizes="40px"
@@ -78,7 +82,7 @@ const XboxCard: React.FC<XboxCardProps> = memo(({ title, iconUrl, route, images 
       )}
 
       {!images && <h2 className={styles.title}>{title}</h2>}
-    </div>
+    </Link>
   );
 });
 

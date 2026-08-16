@@ -181,3 +181,50 @@ button {
     inset -3px -3px 6px rgb(255 255 255 / 40%),
     0 1px 2px rgb(0 0 0 / 30%);
 }
+
+/* ---------------------------------------------------------------------------
+ * Input mode — see CLAUDE.md § Input & Navigation Model.
+ *
+ * `<html data-input>` is written by GamepadProvider. Selection is styled off
+ * the attribute rather than `:focus-visible`, which does not reliably fire on
+ * the programmatic `.focus()` calls the input router makes.
+ * ------------------------------------------------------------------------ */
+
+/*
+ * The pointer is hidden the moment the pad is used. `cursor` cannot be
+ * transitioned — it is a binary property — and CLAUDE.md forbids delaying the
+ * cursor's return anyway, so this half is deliberately instant. The animated
+ * half is the selection ring below.
+ */
+html[data-input='gamepad'],
+html[data-input='gamepad'] * {
+  cursor: none !important;
+}
+
+/*
+ * Selection ring for controller navigation. Entrance uses --duration-normal,
+ * and the exit (when the pointer comes back and the attribute flips) inherits
+ * the faster --duration-fast, matching the project's "exits animate faster
+ * than entrances" convention.
+ */
+html[data-input='gamepad'] :focus {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+  transition:
+    outline-color var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out);
+  box-shadow: var(--shadow-glow-green);
+}
+
+html[data-input='pointer'] :focus {
+  transition:
+    outline-color var(--duration-fast) var(--ease-in),
+    box-shadow var(--duration-fast) var(--ease-in);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-input='gamepad'] :focus,
+  html[data-input='pointer'] :focus {
+    transition: none;
+  }
+}

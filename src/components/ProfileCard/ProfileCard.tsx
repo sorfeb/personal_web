@@ -95,13 +95,16 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   const isContentLoaded = !isLoading && profile;
 
   return (
-    <div 
+    <button
+      type="button"
       className={`${styles.card} ${isLoading ? styles['card--loading'] : ''}`}
+      aria-label={displayName ? `Open profile for ${displayName}` : 'Open profile'}
       onClick={() => {
         playSelectSound();
         onClick?.();
       }}
       onMouseEnter={playHoverSound}
+      onFocus={playHoverSound}
     >
       {/* Animated text container - expands on load */}
       <motion.div 
@@ -116,10 +119,12 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
           ease: [0.25, 0.8, 0.25, 1]
         }}
       >
-        <h2 className={styles.name}>
+        {/* span/em rather than h2/p: <button> only permits phrasing content, and
+            this is a nav widget rather than a section heading. */}
+        <span className={styles.name}>
           {displayName}
-        </h2>
-        <p className={styles.gamerscore}>
+        </span>
+        <span className={styles.gamerscore}>
           {displayGamerscore?.toLocaleString()}
           <Image
             src="/assets/icons/Gamerscore.gif"
@@ -127,7 +132,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
             width={20}
             height={20}
           />
-        </p>
+        </span>
       </motion.div>
 
       {/* Fixed avatar container - always visible */}
@@ -180,7 +185,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
           )}
         </div>
       </div>
-    </div>
+    </button>
   );
 };
 

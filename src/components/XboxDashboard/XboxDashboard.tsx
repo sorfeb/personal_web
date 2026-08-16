@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo, useCallback, useMemo } from 'react';
+import React, { memo, useMemo, useRef } from 'react';
 import ResponsiveCardGrid from './ResponsiveCardGrid/ResponsiveCardGrid';
 import XboxCard from '../XboxCard/card/XboxCard';
 import styles from './XboxDashboard.module.css';
@@ -8,16 +8,29 @@ import { useAudioManager } from '../../hooks/useAudioManager';
 import { useCardNavigation } from '../../hooks/useCardNavigation';
 import { useInitialCardAnimation } from '../../hooks/useInitialCardAnimation';
 import { useKeyboardNavigation } from '../../hooks/useKeyboardNavigation';
+import { useGamepadScope } from '../../hooks/useGamepadScope';
 import { useIsMobile } from '../../utils/responsiveUtils';
+import {
+  bladeTabId,
+  DASHBOARD_PANEL_ID,
+  DASHBOARD_SCOPE_ID,
+} from '../../constants/dashboardNavigation';
 
 interface XboxDashboardProps {
   activeIndex: number;
   data: {
     [key: string]: { route: string; title: string; iconUrl?: string; images?: string[]}[];
   };
+  /**
+   * Suspend controller navigation — passed the same value the blade menu gets,
+   * so both halves of the dashboard scope go quiet together while a modal is
+   * open. Phase 3 replaces this prop with a real modal scope pushed on top of
+   * the stack, which silences everything beneath it without being told.
+   */
+  disabled?: boolean;
 }
 
-const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data }) => {
+const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data, disabled = false }) => {
   const { playSound } = useAudioManager();
   const isMobile = useIsMobile(768);
 
@@ -26,10 +39,18 @@ const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data })
 
   const cardsData = useMemo(() => sectionsData[activeIndex], [sectionsData, activeIndex]);
 
-  const sectionRef = useInitialCardAnimation({
+  /**
+   * The card elements themselves. Both animation hooks read this array rather
+   * than running `document.querySelector` on a CSS-module class, so they are
+   * guaranteed to be moving the same nodes this component rendered.
+   */
+  const cardRefs = useRef<(HTMLElement | null)[]>([]);
+
+  useInitialCardAnimation({
     activeIndex,
     isMobile,
-    cardSelector: `.${styles.card}`,
+    cardRefs,
+    cardCount: cardsData.length,
   });
 
   const {
@@ -41,13 +62,13 @@ const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data })
   } = useCardNavigation({
     totalCards: cardsData.length,
     activeIndex,
-    sectionSelector: `.${styles.section}`,
-    cardSelector: `.${styles.card}`,
+    cardRefs,
   });
 
   const playHoverSound = () => playSound('ting');
 
-  // Keyboard navigation (ArrowLeft/ArrowRight)
+  // Keyboard navigation (ArrowLeft/ArrowRight). Phase 3 migrates this onto the
+  // same scope stack the gamepad already uses, so both share one router.
   useKeyboardNavigation({
     onLeft: navigateLeft,
     onRight: navigateRight,
@@ -56,21 +77,43 @@ const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data })
     enabled: !isMobile,
   });
 
+  // The card stack's half of the dashboard scope. `useCardNavigation` already
+  // refuses moves at the ends and mid-transition, so no boundary check here.
+  useGamepadScope({
+    id: DASHBOARD_SCOPE_ID,
+    enabled: !isMobile && !disabled,
+    handlers: {
+      left: navigateLeft,
+      right: navigateRight,
+      pageLeft: navigateLeft,
+      pageRight: navigateRight,
+    },
+  });
+
   const renderDesktopDashboard = () => (
-    <section 
+    <section
       className={styles.dashboardContainer}
-      aria-label="Xbox dashboard card navigation"
+      id={DASHBOARD_PANEL_ID}
+      role="tabpanel"
+      aria-labelledby={bladeTabId(activeIndex)}
     >
       {/* Cards Section */}
       <div className={styles.sectionContainer}>
-        <div ref={sectionRef} className={styles.section}>
+        <div className={styles.section}>
           {cardsData.map((card, index) => (
-            <div className={styles.card} key={`${sectionNames[activeIndex]}-${index}-${card.title}`}>
-              <XboxCard 
-                title={card.title} 
+            <div
+              className={styles.card}
+              key={`${sectionNames[activeIndex]}-${index}-${card.title}`}
+              ref={(node) => {
+                cardRefs.current[index] = node;
+              }}
+            >
+              <XboxCard
+                title={card.title}
                 iconUrl={card.iconUrl}
                 route={card.route}
                 images={card.images}
+                offscreen={index < currentCardIndex}
               />
             </div>
           ))}
@@ -107,6 +150,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data })
       <ResponsiveCardGrid
         cards={cardsData}
         sectionName={String(sectionNames[activeIndex])}
+        labelledBy={bladeTabId(activeIndex)}
       />
     );
   }

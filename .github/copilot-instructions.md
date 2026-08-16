@@ -1,3 +1,8 @@
+> **SUPERSEDED — do not consult or update.**
+> This file is from the GitHub Copilot era. This project is now developed with agentic
+> CLIs (Claude Code, opencode). The canonical guide is [`/CLAUDE.md`](../CLAUDE.md) and
+> domain guidance lives in `.claude/skills/`. Kept for history only.
+
 # AI Coding Agent Instructions
 
 ## CRITICAL RULES

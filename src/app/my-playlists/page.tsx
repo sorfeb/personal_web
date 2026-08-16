@@ -74,10 +74,11 @@ const PlaylistsPage = () => {
                   className={`${styles.playlistCard} ${
                     selectedPlaylistId === playlist.id && isLoadingTracks ? styles.loading : ''
                   }`}
-                  onMouseEnter={playHoverSound}
                 >
                   <button
                     onClick={() => handlePlaylistClick(playlist.id)}
+                    onMouseEnter={playHoverSound}
+                    onFocus={playHoverSound}
                     className={styles.imageButton}
                     aria-label={`Load ${playlist.name}`}
                   >

@@ -154,6 +154,10 @@ const LayerCarousel: React.FC<LayerCarouselProps> = ({
       </div>
 
       <div className={trackWrapperClass}>
+        {/* Drag-to-scroll is a pointer-only enhancement; the scroll-left and
+            scroll-right buttons above provide the keyboard path, and the track
+            itself scrolls natively with arrows once focus is inside it. */}
+        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
         <div
           ref={trackRef}
           className={styles.track}

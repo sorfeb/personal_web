@@ -81,6 +81,10 @@ const BladeNavigation = memo<BladeNavigationProps>(({
 
       {/* Center content - active page wrapped in modal styling */}
       <div className={styles.contentContainer}>
+        {/* Event containment, not an interaction: these stop clicks and wheel
+            from reaching the dismiss handler on the backdrop behind. There is
+            nothing here for a keyboard user to activate. */}
+        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
         <div
           className={modalStyles.modal}
           onClick={(e) => e.stopPropagation()}

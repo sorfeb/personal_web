@@ -111,7 +111,11 @@ const ChatWindow = memo<ChatWindowProps>(({ isOpen, onClose, onMinimize }) => {
         onScroll={handleWindowScroll}
       >
         {/* Title Bar */}
-        <header 
+        {/* Drag-to-move and double-click-to-maximize are pointer-only
+            enhancements; maximize is also reachable via the control buttons
+            below, so no keyboard affordance is lost. */}
+        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+        <header
           className={styles.titleBar}
           onMouseDown={handleDragStart}
           onDoubleClick={handleMaximizeToggle}

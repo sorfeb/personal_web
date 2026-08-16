@@ -1,7 +1,8 @@
 .card {
-  color: white;
-  height: 100%; 
-  aspect-ratio: 1.25 / 1; 
+  color: var(--color-text-primary);
+  text-decoration: none;
+  height: 100%;
+  aspect-ratio: 1.25 / 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,10 +10,10 @@
   background: var(--gradient-card);
   border-radius: var(--radius-md);
   backdrop-filter: blur(10px);
-  box-shadow: 0 4px 6px rgb(0 0 0 / 10%), inset 0 1px 0 rgb(255 255 255 / 10%);
-  text-shadow: 1px 1px 2px rgb(0 0 0 / 20%);
+  box-shadow: var(--shadow-base), var(--shadow-inset-light);
+  text-shadow: var(--shadow-text);
   margin: 0 10px;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: var(--transition-smooth);
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -30,13 +31,22 @@
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
   
-.card:hover {
+/* Keyboard and gamepad selection gets the same treatment as hover — the card is
+   driven by focus, so focus must look like the primary state, not an afterthought. */
+.card:hover,
+.card:focus-visible {
   transform: translateY(-5px) scale(1.03);
-  box-shadow: 0 8px 15px rgb(0 0 0 / 20%), inset 0 1px 0 rgb(255 255 255 / 20%);
+  box-shadow: var(--shadow-md), var(--shadow-inset-medium);
   background: var(--gradient-card-hover);
 }
 
-.card:hover::before {
+.card:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.card:hover::before,
+.card:focus-visible::before {
   top: -30%;
   left: -30%;
 }
@@ -77,8 +87,9 @@
   pointer-events: none;
 }
 
-.card:hover .shadowWrapper {
-  height: 30%; 
+.card:hover .shadowWrapper,
+.card:focus-visible .shadowWrapper {
+  height: 30%;
 }
 
 
@@ -135,8 +146,33 @@
 }
 
 .card:hover .iconWrapper,
-.card:hover .title {
+.card:hover .title,
+.card:focus-visible .iconWrapper,
+.card:focus-visible .title {
   transform: translateY(-8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card::before,
+  .card::after,
+  .shadowWrapper,
+  .iconWrapper,
+  .title {
+    transition: none;
+  }
+
+  .card:hover,
+  .card:focus-visible {
+    transform: none;
+  }
+
+  .card:hover .iconWrapper,
+  .card:hover .title,
+  .card:focus-visible .iconWrapper,
+  .card:focus-visible .title {
+    transform: none;
+  }
 }
 
 /* Mobile responsive adjustments */

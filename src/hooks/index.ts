@@ -5,3 +5,5 @@ export { useTimeout } from './useTimeout';
 export { useEventListener } from './useEventListener';
 export { useAutoScroll } from './useAutoScroll';
 export { useScrollSpy } from './useScrollSpy';
+export { useGamepad } from './useGamepad';
+export { useGamepadScope } from './useGamepadScope';
