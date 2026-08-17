@@ -9,6 +9,9 @@ import { Settings } from 'lucide-react';
 import { useAudioManager } from '../../hooks/useAudioManager';
 import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
 import { useIsMounted } from '@/hooks';
+import { useGamepadScope } from '../../hooks/useGamepadScope';
+import { useSpatialNavigation } from '../../hooks/useSpatialNavigation';
+import { useIsMobile } from '../../utils/responsiveUtils';
 import { trpc } from '../../utils/trpc';
 import Tooltip from '../ui/Tooltip/Tooltip';
 import { Clock } from '../ui/Clock/Clock';
@@ -38,6 +41,8 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
 
   // Ref for ThemePage imperative handle
   const themePageRef = useRef<ThemePageRef>(null);
+  const backdropRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile(768);
 
   const utils = trpc.useUtils();
 
@@ -47,6 +52,32 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   }, [playSound, onClose]);
 
   useBodyScrollLock(isOpen, handleClose);
+
+  /**
+   * Controller scope. Pushed above the dashboard's, which is what silences the
+   * blades and card stack behind it — Phase 2 achieved that by threading a
+   * `disabled` prop down from the page, and this replaces it.
+   *
+   * Registered before the `!mounted || !isOpen` early return below, gated by
+   * `enabled` rather than by calling the hook conditionally.
+   */
+  const { moveFocus } = useSpatialNavigation({
+    containerRef: backdropRef,
+    enabled: isOpen && !isMobile,
+  });
+
+  useGamepadScope({
+    id: 'profile-modal',
+    enabled: isOpen && !isMobile,
+    restoreFocusOnPop: true,
+    handlers: {
+      up: () => moveFocus('up'),
+      down: () => moveFocus('down'),
+      left: () => moveFocus('left'),
+      right: () => moveFocus('right'),
+      back: handleClose,
+    },
+  });
 
   const { data: profile } = trpc.user.getProfile.useQuery();
   const { data: avatars } = trpc.user.getAvailableAvatars.useQuery();
@@ -251,6 +282,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          ref={backdropRef}
           className={styles.backdrop}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
