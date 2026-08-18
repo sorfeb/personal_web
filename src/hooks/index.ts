@@ -7,3 +7,4 @@ export { useAutoScroll } from './useAutoScroll';
 export { useScrollSpy } from './useScrollSpy';
 export { useGamepad } from './useGamepad';
 export { useGamepadScope } from './useGamepadScope';
+export { useRouteVisitTracking } from './useRouteVisitTracking';

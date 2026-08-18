@@ -6,6 +6,7 @@ import { GamepadProvider } from "../context/GamepadContext";
 import { BackgroundProvider } from "../context/BackgroundContext";
 import { CRTFilterProvider } from "../context/CRTFilterContext";
 import { ToastProvider } from "../context/ToastContext";
+import { AchievementProvider } from "../context/AchievementContext";
 import { WMPPlayerProvider } from "../context/WMPPlayerContext";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
@@ -125,12 +126,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <GamepadProvider>
                       <WMPPlayerProvider>
                         <ToastProvider>
-                          <ConsoleEasterEgg />
-                          <ImageDragGuard />
-                          {children}
-                          <GlobalWMPPlayer />
-                          <ToastContainer />
-                          <GamepadDebugOverlay />
+                          <AchievementProvider>
+                            <ConsoleEasterEgg />
+                            <ImageDragGuard />
+                            {children}
+                            <GlobalWMPPlayer />
+                            <ToastContainer />
+                            <GamepadDebugOverlay />
+                          </AchievementProvider>
                         </ToastProvider>
                       </WMPPlayerProvider>
                     </GamepadProvider>

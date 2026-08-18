@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import { useToast } from '@/hooks/useToast';
+import { useAchievements } from '@/hooks/useAchievements';
+import { TOTAL_GAMERSCORE, ACHIEVEMENTS } from '@/constants/achievements';
 import { createAchievementToast, createSystemToast } from '@/utils/toastUtils';
 import styles from './ToastDemo.module.css';
 
@@ -11,6 +13,7 @@ import styles from './ToastDemo.module.css';
  */
 export default function ToastDemoPage() {
   const { showToast, dismissToast, toasts } = useToast();
+  const { unlock, unlockedIds, localGamerscore, reset } = useAchievements();
   const [lastToastId, setLastToastId] = useState<string | null>(null);
   const [customDuration, setCustomDuration] = useState(4000);
   const [showProgress, setShowProgress] = useState(false);
@@ -220,6 +223,30 @@ export default function ToastDemoPage() {
             
             <button onClick={handleMultipleToasts} className={styles.buttonCustom}>
               🎯 Queue Test (3x)
+            </button>
+          </div>
+        </div>
+
+        {/* Achievement Engine QA */}
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>🏆 Achievement Engine ({localGamerscore}/{TOTAL_GAMERSCORE}G · {unlockedIds.length}/{ACHIEVEMENTS.length})</h2>
+          <div className={styles.buttonGrid}>
+            <button
+              onClick={() => unlock('scanline-purist')}
+              className={styles.buttonAchievement}
+            >
+              🔓 Unlock Test (scanline-purist)
+            </button>
+
+            <button
+              onClick={() => unlock('completionist')}
+              className={styles.buttonAchievement}
+            >
+              🔓 Unlock Test (completionist)
+            </button>
+
+            <button onClick={reset} className={styles.buttonDanger}>
+              ♻️ Reset All Progress
             </button>
           </div>
         </div>
