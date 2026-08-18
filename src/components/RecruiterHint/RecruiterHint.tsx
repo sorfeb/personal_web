@@ -3,15 +3,18 @@
 import React, { memo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAudioManager } from '../../hooks/useAudioManager';
+import { useAchievements } from '../../hooks/useAchievements';
 import styles from './RecruiterHint.module.css';
 
 const RecruiterHint: React.FC = memo(() => {
   const router = useRouter();
   const { playSound } = useAudioManager();
+  const { unlock } = useAchievements();
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     playSound('panel');
+    unlock('headhunter');
     router.push('/card');
   };
 

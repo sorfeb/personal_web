@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAudioManager } from '../../hooks/useAudioManager';
 import { useToast } from '../../hooks/useToast';
+import { useAchievements } from '../../hooks/useAchievements';
 import { createSystemToast } from '../../utils/toastUtils';
 import { trpc } from '../../utils/trpc';
 
@@ -80,10 +81,14 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   const playSelectSound = () => playSound('click');
   const playHoverSound = () => playSound('owawa');
 
+  const { localGamerscore } = useAchievements();
+
   // Use override props for testing, otherwise use fetched profile
   // The API guarantees a valid profile object (either user or guest)
+  // Guests show locally-earned gamerscore; accounts show the DB value.
   const displayName = overrideName ?? profile?.name;
-  const displayGamerscore = overrideGamerscore ?? profile?.gamerscore;
+  const displayGamerscore =
+    overrideGamerscore ?? (profile?.isGuest ? localGamerscore : profile?.gamerscore);
   const displayAvatar = overrideAvatar ?? profile?.avatar;
 
   const avatarPath = `/assets/avatars/${displayAvatar}`;

@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { authClient } from '../../lib/auth-client';
 import { Settings } from 'lucide-react';
 import { useAudioManager } from '../../hooks/useAudioManager';
+import { useAchievements } from '../../hooks/useAchievements';
 import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
 import { useIsMounted } from '@/hooks';
 import { useGamepadScope } from '../../hooks/useGamepadScope';
@@ -19,6 +20,7 @@ import { useToast, createSystemToast } from '../ToastNotification';
 import {
   BladeNavigation,
   SettingsPage,
+  AchievementsPage,
   ProfilePage,
   ThemePage,
 } from './components';
@@ -35,6 +37,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   const { data: session } = authClient.useSession();
   const { playSound } = useAudioManager();
   const { showToast } = useToast();
+  const { unlock } = useAchievements();
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
   const mounted = useIsMounted();
   const [activePageId, setActivePageId] = useState<string>('profile');
@@ -84,6 +87,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   const updateProfileMutation = trpc.user.updateProfile.useMutation({
     onSuccess: () => {
       utils.user.getProfile.invalidate();
+      unlock('new-you');
       playSound('navigation');
       onClose();
     },
@@ -121,7 +125,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   };
 
   // Build blade pages configuration
-  // Order: Settings -> Profile (center) -> Theme
+  // Order: Settings -> Achievements -> Profile (center) -> Theme
   const bladePages: BladePage[] = useMemo(() => {
     if (!profile || !avatars) return [];
 
@@ -195,6 +199,19 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
         },
       },
       {
+        id: 'achievements',
+        label: 'Achievements',
+        content: <AchievementsPage />,
+        externalHeader: {
+          title: 'Achievements',
+          iconSrc: '/assets/icons/toast/trophy.png',
+          showClock: true,
+        },
+        externalFooter: {
+          actions: [backAction],
+        },
+      },
+      {
         id: 'profile',
         label: profile.name,
         content: (
@@ -240,6 +257,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
                   playSound('navigation');
 
                   if (wasDirty) {
+                    unlock('fresh-coat');
                     showToast(createSystemToast('Theme settings applied', 'success'));
                   } else {
                     showToast(createSystemToast('No changes to apply', 'info'));
@@ -252,7 +270,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
         },
       },
     ];
-  }, [profile, avatars, selectedAvatar, handleAvatarSelect, handleSave, handleLogout, handleClose, playSound, showToast]);
+  }, [profile, avatars, selectedAvatar, handleAvatarSelect, handleSave, handleLogout, handleClose, playSound, showToast, unlock]);
 
   // Handle page change - track active page ID
   const handlePageChange = useCallback((pageId: string) => {

@@ -13,6 +13,7 @@ import { loadSkinAssets } from '@/lib/wmp/assetLoader';
 import { parseAllButtonGroups } from '@/lib/wmp/regionMapper';
 import { useWMPPlayer } from '@/hooks/useWMPPlayer';
 import { useAudioManager } from '@/hooks/useAudioManager';
+import { useAchievements } from '@/hooks/useAchievements';
 import { useNavigationSound } from '@/hooks/useNavigationSound';
 import { WMPCanvas } from './WMPCanvas';
 import { WMPPlaylistDrawer } from './WMPPlaylistDrawer';
@@ -41,6 +42,7 @@ export function WMPPlayer({
   const [error, setError] = useState<string | null>(null);
 
   const { playSound } = useAudioManager();
+  const { unlock } = useAchievements();
   const { navigateWithSound } = useNavigationSound();
   const player = useWMPPlayer();
 
@@ -169,6 +171,7 @@ export function WMPPlayer({
 
     const togglePlaylist = () => {
       playSound('click');
+      unlock('deep-cuts');
       player.togglePlaylistDrawer();
     };
     handlers.set('bPl', togglePlaylist);
@@ -180,7 +183,7 @@ export function WMPPlayer({
     });
 
     return handlers;
-  }, [player, playSound, navigateWithSound]);
+  }, [player, playSound, navigateWithSound, unlock]);
 
   if (isLoading) {
     return (

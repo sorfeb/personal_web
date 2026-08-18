@@ -8,3 +8,4 @@ export { useScrollSpy } from './useScrollSpy';
 export { useGamepad } from './useGamepad';
 export { useGamepadScope } from './useGamepadScope';
 export { useSpatialNavigation } from './useSpatialNavigation';
+export { useRouteVisitTracking } from './useRouteVisitTracking';

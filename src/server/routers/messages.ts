@@ -43,6 +43,14 @@ export const messagesRouter = createTRPCRouter({
         },
       });
 
+      // Server-authoritative achievement: posting proves it. Never let a
+      // failed grant fail the post itself.
+      try {
+        await ctx.services.user.mergeAchievements(ctx.user.id, ['leave-your-mark']);
+      } catch {
+        // Achievement grant is best-effort; the next merge retries it.
+      }
+
       return message;
     }),
 });

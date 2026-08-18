@@ -4,6 +4,7 @@ import React, { memo, useState, useRef, useCallback } from 'react';
 import { trpc } from '../../../utils/trpc';
 import { authClient } from '../../../lib/auth-client';
 import { useAutoScroll } from '@/hooks';
+import { useAchievements } from '../../../hooks/useAchievements';
 import MessageItem from './MessageItem';
 import MessageInput from './MessageInput';
 import styles from './ChatRoom.module.css';
@@ -26,6 +27,7 @@ const ChatRoom = memo(() => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { data: session } = authClient.useSession();
   const user = session?.user ?? null;
+  const { unlock } = useAchievements();
 
   // Fetch messages with caching for performance
   const {
@@ -43,6 +45,8 @@ const ChatRoom = memo(() => {
     onSuccess: () => {
       setMessageText('');
       refetchMessages();
+      // Server granted it in messages.create; surface the toast locally
+      unlock('leave-your-mark');
     },
   });
 
