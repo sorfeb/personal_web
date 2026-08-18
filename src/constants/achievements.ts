@@ -43,6 +43,14 @@ export const ACHIEVEMENTS = [
 
 export type AchievementId = (typeof ACHIEVEMENTS)[number]['id'];
 
+/** Catalog entry with its id narrowed to the union — the shape list UIs iterate */
+export interface AchievementEntry extends AchievementDef {
+  id: AchievementId;
+}
+
+/** The catalog widened to a uniform shape (optional fields present on the type) */
+export const ACHIEVEMENT_LIST: readonly AchievementEntry[] = ACHIEVEMENTS;
+
 export const ACHIEVEMENT_IDS = ACHIEVEMENTS.map((a) => a.id) as [AchievementId, ...AchievementId[]];
 
 export const ACHIEVEMENT_MAP: Record<AchievementId, AchievementDef> = Object.fromEntries(

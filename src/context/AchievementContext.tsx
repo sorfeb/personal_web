@@ -52,6 +52,8 @@ interface AchievementContextType {
   /** Add a value to a multi-step set; threshold unlocks fire automatically */
   recordProgress: (key: ProgressKey, value: string) => void;
   isUnlocked: (id: AchievementId) => boolean;
+  /** ISO timestamp of the unlock, or undefined while locked */
+  unlockedAt: (id: AchievementId) => string | undefined;
   unlockedIds: AchievementId[];
   /** Derived from the catalog scores of unlocked ids */
   localGamerscore: number;
@@ -217,6 +219,7 @@ export const AchievementProvider: React.FC<AchievementProviderProps> = ({ childr
       unlock,
       recordProgress,
       isUnlocked: (id: AchievementId) => Boolean(store.unlocked[id]),
+      unlockedAt: (id: AchievementId) => store.unlocked[id],
       unlockedIds,
       localGamerscore,
       reset,

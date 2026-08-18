@@ -17,6 +17,7 @@ import { useToast, createSystemToast } from '../ToastNotification';
 import {
   BladeNavigation,
   SettingsPage,
+  AchievementsPage,
   ProfilePage,
   ThemePage,
 } from './components';
@@ -93,7 +94,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   };
 
   // Build blade pages configuration
-  // Order: Settings -> Profile (center) -> Theme
+  // Order: Settings -> Achievements -> Profile (center) -> Theme
   const bladePages: BladePage[] = useMemo(() => {
     if (!profile || !avatars) return [];
 
@@ -164,6 +165,19 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
         },
         externalFooter: {
           actions: [selectAction, backAction],
+        },
+      },
+      {
+        id: 'achievements',
+        label: 'Achievements',
+        content: <AchievementsPage />,
+        externalHeader: {
+          title: 'Achievements',
+          iconSrc: '/assets/icons/toast/trophy.png',
+          showClock: true,
+        },
+        externalFooter: {
+          actions: [backAction],
         },
       },
       {
