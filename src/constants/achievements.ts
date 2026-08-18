@@ -33,7 +33,7 @@ export const ACHIEVEMENTS = [
   { id: 'business-time', title: 'Business Time', subtitle: 'Saved the contact card', score: 10 },
   { id: 'full-dossier', title: 'Full Dossier', subtitle: 'Read every gamercard section', score: 10 },
   { id: 'now-playing', title: 'Now Playing', subtitle: 'Fired up the media player', score: 10 },
-  { id: 'trip-the-lights', title: 'Trip the Lights', subtitle: 'Opened the music visualizer', score: 5 },
+  { id: 'deep-cuts', title: 'Deep Cuts', subtitle: 'Opened the playlist drawer', score: 5 },
   { id: 'scanline-purist', title: 'Scanline Purist', subtitle: 'Toggled the CRT filter', score: 5 },
   { id: 'fresh-coat', title: 'Fresh Coat', subtitle: 'Changed the dashboard theme', score: 5 },
   { id: 'new-you', title: 'A Whole New You', subtitle: 'Changed your gamer picture', score: 10 },

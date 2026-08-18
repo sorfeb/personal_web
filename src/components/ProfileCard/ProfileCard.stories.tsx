@@ -1,33 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { ProfileCard } from './ProfileCard';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { httpBatchLink } from '@trpc/client';
-
-// Import the actual providers
-import { VolumeProvider } from '../../context/VolumeContext';
-import { ToastProvider } from '../../context/ToastContext';
-import { AchievementProvider } from '../../context/AchievementContext';
-import { trpc } from '../../utils/trpc';
-
-// Create a query client for Storybook
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
-      staleTime: Infinity,
-    },
-  },
-});
-
-// Create a tRPC client for Storybook
-const trpcClient = trpc.createClient({
-  links: [
-    httpBatchLink({
-      url: '/api/trpc',
-    }),
-  ],
-});
+import StoryProviders from '../Providers/StoryProviders';
 
 const meta: Meta<typeof ProfileCard> = {
   title: 'Xbox Components/ProfileCard',
@@ -43,17 +17,9 @@ const meta: Meta<typeof ProfileCard> = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <trpc.Provider client={trpcClient} queryClient={queryClient}>
-        <QueryClientProvider client={queryClient}>
-          <VolumeProvider>
-            <ToastProvider>
-              <AchievementProvider>
-                <Story />
-              </AchievementProvider>
-            </ToastProvider>
-          </VolumeProvider>
-        </QueryClientProvider>
-      </trpc.Provider>
+      <StoryProviders>
+        <Story />
+      </StoryProviders>
     ),
   ],
   argTypes: {

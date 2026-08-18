@@ -1,19 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { ProfileModal } from './ProfileModal';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { httpBatchLink } from '@trpc/client';
-import { VolumeProvider } from '../../context/VolumeContext';
-import { trpc } from '../../utils/trpc';
-
-const queryClient = new QueryClient();
-const trpcClient = trpc.createClient({
-  links: [
-    httpBatchLink({
-      url: '/api/trpc',
-    }),
-  ],
-});
+import StoryProviders from '../Providers/StoryProviders';
 
 const meta: Meta<typeof ProfileModal> = {
   title: 'Xbox Components/ProfileModal',
@@ -23,13 +11,9 @@ const meta: Meta<typeof ProfileModal> = {
   },
   decorators: [
     (Story) => (
-      <trpc.Provider client={trpcClient} queryClient={queryClient}>
-        <QueryClientProvider client={queryClient}>
-          <VolumeProvider>
-            <Story />
-          </VolumeProvider>
-        </QueryClientProvider>
-      </trpc.Provider>
+      <StoryProviders>
+        <Story />
+      </StoryProviders>
     ),
   ],
   argTypes: {

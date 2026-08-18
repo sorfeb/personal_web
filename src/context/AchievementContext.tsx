@@ -1,7 +1,16 @@
 'use client';
 
-import React, { createContext, useContext, useMemo, useRef, useState, ReactNode } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+  ReactNode,
+} from 'react';
 import { useMountEffect } from '../hooks';
+import { useAmbientAchievementTriggers } from '../hooks/useAmbientAchievementTriggers';
 import { useRouteVisitTracking } from '../hooks/useRouteVisitTracking';
 import { useAchievementSync } from '../hooks/useAchievementSync';
 import { useToast } from '../hooks/useToast';
@@ -110,7 +119,7 @@ export const AchievementProvider: React.FC<AchievementProviderProps> = ({ childr
   const hydratedRef = useRef(false);
 
   /** Lazily hydrate from localStorage so any call order after mount is safe */
-  const ensureLoaded = (): AchievementStorage => {
+  const ensureLoaded = useCallback((): AchievementStorage => {
     if (!hydratedRef.current && typeof window !== 'undefined') {
       hydratedRef.current = true;
       const loaded = loadStorage();
@@ -118,54 +127,62 @@ export const AchievementProvider: React.FC<AchievementProviderProps> = ({ childr
       setStore(loaded);
     }
     return storeRef.current;
-  };
+  }, []);
 
   useMountEffect(() => {
     ensureLoaded();
   });
 
-  const commit = (next: AchievementStorage) => {
+  const commit = useCallback((next: AchievementStorage) => {
     storeRef.current = next;
     setStore(next);
     saveStorage(next);
-  };
+  }, []);
 
-  const unlock = (id: AchievementId) => {
-    const current = ensureLoaded();
-    if (current.unlocked[id]) return;
+  const unlock = useCallback(
+    (id: AchievementId) => {
+      const current = ensureLoaded();
+      if (current.unlocked[id]) return;
 
-    const def = ACHIEVEMENT_MAP[id];
-    commit({
-      ...current,
-      unlocked: { ...current.unlocked, [id]: new Date().toISOString() },
-    });
-    showToast(
-      createAchievementToast('Achievement unlocked', `${def.score}G – ${def.title}`, def.icon)
-    );
-  };
-
-  const recordProgress = (key: ProgressKey, value: string) => {
-    if (!VALID_PROGRESS_VALUES[key].includes(value)) return;
-
-    const current = ensureLoaded();
-    const set = current.progress[key] ?? [];
-    if (!set.includes(value)) {
+      const def = ACHIEVEMENT_MAP[id];
       commit({
         ...current,
-        progress: { ...current.progress, [key]: [...set, value] },
+        unlocked: { ...current.unlocked, [id]: new Date().toISOString() },
       });
-    }
+      showToast(
+        createAchievementToast('Achievement unlocked', `${def.score}G – ${def.title}`, def.icon)
+      );
+    },
+    [ensureLoaded, commit, showToast]
+  );
 
-    const count = (storeRef.current.progress[key] ?? []).length;
-    for (const rule of PROGRESS_RULES[key]) {
-      if (count >= rule.threshold) unlock(rule.unlocks);
-    }
-  };
+  const recordProgress = useCallback(
+    (key: ProgressKey, value: string) => {
+      if (!VALID_PROGRESS_VALUES[key].includes(value)) return;
 
-  const reset = () => {
+      const current = ensureLoaded();
+      const set = current.progress[key] ?? [];
+      if (!set.includes(value)) {
+        commit({
+          ...current,
+          progress: { ...current.progress, [key]: [...set, value] },
+        });
+      }
+
+      const count = (storeRef.current.progress[key] ?? []).length;
+      for (const rule of PROGRESS_RULES[key]) {
+        if (count >= rule.threshold) unlock(rule.unlocks);
+      }
+    },
+    [ensureLoaded, commit, unlock]
+  );
+
+  const reset = useCallback(() => {
     hydratedRef.current = true;
     commit(EMPTY_STORAGE);
-  };
+  }, [commit]);
+
+  useAmbientAchievementTriggers(unlock);
 
   useRouteVisitTracking((pathname) => {
     if ((TRACKED_ROUTES as readonly string[]).includes(pathname)) {
@@ -204,10 +221,7 @@ export const AchievementProvider: React.FC<AchievementProviderProps> = ({ childr
       localGamerscore,
       reset,
     }),
-    // Engine functions are stable in behavior (they read through refs); the
-    // memo only needs to refresh when the rendered snapshot changes.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [store, unlockedIds, localGamerscore]
+    [store, unlockedIds, localGamerscore, unlock, recordProgress, reset]
   );
 
   return <AchievementContext.Provider value={value}>{children}</AchievementContext.Provider>;
