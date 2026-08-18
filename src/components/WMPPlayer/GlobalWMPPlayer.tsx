@@ -6,6 +6,8 @@ import { WMPPlayer } from './WMPPlayer';
 import { useWMPPlayerContext, PLAYER_DIMENSIONS } from '@/context/WMPPlayerContext';
 import { useAudioManager } from '@/hooks/useAudioManager';
 import { useEventListener, useMountEffect } from '@/hooks';
+import { useGamepadScope } from '@/hooks/useGamepadScope';
+import { useSpatialNavigation } from '@/hooks/useSpatialNavigation';
 import { constrainPosition, calculateDragOffset, calculateDragPosition, setUserSelectNone } from '@/utils/windowUtils';
 import styles from './GlobalWMPPlayer.module.css';
 
@@ -92,12 +94,29 @@ export const GlobalWMPPlayer = memo(function GlobalWMPPlayer() {
     }
   });
 
-  // Keyboard shortcuts: Esc closes the player when visible
+  // Keyboard shortcuts: Esc closes the player when visible.
+  // Conditional binding here is the poor-man's scope stack the real one below
+  // replaces; Phase 3d removes this listener once keyboard joins the router.
   useEventListener(isVisible ? win : null, 'keydown', (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
       e.preventDefault();
       hidePlayer();
     }
+  });
+
+  const { moveFocus } = useSpatialNavigation({ containerRef: windowRef, enabled: isVisible });
+
+  useGamepadScope({
+    id: 'wmp-player',
+    enabled: isVisible,
+    restoreFocusOnPop: true,
+    handlers: {
+      up: () => moveFocus('up'),
+      down: () => moveFocus('down'),
+      left: () => moveFocus('left'),
+      right: () => moveFocus('right'),
+      back: hidePlayer,
+    },
   });
 
   // Drag handlers

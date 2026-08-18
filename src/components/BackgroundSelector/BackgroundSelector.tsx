@@ -1,6 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { useGamepadScope } from '../../hooks/useGamepadScope';
+import { useSpatialNavigation } from '../../hooks/useSpatialNavigation';
 import Image from 'next/image';
 import { useBackground } from '../../context/BackgroundContext';
 import { useAudioManager } from '../../hooks/useAudioManager';
@@ -30,6 +32,29 @@ const BackgroundSelector: React.FC<BackgroundSelectorProps> = ({ isOpen, onClose
   const { currentBackground, setBackground } = useBackground();
   const { playSound } = useAudioManager();
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  // Hoisted above the early return so the scope below can reference it. Hooks
+  // must run on every render; `enabled` does the gating, not a conditional call.
+  const handleClose = () => {
+    playSound('back');
+    onClose();
+  };
+
+  const { moveFocus } = useSpatialNavigation({ containerRef: dialogRef, enabled: isOpen });
+
+  useGamepadScope({
+    id: 'background-selector',
+    enabled: isOpen,
+    restoreFocusOnPop: true,
+    handlers: {
+      up: () => moveFocus('up'),
+      down: () => moveFocus('down'),
+      left: () => moveFocus('left'),
+      right: () => moveFocus('right'),
+      back: handleClose,
+    },
+  });
 
   if (!isOpen) {
     return null;
@@ -47,11 +72,6 @@ const BackgroundSelector: React.FC<BackgroundSelectorProps> = ({ isOpen, onClose
       playSound('hover');
       setHoveredId(backgroundId);
     }
-  };
-
-  const handleClose = () => {
-    playSound('back');
-    onClose();
   };
 
   // Handle backdrop click to close
@@ -74,6 +94,7 @@ const BackgroundSelector: React.FC<BackgroundSelectorProps> = ({ isOpen, onClose
     // a tab stop, so the native-element fix does not apply here.
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <div
+      ref={dialogRef}
       className={styles.backdrop}
       onClick={handleBackdropClick}
       onKeyDown={handleKeyDown}

@@ -5,6 +5,8 @@ import { createPortal } from 'react-dom';
 import ChatRoom from '../ChatRoom/ChatRoom';
 import { useWindowDrag } from '../../../hooks/useWindowDrag';
 import { useEventListener, useMountEffect } from '@/hooks';
+import { useGamepadScope } from '../../../hooks/useGamepadScope';
+import { useSpatialNavigation } from '../../../hooks/useSpatialNavigation';
 import { isMobile } from '../../../utils/windowUtils';
 import type { ChatWindowProps } from '../../../types/chat';
 import styles from './ChatWindow.module.css';
@@ -81,6 +83,21 @@ const ChatWindow = memo<ChatWindowProps>(({ isOpen, onClose, onMinimize }) => {
   const handleWindowScroll = useCallback((e: React.UIEvent) => {
     e.stopPropagation();
   }, []);
+
+  const { moveFocus } = useSpatialNavigation({ containerRef: windowRef, enabled: isOpen });
+
+  useGamepadScope({
+    id: 'chat-window',
+    enabled: isOpen,
+    restoreFocusOnPop: true,
+    handlers: {
+      up: () => moveFocus('up'),
+      down: () => moveFocus('down'),
+      left: () => moveFocus('left'),
+      right: () => moveFocus('right'),
+      back: onClose,
+    },
+  });
 
   // Early return if not open
   if (!isOpen) return null;
