@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/sorfeb/personal_web/compare/v1.0.0...v1.1.0) (2026-08-16)
+
+
+### Features
+
+* **input:** keyboard-navigable dashboard and gamepad input layer ([29ffe0b](https://github.com/sorfeb/personal_web/commit/29ffe0b0881e6e4bf4845076489d82bf9d36fb60))
+
 ## [1.0.0](https://github.com/sorfeb/personal_web/compare/v0.1.0...v1.0.0) (2026-08-14)
 
 

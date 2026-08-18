@@ -1,8 +1,11 @@
 'use client';
 
-import React, { useState, useId } from 'react';
+import React, { useState, useId, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigationSound } from '../../hooks/useNavigationSound';
+import { useGamepadScope } from '../../hooks/useGamepadScope';
+import { useSpatialNavigation } from '../../hooks/useSpatialNavigation';
+import { useIsMobile } from '../../utils/responsiveUtils';
 import { PageLayoutProps } from './PageLayout.types';
 import { PageLayoutProvider } from './PageLayout.context';
 import { 
@@ -91,6 +94,8 @@ const PageLayoutRoot: React.FC<PageLayoutProps> = ({
   const { navigateWithSound } = useNavigationSound();
   const [isExiting, setIsExiting] = useState(false);
   const titleId = useId();
+  const isMobile = useIsMobile(768);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   /**
    * Handles page close interaction
@@ -107,6 +112,36 @@ const PageLayoutRoot: React.FC<PageLayoutProps> = ({
     }
   };
 
+  /**
+   * Controller navigation for the page.
+   *
+   * Focus never leaves `dialogRef`, which is what makes this trapped — the
+   * element is already `role="dialog" aria-modal="true"`, so the scope is only
+   * making the input layer agree with what the markup has always claimed.
+   */
+  const { moveFocus } = useSpatialNavigation({
+    containerRef: dialogRef,
+    enabled: !isMobile,
+  });
+
+  /*
+   * No auto-focus on mount. `moveFocus` treats "nothing in here holds focus"
+   * as an entry rather than a move, so the first D-pad press lands somewhere
+   * sensible — and a mouse user never has focus yanked out from under them.
+   */
+  useGamepadScope({
+    id: 'page',
+    enabled: !isMobile && !isExiting,
+    restoreFocusOnPop: true,
+    handlers: {
+      up: () => moveFocus('up'),
+      down: () => moveFocus('down'),
+      left: () => moveFocus('left'),
+      right: () => moveFocus('right'),
+      back: handleClose,
+    },
+  });
+
   const contextValue = {
     title,
     titleId,
@@ -122,6 +157,7 @@ const PageLayoutRoot: React.FC<PageLayoutProps> = ({
       <AnimatePresence>
         {!isExiting && (
           <motion.div
+            ref={dialogRef}
             key={title}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
