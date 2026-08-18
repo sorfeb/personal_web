@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useMemo, useRef, useState, ReactNode } from 'react';
 import { useMountEffect } from '../hooks';
 import { useRouteVisitTracking } from '../hooks/useRouteVisitTracking';
+import { useAchievementSync } from '../hooks/useAchievementSync';
 import { useToast } from '../hooks/useToast';
 import { createAchievementToast } from '../utils/toastUtils';
 import {
@@ -12,6 +13,7 @@ import {
   TRACKED_GAMERCARD_SECTIONS,
   TRACKED_ROUTES,
   computeGamerscore,
+  isAchievementId,
   type AchievementId,
   type ProgressKey,
 } from '../constants/achievements';
@@ -176,6 +178,21 @@ export const AchievementProvider: React.FC<AchievementProviderProps> = ({ childr
     () => Object.keys(store.unlocked) as AchievementId[],
     [store.unlocked]
   );
+
+  useAchievementSync({
+    unlockedIds,
+    syncedIds: store.syncedIds,
+    onMerged: (serverUnlockedIds) => {
+      const validIds = serverUnlockedIds.filter(isAchievementId);
+      // Server-granted or cross-device unlocks surface locally (with toasts)
+      validIds.forEach((id) => unlock(id));
+      const current = ensureLoaded();
+      commit({
+        ...current,
+        syncedIds: [...new Set([...current.syncedIds, ...validIds])],
+      });
+    },
+  });
   const localGamerscore = useMemo(() => computeGamerscore(unlockedIds), [unlockedIds]);
 
   const value: AchievementContextType = useMemo(

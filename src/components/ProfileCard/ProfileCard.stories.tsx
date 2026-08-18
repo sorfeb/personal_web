@@ -6,6 +6,8 @@ import { httpBatchLink } from '@trpc/client';
 
 // Import the actual providers
 import { VolumeProvider } from '../../context/VolumeContext';
+import { ToastProvider } from '../../context/ToastContext';
+import { AchievementProvider } from '../../context/AchievementContext';
 import { trpc } from '../../utils/trpc';
 
 // Create a query client for Storybook
@@ -44,7 +46,11 @@ const meta: Meta<typeof ProfileCard> = {
       <trpc.Provider client={trpcClient} queryClient={queryClient}>
         <QueryClientProvider client={queryClient}>
           <VolumeProvider>
-            <Story />
+            <ToastProvider>
+              <AchievementProvider>
+                <Story />
+              </AchievementProvider>
+            </ToastProvider>
           </VolumeProvider>
         </QueryClientProvider>
       </trpc.Provider>

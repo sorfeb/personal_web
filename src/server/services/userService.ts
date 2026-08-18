@@ -1,5 +1,6 @@
 import { PrismaClient, Prisma } from '@prisma/client';
 import { GUEST_PROFILE, DEFAULT_AVATAR } from '../config/userConfig';
+import { computeGamerscore, isAchievementId } from '../../constants/achievements';
 
 type DbClient = PrismaClient | Omit<PrismaClient, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends">;
 
@@ -59,5 +60,50 @@ export class UserService {
       }
       throw error;
     }
+  }
+
+  /**
+   * Idempotently persists achievement unlocks and recomputes the user's
+   * gamerscore from the catalog. Unknown ids are dropped; duplicates are
+   * absorbed by the [userId, achievementId] unique constraint. The score is
+   * only ever computed server-side from the catalog, so it is implicitly
+   * capped at the catalog total.
+   */
+  async mergeAchievements(userId: string, ids: string[]) {
+    const validIds = [...new Set(ids.filter(isAchievementId))];
+
+    if (validIds.length > 0) {
+      await this.db.userAchievement.createMany({
+        data: validIds.map((achievementId) => ({ userId, achievementId })),
+        skipDuplicates: true,
+      });
+    }
+
+    const rows = await this.db.userAchievement.findMany({
+      where: { userId },
+      select: { achievementId: true, unlockedAt: true },
+    });
+
+    const gamerscore = computeGamerscore(rows.map((r) => r.achievementId));
+    await this.db.user.update({
+      where: { id: userId },
+      data: { gamerscore },
+    });
+
+    return {
+      unlockedIds: rows.map((r) => r.achievementId),
+      gamerscore,
+    };
+  }
+
+  /**
+   * Returns the user's persisted unlocks with timestamps.
+   */
+  async getAchievements(userId: string) {
+    return this.db.userAchievement.findMany({
+      where: { userId },
+      select: { achievementId: true, unlockedAt: true },
+      orderBy: { unlockedAt: 'asc' },
+    });
   }
 }

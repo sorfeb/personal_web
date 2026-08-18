@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { createTRPCRouter, publicProcedure, protectedProcedure } from '../trpc';
-import { GUEST_PROFILE, AVAILABLE_AVATARS, DEFAULT_AVATAR } from '../config/userConfig';
+import { AVAILABLE_AVATARS } from '../config/userConfig';
 
 /**
  * User router for handling profile operations.
@@ -8,19 +8,11 @@ import { GUEST_PROFILE, AVAILABLE_AVATARS, DEFAULT_AVATAR } from '../config/user
 export const userRouter = createTRPCRouter({
   /**
    * Fetches the current user's profile or a guest profile.
+   * Reads from the database rather than the cached better-auth session so
+   * gamerscore/avatar are never stale after a write.
    */
   getProfile: publicProcedure.query(async ({ ctx }) => {
-    if (!ctx.user) {
-      return GUEST_PROFILE;
-    }
-
-    return {
-      id: ctx.user.id,
-      name: ctx.user.name ?? 'Player',
-      gamerscore: (ctx.user as Record<string, unknown>).gamerscore as number ?? 0,
-      avatar: ((ctx.user as Record<string, unknown>).avatar as string) ?? DEFAULT_AVATAR,
-      isGuest: false,
-    };
+    return ctx.services.user.findUserById(ctx.user?.id);
   }),
 
   /**
