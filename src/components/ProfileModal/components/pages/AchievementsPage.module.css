@@ -1,0 +1,139 @@
+/* ============================================
+   ACHIEVEMENTS PAGE — Xbox 360 achievement list
+   ============================================ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  padding: var(--spacing-5);
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Summary header: score total + unlock count */
+.summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+  padding-bottom: var(--spacing-3);
+  border-bottom: 1px solid var(--color-border-primary);
+}
+
+.summaryScore {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.summaryIcon {
+  flex-shrink: 0;
+}
+
+.summaryCount {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+/* Tile list */
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.tile {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3);
+  background: var(--color-bg-hover);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-base);
+  transition: background var(--duration-normal) var(--ease-smooth),
+    opacity var(--duration-normal) var(--ease-smooth);
+}
+
+.tile:hover {
+  background: var(--color-bg-panel-hover);
+}
+
+.locked {
+  opacity: 0.55;
+}
+
+/* Badge circle */
+.badge {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-full);
+  color: var(--color-text-secondary);
+  background: var(--color-bg-overlay);
+}
+
+.badgeImage {
+  object-fit: contain;
+}
+
+/* Text block */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  min-width: 0;
+  flex: 1;
+}
+
+.title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.date {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+}
+
+/* Score pill */
+.score {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-brand-primary-light);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile {
+    transition: none;
+  }
+}
+
+@media (width <= 768px) {
+  .container {
+    padding: var(--spacing-3);
+  }
+
+  .badge {
+    width: 36px;
+    height: 36px;
+  }
+}

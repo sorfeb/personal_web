@@ -7,8 +7,12 @@ import Image from 'next/image';
 import { authClient } from '../../lib/auth-client';
 import { Settings } from 'lucide-react';
 import { useAudioManager } from '../../hooks/useAudioManager';
+import { useAchievements } from '../../hooks/useAchievements';
 import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
 import { useIsMounted } from '@/hooks';
+import { useGamepadScope } from '../../hooks/useGamepadScope';
+import { useSpatialNavigation } from '../../hooks/useSpatialNavigation';
+import { useIsMobile } from '../../utils/responsiveUtils';
 import { trpc } from '../../utils/trpc';
 import Tooltip from '../ui/Tooltip/Tooltip';
 import { Clock } from '../ui/Clock/Clock';
@@ -16,6 +20,7 @@ import { useToast, createSystemToast } from '../ToastNotification';
 import {
   BladeNavigation,
   SettingsPage,
+  AchievementsPage,
   ProfilePage,
   ThemePage,
 } from './components';
@@ -32,12 +37,15 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   const { data: session } = authClient.useSession();
   const { playSound } = useAudioManager();
   const { showToast } = useToast();
+  const { unlock } = useAchievements();
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
   const mounted = useIsMounted();
   const [activePageId, setActivePageId] = useState<string>('profile');
 
   // Ref for ThemePage imperative handle
   const themePageRef = useRef<ThemePageRef>(null);
+  const backdropRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile(768);
 
   const utils = trpc.useUtils();
 
@@ -48,11 +56,38 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
 
   useBodyScrollLock(isOpen, handleClose);
 
+  /**
+   * Controller scope. Pushed above the dashboard's, which is what silences the
+   * blades and card stack behind it — Phase 2 achieved that by threading a
+   * `disabled` prop down from the page, and this replaces it.
+   *
+   * Registered before the `!mounted || !isOpen` early return below, gated by
+   * `enabled` rather than by calling the hook conditionally.
+   */
+  const { moveFocus } = useSpatialNavigation({
+    containerRef: backdropRef,
+    enabled: isOpen && !isMobile,
+  });
+
+  useGamepadScope({
+    id: 'profile-modal',
+    enabled: isOpen && !isMobile,
+    restoreFocusOnPop: true,
+    handlers: {
+      up: () => moveFocus('up'),
+      down: () => moveFocus('down'),
+      left: () => moveFocus('left'),
+      right: () => moveFocus('right'),
+      back: handleClose,
+    },
+  });
+
   const { data: profile } = trpc.user.getProfile.useQuery();
   const { data: avatars } = trpc.user.getAvailableAvatars.useQuery();
   const updateProfileMutation = trpc.user.updateProfile.useMutation({
     onSuccess: () => {
       utils.user.getProfile.invalidate();
+      unlock('new-you');
       playSound('navigation');
       onClose();
     },
@@ -90,7 +125,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   };
 
   // Build blade pages configuration
-  // Order: Settings -> Profile (center) -> Theme
+  // Order: Settings -> Achievements -> Profile (center) -> Theme
   const bladePages: BladePage[] = useMemo(() => {
     if (!profile || !avatars) return [];
 
@@ -164,6 +199,19 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
         },
       },
       {
+        id: 'achievements',
+        label: 'Achievements',
+        content: <AchievementsPage />,
+        externalHeader: {
+          title: 'Achievements',
+          iconSrc: '/assets/icons/toast/trophy.png',
+          showClock: true,
+        },
+        externalFooter: {
+          actions: [backAction],
+        },
+      },
+      {
         id: 'profile',
         label: profile.name,
         content: (
@@ -209,6 +257,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
                   playSound('navigation');
 
                   if (wasDirty) {
+                    unlock('fresh-coat');
                     showToast(createSystemToast('Theme settings applied', 'success'));
                   } else {
                     showToast(createSystemToast('No changes to apply', 'info'));
@@ -221,7 +270,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
         },
       },
     ];
-  }, [profile, avatars, selectedAvatar, handleAvatarSelect, handleSave, handleLogout, handleClose, playSound, showToast]);
+  }, [profile, avatars, selectedAvatar, handleAvatarSelect, handleSave, handleLogout, handleClose, playSound, showToast, unlock]);
 
   // Handle page change - track active page ID
   const handlePageChange = useCallback((pageId: string) => {
@@ -251,6 +300,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          ref={backdropRef}
           className={styles.backdrop}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

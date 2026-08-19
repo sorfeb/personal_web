@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import GamerCard from './GamerCard';
-import { VolumeProvider } from '../../context/VolumeContext';
-import { ToastProvider } from '../../context/ToastContext';
+import StoryProviders from '../Providers/StoryProviders';
 import ToastContainer from '../ToastNotification/ToastContainer';
 
 const meta: Meta<typeof GamerCard> = {
@@ -20,12 +19,10 @@ const meta: Meta<typeof GamerCard> = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <VolumeProvider>
-        <ToastProvider>
-          <Story />
-          <ToastContainer />
-        </ToastProvider>
-      </VolumeProvider>
+      <StoryProviders>
+        <Story />
+        <ToastContainer />
+      </StoryProviders>
     ),
   ],
 };

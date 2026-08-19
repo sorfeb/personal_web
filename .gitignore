@@ -52,3 +52,6 @@ storybook-static
 .mcp.json
 
 .playwright-mcp
+
+# js-dos runtime, copied from node_modules on postinstall (scripts/copy-emulators.mjs)
+public/emulators/

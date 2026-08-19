@@ -1,0 +1,11 @@
+<svg width="256" height="252" viewBox="0 0 256 252" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Castle keep with battlements -->
+  <path d="M70 208V96H90V76H110V96H122V76H146V96H158V76H178V96H186V208"
+        stroke="#444444" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M56 208H200" stroke="#444444" stroke-width="9" stroke-linecap="round"/>
+  <!-- Arched door -->
+  <path d="M112 208V160C112 150 119 144 128 144C137 144 144 150 144 160V208"
+        stroke="#444444" stroke-width="9" stroke-linecap="round"/>
+  <!-- Arrow slit -->
+  <path d="M128 108V124" stroke="#444444" stroke-width="8" stroke-linecap="round"/>
+</svg>

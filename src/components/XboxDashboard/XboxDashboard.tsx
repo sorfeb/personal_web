@@ -21,16 +21,9 @@ interface XboxDashboardProps {
   data: {
     [key: string]: { route: string; title: string; iconUrl?: string; images?: string[]}[];
   };
-  /**
-   * Suspend controller navigation — passed the same value the blade menu gets,
-   * so both halves of the dashboard scope go quiet together while a modal is
-   * open. Phase 3 replaces this prop with a real modal scope pushed on top of
-   * the stack, which silences everything beneath it without being told.
-   */
-  disabled?: boolean;
 }
 
-const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data, disabled = false }) => {
+const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data }) => {
   const { playSound } = useAudioManager();
   const isMobile = useIsMobile(768);
 
@@ -79,9 +72,13 @@ const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data, d
 
   // The card stack's half of the dashboard scope. `useCardNavigation` already
   // refuses moves at the ends and mid-transition, so no boundary check here.
+  //
+  // No modal gate: an open modal now pushes its own scope on top of this one,
+  // which silences it without being told. The `disabled` prop Phase 2 threaded
+  // down from the page to fake that is gone.
   useGamepadScope({
     id: DASHBOARD_SCOPE_ID,
-    enabled: !isMobile && !disabled,
+    enabled: !isMobile,
     handlers: {
       left: navigateLeft,
       right: navigateRight,

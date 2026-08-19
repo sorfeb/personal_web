@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 import { useMountEffect } from '@/hooks';
+import { useAchievements } from '@/hooks/useAchievements';
 import { useGamepadContext } from '@/context/GamepadContext';
 import type { GamepadIntent } from '@/types/gamepad';
 import styles from './GamepadDebugOverlay.module.css';
@@ -143,10 +144,14 @@ const DebugPanel: React.FC = () => {
  */
 const GamepadDebugOverlay: React.FC = () => {
   const [visible, setVisible] = useState(false);
+  const { unlock } = useAchievements();
 
   useMountEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get('gamepad') === 'debug') setVisible(true);
+    if (params.get('gamepad') === 'debug') {
+      setVisible(true);
+      unlock('dev-mode');
+    }
   });
 
   if (!visible) return null;

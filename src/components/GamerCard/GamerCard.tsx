@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useAudioManager } from '../../hooks/useAudioManager';
 import { useNavigationSound } from '../../hooks/useNavigationSound';
 import { useEventListener, useMountEffect, useScrollSpy } from '@/hooks';
+import { useAchievements } from '../../hooks/useAchievements';
 import { useToast, createSystemToast } from '../ToastNotification';
 import { Clock } from '../ui/Clock/Clock';
 import { downloadVCard } from '../../utils/vcard';
@@ -35,6 +36,7 @@ const GamerCard: React.FC = () => {
   const { playSound } = useAudioManager();
   const { navigateWithSound } = useNavigationSound();
   const { showToast } = useToast();
+  const { unlock, recordProgress } = useAchievements();
 
   const [cursorIndex, setCursorIndex] = useState(0);
   const [activeSection, setActiveSection] = useState<SectionId>('experience');
@@ -46,6 +48,9 @@ const GamerCard: React.FC = () => {
 
   useMountEffect(() => {
     playSound('panel');
+    // The profile panel is the landing view (and has no desktop menu item),
+    // so opening the card counts as reading it.
+    recordProgress('gamercardSections', 'profile');
   });
 
   const handleCursorChange = (index: number) => {
@@ -57,7 +62,9 @@ const GamerCard: React.FC = () => {
 
   const handleSaveContact = () => {
     downloadVCard();
-    playSound('achievement');
+    // The unlock brings its own achievement toast (and sound) the first time;
+    // the system toast still confirms every save after that.
+    unlock('business-time');
     showToast(createSystemToast('Contact card saved — add it to your contacts', 'success'));
   };
 
@@ -69,6 +76,7 @@ const GamerCard: React.FC = () => {
     if (item.kind === 'section') {
       playSound('click');
       setActiveSection(item.id as SectionId);
+      recordProgress('gamercardSections', item.id);
     } else if (item.id === 'save-contact') {
       handleSaveContact();
     } else if (item.id === 'dashboard') {
@@ -78,6 +86,7 @@ const GamerCard: React.FC = () => {
 
   const handleTabSelect = (id: SectionId) => {
     playSound('click');
+    recordProgress('gamercardSections', id);
     const target = document.getElementById(sectionDomId(id));
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     target?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });

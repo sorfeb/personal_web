@@ -18,6 +18,7 @@ import { ShepherdTourProvider } from "../context/ShepherdTourContext";
 import ProfileModal from "../components/ProfileModal/ProfileModal";
 import { WMPGuideButton } from "../components/WMPPlayer/WMPGuideButton";
 import RecruiterHint from "../components/RecruiterHint/RecruiterHint";
+import { useAchievements } from "../hooks/useAchievements";
 
 export default function Home() {
 
@@ -29,8 +30,16 @@ export default function Home() {
   );
   const [activeIndex, setActiveIndex] = useState(0);
   const [isProfileModalOpen, setProfileModalOpen] = useState(false);
-  
+  const { recordProgress } = useAchievements();
+
   const handleSelectionChange = (index: number) => {
+    // Record both the blade being left and the one entered — the initial
+    // blade never fires a selection change of its own.
+    const bladeKeys = Object.keys(dashboardDataList);
+    const previousKey = bladeKeys[activeIndex];
+    const nextKey = bladeKeys[index];
+    if (previousKey) recordProgress('bladesCycled', previousKey);
+    if (nextKey) recordProgress('bladesCycled', nextKey);
     setActiveIndex(index);
   };
 
@@ -73,11 +82,7 @@ export default function Home() {
               {/* Main Content Section */}
               <main className={styles.main}>
                 <div className={styles.DashboardContainer}>
-                  <XboxDashboard
-                    activeIndex={activeIndex}
-                    data={dashboardDataList}
-                    disabled={isProfileModalOpen}
-                  />
+                  <XboxDashboard activeIndex={activeIndex} data={dashboardDataList} />
                 </div>
               </main>
 

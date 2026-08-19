@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.2.0](https://github.com/sorfeb/personal_web/compare/v1.1.0...v1.2.0) (2026-08-18)
+
+
+### Features
+
+* **achievements:** achievements list blade in the Guide (SOR-143) ([78e2ed4](https://github.com/sorfeb/personal_web/commit/78e2ed455e9bb04d8a77bc0e6463f8e27219c721))
+* **achievements:** catalog, client unlock engine, guest localStorage (SOR-140) ([f7c124c](https://github.com/sorfeb/personal_web/commit/f7c124c36c3bcf0e9848170cfeff786ad0a73ff6))
+* **achievements:** gamerscore system — guest progress, login merge, achievements blade (SOR-139) ([7a391fe](https://github.com/sorfeb/personal_web/commit/7a391fef7cc55db1606cf55426437b66e58a2d05))
+* **achievements:** server persistence, login merge, signed-in write-through (SOR-141) ([bd74a80](https://github.com/sorfeb/personal_web/commit/bd74a80da7955b5cf7e43661c386915d6600502a))
+* **achievements:** wire unlock triggers across the site (SOR-142) ([12fb129](https://github.com/sorfeb/personal_web/commit/12fb1295d8870def8f86be7da54896f77e235594))
+
+## [1.1.0](https://github.com/sorfeb/personal_web/compare/v1.0.0...v1.1.0) (2026-08-16)
+
+
+### Features
+
+* **input:** keyboard-navigable dashboard and gamepad input layer ([29ffe0b](https://github.com/sorfeb/personal_web/commit/29ffe0b0881e6e4bf4845076489d82bf9d36fb60))
+
 ## [1.0.0](https://github.com/sorfeb/personal_web/compare/v0.1.0...v1.0.0) (2026-08-14)
 
 

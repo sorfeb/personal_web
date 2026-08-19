@@ -32,6 +32,14 @@
   color: var(--color-text-primary);
 }
 
+/* Menu row that carries a live control (e.g. the CRT filter toggle) */
+.settingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+}
+
 /* ============================================
    PROFILE PAGE (Avatar Selection)
    ============================================ */

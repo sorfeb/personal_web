@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>DOS</title>
+<link rel="stylesheet" href="/emulators/js-dos.css">
+<style>
+  /* Standalone embed page — not a CSS module, so the design-token rule does
+     not apply; the only chrome here is a black void behind the emulator. */
+  html, body { margin: 0; padding: 0; width: 100%; height: 100%; background: #000; overflow: hidden; }
+  #dos { width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+<div id="dos"></div>
+<script src="/emulators/js-dos.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var ORIGIN = window.location.origin;
+  var params = new URLSearchParams(window.location.search);
+
+  // Only bundles we ship may be booted — this page must not become an
+  // open proxy for arbitrary archives.
+  var bundle = params.get('bundle') || '';
+  if (!/^\/assets\/games\/[a-z0-9-]+\.jsdos$/.test(bundle)) {
+    document.body.textContent = 'Unknown game bundle.';
+    return;
+  }
+
+  var volume = parseFloat(params.get('volume'));
+  if (!(volume >= 0 && volume <= 1)) volume = 0.2;
+
+  function post(message) {
+    if (window.parent !== window) {
+      window.parent.postMessage(message, ORIGIN);
+    }
+  }
+
+  // js-dos KBD_* key codes (GLFW-style), extracted from the shipped runtime.
+  // The parent sends named keys; the numeric protocol stays private to this page.
+  var KEY_CODES = {
+    up: 265, down: 264, left: 263, right: 262,
+    ctrl: 341, alt: 342, shift: 340,
+    space: 32, enter: 257, esc: 256, tab: 258,
+    y: 89, n: 78,
+  };
+
+  var ci = null;
+
+  var props = Dos(document.getElementById('dos'), {
+    url: bundle,
+    pathPrefix: '/emulators/emulators/',
+    backend: 'dosbox',
+    workerThread: true,
+    kiosk: true,
+    autoStart: true,
+    mouseCapture: true,
+    volume: volume,
+    onEvent: function (event, arg) {
+      if (event === 'ci-ready') {
+        ci = arg;
+        post({ type: 'dos:ci-ready' });
+      } else if (event === 'exit') {
+        post({ type: 'dos:exit' });
+      }
+    },
+  });
+
+  post({ type: 'dos:ready' });
+
+  window.addEventListener('message', function (event) {
+    if (event.origin !== ORIGIN) return;
+    var data = event.data;
+    if (!data || typeof data.type !== 'string') return;
+
+    switch (data.type) {
+      case 'dos:set-volume':
+        if (typeof data.volume === 'number' && data.volume >= 0 && data.volume <= 1) {
+          props.setVolume(data.volume);
+        }
+        break;
+      case 'dos:pause':
+        props.setPaused(Boolean(data.paused));
+        break;
+      case 'dos:key': {
+        var code = KEY_CODES[data.key];
+        if (ci && code) ci.sendKeyEvent(code, Boolean(data.pressed));
+        break;
+      }
+      case 'dos:mouse-move':
+        if (ci && typeof data.dx === 'number' && typeof data.dy === 'number') {
+          ci.sendMouseRelativeMotion(data.dx, data.dy);
+        }
+        break;
+      case 'dos:mouse-button':
+        if (ci) ci.sendMouseButton(data.button === 1 ? 1 : 0, Boolean(data.pressed));
+        break;
+    }
+  });
+})();
+</script>
+</body>
+</html>

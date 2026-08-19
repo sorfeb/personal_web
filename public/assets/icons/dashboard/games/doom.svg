@@ -1,0 +1,9 @@
+<svg width="256" height="252" viewBox="0 0 256 252" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Crosshair -->
+  <circle cx="128" cy="126" r="58" stroke="#444444" stroke-width="9"/>
+  <circle cx="128" cy="126" r="7" fill="#444444"/>
+  <path d="M128 44V78" stroke="#444444" stroke-width="9" stroke-linecap="round"/>
+  <path d="M128 174V208" stroke="#444444" stroke-width="9" stroke-linecap="round"/>
+  <path d="M46 126H80" stroke="#444444" stroke-width="9" stroke-linecap="round"/>
+  <path d="M176 126H210" stroke="#444444" stroke-width="9" stroke-linecap="round"/>
+</svg>

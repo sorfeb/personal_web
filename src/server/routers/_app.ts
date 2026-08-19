@@ -5,6 +5,7 @@ import { spotifyRouter } from './spotify';
 import { blogRouter } from './blog';
 import { audioRouter } from './audio';
 import { lastfmRouter } from './lastfm';
+import { achievementsRouter } from './achievements';
 
 /**
  * This is the primary router for your server.
@@ -18,6 +19,7 @@ export const appRouter = createTRPCRouter({
   blog: blogRouter,
   audio: audioRouter,
   lastfm: lastfmRouter,
+  achievements: achievementsRouter,
 });
 
 export type AppRouter = typeof appRouter;

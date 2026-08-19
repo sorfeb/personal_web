@@ -1,0 +1,13 @@
+<svg width="256" height="252" viewBox="0 0 256 252" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Retro TV -->
+  <rect x="52" y="92" width="152" height="108" rx="14" stroke="#444444" stroke-width="9"/>
+  <rect x="70" y="110" width="94" height="72" rx="6" stroke="#444444" stroke-width="8"/>
+  <circle cx="184" cy="126" r="8" stroke="#444444" stroke-width="7"/>
+  <circle cx="184" cy="156" r="8" stroke="#444444" stroke-width="7"/>
+  <!-- Antennas -->
+  <path d="M104 88L84 52" stroke="#444444" stroke-width="9" stroke-linecap="round"/>
+  <path d="M152 88L172 52" stroke="#444444" stroke-width="9" stroke-linecap="round"/>
+  <!-- Feet -->
+  <path d="M84 200V212" stroke="#444444" stroke-width="9" stroke-linecap="round"/>
+  <path d="M172 200V212" stroke="#444444" stroke-width="9" stroke-linecap="round"/>
+</svg>

@@ -1,9 +1,10 @@
 {
   "name": "personal_web",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "postinstall": "node scripts/copy-emulators.mjs",
     "build": "prisma generate && next build",
     "postbuild": "next-sitemap",
     "start": "next start",
@@ -36,6 +37,7 @@
     "framer-motion": "^12.0.6",
     "jquery": "^3.7.1",
     "jquery.ripples": "^0.6.3",
+    "js-dos": "8.4.1",
     "lucide-react": "^0.561.0",
     "next": "^15.5.7",
     "next-cloudinary": "^6.16.0",

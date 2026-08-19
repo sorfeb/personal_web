@@ -1,0 +1,95 @@
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 100dvh;
+  padding: 1.5rem;
+  background: var(--color-black);
+}
+
+.tvWrap {
+  width: min(88vw, 112vh);
+}
+
+.emulator {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: var(--tv-screen-bg);
+}
+
+.offAir {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  height: 100%;
+}
+
+.offAirText {
+  color: var(--color-text-tertiary);
+  font-size: 1.4rem;
+  letter-spacing: 0.4em;
+}
+
+.helpStrip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  width: min(88vw, 112vh);
+}
+
+.controls {
+  color: var(--color-text-tertiary);
+  font-size: 0.85rem;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hint {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+/* --- Mobile notice --------------------------------------------------------- */
+
+.mobileNotice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 100dvh;
+  padding: 2rem;
+  background: var(--color-black);
+  text-align: center;
+}
+
+.mobileTitle {
+  color: var(--color-text-primary);
+  font-size: 1.5rem;
+}
+
+.mobileText {
+  max-width: 28rem;
+  color: var(--color-text-secondary);
+}
+
+.mobileLink {
+  color: var(--color-brand-primary-light);
+  text-decoration: underline;
+  transition: var(--transition-color);
+}
+
+.mobileLink:hover {
+  color: var(--color-brand-primary-lighter);
+}

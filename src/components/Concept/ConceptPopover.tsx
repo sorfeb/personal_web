@@ -1,7 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { useAudioManager } from '@/hooks/useAudioManager';
+import { useGamepadScope } from '@/hooks/useGamepadScope';
+import { useSpatialNavigation } from '@/hooks/useSpatialNavigation';
 import { getConcept } from '@/data/concepts';
 import type { ConceptBacklink } from '@/utils/conceptGraph';
 import styles from './ConceptPopover.module.css';
@@ -31,6 +33,27 @@ const ConceptPopover: React.FC<ConceptPopoverProps> = ({
 }) => {
   const { playSound } = useAudioManager();
   const concept = getConcept(conceptId);
+  const popoverRef = useRef<HTMLDivElement>(null);
+
+  // Registered before the early return below — hooks run unconditionally and
+  // `enabled` does the gating.
+  const { moveFocus } = useSpatialNavigation({
+    containerRef: popoverRef,
+    enabled: Boolean(concept),
+  });
+
+  useGamepadScope({
+    id: 'concept-popover',
+    enabled: Boolean(concept),
+    restoreFocusOnPop: true,
+    handlers: {
+      up: () => moveFocus('up'),
+      down: () => moveFocus('down'),
+      left: () => moveFocus('left'),
+      right: () => moveFocus('right'),
+      back: onClose,
+    },
+  });
 
   if (!concept) return null;
 
@@ -52,7 +75,10 @@ const ConceptPopover: React.FC<ConceptPopoverProps> = ({
       aria-label={concept.title}
       data-concept-ui
       tabIndex={-1}
-      ref={(element) => element?.focus({ preventScroll: true })}
+      ref={(element) => {
+        popoverRef.current = element;
+        element?.focus({ preventScroll: true });
+      }}
     >
       <div className={styles.header}>
         <span className={styles.meta}>{meta}</span>
