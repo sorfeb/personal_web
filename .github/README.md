@@ -15,9 +15,7 @@ Completion records and CI config. **Planning and agent instructions are not here
 ├── documentation/            # Completion docs, written AFTER implementation
 │   ├── TEMPLATE.md
 │   └── <feature>-complete.md
-├── workflows/                # GitHub Actions (release-please)
-└── (superseded)              # copilot-instructions.md, agents/, QUICK_REFERENCE.md,
-                              # SUMMARY.md — Copilot-era, banner-marked, history only
+└── workflows/                # GitHub Actions (release-please)
 ```
 
 ## Workflow
@@ -39,9 +37,10 @@ Planning artifacts went to Linear so they are visible without a checkout and cur
 what benefits from living beside the code: conventions (`CLAUDE.md`), domain guidance
 (`.claude/skills/`), and the record of what actually shipped (`documentation/`).
 
-## Why the Copilot files are superseded
+## Where the Copilot-era files went
 
 This project moved from GitHub Copilot to agentic CLIs (Claude Code primarily; the docs are
-harness-neutral and also serve opencode). The old `.github/agents/*` prompts were replaced by
-`.claude/skills/`, which are plain `SKILL.md` files any harness can read. The old files carry a
-banner and are kept only for history.
+harness-neutral and also serve opencode). The old `copilot-instructions.md`, `agents/*`,
+`QUICK_REFERENCE.md`, and `SUMMARY.md` were replaced by `/CLAUDE.md` + `.claude/skills/` and
+have been **deleted** — recover them from git history if ever needed. Design-record markdown
+that used to live in `/docs` was likewise moved to Linear project documents.
