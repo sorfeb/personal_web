@@ -162,8 +162,10 @@ Decisions settled in design review belong in **this file** (conventions) or in t
 **plan** (project specifics) — not in session memory. If you find yourself re-litigating a
 decision across sessions, it is missing from here; add it.
 
-> `.github/copilot-instructions.md`, `.github/agents/*`, and `.github/QUICK_REFERENCE.md` are
-> **superseded** by this file plus `.claude/skills/`. Do not consult or update them.
+> The Copilot-era `.github/copilot-instructions.md`, `.github/agents/*`, and
+> `.github/QUICK_REFERENCE.md` were superseded by this file plus `.claude/skills/` and have
+> been **deleted** (git history has them). There is likewise no `/docs` directory — design
+> records live in Linear as project documents; do not recreate either.
 
 ## Key Files
 
