@@ -16,6 +16,8 @@ export interface DosGame {
   episode: string;
   /** `.jsdos` bundle served statically; fetched only when the game launches */
   bundleUrl: string;
+  /** Dashboard-style line icon; doubles as the badge on the in-game volume pill */
+  iconUrl: string;
   /** One-liner for the hub card */
   blurb: string;
   /** Shown in the player's help strip */
@@ -30,6 +32,7 @@ export const DOS_GAMES: readonly DosGame[] = [
     developer: 'id Software',
     episode: 'Episode 1: Knee-Deep in the Dead (shareware)',
     bundleUrl: '/assets/games/doom.jsdos',
+    iconUrl: '/assets/icons/dashboard/games/doom.svg',
     blurb: 'The one that changed everything. Rip and tear through the UAC base on Phobos.',
     controls: 'Arrows move · Ctrl fires · Space opens doors · Esc for menu',
   },
@@ -40,6 +43,7 @@ export const DOS_GAMES: readonly DosGame[] = [
     developer: 'id Software',
     episode: 'Episode 1: Escape from Wolfenstein (shareware)',
     bundleUrl: '/assets/games/wolf3d.jsdos',
+    iconUrl: '/assets/icons/dashboard/games/wolf3d.svg',
     blurb: 'The grandfather of the FPS. Escape Castle Wolfenstein floor by floor.',
     controls: 'Arrows move · Ctrl fires · Space opens doors · Esc for menu',
   },
@@ -50,6 +54,7 @@ export const DOS_GAMES: readonly DosGame[] = [
     developer: 'id Software / Apogee',
     episode: 'Episode 1: Marooned on Mars (shareware)',
     bundleUrl: '/assets/games/keen.jsdos',
+    iconUrl: '/assets/icons/dashboard/games/keen.svg',
     blurb: 'Eight-year-old genius Billy Blaze defends Earth in his homemade rocket.',
     controls: 'Arrows move · Ctrl jumps · Alt pogo · Esc for menu',
   },

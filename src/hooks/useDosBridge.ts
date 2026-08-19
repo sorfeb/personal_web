@@ -25,6 +25,12 @@ interface UseDosBridgeProps {
   /** Fires once when the player holds B to power off. */
   onQuitRequest: () => void;
   enabled?: boolean;
+  /**
+   * Route-local volume (0–1). When provided it drives the emulator instead of
+   * the global site volume, so the in-game slider is independent of the rest
+   * of the dashboard.
+   */
+  volume?: number;
 }
 
 /**
@@ -40,11 +46,17 @@ interface UseDosBridgeProps {
  * Lives in src/hooks/ so its effects are exempt from the no-useEffect policy;
  * state lives in refs and React state changes only on discrete edges.
  */
-export const useDosBridge = ({ game, onQuitRequest, enabled = true }: UseDosBridgeProps) => {
+export const useDosBridge = ({
+  game,
+  onQuitRequest,
+  enabled = true,
+  volume: volumeOverride,
+}: UseDosBridgeProps) => {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [status, setStatus] = useState<DosStatus>('booting');
 
-  const { volume } = useVolume();
+  const { volume: siteVolume } = useVolume();
+  const volume = volumeOverride ?? siteVolume;
   const { subscribeToFrames } = useGamepadContext();
 
   // The boot volume rides the URL so the emulator never plays at the wrong
