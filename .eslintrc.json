@@ -1,4 +1,8 @@
 {
+  // Stop ESLint from walking up past the project — a git worktree checked out
+  // under .claude/worktrees/ would otherwise also resolve the parent clone's
+  // copy of this file and die on a "conflicting plugin" error.
+  "root": true,
   "extends": [
     "next/core-web-vitals",
     "plugin:storybook/recommended"
