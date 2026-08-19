@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.3.0](https://github.com/sorfeb/personal_web/compare/v1.2.0...v1.3.0) (2026-08-19)
+
+
+### Features
+
+* **games:** DOS games blade — DOOM, Wolfenstein 3D and Commander Keen on a virtual CRT ([474bced](https://github.com/sorfeb/personal_web/commit/474bced0cb90d54659cf2c595000e2c6998623f0))
+* **games:** Games blade with playable DOS shareware channels ([7bb41c7](https://github.com/sorfeb/personal_web/commit/7bb41c74a172f576ed0b76e96b20b3c352c373c8))
+* **games:** self-hosted js-dos runtime and emulator embed page ([5175bd0](https://github.com/sorfeb/personal_web/commit/5175bd0a76a33eefa5b8714b9583a39617b140c4))
+* **tv:** TVFrame — CRT television around arbitrary 4:3 content ([1833c9e](https://github.com/sorfeb/personal_web/commit/1833c9ed4ff08bc38de6e7940ceaa2bbdea7fa73))
+
+
+### Bug Fixes
+
+* **toast:** dock toasts near the bottom edge, let the container own layout ([90ef6d1](https://github.com/sorfeb/personal_web/commit/90ef6d1cf425a898bea7f2cf73eb5d48046c939b))
+* **toast:** dock toasts near the bottom edge, let the container own layout ([4738bb1](https://github.com/sorfeb/personal_web/commit/4738bb1c75d70f1bdea6e095a13f8d1ffec7c176))
+
 ## [1.2.0](https://github.com/sorfeb/personal_web/compare/v1.1.0...v1.2.0) (2026-08-18)
 
 
