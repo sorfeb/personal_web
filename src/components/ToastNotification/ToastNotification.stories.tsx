@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import ToastNotification from './ToastNotification';
+import ToastContainer from './ToastContainer';
 import { ToastProvider } from '../../context/ToastContext';
 import { VolumeProvider } from '../../context/VolumeContext';
 import { useToast } from '../../hooks/useToast';
@@ -22,9 +23,24 @@ const meta = {
     (Story) => (
       <VolumeProvider>
         <ToastProvider>
-          <div style={{ width: '100vw', height: '100vh', background: '#1a1d22', position: 'relative' }}>
+          {/* Bottom-anchored column mirroring ToastContainer's stack layout */}
+          <div
+            style={{
+              width: '100vw',
+              height: '100vh',
+              background: '#1a1d22',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              gap: '16px',
+              paddingBottom: '4rem',
+            }}
+          >
             <Story />
           </div>
+          {/* Renders toasts triggered via useToast() in the Interactive story */}
+          <ToastContainer />
         </ToastProvider>
       </VolumeProvider>
     ),

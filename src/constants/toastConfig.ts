@@ -9,8 +9,6 @@
  * @see createSystemToast - Uses TOAST_ICONS for system notifications
  */
 
-import { config } from "process";
-
 /**
  * Status color configuration for toast notifications
  * These colors are used for progress bars and theme references
