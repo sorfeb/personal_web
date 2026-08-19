@@ -86,6 +86,7 @@ export const TRACKED_ROUTES = [
   '/changelog',
   '/chatroom',
   '/digital-gems',
+  '/games',
   '/leetcode',
   '/media',
   '/music',
@@ -96,7 +97,7 @@ export const TRACKED_ROUTES = [
 ] as const;
 
 /** Mirrors the blade keys of src/data/cardsList.ts (menu items on the dashboard). */
-export const TRACKED_BLADES = ['home', 'gallery', 'misc', 'credits'] as const;
+export const TRACKED_BLADES = ['home', 'games', 'gallery', 'misc', 'credits'] as const;
 
 /** Mirrors the tab SectionIds of src/components/GamerCard/sections.ts. */
 export const TRACKED_GAMERCARD_SECTIONS = [
