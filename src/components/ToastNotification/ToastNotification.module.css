@@ -1,23 +1,19 @@
 /* ===== CONTAINER & LAYOUT ===== */
 
+/* Positioned by ToastContainer's flex stack; this element is plain flow content */
 .toastWrapper {
-  position: fixed;
-  bottom: 20vh;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9999;
+  position: relative;
   display: flex;
   align-items: center;
   max-width: 520px;
-  pointer-events: none;
 }
 
 .toastWrapper.entering {
-  animation: fadeIn 250ms ease-out forwards;
+  animation: fadeIn var(--duration-normal) var(--ease-out) forwards;
 }
 
 .toastWrapper.exiting {
-  animation: fadeOut 400ms ease-in forwards;
+  animation: fadeOut var(--duration-normal) var(--ease-in) forwards;
 }
 
 /* ===== BADGE AREA ===== */
@@ -31,10 +27,6 @@
   width: var(--badge-size, 72px);
   height: var(--badge-size, 72px);
   z-index: 3;
-}
-
-.badge[data-size] {
-  --badge-size: attr(data-size px);
 }
 
 .badge {
@@ -56,7 +48,7 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  background: #000;
+  background: var(--color-black);
   border-radius: 50%;
   z-index: -1;
 }
@@ -129,7 +121,7 @@
 
 /* Ring expansion on exit */
 .badge.exiting::before {
-  animation: ringExpand 300ms ease-out forwards;
+  animation: ringExpand var(--duration-normal) var(--ease-out) forwards;
 }
 
 /* ===== CONTENT PILL ===== */
@@ -145,9 +137,9 @@
   padding: 14px 24px 14px 100px;
   min-width: 350px;
   min-height: 72px;
-  
+
   /* Shadow for depth */
-  box-shadow: 
+  box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 10%),
     0 8px 24px rgb(0 0 0 / 40%);
 }
@@ -165,7 +157,7 @@
 }
 
 .contentPill.exiting {
-  animation: pillCollapse 350ms ease-in forwards;
+  animation: pillCollapse var(--duration-normal) var(--ease-in) forwards;
 }
 
 /* ===== TEXT CONTENT ===== */
@@ -201,52 +193,27 @@
 
 /* Staggered text fade on exit */
 .title.exiting {
-  animation: textFadeOut 200ms ease-out forwards;
+  animation: textFadeOut var(--duration-fast) var(--ease-out) forwards;
 }
 
 .subtitle.exiting {
-  animation: textFadeOut 200ms ease-out 100ms forwards; /* 100ms delay for stagger */
+  /* --duration-instant delay staggers the subtitle behind the title */
+  animation: textFadeOut var(--duration-fast) var(--ease-out) var(--duration-instant) forwards;
 }
 
 /* ===== PROGRESS BAR ===== */
 
+/* --toast-ring-color and --progress-duration are set inline by the component */
 .progressBar {
   position: absolute;
   bottom: 0;
   left: 0;
   height: 3px;
+  color: var(--toast-ring-color, var(--color-text-muted));
   background: currentcolor;
   opacity: 0.8;
   border-radius: 0 0 14px 14px;
-}
-
-.progressBar[data-ring="success"] {
-  color: var(--toast-ring-color, #0CF700);
-  animation: progressCountdown var(--progress-duration, 4000ms) linear forwards;
-}
-
-.progressBar[data-ring="info"] {
-  color: var(--toast-ring-color, #2F25FD);
-  animation: progressCountdown var(--progress-duration, 4000ms) linear forwards;
-}
-
-.progressBar[data-ring="warning"] {
-  color: var(--toast-ring-color, #F4CC00);
-  animation: progressCountdown var(--progress-duration, 4000ms) linear forwards;
-}
-
-.progressBar[data-ring="error"] {
-  color: var(--toast-ring-color, #FD2525);
-  animation: progressCountdown var(--progress-duration, 4000ms) linear forwards;
-}
-
-.progressBar[data-ring="default"] {
-  color: #9ca3af;
-  animation: progressCountdown var(--progress-duration, 4000ms) linear forwards;
-}
-
-.progressBar[data-duration] {
-  --progress-duration: attr(data-duration ms, 4000ms);
+  animation: progressCountdown var(--progress-duration, 4000ms) var(--ease-linear) forwards;
 }
 
 /* ===== ANIMATIONS ===== */
@@ -254,19 +221,19 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(20px);
+    transform: translateY(20px);
   }
 
   to {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
   }
 }
 
 @keyframes fadeOut {
   to {
     opacity: 0;
-    transform: translateX(-50%) translateY(20px);
+    transform: translateY(20px);
   }
 }
 
@@ -396,29 +363,28 @@
 
 @media (width <= 768px) {
   .toastWrapper {
-    bottom: 15vh;
     max-width: 90vw;
   }
-  
+
   .badgeContainer {
     width: 60px;
     height: 60px;
   }
-  
+
   .badgeIconWrapper {
     width: 40px;
     height: 40px;
   }
-  
+
   .contentPill {
     min-width: 240px;
     padding: 12px 16px 12px 24px;
   }
-  
+
   .title {
     font-size: 16px;
   }
-  
+
   .subtitle {
     font-size: 13px;
   }
@@ -429,7 +395,7 @@
     width: 56px;
     height: 56px;
   }
-  
+
   .contentPill {
     min-width: 200px;
     padding: 10px 14px 10px 22px;
@@ -448,12 +414,11 @@
     animation: none !important;
     transition: none !important;
   }
-  
+
   .toastWrapper.entering {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
   }
-  
+
   .toastWrapper.exiting {
     opacity: 0;
   }

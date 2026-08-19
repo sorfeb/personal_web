@@ -8,7 +8,10 @@ import { useAudioManager } from '@/hooks/useAudioManager';
 import { useMountEffect, useTimeout } from '@/hooks';
 import styles from './ToastNotification.module.css';
 
-interface ToastNotificationProps extends ToastConfig {}
+type ToastNotificationProps = ToastConfig;
+
+/** Covers the longest exit animation (300ms pill collapse and wrapper fade) plus buffer */
+const EXIT_ANIMATION_MS = 400;
 
 /**
  * Toast notification component with badge crossfade animations
@@ -28,8 +31,8 @@ export default function ToastNotification({
   const [isExiting, setIsExiting] = useState(false);
   const exitTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const audioManager = useAudioManager?.();
-  const soundPlayer = customPlaySound || audioManager?.playSound;
+  const { playSound } = useAudioManager();
+  const soundPlayer = customPlaySound || playSound;
 
   const ringColor = TOAST_COLORS[badge.ringColor];
 
@@ -50,7 +53,7 @@ export default function ToastNotification({
 
     exitTimeoutRef.current = setTimeout(() => {
       onDismiss?.();
-    }, 500);
+    }, EXIT_ANIMATION_MS);
   };
 
   // Play achievement sound on mount; clear the imperative exit timer on unmount.
@@ -74,11 +77,14 @@ export default function ToastNotification({
       aria-atomic="true"
       className={`${styles.toastWrapper} ${isExiting ? styles.exiting : styles.entering}`}
       // eslint-disable-next-line react/forbid-dom-props
-      style={{
-        // @ts-ignore - CSS custom properties
-        '--toast-ring-color': ringColor,
-        '--icon-size': `${iconSize}px`,
-      }}
+      style={
+        {
+          '--toast-ring-color': ringColor,
+          '--icon-size': `${iconSize}px`,
+          '--badge-size': `${badgeSize}px`,
+          '--progress-duration': `${duration}ms`,
+        } as React.CSSProperties
+      }
     >
       {/* Content Pill with Badge Inside */}
       <div className={`${styles.contentPill} ${isExiting ? styles.exiting : ''}`}>
@@ -87,7 +93,6 @@ export default function ToastNotification({
           <div
             className={`${styles.badge} ${isExiting ? styles.exiting : ''}`}
             data-ring={badge.ringColor}
-            data-size={badgeSize}
           >
             <div className={styles.badgeIconWrapper}>
               {/* Primary icon (always visible) */}
@@ -130,11 +135,7 @@ export default function ToastNotification({
 
         {/* Optional progress bar */}
         {showProgressBar && !isExiting && (
-          <div
-            className={styles.progressBar}
-            data-ring={badge.ringColor}
-            data-duration={duration}
-          />
+          <div className={styles.progressBar} />
         )}
       </div>
     </div>
