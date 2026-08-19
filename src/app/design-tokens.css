@@ -141,6 +141,15 @@
   --color-accent-blue: hsl(206deg 100% 42%);         /* Xbox-era Microsoft blue #0078d4 */
   --color-status-recording: hsl(0deg 100% 50%);      /* live/recording dot, NOT error */
 
+  /* TV Frame (DOS games) — mid-2000s CRT plastic + screen effects */
+  --tv-bezel: hsl(0deg 0% 13%);
+  --tv-bezel-dark: hsl(0deg 0% 7%);
+  --tv-bezel-light: hsl(0deg 0% 24%);
+  --tv-screen-bg: hsl(0deg 0% 2%);
+  --tv-glass-glare: hsl(0deg 0% 100% / 4%);
+  --tv-scanline: hsl(0deg 0% 0% / 22%);
+  --gradient-tv-bezel: linear-gradient(160deg, var(--tv-bezel-light) 0%, var(--tv-bezel) 35%, var(--tv-bezel-dark) 100%);
+
   /* Gradient Definitions */
   --gradient-card: linear-gradient(145deg, hsl(var(--color-brand-hue) var(--color-brand-saturation) 45% / 60%), hsl(var(--color-brand-hue) 70% 36% / 60%));
   --gradient-card-hover: linear-gradient(145deg, hsl(var(--color-brand-hue) 68% 54% / 70%), hsl(var(--color-brand-hue) 68% 42% / 70%));

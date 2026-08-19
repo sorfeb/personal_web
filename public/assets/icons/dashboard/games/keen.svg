@@ -1,0 +1,13 @@
+<svg width="256" height="252" viewBox="0 0 256 252" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Bean-with-Bacon Megarocket -->
+  <path d="M128 40C150 62 158 92 158 122C158 146 152 166 144 182H112C104 166 98 146 98 122C98 92 106 62 128 40Z"
+        stroke="#444444" stroke-width="9" stroke-linejoin="round"/>
+  <circle cx="128" cy="106" r="14" stroke="#444444" stroke-width="8"/>
+  <!-- Fins -->
+  <path d="M98 150C84 158 78 172 76 188L104 178" stroke="#444444" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M158 150C172 158 178 172 180 188L152 178" stroke="#444444" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Exhaust -->
+  <path d="M120 196C122 204 122 208 120 214" stroke="#444444" stroke-width="8" stroke-linecap="round"/>
+  <path d="M128 198C130 207 130 212 128 220" stroke="#444444" stroke-width="8" stroke-linecap="round"/>
+  <path d="M136 196C138 204 138 208 136 214" stroke="#444444" stroke-width="8" stroke-linecap="round"/>
+</svg>

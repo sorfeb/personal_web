@@ -26,6 +26,28 @@ const data = {
       route: "/music"
     },
   ],
+  games: [
+    {
+      title: "DOOM",
+      iconUrl: "/assets/icons/dashboard/games/doom.svg",
+      route: "/games/doom"
+    },
+    {
+      title: "Wolfenstein 3D",
+      iconUrl: "/assets/icons/dashboard/games/wolf3d.svg",
+      route: "/games/wolf3d"
+    },
+    {
+      title: "Commander Keen",
+      iconUrl: "/assets/icons/dashboard/games/keen.svg",
+      route: "/games/keen"
+    },
+    {
+      title: "All Games",
+      iconUrl: "/assets/icons/dashboard/games/tv.svg",
+      route: "/games"
+    },
+  ],
   gallery: [
     { 
       title: "My Playlists", 
