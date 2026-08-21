@@ -5,11 +5,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import TVFrame from '@/components/TVFrame';
 import Button from '@/components/ui/Button';
+import VolumeControl from '@/components/VolumeControl/VolumeControl';
 import { useAudioManager } from '@/hooks/useAudioManager';
 import { useDosBridge } from '@/hooks/useDosBridge';
 import { useGamepadScope } from '@/hooks/useGamepadScope';
 import { useMountEffect } from '@/hooks';
 import { useWMPPlayerContext } from '@/context/WMPPlayerContext';
+import { useVolume } from '@/context/VolumeContext';
 import { useIsMobile } from '@/utils/responsiveUtils';
 import type { DosGame } from '@/data/gamesList';
 import styles from './GamePlayer.module.css';
@@ -34,8 +36,12 @@ const GamePlayer = memo<GamePlayerProps>(({ game }) => {
   const isMobile = useIsMobile(768);
   const { playSound } = useAudioManager();
   const { isVisible: wmpVisible, hidePlayer: hideWmp } = useWMPPlayerContext();
+  const { volume: siteVolume } = useVolume();
 
   const [powered, setPowered] = useState(true);
+  // Local to this channel: seeded from the site volume on entry, then
+  // independent — turning the game up never touches the dashboard's level.
+  const [gameVolume, setGameVolume] = useState(siteVolume);
 
   const quit = () => {
     if (!powered) return;
@@ -48,6 +54,7 @@ const GamePlayer = memo<GamePlayerProps>(({ game }) => {
   const { iframeRef, embedSrc, status } = useDosBridge({
     game,
     enabled: !isMobile,
+    volume: gameVolume,
     onQuitRequest: quit,
   });
 
@@ -109,6 +116,12 @@ const GamePlayer = memo<GamePlayerProps>(({ game }) => {
         <p className={styles.controls}>
           {status === 'booting' ? 'Tuning channel…' : game.controls}
         </p>
+        <VolumeControl
+          value={gameVolume}
+          onChange={setGameVolume}
+          icon={game.iconUrl}
+          label={`${game.title} volume`}
+        />
         <div className={styles.actions}>
           <span className={styles.hint}>Hold <b>B</b> to power off</span>
           <Button variant="ghost" badge="B" onClick={quit}>
