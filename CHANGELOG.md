@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/sorfeb/personal_web/compare/v1.3.0...v1.4.0) (2026-08-21)
+
+
+### Features
+
+* **games:** route-local volume pill with game badge ([2c9d000](https://github.com/sorfeb/personal_web/commit/2c9d0002608c595d47e5bf35e4e01a84a008ea01))
+* **games:** route-local volume pill with game badge ([517830c](https://github.com/sorfeb/personal_web/commit/517830cb52186ce0aa67f058a26e1761c9519901))
+* **my-playlists:** replicate the Xbox 360 Now Playing screen layout ([46ef765](https://github.com/sorfeb/personal_web/commit/46ef765198f3f9a6b3c665374d512139f7c2d682))
+* **my-playlists:** replicate the Xbox 360 Now Playing screen layout ([d79dc10](https://github.com/sorfeb/personal_web/commit/d79dc1038fa12610e0fc0b9ee4e3cd44ac5bedab))
+* **wmp:** curated three-playlist album for the YouTube engine (SOR-70) ([71126c0](https://github.com/sorfeb/personal_web/commit/71126c09a0a02b9f5d902da21177757676a1d94c))
+* **wmp:** curated three-playlist album replaces placeholder tracks (SOR-70) ([2e580f2](https://github.com/sorfeb/personal_web/commit/2e580f21d24639c3cc78f82b0564b132165ec1ad))
+
 ## [1.3.0](https://github.com/sorfeb/personal_web/compare/v1.2.0...v1.3.0) (2026-08-19)
 
 
