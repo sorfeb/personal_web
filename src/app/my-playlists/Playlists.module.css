@@ -1,16 +1,407 @@
-.loadingContainer {
+/* /my-playlists — Xbox 360 "Now Playing" screen replica.
+   Left: light player card. Right: blade-grey track list. */
+
+.nowPlaying {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  margin:auto;
+  gap: var(--spacing-4);
+  width: 100%;
   height: 100%;
+  min-height: 0;
+  padding: var(--spacing-4);
 }
 
-.text {
+/* ── Left: player card ─────────────────────────────────────────────── */
+
+.playerCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  width: min(420px, 44%);
+  padding: var(--spacing-2);
+  background: var(--np-surface);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+}
+
+.transportRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+.transportBtn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 28px;
+  padding: 0;
+  background: var(--np-surface-dim);
+  color: var(--color-text-inverse);
+  border: var(--border-width-thin) solid var(--np-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--duration-normal) var(--ease-smooth);
+}
+
+.transportBtn:hover {
+  background: var(--np-border);
+}
+
+.transportBtn:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.transportBtnActive {
+  background: var(--color-brand-primary);
+  color: var(--color-white);
+  border-color: var(--color-brand-primary-dark);
+}
+
+.transportBtnActive:hover {
+  background: var(--color-brand-primary-light);
+}
+
+.playlistStrip,
+.playlistStripStatic {
+  padding: var(--spacing-1) var(--spacing-2);
+  font-size: 0.85rem;
+  text-align: left;
+  color: var(--color-text-inverse);
+  background: var(--np-surface-dim);
+  border: none;
+  border-top: var(--border-width-thin) solid var(--np-border);
+  border-bottom: var(--border-width-thin) solid var(--np-border);
+  opacity: 0.85;
+}
+
+.playlistStrip {
+  cursor: pointer;
+  transition: background var(--duration-normal) var(--ease-smooth);
+}
+
+.playlistStrip:hover {
+  background: var(--np-border);
+}
+
+.playlistStrip:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+.trackTitle {
+  margin: 0;
+  padding: 0 var(--spacing-1);
+  font-size: 0.95rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.progressGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 var(--spacing-1);
+}
+
+.progressTrack {
+  height: 6px;
+  background: var(--np-surface-dim);
+  border: var(--border-width-thin) solid var(--np-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--np-row);
+  transition: width var(--duration-fast) var(--ease-linear);
+}
+
+.timeLabel {
+  align-self: flex-end;
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.vizArea {
+  position: relative;
+  flex: 1;
+  min-height: 240px;
+  background: var(--color-bg-panel);
+  border: var(--border-width-thin) solid var(--np-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.vizArea iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.vizPlaceholder {
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-np-viz);
+  animation: viz-drift 9s var(--ease-in-out) infinite alternate;
+}
+
+@keyframes viz-drift {
+  from {
+    transform: scale(1);
+    filter: hue-rotate(0deg);
+  }
+
+  to {
+    transform: scale(1.2);
+    filter: hue-rotate(45deg);
+  }
+}
+
+.vizFooter {
+  display: flex;
+  justify-content: space-between;
+}
+
+.bumper {
+  padding: 2px var(--spacing-2);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-panel);
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background var(--duration-normal) var(--ease-smooth);
+}
+
+.bumper:hover {
+  background: var(--color-bg-panel-hover);
+}
+
+.bumper:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* ── Right: track / playlist list ──────────────────────────────────── */
+
+.trackPanel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+.notice {
+  margin: 0 0 var(--spacing-2);
+  padding: var(--spacing-2);
+  font-size: 0.85rem;
+  color: var(--color-text-primary);
+  background: var(--color-error-bg);
+  border: var(--border-width-thin) solid var(--color-error-border);
+  border-radius: var(--radius-base);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 2px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--np-row) transparent;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  width: 100%;
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: 0.9rem;
+  text-align: left;
+  color: var(--color-white);
+  background: var(--gradient-np-row);
+  border: none;
+  cursor: pointer;
+  transition: filter var(--duration-normal) var(--ease-smooth);
+}
+
+.row:hover {
+  filter: brightness(1.15);
+}
+
+.row:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+:global(html[data-input='gamepad']) .row:focus {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+.rowActive {
+  background: var(--gradient-np-row-active);
+  color: var(--color-text-inverse);
+}
+
+.rowLoading {
+  opacity: 0.6;
+}
+
+.rowLabel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rowMeta {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+.eqIcon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+}
+
+/* Only ever rendered inside the active row, so it inherits that row's ink. */
+.eqIcon span {
+  width: 3px;
+  background: var(--color-text-inverse);
+  transform-origin: bottom;
+  animation: eq-bounce 0.9s var(--ease-in-out) infinite alternate;
+}
+
+.eqIcon span:nth-child(1) {
+  height: 8px;
+}
+
+.eqIcon span:nth-child(2) {
+  height: 12px;
+  animation-delay: 0.25s;
+}
+
+.eqIcon span:nth-child(3) {
+  height: 5px;
+  animation-delay: 0.5s;
+}
+
+.eqIconPaused span {
+  animation: none;
+}
+
+@keyframes eq-bounce {
+  from {
+    transform: scaleY(0.4);
+  }
+
+  to {
+    transform: scaleY(1.5);
+  }
+}
+
+.listFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2px;
+  padding: var(--spacing-1) var(--spacing-3);
+  font-size: 0.8rem;
+  color: var(--color-white);
+  background: var(--np-row);
+}
+
+.chevrons {
+  display: flex;
+  gap: var(--spacing-1);
+}
+
+.chevronBtn {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  color: var(--color-white);
+  background: var(--np-row);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--duration-normal) var(--ease-smooth);
+}
+
+.chevronBtn:hover {
+  background: var(--np-row-light);
+}
+
+.chevronBtn:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* ── Bottom legend ─────────────────────────────────────────────────── */
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-1) var(--spacing-4);
+}
+
+.legendHint {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+.legendBadgeA {
+  display: inline-grid;
+  place-items: center;
+  width: var(--spacing-5);
+  height: var(--spacing-5);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-white);
+  background: var(--color-brand-primary);
+  border-radius: var(--radius-full);
+}
+
+/* ── Loading state (initial playlist fetch) ────────────────────────── */
+
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  height: 100%;
+  margin: auto;
+}
+
+.loadingText {
   font-size: 18px;
-  font-weight: bold;
-  color: white;
+  font-weight: 700;
+  color: var(--color-white);
   animation: pulse-density 1.5s infinite;
 }
 
@@ -22,8 +413,8 @@
 .dot {
   width: 5px;
   height: 5px;
-  background-color: white;
-  border-radius: 50%;
+  background-color: var(--color-white);
+  border-radius: var(--radius-full);
   opacity: 0.3;
   animation: pulse 1.5s infinite;
 }
@@ -41,7 +432,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.3;
     transform: scale(1);
   }
@@ -52,20 +444,9 @@
   }
 }
 
-@keyframes pulse-card {
-  0%, 100% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 1;
-    transform: scale(1.1);
-  }
-}
-
 @keyframes pulse-density {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.8;
   }
 
@@ -74,163 +455,45 @@
   }
 }
 
-@keyframes text-glow {
-  0%, 100% {
-    filter: brightness(100%);
-    text-shadow: 0 0 5px rgb(255 255 255 / 30%), 
-                 0 0 10px rgb(255 255 255 / 20%);
+/* ── Motion & layout adaptations ───────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .vizPlaceholder,
+  .eqIcon span,
+  .loadingText,
+  .dot {
+    animation: none;
   }
 
-  50% {
-    filter: brightness(140%);
-    text-shadow: 0 0 10px rgb(255 255 255 / 80%), 
-                 0 0 20px rgb(255 255 255 / 60%);
+  .list {
+    scroll-behavior: auto;
   }
-}
 
-.headerContent {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 0;
-}
-
-.container {
-  padding: 20px;
-  overflow-y: auto;
-  width: 100%;
-  background-color: transparent;
-}
-
-.gridContainer {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 0.75rem;
-  padding: 0;
-}
-
-.playlistCard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out;
-}
-
-.playlistCard:hover {
-  transform: scale(1.05);
-  animation: pulse-density 1.5s infinite, text-glow 2s infinite ease-in-out, pulse-card 1.5s infinite;
-}
-
-.playlistImage {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgb(255 255 255 / 20%);
-  transition: box-shadow 0.3s ease-in-out;
-}
-
-.playlistImage:hover {
-  animation: text-glow 2s infinite ease-in-out;
-}
-
-.playlistTitle {
-  flex: 1;
-  margin: 0;
-  font-size: 14px;
-  font-weight: 500;
-  text-align: left;
-  text-decoration: none;
-  color: white;
-  transition: text-shadow 0.3s ease-in-out;
-}
-
-.playlistTitle:hover {
-  text-shadow: 0 0 15px rgb(255 255 255 / 80%);
-}
-
-.imageButton {
-  position: relative;
-  width: 100%;
-  padding: 0;
-  border: none;
-  background: none;
-  cursor: pointer;
-}
-
-.playlistCard.loading {
-  opacity: 0.7;
-}
-
-.loadingOverlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgb(0 0 0 / 60%);
-  border-radius: 8px;
-}
-
-.loadingText {
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-  animation: pulse-density 1.5s infinite;
-}
-
-.titleSection {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-top: 8px;
-  gap: 8px;
-}
-
-.spotifyLink {
-  flex-shrink: 0;
-  padding: 2px 4px;
-  font-size: 12px;
-  color: rgb(255 255 255 / 60%);
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.spotifyLink:hover {
-  color: rgb(255 255 255 / 100%);
-}
-
-.errorMessage {
-  background: rgb(255 0 0 / 10%);
-  border: 1px solid rgb(255 0 0 / 30%);
-  border-radius: 8px;
-  padding: 1rem;
-  margin-top: 1rem;
-  text-align: center;
-}
-
-.errorMessage p:first-child {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.errorMessage p:last-child {
-  font-size: 0.875rem;
-  opacity: 0.8;
+  .row,
+  .transportBtn,
+  .playlistStrip,
+  .bumper,
+  .chevronBtn,
+  .progressFill {
+    transition: none;
+  }
 }
 
 @media (width <= 768px) {
-  .gridContainer {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 0.5rem;
+  .nowPlaying {
+    flex-direction: column;
+    padding: var(--spacing-2);
   }
 
-  .playlistTitle {
-    font-size: 12px;
+  .playerCard {
+    width: 100%;
   }
 
-  .spotifyLink {
-    font-size: 10px;
+  .vizArea {
+    min-height: 160px;
+  }
+
+  .trackPanel {
+    min-height: 280px;
   }
 }

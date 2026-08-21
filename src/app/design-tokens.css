@@ -150,6 +150,19 @@
   --tv-scanline: hsl(0deg 0% 0% / 22%);
   --gradient-tv-bezel: linear-gradient(160deg, var(--tv-bezel-light) 0%, var(--tv-bezel) 35%, var(--tv-bezel-dark) 100%);
 
+  /* Now Playing (/my-playlists) — Xbox 360 dashboard music screen. The player
+     card is the app's one light surface, so it carries its own neutral ramp;
+     the track rows are the blade-grey bars from the original dashboard. */
+  --np-surface: hsl(0deg 0% 96%);
+  --np-surface-dim: hsl(0deg 0% 88%);
+  --np-border: hsl(0deg 0% 76%);
+  --np-row-light: hsl(214deg 8% 68%);
+  --np-row: hsl(214deg 8% 56%);
+  --np-row-active-light: hsl(214deg 14% 80%);
+  --np-row-active: hsl(214deg 14% 68%);
+  --np-viz-a: hsl(288deg 65% 42%);
+  --np-viz-b: hsl(322deg 78% 58%);
+
   /* Gradient Definitions */
   --gradient-card: linear-gradient(145deg, hsl(var(--color-brand-hue) var(--color-brand-saturation) 45% / 60%), hsl(var(--color-brand-hue) 70% 36% / 60%));
   --gradient-card-hover: linear-gradient(145deg, hsl(var(--color-brand-hue) 68% 54% / 70%), hsl(var(--color-brand-hue) 68% 42% / 70%));
@@ -157,6 +170,9 @@
   --gradient-metallic: linear-gradient(135deg, hsl(0deg 0% 16%) 0%, hsl(0deg 0% 10%) 100%);
   --gradient-glass: linear-gradient(to top, hsl(0deg 0% 4% / 85%), hsl(0deg 0% 31% / 65%));
   --gradient-brand: linear-gradient(135deg, var(--color-brand-primary) 0%, var(--color-brand-primary-dark) 100%);
+  --gradient-np-row: linear-gradient(180deg, var(--np-row-light) 0%, var(--np-row) 100%);
+  --gradient-np-row-active: linear-gradient(180deg, var(--np-row-active-light) 0%, var(--np-row-active) 100%);
+  --gradient-np-viz: radial-gradient(ellipse at center, var(--np-viz-b) 0%, var(--np-viz-a) 45%, hsl(0deg 0% 4%) 100%);
 
   /* Shadow Colors (used in radial/box shadows) */
   --color-shadow-light: hsl(0deg 0% 100% / 30%);
