@@ -97,8 +97,28 @@
   );
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 
-    inset 1px 1px 2px rgb(255 255 255 / 70%), 
-    inset -1px -1px 2px rgb(0 0 0 / 60%), 
+  box-shadow:
+    inset 1px 1px 2px rgb(255 255 255 / 70%),
+    inset -1px -1px 2px rgb(0 0 0 / 60%),
     0 2px 4px rgb(0 0 0 / 50%);
+}
+
+/* --- Badge: hangs off the pill's left edge, names what the slider drives --- */
+
+.withBadge {
+  position: relative;
+  padding-left: 28px;
+}
+
+.badge {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  box-sizing: content-box;
+  padding: 5px;
+  background: var(--tv-bezel-light);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  box-shadow: 0 3px 6px var(--color-bg-overlay);
+  transform: translate(-55%, -50%);
 }

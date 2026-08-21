@@ -28,6 +28,9 @@ one navigates to `/games/[slug]`, which powers on a stylized TV frame with the j
     `confirm` so the provider default can't click the focused element), hides the WMP window
     on entry, power-off exit (`back` sound, `--duration-fast`, then route change).
     Mobile (≤768px) gets a desktop-only notice instead of the emulator.
+  - **Route-local volume pill** in the help strip: `VolumeControl` in controlled mode with
+    the game's icon badged on the left edge. Seeded from the site volume on entry, then
+    independent — adjusting the game never writes the global `VolumeContext`.
 
 ### Hooks Created
 - **`useDosBridge`** (`src/hooks/useDosBridge.ts`)
@@ -55,6 +58,8 @@ one navigates to `/games/[slug]`, which powers on a stylized TV frame with the j
 ## Files Changed
 
 ### Modified
+- `src/components/VolumeControl/` — optional controlled mode (`value`/`onChange`), left-edge
+  `icon` badge, `aria-label` on the slider; uncontrolled usage unchanged
 - `src/data/cardsList.ts` — new `games` blade key (blade menu derives from these keys)
 - `src/constants/achievements.ts` — `games` added to `TRACKED_BLADES` (blade-runner
   threshold self-derives); `/games` added to `TRACKED_ROUTES`

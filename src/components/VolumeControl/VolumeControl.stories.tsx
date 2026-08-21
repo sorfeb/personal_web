@@ -37,6 +37,26 @@ type Story = StoryObj<typeof meta>;
  */
 export const Default: Story = {};
 
+const GameVolumeDemo = () => {
+  const [volume, setVolume] = React.useState(0.4);
+  return (
+    <VolumeControl
+      value={volume}
+      onChange={setVolume}
+      icon="/assets/icons/dashboard/games/doom.svg"
+      label="DOOM volume"
+    />
+  );
+};
+
+/**
+ * Controlled mode with a game badge on the left edge — the in-game volume
+ * pill. Local state only; the global VolumeContext is never written.
+ */
+export const GameBadge: Story = {
+  render: () => <GameVolumeDemo />,
+};
+
 /**
  * Volume control in a dark container to show styling
  */
