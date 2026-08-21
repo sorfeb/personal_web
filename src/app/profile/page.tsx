@@ -5,6 +5,7 @@ import Image from 'next/image';
 import PageLayout from '../../components/PageLayout/PageLayout';
 import styles from './Profile.module.css';
 import { useAudioManager } from '../../hooks/useAudioManager';
+import RecruiterHint from '../../components/RecruiterHint/RecruiterHint';
 
 const ProfilePage: React.FC = () => {
   const { playSound } = useAudioManager();
@@ -55,6 +56,9 @@ const ProfilePage: React.FC = () => {
                     onMouseEnter={playHoverSound}
                   />
                 </a>
+              </div>
+              <div className={styles.recruiterRow}>
+                <RecruiterHint />
               </div>
             </div>
           </div>

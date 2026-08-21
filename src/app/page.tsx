@@ -17,7 +17,6 @@ import { ChatManager } from "../components/Chat";
 import { ShepherdTourProvider } from "../context/ShepherdTourContext";
 import ProfileModal from "../components/ProfileModal/ProfileModal";
 import { WMPGuideButton } from "../components/WMPPlayer/WMPGuideButton";
-import RecruiterHint from "../components/RecruiterHint/RecruiterHint";
 import { useAchievements } from "../hooks/useAchievements";
 
 export default function Home() {
@@ -108,7 +107,6 @@ export default function Home() {
         {/* <ChatManager /> */}
 
         <ProfileModal isOpen={isProfileModalOpen} onClose={handleCloseProfileModal} />
-        <RecruiterHint />
       </div>
     </ShepherdTourProvider>
   );
