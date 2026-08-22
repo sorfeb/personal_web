@@ -95,7 +95,7 @@ export const GameWithArt: Story = {
   args: {
     title: 'DOOM',
     variant: 'game',
-    artUrl: '/assets/games/art/doom.svg',
+    artUrl: '/assets/games/art/doom.jpg',
     route: '/games/doom',
   },
 };
