@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
 import type { SkinDefinition, Track } from '@/types/wmp';
 import { loadSkin } from '@/lib/wmp/skinParser';
@@ -19,6 +19,20 @@ import { WMPCanvas } from './WMPCanvas';
 import { WMPPlaylistDrawer } from './WMPPlaylistDrawer';
 import { SpotifyEmbed } from './engines/SpotifyEmbed';
 import styles from './WMPPlayer.module.css';
+
+/**
+ * Region ids the click-handler map serves. Transport ids are WMS tag types;
+ * minimize/close are derived by regionMapper from their `view.<method>();`
+ * onClick scripts (the headspace WMS gives those buttons no `id` attribute).
+ */
+const CLICK_HANDLER_KEYS = [
+  'playelement',
+  'stopelement',
+  'nextelement',
+  'prevelement',
+  'minimize',
+  'close',
+] as const;
 
 interface WMPPlayerProps {
   skinPath: string; // Path to skin folder (e.g., "/assets/skins/headspace")
@@ -63,21 +77,22 @@ export function WMPPlayer({
 
         // Load skin assets
         const skinAssets = await loadSkinAssets(skinPath, definition);
-        console.log('Loaded skin assets:', {
-          imageCount: skinAssets.images.size,
-          mappingCount: skinAssets.mappings.size,
-          images: Array.from(skinAssets.images.keys()).slice(0, 5),
-        });
         setAssets(skinAssets);
 
-        // Create click handlers map
-        const handlers = createClickHandlers();
+        /*
+         * Regions live for the skin's lifetime, but this effect runs once per
+         * skinPath — so region handlers read the current handler map through a
+         * ref at click time instead of baking in this render's closures.
+         */
+        const liveHandlers = new Map<string, () => void>(
+          CLICK_HANDLER_KEYS.map((key) => [key, () => clickHandlersRef.current.get(key)?.()])
+        );
 
         // Parse buttongroups to create clickable regions
         const regions = parseAllButtonGroups(
           definition.view.elements,
           skinAssets.mappings,
-          handlers
+          liveHandlers
         );
         setClickRegions(regions);
 
@@ -114,8 +129,9 @@ export function WMPPlayer({
   /*
    * Buttongroup handlers — keyed by the region id that regionMapper assigns.
    * Transport elements (<playelement> etc.) have no explicit id in the WMS,
-   * so regionMapper falls back to element.type. The minimize/close keys come
-   * from explicit `id` attributes on their <buttonelement> tags.
+   * so regionMapper falls back to element.type. The minimize/close keys match
+   * the `view.minimize();` / `view.close();` onClick scripts regionMapper
+   * derives ids from (their <buttonelement> tags carry no id).
    */
   const createClickHandlers = useCallback(() => {
     const handlers = new Map<string, () => void>();
@@ -156,6 +172,14 @@ export function WMPPlayer({
   }, [player, playSound, onClose, onMinimize]);
 
   /*
+   * Refreshed every render (same pattern as currentTrackRef in useWMPPlayer)
+   * so the skin regions parsed once in the load effect never invoke a stale
+   * closure over `player`.
+   */
+  const clickHandlersRef = useRef<Map<string, () => void>>(new Map());
+  clickHandlersRef.current = createClickHandlers();
+
+  /*
    * Top-level (non-buttongroup) handlers, passed live to WMPCanvas each
    * render. WMPButton resolves these by element.id, then element.type, then
    * the `returnToMediaCenter` themebutton heuristic — see `topLevelHandler`
@@ -187,15 +211,15 @@ export function WMPPlayer({
 
   if (isLoading) {
     return (
-      <div className={styles.playerContainer}>
-        <div className={styles.loading}>Loading skin...</div>
+      <div className={styles.playerShell}>
+        <div className={styles.loading}>Loading skin</div>
       </div>
     );
   }
 
   if (error || !skinDef || !assets) {
     return (
-      <div className={styles.playerContainer}>
+      <div className={styles.playerShell}>
         <div className={styles.error}>
           {error || 'Failed to load skin'}
         </div>

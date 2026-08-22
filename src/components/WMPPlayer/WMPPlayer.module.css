@@ -4,23 +4,32 @@
   user-select: none;
 }
 
-.loading,
-.error {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/*
+ * Reserve the skin's 760×394 footprint while it loads, but stay transparent —
+ * the loaded skin is an irregular shape on a transparent canvas, so an opaque
+ * full-size box reads as a broken rectangle that then snaps into the skin.
+ */
+.playerShell {
+  display: grid;
+  place-items: center;
   width: 760px;
   height: 394px;
-  background: #1a1a1a;
-  color: #fff;
+}
+
+.loading,
+.error {
+  padding: var(--spacing-2) var(--spacing-4);
+  background: var(--color-bg-panel);
+  color: var(--color-text-primary);
   font-family: var(--font-family);
-  font-size: 16px;
-  border: 2px solid #333;
-  border-radius: 4px;
+  font-size: 14px;
+  border: var(--border-width-thin) solid var(--color-border-secondary);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-md);
 }
 
 .error {
-  color: #ff6b6b;
+  color: var(--color-error);
 }
 
 /*
