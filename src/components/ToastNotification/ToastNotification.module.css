@@ -18,11 +18,11 @@
 
 /* ===== BADGE AREA ===== */
 
+/* In flow, so the pill's flex row reserves the badge's width. An absolutely
+   positioned badge only stays inside the pill while its magic-number offset and
+   the pill's left padding agree, and they stop agreeing at every breakpoint. */
 .badgeContainer {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
+  position: relative;
   flex-shrink: 0;
   width: var(--badge-size, 72px);
   height: var(--badge-size, 72px);
@@ -132,9 +132,14 @@
   align-items: center;
   gap: 20px;
   border-radius: 50px;
-  background: rgb(31 35 40 / 92%);
+
+  /* Highlight rides as a background layer, so it is clipped by the pill's own
+     radius and can never paint past the corners */
+  background:
+    linear-gradient(to bottom, var(--color-bg-subtle), transparent 50%),
+    rgb(31 35 40 / 92%);
   backdrop-filter: blur(12px);
-  padding: 14px 24px 14px 100px;
+  padding: 14px 24px 14px 14px;
   min-width: 350px;
   min-height: 72px;
 
@@ -142,18 +147,6 @@
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 10%),
     0 8px 24px rgb(0 0 0 / 40%);
-}
-
-/* Subtle gradient overlay for polish */
-.contentPill::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 50%;
-  background: linear-gradient(to bottom, rgb(255 255 255 / 6%), transparent);
-  pointer-events: none;
 }
 
 .contentPill.exiting {
@@ -203,16 +196,29 @@
 
 /* ===== PROGRESS BAR ===== */
 
+/* Clips the bar to the pill's rounded corners, which a 14px radius on a 50px
+   pill does not do on its own */
+.progressTrack {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+}
+
 /* --toast-ring-color and --progress-duration are set inline by the component */
 .progressBar {
   position: absolute;
   bottom: 0;
   left: 0;
+  width: 100%;
   height: 3px;
   color: var(--toast-ring-color, var(--color-text-muted));
   background: currentcolor;
   opacity: 0.8;
-  border-radius: 0 0 14px 14px;
+
+  /* Scale, not width: the countdown runs on the compositor */
+  transform-origin: left center;
   animation: progressCountdown var(--progress-duration, 4000ms) var(--ease-linear) forwards;
 }
 
@@ -351,11 +357,11 @@
 
 @keyframes progressCountdown {
   from {
-    width: 100%;
+    transform: scaleX(1);
   }
 
   to {
-    width: 0;
+    transform: scaleX(0);
   }
 }
 
@@ -378,7 +384,8 @@
 
   .contentPill {
     min-width: 240px;
-    padding: 12px 16px 12px 24px;
+    gap: 14px;
+    padding: 12px 16px 12px 12px;
   }
 
   .title {
@@ -398,7 +405,8 @@
 
   .contentPill {
     min-width: 200px;
-    padding: 10px 14px 10px 22px;
+    gap: 12px;
+    padding: 10px 14px 10px 10px;
   }
 }
 
