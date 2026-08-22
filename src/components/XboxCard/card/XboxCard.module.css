@@ -93,7 +93,7 @@
 }
 
 
-/* ---- Game variant: cover art fills the card, title sits on the bottom edge ---- */
+/* ---- Game variant: cover art over a blurred backdrop, title on the bottom edge ---- */
 
 /* The art is opaque, so `--gradient-card` behind it never shows. Bottom-aligning
    the title is the whole point of the variant: art reads top-down, label anchors. */
@@ -107,9 +107,24 @@
   background: var(--gradient-art-placeholder);
 }
 
+/* Box art is portrait; the card is landscape. `cover` would crop away the top
+   and bottom, which is exactly where a cover's logo and title sit. So the art is
+   contained in full, and a blurred, dimmed copy of itself fills the gutters
+   instead of a flat bar. Landscape art at the card's own ratio fills the frame
+   outright and never shows the backdrop. */
 .art {
+  object-fit: contain;
+  object-position: center;
+}
+
+.artBackdrop {
   object-fit: cover;
   object-position: center;
+
+  /* Scaled up because a blur samples past its own edges and would otherwise
+     fade to transparent against the card's corners. */
+  transform: scale(1.2);
+  filter: blur(28px) saturate(1.4) brightness(0.45);
 }
 
 /* Opaque at the bottom, clearing to nothing by the top — the art stays fully
