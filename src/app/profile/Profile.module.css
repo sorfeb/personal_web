@@ -43,10 +43,6 @@
   gap: 1rem;
 }
 
-.recruiterRow {
-  margin-top: var(--spacing-4);
-}
-
 .reflection img {
   display: block; 
   margin: 0 auto;
