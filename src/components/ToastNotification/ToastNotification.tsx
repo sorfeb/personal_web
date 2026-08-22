@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, memo } from 'react';
 import Image from 'next/image';
 import { ToastConfig } from './types';
 import { TOAST_COLORS } from '@/constants/toastConfig';
@@ -17,7 +17,7 @@ const EXIT_ANIMATION_MS = 400;
  * Toast notification component with badge crossfade animations
  * Displays in lower third of screen with immersive entrance/exit sequences
  */
-export default function ToastNotification({
+function ToastNotification({
   type,
   badge,
   title,
@@ -29,7 +29,6 @@ export default function ToastNotification({
   playSound: customPlaySound,
 }: ToastNotificationProps) {
   const [isExiting, setIsExiting] = useState(false);
-  const exitTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const { playSound } = useAudioManager();
   const soundPlayer = customPlaySound || playSound;
@@ -46,26 +45,18 @@ export default function ToastNotification({
    * 3. Pill collapse
    * 4. Badge fade
    */
-  const handleDismiss = () => {
-    if (isExiting) return;
+  const handleDismiss = () => setIsExiting(true);
 
-    setIsExiting(true);
-
-    exitTimeoutRef.current = setTimeout(() => {
-      onDismiss?.();
-    }, EXIT_ANIMATION_MS);
-  };
-
-  // Play achievement sound on mount; clear the imperative exit timer on unmount.
+  // Play the achievement chime once; the audio pool is external to React.
   useMountEffect(() => {
     soundPlayer?.('achievement');
-    return () => {
-      if (exitTimeoutRef.current) clearTimeout(exitTimeoutRef.current);
-    };
   });
 
   // Auto-dismiss after `duration`, pause once the exit animation is running.
   useTimeout(handleDismiss, isExiting ? null : duration);
+
+  // Hand the toast back to the container once the exit animation has played out.
+  useTimeout(() => onDismiss?.(), isExiting ? EXIT_ANIMATION_MS : null);
 
   const badgeSize = badge.size || 72;
   const iconSize = badge.iconSize || 40;
@@ -133,11 +124,19 @@ export default function ToastNotification({
           )}
         </div>
 
-        {/* Optional progress bar */}
-        {showProgressBar && !isExiting && (
-          <div className={styles.progressBar} />
-        )}
+        {/* Optional progress bar, clipped to the pill's rounded corners */}
+        {showProgressBar && !isExiting ? (
+          <div className={styles.progressTrack}>
+            <div className={styles.progressBar} />
+          </div>
+        ) : null}
       </div>
     </div>
   );
 }
+
+/**
+ * ToastContext hands each toast a stable config object, so memo holds here: a new
+ * toast arriving no longer re-renders the ones already on screen.
+ */
+export default memo(ToastNotification);
