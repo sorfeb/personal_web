@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.4.1](https://github.com/sorfeb/personal_web/compare/v1.4.0...v1.4.1) (2026-08-22)
+
+
+### Bug Fixes
+
+* **wmp:** revive minimize/close, fix loading rectangle, render minimized state ([d26b269](https://github.com/sorfeb/personal_web/commit/d26b269bb25b58dfda9f89364571f4707d15ce2e))
+* **wmp:** revive minimize/close, fix loading rectangle, render minimized state ([83aa795](https://github.com/sorfeb/personal_web/commit/83aa795f24f32018e19ba2a5c4c1924bf04691fb))
+
+
+### Refactoring
+
+* **recruiter-hint:** drop the pill, leave /card reachable by URL only ([bc8c91a](https://github.com/sorfeb/personal_web/commit/bc8c91ad8caa8d3b18ae2ee4a230a98f162af86e))
+* **recruiter-hint:** move the recruiter shortcut into /profile as a chrome pill ([fb23cdb](https://github.com/sorfeb/personal_web/commit/fb23cdb5348999cbc0c2bcece7d5e6406a298854))
+* **recruiter-hint:** remove the recruiter pill, leave /card reachable by URL only ([2ca3dfe](https://github.com/sorfeb/personal_web/commit/2ca3dfef474f3b50b54c43693e47add798daf6bd))
+
 ## [1.4.0](https://github.com/sorfeb/personal_web/compare/v1.3.0...v1.4.0) (2026-08-21)
 
 
