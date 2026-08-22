@@ -93,6 +93,36 @@
 }
 
 
+/* ---- Game variant: cover art fills the card, title sits on the bottom edge ---- */
+
+/* The art is opaque, so `--gradient-card` behind it never shows. Bottom-aligning
+   the title is the whole point of the variant: art reads top-down, label anchors. */
+.gameCard {
+  justify-content: flex-end;
+}
+
+.artWrapper {
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-art-placeholder);
+}
+
+.art {
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Opaque at the bottom, clearing to nothing by the top — the art stays fully
+   visible up top and fades under the label. */
+.artScrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--gradient-art-scrim);
+  pointer-events: none;
+  transition: opacity var(--duration-normal) var(--ease-in-out);
+}
+
 .iconWrapper {
   width: 19vh;
   height: 19vh;
@@ -145,6 +175,11 @@
   text-align: center;
 }
 
+/* Keeps long titles ("Wolfenstein 3D") off the rounded corners. */
+.gameCard .title {
+  padding: 0 0.75rem;
+}
+
 .card:hover .iconWrapper,
 .card:hover .title,
 .card:focus-visible .iconWrapper,
@@ -157,6 +192,7 @@
   .card::before,
   .card::after,
   .shadowWrapper,
+  .artScrim,
   .iconWrapper,
   .title {
     transition: none;

@@ -8,11 +8,24 @@ import { useAudioManager } from '../../../hooks/useAudioManager';
 import { useNavigationSound } from '../../../hooks/useNavigationSound';
 import { useEventListener, useInterval } from '@/hooks';
 
-interface XboxCardProps {
+export interface XboxCardProps {
   title: string;
   iconUrl?: string;
   route: string;
   images?: string[];
+  /**
+   * `icon` (default) centres an icon above the title. `game` fills the card with
+   * cover art and drops the title to the bottom edge, over a scrim. Games get
+   * artwork rather than line-art icons: a shelf of covers is what the 360
+   * dashboard actually looked like.
+   */
+  variant?: 'icon' | 'game';
+  /**
+   * Cover art for the `game` variant. Absent art falls back to a flat brand
+   * panel rather than an icon, so a section mid-way through getting artwork
+   * still reads as one grid instead of a mix of two treatments.
+   */
+  artUrl?: string;
   /**
    * Card has been scrolled out of the stack (`useCardNavigation` parks it
    * off-screen at zero opacity). Invisible elements are still tabbable, so it
@@ -21,9 +34,23 @@ interface XboxCardProps {
   offscreen?: boolean;
 }
 
-const XboxCard: React.FC<XboxCardProps> = memo(({ title, iconUrl, route, images, offscreen = false }) => {
+const XboxCard: React.FC<XboxCardProps> = memo(({
+  title,
+  iconUrl,
+  route,
+  images,
+  variant = 'icon',
+  artUrl,
+  offscreen = false,
+}) => {
   const cardRef = useRef<HTMLAnchorElement>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  /**
+   * Art that 404s or fails to decode drops back to the placeholder panel rather
+   * than leaving the browser's broken-image glyph on the card. Cards remount per
+   * blade (keyed by section and title), so this never needs resetting.
+   */
+  const [artFailed, setArtFailed] = useState(false);
   const { playSound } = useAudioManager();
   const { playNavigationSound } = useNavigationSound();
 
@@ -50,10 +77,12 @@ const XboxCard: React.FC<XboxCardProps> = memo(({ title, iconUrl, route, images,
   // Link performs the navigation; we only supply the audio.
   const playHoverSound = useCallback(() => playSound('hover'), [playSound]);
 
+  const isGame = variant === 'game';
+
   return (
     <Link
       href={route}
-      className={`${styles.card} ${styles.cardReflection}`}
+      className={`${styles.card} ${styles.cardReflection} ${isGame ? styles.gameCard : ''}`}
       ref={cardRef}
       onClick={playNavigationSound}
       onMouseEnter={playHoverSound}
@@ -62,12 +91,33 @@ const XboxCard: React.FC<XboxCardProps> = memo(({ title, iconUrl, route, images,
       aria-hidden={offscreen || undefined}
       style={images ? { backgroundImage: `url(${images[currentImageIndex]})`, backgroundSize: 'cover' } : {}}
     >
-      <div className={styles.shadowWrapper}></div>
+      {/* The game variant's own scrim replaces this one — stacking both would
+          darken the bottom third twice over. */}
+      {!isGame && <div className={styles.shadowWrapper}></div>}
       <div className={styles.glow}></div>
 
-      {images ? (
-        <h2 className={styles.title}>{title}</h2>
-      ) : (
+      {isGame && (
+        <>
+          <div className={styles.artWrapper}>
+            {artUrl && !artFailed && (
+              <Image
+                src={artUrl}
+                alt=""
+                fill
+                sizes="(max-width: 768px) 45vw, 30vw"
+                className={styles.art}
+                // Cover art is heavy; only the cards actually on screen are worth
+                // pre-loading. The parked ones lazy-load as they scroll in.
+                priority={!offscreen}
+                onError={() => setArtFailed(true)}
+              />
+            )}
+          </div>
+          <div className={styles.artScrim}></div>
+        </>
+      )}
+
+      {!isGame && !images && (
         <div className={`${styles.iconWrapper} ${styles.reflection}`}>
           <Image
             src={iconUrl || ''}
@@ -81,7 +131,7 @@ const XboxCard: React.FC<XboxCardProps> = memo(({ title, iconUrl, route, images,
         </div>
       )}
 
-      {!images && <h2 className={styles.title}>{title}</h2>}
+      <h2 className={styles.title}>{title}</h2>
     </Link>
   );
 });

@@ -46,6 +46,15 @@ const meta: Meta<typeof XboxCard> = {
       description: 'Array of image URLs for slideshow (optional)',
       control: 'object',
     },
+    variant: {
+      description: '`icon` centres an icon above the title; `game` fills the card with cover art and drops the title to the bottom edge',
+      control: 'radio',
+      options: ['icon', 'game'],
+    },
+    artUrl: {
+      description: 'Cover art for the `game` variant. Missing art falls back to a flat brand panel, never to an icon',
+      control: 'text',
+    },
   },
 };
 
@@ -75,6 +84,32 @@ export const WithImages: Story = {
       '/assets/images/sample2.jpg',
       '/assets/images/sample3.jpg',
     ],
+  },
+};
+
+/**
+ * Game variant: cover art fills the card and the title anchors to the bottom
+ * edge over a scrim that is opaque at the bottom and clear by the top.
+ */
+export const GameWithArt: Story = {
+  args: {
+    title: 'DOOM',
+    variant: 'game',
+    artUrl: '/assets/games/art/doom.svg',
+    route: '/games/doom',
+  },
+};
+
+/**
+ * Game variant with no art on disk — the flat brand placeholder, with the title
+ * still bottom-aligned. This is what every game card looks like before art lands,
+ * and what a 404 degrades to.
+ */
+export const GameWithoutArt: Story = {
+  args: {
+    title: 'Commander Keen',
+    variant: 'game',
+    route: '/games/keen',
   },
 };
 

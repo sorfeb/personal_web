@@ -15,12 +15,11 @@ import {
   DASHBOARD_PANEL_ID,
   DASHBOARD_SCOPE_ID,
 } from '../../constants/dashboardNavigation';
+import type { DashboardData } from '../../types/dashboard';
 
 interface XboxDashboardProps {
   activeIndex: number;
-  data: {
-    [key: string]: { route: string; title: string; iconUrl?: string; images?: string[]}[];
-  };
+  data: DashboardData;
 }
 
 const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data }) => {
@@ -106,10 +105,7 @@ const XboxDashboard: React.FC<XboxDashboardProps> = memo(({ activeIndex, data })
               }}
             >
               <XboxCard
-                title={card.title}
-                iconUrl={card.iconUrl}
-                route={card.route}
-                images={card.images}
+                {...card}
                 offscreen={index < currentCardIndex}
               />
             </div>

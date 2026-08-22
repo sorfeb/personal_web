@@ -103,5 +103,14 @@ Smooth, responsive animations bring the interface to life with every interaction
 
 <img width="372" height="828" alt="image" src="https://github.com/user-attachments/assets/e8295ce8-8c73-4434-9a06-d805a503085f" />
 
-© 2025 Soros Febriano
-All Rights Reserved.
+## License
+
+Copyright © 2025-2026 Soros Febriano.
+
+The source code is licensed under the [GNU Affero General Public License v3.0](LICENSE)
+(AGPL-3.0). You may use, modify, and deploy it, provided derivative works and network
+deployments make their complete source available under the same license.
+
+Personal content is **not** covered by the AGPL and remains all rights reserved: photos,
+written content, the curated music selections, and personal branding (name, likeness,
+"sorOS" identity). A fork must replace these with its own.
