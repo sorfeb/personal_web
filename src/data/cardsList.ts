@@ -36,19 +36,19 @@ const data: DashboardData = {
     {
       title: "DOOM",
       variant: "game",
-      artUrl: "/assets/games/art/doom.svg",
+      artUrl: "/assets/games/art/doom.jpg",
       route: "/games/doom"
     },
     {
       title: "Wolfenstein 3D",
       variant: "game",
-      artUrl: "/assets/games/art/wolf3d.svg",
+      artUrl: "/assets/games/art/wolf3d.jpg",
       route: "/games/wolf3d"
     },
     {
       title: "Commander Keen",
       variant: "game",
-      artUrl: "/assets/games/art/keen.svg",
+      artUrl: "/assets/games/art/keen.jpg",
       route: "/games/keen"
     },
     {
