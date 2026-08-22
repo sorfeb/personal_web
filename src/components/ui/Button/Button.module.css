@@ -161,7 +161,11 @@
   align-items: center;
 }
 
-/* Xbox controller face-button chip */
+/* Xbox controller face-button chip. Shaded like a lit sphere rather than filled
+   flat: the light sits top left, the body darkens toward the lower-right rim, and
+   the letter is inked in the chip's own hue the way the console draws it. Each
+   .badge* rule supplies only the four color stops; the shading recipe lives here
+   so all four chips are lit from the same direction. */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -169,31 +173,67 @@
   width: var(--spacing-5);
   height: var(--spacing-5);
   border-radius: var(--radius-full);
-  color: var(--color-text-primary);
+  background: radial-gradient(
+    circle at 32% 26%,
+    var(--glyph-light) 0%,
+    var(--glyph-base) 52%,
+    var(--glyph-shade) 100%
+  );
+  color: var(--glyph-ink);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
-  text-shadow: var(--shadow-text);
-  transition: var(--transition-transform);
+  line-height: 1;
+  text-shadow: 0 1px 0 var(--color-glyph-emboss);
+
+  /* Sheen along the top edge and shade along the bottom carve the curvature; the
+     cast shadow lifts the chip off the row behind it */
+  box-shadow:
+    inset 0 1px 1px var(--color-glyph-sheen),
+    inset 0 -2px 3px var(--color-glyph-rim),
+    var(--shadow-xs);
+  transition:
+    var(--transition-transform),
+    box-shadow var(--duration-fast) var(--ease-out);
 }
 
 .button:hover:not(:disabled) .badge {
   transform: scale(1.1);
 }
 
+/* Pressed: the chip sinks into the row, so the sheen and the shade swap ends */
+.button:active:not(:disabled) .badge {
+  transform: scale(0.94);
+  box-shadow:
+    inset 0 2px 3px var(--color-glyph-rim),
+    inset 0 -1px 1px var(--color-glyph-sheen);
+}
+
 .badgeA {
-  background: var(--color-brand-primary);
+  --glyph-light: var(--color-glyph-a-light);
+  --glyph-base: var(--color-glyph-a-base);
+  --glyph-shade: var(--color-glyph-a-shade);
+  --glyph-ink: var(--color-glyph-a-ink);
 }
 
 .badgeB {
-  background: var(--color-error);
+  --glyph-light: var(--color-glyph-b-light);
+  --glyph-base: var(--color-glyph-b-base);
+  --glyph-shade: var(--color-glyph-b-shade);
+  --glyph-ink: var(--color-glyph-b-ink);
 }
 
 .badgeX {
-  background: var(--color-accent-blue);
+  --glyph-light: var(--color-glyph-x-light);
+  --glyph-base: var(--color-glyph-x-base);
+  --glyph-shade: var(--color-glyph-x-shade);
+  --glyph-ink: var(--color-glyph-x-ink);
 }
 
 .badgeY {
-  background: var(--color-gold);
+  --glyph-light: var(--color-glyph-y-light);
+  --glyph-base: var(--color-glyph-y-base);
+  --glyph-shade: var(--color-glyph-y-shade);
+  --glyph-ink: var(--color-glyph-y-ink);
 }
 
 /* Loading spinner */
