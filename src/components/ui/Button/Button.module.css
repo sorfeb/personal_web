@@ -180,9 +180,12 @@
     var(--glyph-shade) 100%
   );
   color: var(--glyph-ink);
-  font-size: var(--font-size-sm);
+
+  /* Tied to the chip's diameter rather than the type scale: the letter has to
+     fill the sphere the way the console draws it, and it must follow if the
+     chip is ever resized. */
+  font-size: calc(var(--spacing-5) * 0.75);
   font-weight: var(--font-weight-bold);
-  line-height: 1;
   text-shadow: 0 1px 0 var(--color-glyph-emboss);
 
   /* Sheen along the top edge and shade along the bottom carve the curvature; the
@@ -194,6 +197,16 @@
   transition:
     var(--transition-transform),
     box-shadow var(--duration-fast) var(--ease-out);
+}
+
+/* Centering the text box would leave the cap sitting low, because the box still
+   reserves descender space no capital uses. Trimming the box to cap height and
+   baseline centers what the eye actually sees. Browsers without text-box-trim
+   fall back to line-box centering, which is close for the loaded font. */
+.badgeLetter {
+  display: block;
+  line-height: 1;
+  text-box: trim-both cap alphabetic;
 }
 
 .button:hover:not(:disabled) .badge {
