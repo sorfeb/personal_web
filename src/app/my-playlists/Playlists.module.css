@@ -1,13 +1,14 @@
 /* /my-playlists — Xbox 360 "Now Playing" screen replica.
    Left: light player card. Right: blade-grey track list. */
 
+/* Lives inside PageLayout's window (a padded flex column), so it takes the
+   remaining height and adds no padding of its own. */
 .nowPlaying {
   display: flex;
+  flex: 1;
   gap: var(--spacing-4);
   width: 100%;
-  height: 100%;
   min-height: 0;
-  padding: var(--spacing-4);
 }
 
 /* ── Left: player card ─────────────────────────────────────────────── */
@@ -16,10 +17,11 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-2);
-  width: min(420px, 44%);
-  padding: var(--spacing-2);
+  width: min(400px, 42%);
+  padding: var(--spacing-3);
   background: var(--np-surface);
   color: var(--color-text-inverse);
+  border: var(--border-width-thin) solid var(--np-border);
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-lg);
 }
@@ -143,11 +145,23 @@
   border: 0;
 }
 
+/* Layered mock visualizer: two off-centre glows over the base radial, slowly
+   drifting, echoing the dashboard's tunnel visualization. */
 .vizPlaceholder {
   position: absolute;
   inset: 0;
-  background: var(--gradient-np-viz);
-  animation: viz-drift 9s var(--ease-in-out) infinite alternate;
+  background:
+    radial-gradient(circle at 25% 75%, var(--np-viz-b) 0%, transparent 45%),
+    radial-gradient(circle at 75% 20%, var(--np-viz-a) 0%, transparent 50%),
+    var(--gradient-np-viz);
+  animation: viz-drift 12s var(--ease-in-out) infinite alternate;
+}
+
+.vizPlaceholder::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, var(--color-bg-overlay) 100%);
 }
 
 @keyframes viz-drift {
@@ -157,8 +171,8 @@
   }
 
   to {
-    transform: scale(1.2);
-    filter: hue-rotate(45deg);
+    transform: scale(1.25);
+    filter: hue-rotate(50deg);
   }
 }
 
@@ -360,11 +374,13 @@
 
 /* ── Bottom legend ─────────────────────────────────────────────────── */
 
+/* PageLayout's footer justifies content to the end; the auto right margin
+   pulls the legend to the left edge, where the dashboard drew it. */
 .legend {
   display: flex;
   align-items: center;
   gap: var(--spacing-3);
-  padding: var(--spacing-1) var(--spacing-4);
+  margin-right: auto;
 }
 
 .legendHint {
@@ -391,11 +407,10 @@
 
 .loadingContainer {
   display: flex;
+  flex: 1;
   align-items: center;
   justify-content: center;
   gap: var(--spacing-2);
-  height: 100%;
-  margin: auto;
 }
 
 .loadingText {
@@ -482,7 +497,6 @@
 @media (width <= 768px) {
   .nowPlaying {
     flex-direction: column;
-    padding: var(--spacing-2);
   }
 
   .playerCard {

@@ -276,7 +276,9 @@ const PlaylistsPage = () => {
   const trackLabel = (name: string, artist?: string) => (artist ? `${artist} - ${name}` : name);
 
   return (
-    <PageLayout title={inTracks ? 'Now Playing' : 'My Playlists'} size="wide">
+    // Title must stay constant: PageLayout keys its dialog on the title, so a
+    // dynamic one remounts the whole window (and the embed iframe with it).
+    <PageLayout title="My Playlists" size="wide">
       <PageLayout.Header />
       <PageLayout.Body>
         {isLoading ? (
@@ -525,15 +527,18 @@ const PlaylistsPage = () => {
             </section>
           </div>
         )}
+        {/* Footer must render inside Body: the window is the flex column its
+            margin-top auto is written for. As a Body sibling it pins itself to
+            the viewport bottom and shoves the window under the page title. */}
+        <PageLayout.Footer>
+          <LegendBar
+            inTracks={inTracks}
+            spotifyUrl={spotifyUrl}
+            onBackToList={handleBackToPlaylists}
+            onOpenSpotify={handleOpenSpotify}
+          />
+        </PageLayout.Footer>
       </PageLayout.Body>
-      <PageLayout.Footer>
-        <LegendBar
-          inTracks={inTracks}
-          spotifyUrl={spotifyUrl}
-          onBackToList={handleBackToPlaylists}
-          onOpenSpotify={handleOpenSpotify}
-        />
-      </PageLayout.Footer>
     </PageLayout>
   );
 };
