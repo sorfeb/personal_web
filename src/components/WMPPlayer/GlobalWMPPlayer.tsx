@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback, useRef, memo } from 'react';
 import { createPortal } from 'react-dom';
+import Button from '@/components/ui/Button';
 import { WMPPlayer } from './WMPPlayer';
 import { useWMPPlayerContext, PLAYER_DIMENSIONS } from '@/context/WMPPlayerContext';
 import { useAudioManager } from '@/hooks/useAudioManager';
@@ -45,6 +46,9 @@ export const GlobalWMPPlayer = memo(function GlobalWMPPlayer() {
   const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
 
   const windowRef = useRef<HTMLDivElement>(null);
+  // Spatial-navigation root: spans the window AND the minimized chip, so
+  // gamepad focus still has somewhere to land while the window is hidden.
+  const overlayRef = useRef<HTMLDivElement>(null);
   const dragOffsetRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const cleanupRef = useRef<(() => void) | null>(null);
   const internalPlayerRef = useRef<{ pause: () => void; play: () => void } | null>(null);
@@ -104,7 +108,7 @@ export const GlobalWMPPlayer = memo(function GlobalWMPPlayer() {
     }
   });
 
-  const { moveFocus } = useSpatialNavigation({ containerRef: windowRef, enabled: isVisible });
+  const { moveFocus } = useSpatialNavigation({ containerRef: overlayRef, enabled: isVisible });
 
   useGamepadScope({
     id: 'wmp-player',
@@ -169,28 +173,52 @@ export const GlobalWMPPlayer = memo(function GlobalWMPPlayer() {
   if (isLoading || !isVisible || !portalContainer) return null;
 
   const content = (
-    <div className={styles.overlay}>
+    <div className={styles.overlay} ref={overlayRef}>
       {currentPlaylist.length > 0 ? (
-        // Window dragging is a pointer-only affordance — repositioning a
-        // floating window has no keyboard equivalent to lose.
-        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-        <div
-          ref={windowRef}
-          className={`${styles.playerWindow} ${isDragging ? styles.dragging : ''}`}
-          style={{
-            transform: `translate(${position.x}px, ${position.y}px)`,
-            pointerEvents: 'auto',
-          }}
-          onMouseDown={handleDragStart}
-        >
-          <WMPPlayer
-            skinPath="/assets/skins/headspace"
-            playlist={currentPlaylist}
-            autoPlay={false}
-            onClose={hidePlayer}
-            onMinimize={minimize}
-          />
-        </div>
+        <>
+          {/*
+            * The skin stays mounted while minimized — its audio element and
+            * the Spotify embed iframe live inside it, so unmounting would cut
+            * playback. display:none hides it; the chip below restores it.
+            */}
+          {/* Window dragging is a pointer-only affordance — repositioning a
+              floating window has no keyboard equivalent to lose. */}
+          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+          <div
+            ref={windowRef}
+            className={`${styles.playerWindow} ${isDragging ? styles.dragging : ''} ${
+              isMinimized ? styles.playerWindowMinimized : ''
+            }`}
+            style={{
+              transform: `translate(${position.x}px, ${position.y}px)`,
+              pointerEvents: 'auto',
+            }}
+            onMouseDown={handleDragStart}
+          >
+            <WMPPlayer
+              skinPath="/assets/skins/headspace"
+              playlist={currentPlaylist}
+              autoPlay={false}
+              onClose={hidePlayer}
+              onMinimize={minimize}
+            />
+          </div>
+          {isMinimized && (
+            <div className={styles.minimizedBar}>
+              <Button variant="ghost" size="sm" onClick={restore} aria-label="Restore player">
+                ♪ Windows Media Player
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                iconOnly
+                icon={<span aria-hidden="true">✕</span>}
+                aria-label="Close player"
+                onClick={hidePlayer}
+              />
+            </div>
+          )}
+        </>
       ) : (
         <div
           ref={windowRef}

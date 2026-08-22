@@ -32,13 +32,16 @@ export function parseButtonGroup(
 
     /*
      * Region id resolution: explicit `id` attr wins (e.g. <buttonelement id="vis">),
-     * otherwise fall back to the element's WMS tag type (e.g. <playelement> →
-     * 'playelement') so typed transport buttons can be looked up by their type
-     * rather than a positional `button_N` index. The positional fallback only
-     * applies to anonymous, untyped button children.
+     * then a `view.<method>();` onClick script — headspace's minimize/close
+     * buttons carry no id and are addressed purely by script action, and the
+     * bare tag-type fallback would give them the same colliding
+     * 'buttonelement' id with no handler. After that, the WMS tag type
+     * (e.g. <playelement> → 'playelement') so typed transport buttons can be
+     * looked up by type, and finally a positional `button_N` index.
      */
+    const viewMethod = buttonElement.onClick?.match(/^\s*view\.(\w+)\s*\(/)?.[1];
     const region: ClickableRegion = {
-      id: buttonElement.id || buttonElement.type || `button_${regions.length}`,
+      id: buttonElement.id || viewMethod || buttonElement.type || `button_${regions.length}`,
       elementId: buttonElement.id,
       color: normalizeColor(buttonElement.mappingColor),
       toolTip: buttonElement.toolTip,
