@@ -100,17 +100,30 @@ const XboxCard: React.FC<XboxCardProps> = memo(({
         <>
           <div className={styles.artWrapper}>
             {artUrl && !artFailed && (
-              <Image
-                src={artUrl}
-                alt=""
-                fill
-                sizes="(max-width: 768px) 45vw, 30vw"
-                className={styles.art}
-                // Cover art is heavy; only the cards actually on screen are worth
-                // pre-loading. The parked ones lazy-load as they scroll in.
-                priority={!offscreen}
-                onError={() => setArtFailed(true)}
-              />
+              <>
+                {/* Same src as the foreground, so this costs one decode and no
+                    extra request. Fills the gutters that `contain` leaves when a
+                    portrait box scan sits in a landscape card. */}
+                <Image
+                  src={artUrl}
+                  alt=""
+                  fill
+                  sizes="(max-width: 768px) 45vw, 30vw"
+                  className={styles.artBackdrop}
+                  priority={!offscreen}
+                />
+                <Image
+                  src={artUrl}
+                  alt=""
+                  fill
+                  sizes="(max-width: 768px) 45vw, 30vw"
+                  className={styles.art}
+                  // Cover art is heavy; only the cards actually on screen are worth
+                  // pre-loading. The parked ones lazy-load as they scroll in.
+                  priority={!offscreen}
+                  onError={() => setArtFailed(true)}
+                />
+              </>
             )}
           </div>
           <div className={styles.artScrim}></div>
