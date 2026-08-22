@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.0](https://github.com/sorfeb/personal_web/compare/v1.4.1...v1.5.0) (2026-08-22)
+
+
+### Features
+
+* **games:** original cover art replaces the line-art icons on the games blade ([1a56f3c](https://github.com/sorfeb/personal_web/commit/1a56f3c152992dd2455237c540795f12d8622233))
+* **ui:** game variant on XboxCard shows cover art with a bottom-aligned title ([e82cd79](https://github.com/sorfeb/personal_web/commit/e82cd794e1fd0e675c443b1fdbf0cfd7364c26aa))
+
 ## [1.4.1](https://github.com/sorfeb/personal_web/compare/v1.4.0...v1.4.1) (2026-08-22)
 
 
