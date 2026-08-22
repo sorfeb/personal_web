@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.1](https://github.com/sorfeb/personal_web/compare/v1.5.0...v1.5.1) (2026-08-22)
+
+
+### Bug Fixes
+
+* **toast:** keep the badge and decorative layers inside the pill ([b89dfb5](https://github.com/sorfeb/personal_web/commit/b89dfb5baef8d8aada01676e9033ee0efc120827))
+* **toast:** keep the badge and decorative layers inside the pill ([0d8b1e4](https://github.com/sorfeb/personal_web/commit/0d8b1e46c9ce90b5c5b1e6ec077f4875a7f9b475))
+
 ## [1.5.0](https://github.com/sorfeb/personal_web/compare/v1.4.1...v1.5.0) (2026-08-22)
 
 
