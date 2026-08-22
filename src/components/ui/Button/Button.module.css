@@ -173,12 +173,25 @@
   width: var(--spacing-5);
   height: var(--spacing-5);
   border-radius: var(--radius-full);
-  background: radial-gradient(
-    circle at 32% 26%,
-    var(--glyph-light) 0%,
-    var(--glyph-base) 52%,
-    var(--glyph-shade) 100%
-  );
+  background:
+    /* Specular cap. It ends on a hard stop rather than fading out, so the eye
+       reads a lit surface over a shaded one instead of one smooth airbrushed
+       ball. That visible boundary is what makes the chip look glossy. */
+    radial-gradient(
+      ellipse 46% 31% at 50% 27%,
+      var(--color-glyph-gloss) 0%,
+      var(--color-glyph-gloss-soft) 76%,
+      var(--color-glyph-gloss-none) 77%
+    ),
+
+    /* Body. Stops sit closer together than a natural falloff so the turn from
+       lit to shaded stays crisp under the cap. */
+    radial-gradient(
+      circle at 32% 26%,
+      var(--glyph-light) 0%,
+      var(--glyph-base) 42%,
+      var(--glyph-shade) 92%
+    );
   color: var(--glyph-ink);
 
   /* Tied to the chip's diameter rather than the type scale: the letter has to
