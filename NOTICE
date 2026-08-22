@@ -1,0 +1,67 @@
+NOTICE
+======
+
+This repository is licensed under the GNU Affero General Public License v3.0
+(see LICENSE). That grant covers the source code and the original assets
+authored for this project.
+
+It does NOT cover the third-party material listed below. That material is
+included under a claim of fair use and remains the property of its respective
+copyright holders. It is not sublicensed, and the AGPL-3.0 grant does not
+extend to it. Anyone redistributing or forking this repository is responsible
+for their own assessment of these files.
+
+
+Third-party artwork
+-------------------
+
+public/assets/games/art/doom.jpg
+  Front cover art for DOOM (1993). Painting by Don Ivan Punchatz.
+  (c) id Software LLC / ZeniMax Media Inc.
+  Source:   https://gamesdb.launchbox-app.com/games/images/722-doom
+  Shipped:  597x900, downscaled from an 800x1207 scan and re-encoded
+
+public/assets/games/art/wolf3d.jpg
+  Front cover art for Wolfenstein 3D (1992).
+  (c) id Software LLC / Apogee Software Ltd.
+  Source:   https://gamesdb.launchbox-app.com/games/images/4003-wolfenstein-3d
+  Shipped:  576x900, downscaled from an 800x1251 scan and re-encoded
+
+public/assets/games/art/keen.jpg
+  Front cover art for the Commander Keen 1, 2, 3 retail box
+  (Invasion of the Vorticons trilogy, 1990).
+  (c) id Software LLC / Apogee Software Ltd.
+  Source:   https://gamesdb.launchbox-app.com/games/images/401454-commander-keen-in-invasion-of-the-vorticons
+  Shipped:  640x883, re-encoded at original dimensions
+
+The scans come from the LaunchBox Games Database, which is community-contributed
+and publishes no licence or terms notice covering its images. They are therefore
+treated here the same way English Wikipedia treats the same artwork in its own
+articles: unlicensed copyrighted material carried under a fair-use rationale,
+stated below. Equivalent lower-resolution copies exist on Wikipedia under its
+non-free content policy if a more conservative source is ever wanted:
+
+  https://en.wikipedia.org/wiki/File:Doom_cover_art.jpg          (256x380)
+  https://en.wikipedia.org/wiki/File:Wolfenstein-3d.jpg          (251x396)
+
+Wikipedia carries no box art for Invasion of the Vorticons at all, only a title
+screen, which is why the Keen cover here is sourced elsewhere.
+
+
+Basis for inclusion
+-------------------
+
+Each image identifies the specific game it sits on, on a card that launches the
+shareware release of that same game from this site. The use is nominative and
+non-commercial, each image is a downscaled copy well below print resolution, and
+none of them substitutes for the original work or affects any market for it.
+
+If you are a rights holder and want any of this removed, open an issue on
+https://github.com/sorfeb/personal_web and it will be taken down.
+
+
+Original artwork
+----------------
+
+public/assets/games/art/all-games.svg is original work by the repository author
+and is covered by the AGPL-3.0 grant like the rest of the project.
