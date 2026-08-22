@@ -36,6 +36,14 @@ export const SKINS: SkinManifest[] = [
     width: 760,
     height: 394,
   },
+  {
+    id: 'cerulean',
+    label: 'Cerulean',
+    manifest: 'cerulean.wms',
+    credit: 'Microsoft Corporation',
+    width: 237,
+    height: 412,
+  },
 ];
 
 export const DEFAULT_SKIN_ID = 'headspace';

@@ -1,0 +1,316 @@
+<!--
+    ©2000 Microsoft Corporation. All rights reserved.
+-->
+
+<theme
+    author="Microsoft Corporation"
+    copyright="©2000 Microsoft Corporation. All rights reserved."
+    >
+    <view width="237" height="412"
+        backgroundColor="none"
+        titleBar="false"
+        scriptFile="cerulean.js;res://wmploc.dll/RT_TEXT/#132"
+        onLoad="OnLoad();"
+        >
+        <player
+            OpenState_onchange="OnOpenStateChange();"
+            PlayState_onchange="OnPlayStateChange();"
+            >
+        </player>
+        <equalizerSettings id="eq" enabled="true">
+        </equalizerSettings>
+        <video id="vid" visible="false"
+            left="34" top="20" width="172" height="120"
+            backgroundColor="#9AACDB"
+            onVideoStart="StartVideo();"
+            onVideoEnd="EndVideo();"
+            >
+        </video>
+        <itemsPlaylist id="pl" visible="false"
+            left="34" top="20" width="172" height="120"
+            backgroundColor="#9AACDB"
+            foregroundColor="black"
+            dropDownVisible="true"
+            >
+        </itemsPlaylist>
+        <subview id="sAud" visible="false" zindex="3"
+            left="26" top="26" width="176" height="99"
+            >
+            <slider id="bass" left="50" top="0"
+                toolTip="Bass"
+                backgroundImage="eq_slider.bmp"
+                thumbImage="eq_thumb_01.bmp"
+                thumbDownImage="eq_thumb_02.bmp"
+                transparencyColor="#FF00FF"
+                min="-14" max="14"
+                borderSize="10"
+                value="wmpprop:eq.gainLevel1"
+                value_onchange="AdjustAudio();"
+                >
+            </slider>
+            <text value="Bass"
+                top="jscript:bass.top+1;"
+                width="jscript:bass.left-2;"
+                foregroundColor="#050001"
+                justification="Right"
+                fontSize="8"
+                >
+            </text>
+            <slider id="treble"
+                left="jscript:bass.left;"
+                top="jscript:bass.top+21;"
+                toolTip="Treble"
+                min="-14" max="14"
+                backgroundImage="eq_slider.bmp"
+                thumbImage="eq_thumb_01.bmp"
+                thumbDownImage="eq_thumb_02.bmp"
+                transparencyColor="#FF00FF"
+                borderSize="10"
+                value="wmpprop:eq.gainLevel10"
+                value_onchange="AdjustAudio();"
+                >
+            </slider>
+            <text value="Treble"
+                top="jscript:treble.top+1;"
+                width="jscript:treble.left-2;"
+                foregroundColor="#050001"
+                justification="Right"
+                fontSize="8"
+                >
+            </text>
+            <balanceSlider id="balance"
+                left="jscript:treble.left;"
+                top="jscript:treble.top+21;"
+                backgroundImage="eq_slider.bmp"
+                thumbImage="eq_thumb_01.bmp"
+                thumbDownImage="eq_thumb_02.bmp"
+                transparencyColor="#FF00FF"
+                borderSize="10"
+                >
+            </balanceSlider>
+            <text value="Balance"
+                top="jscript:balance.top+1;"
+                width="jscript:balance.left-2;"
+                foregroundColor="#050001"
+                justification="Right"
+                fontSize="8"
+                >
+            </text>
+            <volumeSlider id="volume"
+                left="jscript:balance.left;"
+                top="jscript:balance.top+21;"
+                backgroundImage="eq_slider.bmp"
+                thumbImage="eq_thumb_01.bmp"
+                thumbDownImage="eq_thumb_02.bmp"
+                transparencyColor="#FF00FF"
+                borderSize="10"
+                >
+            </volumeSlider>
+            <text value="Volume"
+                top="jscript:volume.top+1;"
+                width="jscript:volume.left-2;"
+                foregroundColor="#050001"
+                justification="Right"
+                fontSize="8"
+                >
+            </text>
+            <text value="reset"
+                left="jscript:volume.left+33;"
+                top="jscript:volume.top+23;"
+                cursor="hand"
+                foregroundColor="#050001"
+                fontSize="8" fontStyle="underline"
+                onClick="eq.reset();"
+            >
+            </text>
+        </subview>
+
+        <subview left="24" top="106" zIndex="1"
+            backgroundImage="forehead.bmp"
+            clippingColor="#FF0000"
+            >
+        </subview>
+        <subview zIndex="4"
+            left="40" top="140" width="159" height="32"
+            backgroundColor="none"
+            >
+            <seekSlider backgroundImage="seek.bmp"
+                foregroundImage="seek_fill.bmp"
+                thumbImage="seek_thumb.bmp"
+                transparencyColor="#FF00FF"
+                borderSize="8" slide="false"
+                useForegroundProgress="false"
+                >
+            </seekSlider>
+            <statusText id="status" zIndex="2"
+                left="7" top="10" width="108"
+                fontSize="7" passThrough="true"
+                >
+            </statusText>
+            <text id="metadata" zIndex="2" visible="false"
+                left="7" top="10" width="108"
+                fontSize="7" passThrough="true"
+                scrollingDelay="50" scrollingAmount="1"
+                >
+            </text>
+            <currentPositionText zIndex="2"
+                left="115" width="37"
+                top="jscript:metadata.top;"
+                fontSize="7" passThrough="true"
+                >
+            </currentPositionText>
+        </subview>
+        <subview id="vScrSmall" zIndex="2"
+            left="42" top="145"
+            backgroundImage="screen_small.bmp"
+            clippingColor="#FF00FF"
+            onEndMove="SmallScrEndMove();"
+            >
+        </subview>
+        <subview id="vScrLeft" zIndex="2"
+            left="42" top="145"
+            left="11" top="0" visible="false"
+            backgroundImage="screen_left.bmp"
+            clippingColor="#FF00FF"
+            onEndMove="ScreenEndMove();"
+            >
+        </subview>
+        <subview id="vScrMiddle" zIndex="2"
+            left="89" top="145"
+            left="89" top="0" visible="false"
+            backgroundImage="screen_middle.bmp"
+            >
+        </subview>
+        <subview id="vScrRight" zIndex="2"
+            left="119" top="145"
+            left="150" top="0" visible="false"
+            backgroundImage="screen_right.bmp"
+            clippingColor="#FF00FF"
+            >
+            <button left="47" top="3"
+                image="close_01df.bmp"
+                hoverImage="close_02rv.bmp"
+                downImage="close_03dwn.bmp"
+                onClick="CloseScreen();"
+                >
+            </button>
+        </subview>
+        <subview top="170" zIndex="3"
+            backgroundImage="face.bmp"
+            backgroundColor="#9AACDB"
+            clippingColor="#FF0000"
+            transparencyColor="#FF00FF"
+            >
+            <effects id="visEffects" zIndex="-1"
+                top="34" left="118" width="103" height="75"
+                currentEffectType="wmpprop:mediacenter.effectType"
+                currentEffectType_onchange="mediacenter.effectType=currentEffectType;"
+                currentPreset="wmpprop:mediacenter.effectPreset"
+                currentPreset_onchange="mediacenter.effectPreset=currentPreset;"
+                onClick="previous();"
+                >
+            </effects>
+            <button id="bEye" zIndex="-2" enabled="false"
+                top="31" left="129"
+                image="vis_area_default.bmp"
+                hoverImage="vis_area_animated.gif"
+                transparencyColor="#FF00FF"
+                onClick="OpenScreen(vidPane);"
+                >
+            </button>
+            <buttongroup left="45" top="6"
+                mappingImage="eq_pl_map.bmp"
+                image="eq_pl_01df.bmp"
+                hoverImage="eq_pl_02rv.bmp"
+                downImage="eq_pl_03dwn.bmp"
+                transparencyColor="#FF00FF"
+                >
+                <buttonelement mappingColor="#FF0000"
+                    upToolTip="Audio controls"
+                    onClick="if(currentPane==audPane)vidIsRunning?SetPane(vidPane):CloseScreen();else OpenScreen(audPane);"
+                    >
+                </buttonelement>
+                <buttonelement mappingColor="#00FF00"
+                    upToolTip="Playlist"
+                    onClick="if(currentPane==plPane)vidIsRunning?SetPane(vidPane):CloseScreen();else OpenScreen(plPane);"
+                    >
+                </buttonelement>
+            </buttongroup>
+            <buttongroup left="115" top="9" zIndex="3"
+                mappingImage="transport_map.bmp"
+                image="transport_01df.bmp"
+                hoverImage="transport_02rv.bmp"
+                downImage="transport_03dwn.bmp"
+                disabledImage="transport_04dis.bmp"
+                transparencyColor="#FF00FF"
+                >
+                <prevelement id="bgPrev" mappingColor="#FF0000">
+                </prevelement>
+                <playelement id="bgPlay" mappingColor="#00FF00">
+                </playelement>
+                <pauseelement id="bgPause" mappingColor="#0000FF">
+                </pauseelement>
+                <stopelement id="bgStop" mappingColor="#FFFF00">
+                </stopelement>
+                <nextelement id="bgNext" mappingColor="#FF00FF">
+                </nextelement>
+            </buttongroup>
+            <button id="bVis" left="107" top="33"
+                upToolTip="Next visualization"
+                image="vis_01df.bmp"
+                hoverImage="vis_02rv.bmp"
+                downImage="vis_03dwn.bmp"
+                disabledImage="vis_04dis.bmp"
+                onClick="visEffects.next();"
+                >
+            </button>
+            <returnButton left="106" top="200"
+                image="toggle_01df.bmp"
+                hoverImage="toggle_02rv.bmp"
+                downImage="toggle_03dwn.bmp"
+                >
+            </returnButton>
+        </subview>
+        <subview backgroundColor="none" zIndex="40"
+            left="184" top="167" width="24" height="12"
+            >
+            <buttongroup mappingImage="min_close_map.bmp"
+                image="min_close_01df.bmp"
+                hoverImage="min_close_02rv.bmp"
+                downImage="min_close_03dwn.bmp"
+                transparencyColor="#FF00FF"
+                >
+                <buttonelement mappingColor="#FF0000"
+                    upToolTip="Minimize"
+                    onClick="view.minimize();"
+                    >
+                </buttonelement>
+                <buttonelement mappingColor="#00FF00"
+                    upToolTip="Close"
+                    onClick="view.close();"
+                    >
+                </buttonelement>
+            </buttongroup>
+        </subview>
+
+        <text id="xPlayPause" enabled="false" visible="false"
+            toolTip="Play"
+            value="Pause"
+            >
+        </text>
+        <text id="xPrevNext" enabled="false" visible="false"
+            toolTip="Previous"
+            value="Next"
+            >
+        </text>
+        <text id="xStop" enabled="false" visible="false"
+            toolTip="Stop"
+            >
+        </text>
+        <text id="xVisSep" enabled="false" visible="false"
+            toolTip="Change visualization"
+            value=" -- "
+            >
+        </text>
+    </view>
+</theme>
