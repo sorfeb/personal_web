@@ -1,4 +1,6 @@
-const data = {
+import type { DashboardData } from '@/types/dashboard';
+
+const data: DashboardData = {
   home: [
     { 
       title: "About", 
@@ -26,25 +28,33 @@ const data = {
       route: "/music"
     },
   ],
+  // Cover art, not icons. Art lives in `public/assets/games/art/`; a card whose
+  // file is missing falls back to a flat brand panel, never to a line-art icon,
+  // so the blade always reads as one shelf. The old `games/*.svg` icons are kept
+  // on disk for the /games hub and favicons.
   games: [
     {
       title: "DOOM",
-      iconUrl: "/assets/icons/dashboard/games/doom.svg",
+      variant: "game",
+      artUrl: "/assets/games/art/doom.svg",
       route: "/games/doom"
     },
     {
       title: "Wolfenstein 3D",
-      iconUrl: "/assets/icons/dashboard/games/wolf3d.svg",
+      variant: "game",
+      artUrl: "/assets/games/art/wolf3d.svg",
       route: "/games/wolf3d"
     },
     {
       title: "Commander Keen",
-      iconUrl: "/assets/icons/dashboard/games/keen.svg",
+      variant: "game",
+      artUrl: "/assets/games/art/keen.svg",
       route: "/games/keen"
     },
     {
       title: "All Games",
-      iconUrl: "/assets/icons/dashboard/games/tv.svg",
+      variant: "game",
+      artUrl: "/assets/games/art/all-games.svg",
       route: "/games"
     },
   ],

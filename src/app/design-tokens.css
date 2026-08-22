@@ -158,6 +158,20 @@
   --gradient-glass: linear-gradient(to top, hsl(0deg 0% 4% / 85%), hsl(0deg 0% 31% / 65%));
   --gradient-brand: linear-gradient(135deg, var(--color-brand-primary) 0%, var(--color-brand-primary-dark) 100%);
 
+  /* Cover-art scrim: opaque at the bottom so a title reads over any artwork,
+     clearing to nothing by the top so the art itself stays untouched. Stops are
+     eased rather than linear — a straight ramp reads as a visible grey band. */
+  --gradient-art-scrim: linear-gradient(
+    to top,
+    hsl(0deg 0% 0% / 92%) 0%,
+    hsl(0deg 0% 0% / 80%) 16%,
+    hsl(0deg 0% 0% / 55%) 34%,
+    hsl(0deg 0% 0% / 28%) 54%,
+    hsl(0deg 0% 0% / 8%) 76%,
+    hsl(0deg 0% 0% / 0%) 100%
+  );
+  --gradient-art-placeholder: linear-gradient(160deg, var(--color-brand-primary-dark) 0%, var(--color-brand-primary-darker) 100%);
+
   /* Shadow Colors (used in radial/box shadows) */
   --color-shadow-light: hsl(0deg 0% 100% / 30%);
   --color-shadow-medium: hsl(0deg 0% 0% / 20%);

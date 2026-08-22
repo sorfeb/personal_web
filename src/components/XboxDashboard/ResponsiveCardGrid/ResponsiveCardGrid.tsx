@@ -4,9 +4,10 @@ import React from 'react';
 import XboxCard from '../../XboxCard/card/XboxCard';
 import styles from './ResponsiveCardGrid.module.css';
 import { DASHBOARD_PANEL_ID } from '../../../constants/dashboardNavigation';
+import type { DashboardCard } from '../../../types/dashboard';
 
 interface ResponsiveCardGridProps {
-  cards: { route: string; title: string; iconUrl?: string; images?: string[] }[];
+  cards: DashboardCard[];
   sectionName: string;
   /** Id of the blade tab this grid is the panel for (WAI-ARIA tabs relationship). */
   labelledBy: string;
@@ -35,12 +36,7 @@ const ResponsiveCardGrid: React.FC<ResponsiveCardGridProps> = ({
             key={`${sectionName}-${index}-${card.title}`}
             className={styles.mobileCard}
           >
-            <XboxCard
-              title={card.title}
-              iconUrl={card.iconUrl}
-              route={card.route}
-              images={card.images}
-            />
+            <XboxCard {...card} />
           </div>
         ))}
       </div>

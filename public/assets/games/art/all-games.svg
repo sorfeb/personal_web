@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="800" viewBox="0 0 1000 800" role="img" aria-label="A CRT test pattern of colour bars behind scanlines">
+  <defs>
+    <!-- Scanlines as a tile rather than 200 stacked rects: one pattern node
+         instead of hundreds, and it stays crisp at any render size. -->
+    <pattern id="tvScan" width="6" height="6" patternUnits="userSpaceOnUse">
+      <rect width="6" height="3" fill="#000000" opacity="0.34"/>
+    </pattern>
+    <!-- Aperture grille: the vertical counterpart, much subtler. -->
+    <pattern id="tvGrille" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="2" height="4" fill="#000000" opacity="0.14"/>
+    </pattern>
+    <radialGradient id="tvVignette" cx="0.5" cy="0.46" r="0.74">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="52%" stop-color="#000000" stop-opacity="0.16"/>
+      <stop offset="82%" stop-color="#000000" stop-opacity="0.58"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.90"/>
+    </radialGradient>
+    <radialGradient id="tvBloom" cx="0.5" cy="0.40" r="0.58">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.14"/>
+      <stop offset="55%" stop-color="#ffffff" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="tvGlare" x1="0" y1="0" x2="0.7" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.13"/>
+      <stop offset="42%" stop-color="#ffffff" stop-opacity="0.02"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1000" height="800" fill="#07090a"/>
+
+  <!-- Main bars, held to ~45% luminance. Full-strength SMPTE is far louder than
+       anything else on the dashboard and drags the eye off the other cards. -->
+  <g>
+    <rect x="0" y="0" width="143" height="600" fill="#5d6468"/>
+    <rect x="143" y="0" width="143" height="600" fill="#7d7431"/>
+    <rect x="286" y="0" width="143" height="600" fill="#2f6f73"/>
+    <rect x="429" y="0" width="143" height="600" fill="#38682a"/>
+    <rect x="572" y="0" width="143" height="600" fill="#663363"/>
+    <rect x="715" y="0" width="143" height="600" fill="#6e2724"/>
+    <rect x="858" y="0" width="142" height="600" fill="#26336a"/>
+  </g>
+
+  <!-- Inverted castellation strip -->
+  <g>
+    <rect x="0" y="600" width="143" height="72" fill="#26336a"/>
+    <rect x="143" y="600" width="143" height="72" fill="#101214"/>
+    <rect x="286" y="600" width="143" height="72" fill="#663363"/>
+    <rect x="429" y="600" width="143" height="72" fill="#101214"/>
+    <rect x="572" y="600" width="143" height="72" fill="#2f6f73"/>
+    <rect x="715" y="600" width="143" height="72" fill="#101214"/>
+    <rect x="858" y="600" width="142" height="72" fill="#5d6468"/>
+  </g>
+
+  <!-- Black-level steps. Simple bands, not a busy pluge — this strip sits almost
+       entirely under the title scrim, so detail here is wasted. -->
+  <g>
+    <rect x="0" y="672" width="250" height="128" fill="#182231"/>
+    <rect x="250" y="672" width="250" height="128" fill="#0a0b0c"/>
+    <rect x="500" y="672" width="250" height="128" fill="#1a1d20"/>
+    <rect x="750" y="672" width="250" height="128" fill="#0a0b0c"/>
+  </g>
+
+  <!-- Brand-green centre burst: ties an otherwise generic test card to the site. -->
+  <circle cx="500" cy="300" r="122" fill="#080d09" opacity="0.94"/>
+  <circle cx="500" cy="300" r="122" fill="none" stroke="#6cb82b" stroke-width="7"/>
+  <circle cx="500" cy="300" r="88" fill="none" stroke="#6cb82b" stroke-width="3" opacity="0.5"/>
+  <path d="M500 210 L500 390 M410 300 L590 300" stroke="#6cb82b" stroke-width="4" opacity="0.66"/>
+  <circle cx="500" cy="300" r="13" fill="#6cb82b"/>
+
+  <!-- Screen effects, painted over everything. -->
+  <rect width="1000" height="800" fill="url(#tvBloom)"/>
+  <rect width="1000" height="800" fill="url(#tvScan)"/>
+  <rect width="1000" height="800" fill="url(#tvGrille)"/>
+  <rect width="1000" height="800" fill="url(#tvVignette)"/>
+  <rect width="1000" height="800" fill="url(#tvGlare)"/>
+</svg>

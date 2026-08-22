@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="800" viewBox="0 0 1000 800" role="img" aria-label="Jagged obsidian spires against a blood-red sky">
+  <defs>
+    <linearGradient id="doomSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0102"/>
+      <stop offset="26%" stop-color="#22040a"/>
+      <stop offset="52%" stop-color="#54080e"/>
+      <stop offset="76%" stop-color="#96130f"/>
+      <stop offset="100%" stop-color="#c62810"/>
+    </linearGradient>
+    <radialGradient id="doomSunGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#ff3a18" stop-opacity="0.85"/>
+      <stop offset="30%" stop-color="#d81208" stop-opacity="0.45"/>
+      <stop offset="64%" stop-color="#7e0a08" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#3a0406" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="doomSunDisc" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff6a2a"/>
+      <stop offset="42%" stop-color="#e51d0a"/>
+      <stop offset="100%" stop-color="#8c0a06"/>
+    </linearGradient>
+    <linearGradient id="doomFar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4a0a0b"/>
+      <stop offset="100%" stop-color="#2a0507"/>
+    </linearGradient>
+    <linearGradient id="doomMid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1d0305"/>
+      <stop offset="100%" stop-color="#0d0103"/>
+    </linearGradient>
+    <linearGradient id="doomHaze" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff2e10" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#ff2e10" stop-opacity="0.34"/>
+    </linearGradient>
+    <radialGradient id="doomPool" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#c8ff3a" stop-opacity="0.68"/>
+      <stop offset="50%" stop-color="#63c010" stop-opacity="0.26"/>
+      <stop offset="100%" stop-color="#2d6a08" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1000" height="800" fill="url(#doomSky)"/>
+
+  <!-- Bloom, then the disc. Blood red rather than gold: a warm sun reads as a
+       pleasant sunset, which is the opposite of the brief. -->
+  <circle cx="562" cy="378" r="350" fill="url(#doomSunGlow)"/>
+  <circle cx="562" cy="378" r="118" fill="url(#doomSunDisc)"/>
+
+  <rect x="0" y="320" width="1000" height="170" fill="url(#doomHaze)"/>
+
+  <!-- Far spires. Irregular heights and asymmetric flanks — an even zigzag is
+       the thing that makes hand-drawn terrain look like clip art. -->
+  <path d="M0 470 L58 402 L86 438 L142 318 L186 428 L232 386 L268 446 L322 296 L362 420 L410 372 L448 452 L508 330 L548 434 L602 380 L648 458 L706 306 L744 424 L790 388 L836 456 L896 340 L940 430 L1000 396 L1000 800 L0 800 Z" fill="url(#doomFar)"/>
+
+  <!-- Near spires: taller, sharper, near-black. Depth from value, not detail. -->
+  <path d="M0 588 L52 470 L96 540 L148 386 L196 528 L246 462 L292 556 L352 400 L398 532 L452 476 L502 570 L562 418 L610 546 L664 484 L716 578 L774 430 L822 548 L878 490 L928 574 L1000 502 L1000 800 L0 800 Z" fill="url(#doomMid)"/>
+
+  <!-- The one cool accent in an all-red frame. -->
+  <ellipse cx="318" cy="672" rx="240" ry="58" fill="url(#doomPool)"/>
+
+  <path d="M0 664 L104 626 L196 672 L296 636 L404 686 L500 644 L616 692 L714 650 L826 696 L932 652 L1000 682 L1000 800 L0 800 Z" fill="#080102"/>
+
+  <g fill="#ff8a52">
+    <circle cx="212" cy="300" r="3.4" opacity="0.7"/>
+    <circle cx="288" cy="228" r="2.3" opacity="0.5"/>
+    <circle cx="424" cy="278" r="2.9" opacity="0.58"/>
+    <circle cx="748" cy="246" r="3.1" opacity="0.62"/>
+    <circle cx="842" cy="312" r="2.1" opacity="0.46"/>
+    <circle cx="540" cy="192" r="2.5" opacity="0.42"/>
+    <circle cx="668" cy="160" r="1.9" opacity="0.34"/>
+    <circle cx="148" cy="196" r="2.1" opacity="0.38"/>
+  </g>
+</svg>
