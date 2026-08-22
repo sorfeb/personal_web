@@ -4,16 +4,28 @@
 
 export interface SkinDefinition {
   theme: SkinTheme;
+  /**
+   * The view the player renders. Always `views[0]`, kept as its own field
+   * because every consumer wants the main view and nothing else.
+   */
   view: SkinView;
+  /**
+   * Every `<view>` in the manifest, in document order. Skins use extra views
+   * for detached playlist/equalizer/video windows (wood.wms has four), which
+   * we parse but do not yet render.
+   */
+  views: SkinView[];
 }
 
 export interface SkinTheme {
   id: string;
+  title?: string;
   author?: string;
   copyright?: string;
 }
 
 export interface SkinView {
+  id?: string;
   width: number;
   height: number;
   backgroundColor?: string;
@@ -22,6 +34,12 @@ export interface SkinView {
   scriptFile?: string;
   elements: SkinElement[];
 }
+
+/**
+ * What a slider is wired to. Derived from the WMS tag (`<volumeslider>`) or
+ * from the element's `wmpprop:` binding when it is a plain `<slider>`.
+ */
+export type SliderRole = 'seek' | 'volume' | 'balance' | 'eq' | 'unknown';
 
 export type SkinElementType =
   | 'button'
@@ -73,10 +91,25 @@ export interface SkinElement {
   onClick?: string; // WMP script expression
   toolTip?: string;
   visible?: boolean | string; // Can be "wmpenabled:..." expression
-  enabled?: boolean;
+  enabled?: boolean | string; // Can be "wmpenabled:..." expression
+
+  /**
+   * Geometry with every `jscript:` expression resolved to a pixel value.
+   * Filled in by `resolveLayout`; absent when the element's position could
+   * not be resolved (a cyclic or unsupported expression).
+   */
+  resolved?: {
+    left: number;
+    top: number;
+  };
+
+  /** Set when the WMS tag implies a binding, e.g. `<volumeslider>`. */
+  role?: SliderRole;
 
   // Button-specific
   mappingColor?: string; // For buttonelement in buttongroup
+  /** Toggle button that stays down until re-clicked (MediaBay presets). */
+  sticky?: boolean;
 
   // Slider-specific
   min?: number | string; // Can be number or "wmpprop:..." binding

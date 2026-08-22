@@ -4,6 +4,7 @@ import React, { useState, useCallback, useRef, memo } from 'react';
 import { createPortal } from 'react-dom';
 import Button from '@/components/ui/Button';
 import { WMPPlayer } from './WMPPlayer';
+import { WMPSkinPicker } from './WMPSkinPicker';
 import { useWMPPlayerContext, PLAYER_DIMENSIONS } from '@/context/WMPPlayerContext';
 import { useAudioManager } from '@/hooks/useAudioManager';
 import { useEventListener, useMountEffect } from '@/hooks';
@@ -37,6 +38,7 @@ export const GlobalWMPPlayer = memo(function GlobalWMPPlayer() {
     restore,
     setPosition,
     currentPlaylist,
+    skin,
     playerRef: contextPlayerRef,
   } = useWMPPlayerContext();
 
@@ -196,13 +198,28 @@ export const GlobalWMPPlayer = memo(function GlobalWMPPlayer() {
             onMouseDown={handleDragStart}
           >
             <WMPPlayer
-              skinPath="/assets/skins/headspace"
+              skin={skin}
               playlist={currentPlaylist}
               autoPlay={false}
               onClose={hidePlayer}
               onMinimize={minimize}
             />
           </div>
+
+          {/*
+            * Docked above the window rather than nested inside it: the window
+            * is the drag surface, so a control living in it would start a drag
+            * on mousedown, and its drop-shadow filter reads the skin's alpha
+            * silhouette which the picker is not part of.
+            */}
+          {!isMinimized && (
+            <div
+              className={styles.skinPickerDock}
+              style={{ transform: `translate(${position.x}px, ${position.y - 36}px)` }}
+            >
+              <WMPSkinPicker />
+            </div>
+          )}
           {isMinimized && (
             <div className={styles.minimizedBar}>
               <Button variant="ghost" size="sm" onClick={restore} aria-label="Restore player">

@@ -10,6 +10,7 @@ import React, {
   ReactNode,
 } from 'react';
 import type { Track } from '@/types/wmp';
+import { DEFAULT_SKIN_ID, getSkin, type SkinManifest } from '@/lib/wmp/skinRegistry';
 import { useMountEffect } from '@/hooks';
 
 /**
@@ -21,14 +22,6 @@ import { useMountEffect } from '@/hooks';
  * - Minimize state
  */
 
-interface WMPPlayerContextState {
-  isVisible: boolean;
-  isMinimized: boolean;
-  position: { x: number; y: number };
-  currentPlaylist: Track[];
-  isLoading: boolean;
-}
-
 interface WMPPlayerContextValue {
   // State
   isVisible: boolean;
@@ -36,6 +29,8 @@ interface WMPPlayerContextValue {
   position: { x: number; y: number };
   currentPlaylist: Track[];
   isLoading: boolean;
+  /** The installed skin currently rendered. Persisted across sessions. */
+  skin: SkinManifest;
 
   // Actions
   showPlayer: () => void;
@@ -47,6 +42,8 @@ interface WMPPlayerContextValue {
   setCurrentPlaylist: (tracks: Track[]) => void;
   /** Atomic: load a playlist AND show the player in one step. */
   openWithPlaylist: (tracks: Track[]) => void;
+  /** Switch skins by registry id. Unknown ids fall back to the default. */
+  setSkinId: (id: string) => void;
 
   // Refs for controlling playback
   playerRef: React.RefObject<{ pause: () => void; play: () => void } | null>;
@@ -57,6 +54,7 @@ const WMPPlayerContext = createContext<WMPPlayerContextValue | undefined>(undefi
 const STORAGE_KEYS = {
   MINIMIZED: 'sorosfebria-wmp-minimized',
   POSITION: 'sorosfebria-wmp-position',
+  SKIN: 'sorosfebria-wmp-skin',
   // Visibility and playlist are session-only: a session always starts hidden
   // and opens when the user explicitly loads a playlist.
 };
@@ -95,6 +93,11 @@ export const WMPPlayerProvider: React.FC<WMPPlayerProviderProps> = ({ children }
   );
   const [currentPlaylist, setCurrentPlaylist] = useState<Track[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  /*
+   * Server and first client render must agree, so this starts at the default
+   * and the persisted choice is applied on mount alongside the other prefs.
+   */
+  const [skinId, setSkinIdState] = useState<string>(DEFAULT_SKIN_ID);
 
   // Ref to control player playback from context
   const playerRef = useRef<{ pause: () => void; play: () => void } | null>(null);
@@ -118,6 +121,13 @@ export const WMPPlayerProvider: React.FC<WMPPlayerProviderProps> = ({ children }
       const savedMinimized = localStorage.getItem(STORAGE_KEYS.MINIMIZED);
       if (savedMinimized !== null) {
         setIsMinimized(savedMinimized === 'true');
+      }
+
+      const savedSkin = localStorage.getItem(STORAGE_KEYS.SKIN);
+      if (savedSkin !== null) {
+        // Normalised through the registry so a skin removed since the
+        // preference was written falls back instead of failing to load.
+        setSkinIdState(getSkin(savedSkin).id);
       }
     } catch (error) {
       console.error('Failed to load WMP player preferences:', error);
@@ -196,6 +206,21 @@ export const WMPPlayerProvider: React.FC<WMPPlayerProviderProps> = ({ children }
     }
   }, []);
 
+  /**
+   * Switch skins and remember the choice.
+   */
+  const setSkinId = useCallback((id: string) => {
+    const resolved = getSkin(id);
+    setSkinIdState(resolved.id);
+    try {
+      localStorage.setItem(STORAGE_KEYS.SKIN, resolved.id);
+    } catch (error) {
+      console.error('Failed to save WMP skin preference:', error);
+    }
+  }, []);
+
+  const skin = useMemo(() => getSkin(skinId), [skinId]);
+
   const value: WMPPlayerContextValue = useMemo(
     () => ({
       isVisible,
@@ -203,6 +228,7 @@ export const WMPPlayerProvider: React.FC<WMPPlayerProviderProps> = ({ children }
       position,
       currentPlaylist,
       isLoading,
+      skin,
       showPlayer,
       hidePlayer,
       togglePlayer,
@@ -211,6 +237,7 @@ export const WMPPlayerProvider: React.FC<WMPPlayerProviderProps> = ({ children }
       setPosition,
       setCurrentPlaylist,
       openWithPlaylist,
+      setSkinId,
       playerRef,
     }),
     [
@@ -219,6 +246,7 @@ export const WMPPlayerProvider: React.FC<WMPPlayerProviderProps> = ({ children }
       position,
       currentPlaylist,
       isLoading,
+      skin,
       showPlayer,
       hidePlayer,
       togglePlayer,
@@ -226,6 +254,7 @@ export const WMPPlayerProvider: React.FC<WMPPlayerProviderProps> = ({ children }
       restore,
       setPosition,
       openWithPlaylist,
+      setSkinId,
     ]
   );
 
