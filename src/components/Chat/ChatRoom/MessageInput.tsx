@@ -1,6 +1,7 @@
 'use client';
 
 import React, { memo } from 'react';
+import Button from '../../ui/Button';
 import styles from './ChatRoom.module.css';
 
 /**
@@ -75,14 +76,17 @@ const MessageInput = memo<MessageInputProps>(({
         </div>
       </div>
       
-      <button
+      <Button
         type="submit"
+        variant="chrome"
+        badge="A"
         className={styles.sendButton}
-        disabled={!value.trim() || isLoading}
+        disabled={!value.trim()}
+        loading={isLoading}
         aria-label="Send message"
       >
         {isLoading ? 'Sending...' : 'Send'}
-      </button>
+      </Button>
     </form>
   );
 });

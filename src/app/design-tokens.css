@@ -342,6 +342,11 @@
   /* Volume/Audio */
   --volume-slider-height: 8px;
   --volume-thumb-size: 20px;
+
+  /* Chat room */
+  --chat-transcript-height: 500px;
+  --chat-avatar-size: 40px;
+  --chat-input-min-height: 80px;
 }
 
 /* ============================================

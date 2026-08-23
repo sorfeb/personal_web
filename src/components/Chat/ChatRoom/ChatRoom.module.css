@@ -1,342 +1,220 @@
+/*
+ * Chat room.
+ *
+ * Rendered inside PageLayout.Body, which already supplies the windowed panel
+ * and its chrome, so nothing here paints a second surface — this file only
+ * lays out the transcript and the composer on top of it.
+ */
+
 .container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
-  background: rgb(255 255 255 / 95%);
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgb(0 0 0 / 10%);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: var(--spacing-5);
 }
 
 .title {
-  font-size: 2rem;
-  font-weight: 300;
-  color: #333;
-  margin-bottom: 0.5rem;
+  font: var(--typography-h4);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-2);
 }
 
 .subtitle {
-  color: #666;
-  font-size: 1rem;
+  font: var(--typography-caption);
+  color: var(--color-text-tertiary);
 }
 
 .messagesContainer {
-  height: 500px;
+  height: var(--chat-transcript-height);
   overflow-y: auto;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  background: #fafafa;
+  border: var(--border-width-thin) solid var(--color-border-primary);
+  border-radius: var(--radius-base);
+  padding: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+  background: var(--color-bg-secondary);
 }
 
 .messageItem {
   display: flex;
   align-items: flex-start;
-  margin-bottom: 1rem;
-  padding: 0.75rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 5%);
+  margin-bottom: var(--spacing-4);
+  padding: var(--spacing-3);
+  background: var(--color-bg-subtle);
+  border-radius: var(--radius-base);
+  box-shadow: var(--shadow-xs);
 }
 
 .messageAvatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 1rem;
-  flex-shrink: 0;
-  background: #ddd;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #666;
-  font-weight: 500;
+  flex-shrink: 0;
+  width: var(--chat-avatar-size);
+  height: var(--chat-avatar-size);
+  margin-right: var(--spacing-4);
+  border-radius: var(--radius-full);
+  background: var(--color-bg-panel-raised);
+  color: var(--color-text-tertiary);
+  font-weight: var(--font-weight-medium);
 }
 
 .avatarImage {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   object-fit: cover;
 }
 
 .messageContent {
   flex: 1;
+
+  /* Without this a long unbroken string stretches the flex item instead of wrapping. */
+  min-width: 0;
 }
 
 .messageAuthor {
-  font-weight: 500;
-  color: #333;
-  margin-bottom: 0.25rem;
-  font-size: 0.9rem;
+  font: var(--typography-label);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-1);
 }
 
 .messageText {
-  color: #555;
-  line-height: 1.4;
-  word-wrap: break-word;
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-normal);
+  overflow-wrap: anywhere;
 }
 
 .messageTime {
-  font-size: 0.75rem;
-  color: #999;
-  margin-top: 0.25rem;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--spacing-1);
 }
 
 .messageForm {
   display: flex;
-  gap: 1rem;
+  gap: var(--spacing-4);
   align-items: flex-end;
 }
 
 .messageInputGroup {
   flex: 1;
+  min-width: 0;
 }
 
 .messageInput {
   width: 100%;
-  padding: 0.75rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 1rem;
-  resize: vertical;
-  min-height: 80px;
+  min-height: var(--chat-input-min-height);
+  padding: var(--spacing-3);
+  border: var(--border-width-medium) solid var(--color-border-primary);
+  border-radius: var(--radius-base);
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  font: var(--typography-body-1);
   font-family: inherit;
-  transition: border-color 0.2s;
+  resize: vertical;
+  transition: border-color var(--duration-fast) var(--ease-in-out);
 }
 
 .messageInput:focus {
   outline: none;
-  border-color: #007acc;
+  border-color: var(--color-border-focus);
 }
 
 .charCount {
-  font-size: 0.75rem;
-  color: #666;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
   text-align: right;
-  margin-top: 0.25rem;
+  margin-top: var(--spacing-1);
 }
 
 .charCount.warning {
-  color: #ff6b35;
+  color: var(--color-warning);
 }
 
 .sendButton {
-  padding: 0.75rem 1.5rem;
-  background: #007acc;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s;
   height: fit-content;
-}
-
-.sendButton:hover:not(:disabled) {
-  background: #005a9e;
-}
-
-.sendButton:disabled {
-  background: #ccc;
-  cursor: not-allowed;
 }
 
 .authPrompt {
   text-align: center;
-  padding: 2rem;
-  background: rgb(255 255 255 / 90%);
-  border-radius: 8px;
-  margin-top: 1rem;
+  padding: var(--spacing-6);
+  border-radius: var(--radius-base);
+  background: var(--color-bg-subtle);
+  margin-top: var(--spacing-4);
 }
 
 .authPrompt h3 {
-  color: #333;
-  margin-bottom: 1rem;
+  font: var(--typography-h5);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-4);
 }
 
 .authPrompt p {
-  color: #666;
-  margin-bottom: 1.5rem;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-5);
 }
 
 .signInButton {
-  padding: 0.75rem 2rem;
-  background: #24292e;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.signInButton:hover {
-  background: #1b1f23;
+  margin-top: var(--spacing-2);
 }
 
 .loadingState {
   text-align: center;
-  padding: 2rem;
-  color: #666;
+  padding: var(--spacing-6);
+  color: var(--color-text-tertiary);
 }
 
 .errorState {
   text-align: center;
-  padding: 2rem;
-  color: #d32f2f;
-  background: rgb(255 0 0 / 5%);
-  border-radius: 8px;
-  margin: 1rem 0;
+  padding: var(--spacing-6);
+  border-radius: var(--radius-base);
+  background: var(--color-error-bg);
+  color: var(--color-error);
+  margin: var(--spacing-4) 0;
 }
 
 .emptyState {
   text-align: center;
-  padding: 3rem;
-  color: #999;
+  padding: var(--spacing-8);
+  color: var(--color-text-muted);
 }
 
 .emptyState p {
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-4);
 }
 
 .errorMessage {
-  background: rgb(255 0 0 / 10%);
-  border: 1px solid #ff6b6b;
-  border-radius: 4px;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  color: #d32f2f;
+  padding: var(--spacing-2);
+  margin-bottom: var(--spacing-4);
+  border: var(--border-width-thin) solid var(--color-error-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-error-bg);
+  color: var(--color-error);
 }
 
 /* Responsive design */
 @media (width <= 768px) {
-  .chatroom-container {
-    margin: 1rem;
-    padding: 1rem;
-  }
-  
-  .messages-container {
+  .messagesContainer {
     height: 400px;
   }
-  
-  .message-form {
+
+  .messageForm {
     flex-direction: column;
-    gap: 0.5rem;
+    align-items: stretch;
+    gap: var(--spacing-2);
   }
-  
-  .message-input {
+
+  .messageInput {
     min-height: 60px;
   }
 }
 
-/* Modal styles */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgb(0 0 0 / 70%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  backdrop-filter: blur(4px);
-}
-
-.modal-content {
-  background: white;
-  border-radius: 16px;
-  max-width: 480px;
-  width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 20px 40px rgb(0 0 0 / 30%);
-  animation: modal-appear 0.3s ease-out;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2rem 2rem 1rem;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.modal-header h2 {
-  margin: 0;
-  font-size: 1.5rem;
-  color: #333;
-  font-weight: 500;
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  font-size: 2rem;
-  color: #999;
-  cursor: pointer;
-  padding: 0;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: background-color 0.2s, color 0.2s;
-}
-
-.modal-close:hover {
-  background: #f5f5f5;
-  color: #333;
-}
-
-.modal-body {
-  padding: 2rem;
-}
-
-.modal-body p {
-  margin-bottom: 1.5rem;
-  color: #666;
-  text-align: center;
-  line-height: 1.5;
-}
-
-@keyframes modal-appear {
-  from {
-    opacity: 0;
-    transform: scale(0.9) translateY(-20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-/* Responsive modal */
-@media (width <= 640px) {
-  .modal-content {
-    width: 95%;
-    margin: 1rem;
-  }
-  
-  .modal-header {
-    padding: 1.5rem 1.5rem 1rem;
-  }
-  
-  .modal-header h2 {
-    font-size: 1.25rem;
-  }
-  
-  .modal-body {
-    padding: 1.5rem;
+@media (prefers-reduced-motion: reduce) {
+  .messageInput {
+    transition: none;
   }
 }

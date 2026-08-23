@@ -104,10 +104,15 @@ const data: DashboardData = {
     { 
       title: "Blog", 
       iconUrl: "/assets/icons/dashboard/misc/blog.svg",
-      route: "/blog" 
+      route: "/blog"
     },
-    { 
-      title: "Github", 
+    {
+      title: "Chat",
+      iconUrl: "/assets/icons/dashboard/misc/chat.svg",
+      route: "/chatroom"
+    },
+    {
+      title: "Github",
       iconUrl: "/assets/icons/dashboard/misc/github.svg",
       route: "https://github.com/sorfeb"
     },
