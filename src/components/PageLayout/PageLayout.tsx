@@ -6,6 +6,7 @@ import { useNavigationSound } from '../../hooks/useNavigationSound';
 import { useGamepadScope } from '../../hooks/useGamepadScope';
 import { useSpatialNavigation } from '../../hooks/useSpatialNavigation';
 import { useIsMobile } from '../../utils/responsiveUtils';
+import { PAGE_SCOPE_ID } from '../../constants/pageNavigation';
 import { PageLayoutProps } from './PageLayout.types';
 import { PageLayoutProvider } from './PageLayout.context';
 import { 
@@ -130,7 +131,7 @@ const PageLayoutRoot: React.FC<PageLayoutProps> = ({
    * sensible — and a mouse user never has focus yanked out from under them.
    */
   useGamepadScope({
-    id: 'page',
+    id: PAGE_SCOPE_ID,
     enabled: !isMobile && !isExiting,
     restoreFocusOnPop: true,
     handlers: {
