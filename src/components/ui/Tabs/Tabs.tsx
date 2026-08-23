@@ -64,6 +64,11 @@ export interface TabsProps {
   hoverSound?: SoundType | null;
   selectSound?: SoundType | null;
   className?: string;
+  /**
+   * Extra class on the tablist itself, for consumers that need to position it
+   * independently of the panels (a sticky bar, for instance).
+   */
+  listClassName?: string;
   /** Panel region, normally `<Tabs.Panel>` elements. */
   children?: React.ReactNode;
 }
@@ -141,6 +146,7 @@ const TabsRoot = forwardRef<TabsHandle, TabsProps>(function Tabs(
     hoverSound = 'hover',
     selectSound = 'panel',
     className = '',
+    listClassName = '',
     children,
   },
   ref,
@@ -245,7 +251,7 @@ const TabsRoot = forwardRef<TabsHandle, TabsProps>(function Tabs(
           role="tablist"
           aria-label={label}
           aria-orientation={orientation}
-          className={styles.list}
+          className={`${styles.list} ${listClassName}`.trim()}
           style={
             {
               '--tab-count': items.length,
