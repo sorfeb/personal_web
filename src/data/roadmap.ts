@@ -1,7 +1,7 @@
 import type { RoadmapEntry } from '@/types/roadmap';
 
 /**
- * Public roadmap — a curated subset of the Linear backlog (team s11o, project
+ * Public roadmap: a curated subset of the Linear backlog (team s11o, project
  * personal_web).
  *
  * Linear is the source of truth. This file exists so the site does not depend

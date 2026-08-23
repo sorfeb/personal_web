@@ -103,7 +103,7 @@ in Linear, tracked as [SOR-131](https://linear.app/s11o/issue/SOR-131).
   the same navigation (blade list = `up`/`down`, card stack = `left`/`right`) contribute to
   **one** scope id rather than pushing two and competing for the top of the stack.
   Contributions merge; the most recently mounted wins a conflict. **Contribute to a scope
-  from a component that renders its owner, not from one rendered inside it** — React commits
+  from a component that renders its owner, not from one rendered inside it**: React commits
   child effects first, and `registerScope` captures per-scope config (`previousFocus`) from
   whichever contributor arrives first. A page adding to PageLayout's scope registers from the
   component that renders `<PageLayout>`; see `src/constants/pageNavigation.ts`. There is **no

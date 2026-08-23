@@ -42,7 +42,7 @@ duplicate.
 
 ### Data
 
-- **`src/types/roadmap.ts`**, **`src/data/roadmap.ts`** — a curated public subset of the
+- **`src/types/roadmap.ts`**, **`src/data/roadmap.ts`**: a curated public subset of the
   Linear backlog, grouped in progress / up next / someday / recently shipped.
 
 ## Files Changed

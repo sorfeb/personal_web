@@ -37,7 +37,7 @@ type AboutTab = 'about' | 'system' | 'roadmap';
 const DEFAULT_TAB: AboutTab = 'about';
 
 /**
- * About — the Xbox 360 Guide header, rebuilt.
+ * About: the Xbox 360 Guide header, rebuilt.
  *
  * The counts on the inactive tabs are the point of the original pattern: the
  * Guide let you see there were no messages waiting without opening the tab.

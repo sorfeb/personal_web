@@ -1,5 +1,5 @@
 /*
- * Tabs — Xbox 360 Guide header, plus a segmented-control variant.
+ * Tabs: the Xbox 360 Guide header, plus a segmented-control variant.
  *
  * Every value comes from src/app/design-tokens.css. The two locally scoped
  * custom properties (--tab-count, --tab-active-index) are set inline by the

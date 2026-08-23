@@ -55,9 +55,9 @@ export interface TabsProps {
    */
   label: string;
   /**
-   * `guide` — the Xbox 360 Guide header: the active tab flexes wide with a
+   * `guide` is the Xbox 360 Guide header: the active tab flexes wide with a
    * raised fill while the others collapse to icon plus badge and sit recessed.
-   * `segmented` — an equal-width track with a sliding indicator.
+   * `segmented` is an equal-width track with a sliding indicator.
    */
   variant?: 'guide' | 'segmented';
   orientation?: 'horizontal' | 'vertical';
@@ -122,7 +122,7 @@ const TabsPanel: React.FC<TabsPanelProps> = ({ value, children, className = '' }
 };
 
 /**
- * Tabs — the WAI-ARIA tabs pattern with a roving tabindex.
+ * Tabs: the WAI-ARIA tabs pattern with a roving tabindex.
  *
  * The whole tablist is a single tab stop and arrows move within it. Blanket
  * `tabIndex={0}` would make every tab its own stop and leave keyboard
