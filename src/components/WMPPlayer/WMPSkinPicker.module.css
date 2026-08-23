@@ -1,0 +1,31 @@
+/*
+ * Skin picker strip, docked above the player window. Kept visually quiet so it
+ * reads as window chrome rather than as part of whichever skin is loaded.
+ */
+
+.picker {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: var(--spacing-1) var(--spacing-2);
+  background: var(--color-bg-panel);
+  border: var(--border-width-thin) solid var(--color-border-primary);
+  border-radius: var(--radius-base);
+  box-shadow: var(--shadow-md);
+}
+
+.label {
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+
+  /* The buttons carry the affordance; this is a caption. */
+  user-select: none;
+}
+
+@media (width <= 768px) {
+  .picker {
+    display: none;
+  }
+}

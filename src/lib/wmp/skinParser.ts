@@ -1,6 +1,15 @@
 /**
- * Windows Media Player skin parser
- * Parses .wms XML files and extracts UI definitions
+ * Windows Media Player skin parser.
+ *
+ * Turns a `.wms` manifest into a `SkinDefinition`. The work splits three ways:
+ *
+ *   skinSource.ts      bytes -> text (BOM sniffing, windows-1252 default)
+ *   wmsDocument.ts     text  -> node tree (tolerant SGML, not XML)
+ *   this file          nodes -> SkinDefinition (via the attribute schema)
+ *
+ * Nothing here is specific to any one skin. Element and attribute support
+ * lives in `attributeSchema.ts` as data, so a skin that uses an attribute no
+ * other skin uses is a table row rather than a new branch.
  */
 
 import type {
@@ -10,385 +19,210 @@ import type {
   SkinTheme,
   SkinView,
 } from '@/types/wmp';
+import {
+  ATTRIBUTE_SCHEMA,
+  ELEMENT_TAGS,
+  NON_VISUAL_TAGS,
+  specFor,
+  type Coercion,
+} from './attributeSchema';
+import { parseAttributeExpression } from './expression';
+import { fetchSkinText } from './skinSource';
+import { parseWmsDocument, findFirst, type WmsNode } from './wmsDocument';
 
-/**
- * Parse a WMP skin XML file
- * @param xmlContent - The XML content as a string
- * @returns Parsed skin definition
- */
-export async function parseSkinXML(xmlContent: string): Promise<SkinDefinition> {
-  const parser = new DOMParser();
-  const xmlDoc = parser.parseFromString(xmlContent, 'text/xml');
+/** Assign into a dotted path, creating intermediate objects as needed. */
+function assignPath(target: Record<string, unknown>, path: string, value: unknown): void {
+  const segments = path.split('.');
+  let cursor = target;
 
-  // Check for parsing errors
-  const parserError = xmlDoc.querySelector('parsererror');
-  if (parserError) {
-    throw new Error(`XML parsing error: ${parserError.textContent}`);
-  }
-
-  // Parse theme element
-  const themeElement = xmlDoc.querySelector('theme');
-  if (!themeElement) {
-    throw new Error('Invalid skin file: missing <theme> element');
-  }
-
-  const theme: SkinTheme = {
-    id: themeElement.getAttribute('id') || 'unknown',
-    author: themeElement.getAttribute('author') || undefined,
-    copyright: themeElement.getAttribute('copyright') || undefined,
-  };
-
-  // Parse view element
-  const viewElement = themeElement.querySelector('view');
-  if (!viewElement) {
-    throw new Error('Invalid skin file: missing <view> element');
-  }
-
-  const view: SkinView = {
-    width: parseInt(viewElement.getAttribute('width') || '0', 10),
-    height: parseInt(viewElement.getAttribute('height') || '0', 10),
-    backgroundColor: viewElement.getAttribute('backgroundColor') || undefined,
-    titleBar: viewElement.getAttribute('titleBar') === 'true',
-    resizable: viewElement.getAttribute('resizable') === 'true',
-    scriptFile: viewElement.getAttribute('scriptFile') || undefined,
-    elements: [],
-  };
-
-  // Parse all child elements recursively
-  const childElements = Array.from(viewElement.children);
-  for (const child of childElements) {
-    const element = parseElement(child);
-    if (element) {
-      view.elements.push(element);
+  for (let i = 0; i < segments.length - 1; i += 1) {
+    const segment = segments[i];
+    if (typeof cursor[segment] !== 'object' || cursor[segment] === null) {
+      cursor[segment] = {};
     }
+    cursor = cursor[segment] as Record<string, unknown>;
   }
 
-  return {
-    theme,
-    view,
-  };
+  cursor[segments[segments.length - 1]] = value;
 }
 
 /**
- * Parse a single XML element into a SkinElement
- * @param element - The XML Element to parse
- * @returns Parsed SkinElement or null if element should be skipped
+ * Apply a coercion. Returns `undefined` for values that should not be set at
+ * all, which keeps unparseable numbers from becoming NaN in the tree.
  */
-export function parseElement(element: Element): SkinElement | null {
-  const tagName = element.tagName.toLowerCase();
+function coerce(raw: string, kind: Coercion): unknown {
+  switch (kind) {
+    case 'string':
+      return raw;
 
-  // Map XML tag names to our element types
-  const typeMap: Record<string, SkinElementType> = {
-    button: 'button',
-    buttongroup: 'buttongroup',
-    buttonelement: 'buttonelement',
-    playelement: 'playelement',
-    pausebutton: 'pausebutton',
-    stopelement: 'stopelement',
-    nextelement: 'nextelement',
-    prevelement: 'prevelement',
-    slider: 'slider',
-    text: 'text',
-    subview: 'subview',
-    effects: 'effects',
-    video: 'video',
-    playlist: 'playlist',
-  };
+    case 'int': {
+      const parsed = parseInt(raw, 10);
+      return Number.isNaN(parsed) ? undefined : parsed;
+    }
 
-  const type = typeMap[tagName];
-  if (!type) {
-    // Skip elements we don't recognize (like equalizerSettings, etc.)
+    case 'boolean':
+      return raw.toLowerCase() === 'true';
+
+    case 'numberOrBinding': {
+      // A binding keeps its source text; the renderer resolves it live.
+      if (parseAttributeExpression(raw).kind !== 'literal') return raw;
+      const parsed = parseFloat(raw);
+      return Number.isNaN(parsed) ? raw : parsed;
+    }
+
+    case 'position': {
+      // `jscript:` arithmetic is preserved verbatim and resolved by
+      // `resolveLayout` once image dimensions are known.
+      if (parseAttributeExpression(raw).kind !== 'literal') return raw;
+      const parsed = parseInt(raw, 10);
+      return Number.isNaN(parsed) ? 0 : parsed;
+    }
+
+    case 'booleanOrBinding': {
+      if (parseAttributeExpression(raw).kind !== 'literal') return raw;
+      return raw.toLowerCase() === 'true';
+    }
+
+    default:
+      return raw;
+  }
+}
+
+/**
+ * Convert one WMS node into a SkinElement, recursing into its children.
+ * Returns null for tags that carry no UI.
+ */
+export function parseElement(node: WmsNode): SkinElement | null {
+  const mapping = ELEMENT_TAGS[node.tag];
+  if (!mapping) {
+    // Settings tags and anything unrecognised contribute nothing to render.
     return null;
   }
 
-  // Parse common attributes
-  const skinElement: SkinElement = {
-    type,
-    id: element.getAttribute('id') || undefined,
-    position: {
-      left: parsePosition(element.getAttribute('left') || '0'),
-      top: parsePosition(element.getAttribute('top') || '0'),
-      zIndex: element.hasAttribute('zIndex')
-        ? parseInt(element.getAttribute('zIndex')!, 10)
-        : undefined,
-    },
+  const element: SkinElement = {
+    type: mapping.type,
+    position: { left: 0, top: 0 },
     dimensions: {},
     images: {},
     colors: {},
+    children: [],
   };
 
-  // Parse dimensions
-  if (element.hasAttribute('width')) {
-    skinElement.dimensions!.width = parseInt(
-      element.getAttribute('width')!,
-      10
-    );
-  }
-  if (element.hasAttribute('height')) {
-    skinElement.dimensions!.height = parseInt(
-      element.getAttribute('height')!,
-      10
-    );
+  if (mapping.role) {
+    element.role = mapping.role;
   }
 
-  // Parse images
-  if (element.hasAttribute('image')) {
-    skinElement.images!.default = element.getAttribute('image')!;
-  }
-  if (element.hasAttribute('hoverImage')) {
-    skinElement.images!.hover = element.getAttribute('hoverImage')!;
-  }
-  if (element.hasAttribute('downImage')) {
-    skinElement.images!.down = element.getAttribute('downImage')!;
-  }
-  if (element.hasAttribute('disabledImage')) {
-    skinElement.images!.disabled = element.getAttribute('disabledImage')!;
-  }
-  if (element.hasAttribute('mappingImage')) {
-    skinElement.images!.mapping = element.getAttribute('mappingImage')!;
-  }
-  if (element.hasAttribute('backgroundImage')) {
-    skinElement.images!.background = element.getAttribute('backgroundImage')!;
-  }
-  if (element.hasAttribute('foregroundImage')) {
-    skinElement.images!.foreground = element.getAttribute('foregroundImage')!;
-  }
-  if (element.hasAttribute('thumbImage')) {
-    skinElement.images!.thumb = element.getAttribute('thumbImage')!;
-  }
-  if (element.hasAttribute('thumbHoverImage')) {
-    skinElement.images!.thumbHover = element.getAttribute('thumbHoverImage')!;
-  }
-  if (element.hasAttribute('thumbDownImage')) {
-    skinElement.images!.thumbDown = element.getAttribute('thumbDownImage')!;
-  }
+  for (const [name, value] of node.attrs) {
+    const spec = specFor(name, mapping.type);
+    if (!spec) continue;
 
-  // Parse colors
-  if (element.hasAttribute('backgroundColor')) {
-    skinElement.colors!.backgroundColor =
-      element.getAttribute('backgroundColor')!;
-  }
-  if (element.hasAttribute('foregroundColor')) {
-    skinElement.colors!.foregroundColor =
-      element.getAttribute('foregroundColor')!;
-  }
-  if (element.hasAttribute('transparencyColor')) {
-    skinElement.colors!.transparencyColor =
-      element.getAttribute('transparencyColor')!;
-  }
-  if (element.hasAttribute('clippingColor')) {
-    skinElement.colors!.clippingColor = element.getAttribute('clippingColor')!;
-  }
-
-  // Parse button-specific attributes
-  if (element.hasAttribute('mappingColor')) {
-    skinElement.mappingColor = element.getAttribute('mappingColor')!;
-  }
-
-  // Parse slider-specific attributes
-  if (type === 'slider') {
-    if (element.hasAttribute('min')) {
-      const minValue = element.getAttribute('min')!;
-      // Keep WMP bindings as strings, otherwise parse as float
-      skinElement.min = minValue.includes('wmpprop:') || minValue.includes('wmpenabled:')
-        ? minValue
-        : parseFloat(minValue);
-    }
-    if (element.hasAttribute('max')) {
-      const maxValue = element.getAttribute('max')!;
-      // Keep WMP bindings as strings, otherwise parse as float
-      skinElement.max = maxValue.includes('wmpprop:') || maxValue.includes('wmpenabled:')
-        ? maxValue
-        : parseFloat(maxValue);
-    }
-    if (element.hasAttribute('value')) {
-      const value = element.getAttribute('value')!;
-      // Keep WMP bindings as strings, otherwise try to parse as float
-      skinElement.value = value.includes('wmpprop:') || value.includes('wmpenabled:')
-        ? value
-        : (isNaN(parseFloat(value)) ? value : parseFloat(value));
-    }
-    if (element.hasAttribute('direction')) {
-      skinElement.direction = element.getAttribute('direction') as
-        | 'horizontal'
-        | 'vertical';
-    }
-    if (element.hasAttribute('slide')) {
-      skinElement.slide = element.getAttribute('slide') === 'true';
-    }
-    if (element.hasAttribute('borderSize')) {
-      skinElement.borderSize = parseInt(
-        element.getAttribute('borderSize')!,
-        10
-      );
-    }
-    if (element.hasAttribute('tiled')) {
-      skinElement.tiled = element.getAttribute('tiled') === 'true';
-    }
-    if (element.hasAttribute('useForegroundProgress')) {
-      skinElement.useForegroundProgress =
-        element.getAttribute('useForegroundProgress') === 'true';
-    }
-    if (element.hasAttribute('foregroundProgress')) {
-      skinElement.foregroundProgress =
-        element.getAttribute('foregroundProgress')!;
+    const coerced = coerce(value, spec.coerce);
+    if (coerced !== undefined) {
+      assignPath(element as unknown as Record<string, unknown>, spec.target, coerced);
     }
   }
 
-  // Parse text-specific attributes
-  if (type === 'text') {
-    if (element.hasAttribute('value')) {
-      skinElement.textValue = element.getAttribute('value')!;
-    }
-    if (element.hasAttribute('fontSize')) {
-      skinElement.fontSize = parseInt(element.getAttribute('fontSize')!, 10);
-    }
-    if (element.hasAttribute('fontStyle')) {
-      skinElement.fontStyle = element.getAttribute('fontStyle')!;
-    }
-    if (element.hasAttribute('fontType')) {
-      skinElement.fontType = element.getAttribute('fontType')!;
-    }
-    if (element.hasAttribute('justification')) {
-      skinElement.justification = element.getAttribute('justification') as
-        | 'Left'
-        | 'Center'
-        | 'Right';
-    }
-    if (element.hasAttribute('cursor')) {
-      skinElement.cursor = element.getAttribute('cursor')!;
+  /*
+   * A tag whose name is itself the binding (`<currentPositionText>`) supplies
+   * one only when the element did not declare a value of its own.
+   */
+  if (mapping.implicitBinding && element.textValue === undefined) {
+    element.textValue = mapping.implicitBinding;
+  }
+
+  for (const child of node.children) {
+    const parsed = parseElement(child);
+    if (parsed) {
+      element.children!.push(parsed);
     }
   }
 
-  // Parse playlist-specific attributes
-  if (type === 'playlist') {
-    if (element.hasAttribute('columnsVisible')) {
-      skinElement.columnsVisible =
-        element.getAttribute('columnsVisible') === 'true';
-    }
-    if (element.hasAttribute('columns')) {
-      skinElement.columns = element.getAttribute('columns')!;
-    }
-    if (element.hasAttribute('dropDownVisible')) {
-      skinElement.dropDownVisible =
-        element.getAttribute('dropDownVisible') === 'true';
-    }
-    if (element.hasAttribute('playlistItemsVisible')) {
-      skinElement.playlistItemsVisible =
-        element.getAttribute('playlistItemsVisible') === 'true';
-    }
-  }
+  return element;
+}
 
-  // Parse event handlers
-  if (element.hasAttribute('onClick')) {
-    skinElement.onClick = element.getAttribute('onClick')!;
-  }
-  if (element.hasAttribute('onDragEnd')) {
-    skinElement.onDragEnd = element.getAttribute('onDragEnd')!;
-  }
-  if (element.hasAttribute('onEndMove')) {
-    skinElement.onEndMove = element.getAttribute('onEndMove')!;
-  }
-  if (element.hasAttribute('onLoad')) {
-    skinElement.onLoad = element.getAttribute('onLoad')!;
-  }
-  if (element.hasAttribute('onClose')) {
-    skinElement.onClose = element.getAttribute('onClose')!;
-  }
-  if (element.hasAttribute('OnVideoStart')) {
-    skinElement.onVideoStart = element.getAttribute('OnVideoStart')!;
-  }
-  if (element.hasAttribute('OnVideoEnd')) {
-    skinElement.onVideoEnd = element.getAttribute('OnVideoEnd')!;
-  }
-  if (element.hasAttribute('value_onchange')) {
-    skinElement.value_onchange = element.getAttribute('value_onchange')!;
-  }
+/** Parse a single `<view>` node. */
+function parseView(node: WmsNode): SkinView {
+  const view: SkinView = {
+    id: node.attrs.get('id'),
+    width: parseInt(node.attrs.get('width') ?? '0', 10) || 0,
+    height: parseInt(node.attrs.get('height') ?? '0', 10) || 0,
+    backgroundColor: node.attrs.get('backgroundcolor'),
+    titleBar: node.attrs.get('titlebar') === 'true',
+    resizable:
+      node.attrs.get('resizable') === 'true' || node.attrs.get('resizeable') === 'true',
+    scriptFile: node.attrs.get('scriptfile'),
+    elements: [],
+  };
 
-  // Parse visibility and enabled state
-  if (element.hasAttribute('visible')) {
-    const visibleAttr = element.getAttribute('visible')!;
-    skinElement.visible =
-      visibleAttr === 'true' || visibleAttr === 'false'
-        ? visibleAttr === 'true'
-        : visibleAttr;
-  }
-  if (element.hasAttribute('enabled')) {
-    skinElement.enabled = element.getAttribute('enabled') === 'true';
-  }
-
-  // Parse tooltip
-  if (element.hasAttribute('toolTip')) {
-    skinElement.toolTip = element.getAttribute('toolTip')!;
-  }
-  if (element.hasAttribute('upToolTip')) {
-    skinElement.toolTip = element.getAttribute('upToolTip')!;
-  }
-
-  // Parse tabStop (WMP-specific)
-  if (element.hasAttribute('tabStop')) {
-    skinElement.visible = element.getAttribute('tabStop')!;
-  }
-
-  // Parse child elements recursively
-  skinElement.children = [];
-  const childElements = Array.from(element.children);
-  for (const child of childElements) {
-    const childElement = parseElement(child);
-    if (childElement) {
-      skinElement.children.push(childElement);
+  for (const child of node.children) {
+    const parsed = parseElement(child);
+    if (parsed) {
+      view.elements.push(parsed);
     }
   }
 
-  return skinElement;
+  return view;
+}
+
+/** Collect every `<view>` descendant in document order. */
+function collectViews(node: WmsNode, into: WmsNode[] = []): WmsNode[] {
+  for (const child of node.children) {
+    if (child.tag === 'view') {
+      into.push(child);
+      // A <view> never nests another, so no need to descend further.
+      continue;
+    }
+    collectViews(child, into);
+  }
+  return into;
 }
 
 /**
- * Parse position value - can be a number or a jscript: expression
- * @param value - The position value from XML
- * @returns Parsed position as number or string (for jscript expressions)
+ * Parse manifest text into a skin definition.
+ *
+ * @throws when the manifest has no `<theme>` or no `<view>`, which are the two
+ *   things every WMS must have for the player to show anything.
  */
-function parsePosition(value: string): number | string {
-  if (value.startsWith('jscript:')) {
-    return value; // Keep jscript expressions as strings for later evaluation
+export function parseSkinManifest(source: string): SkinDefinition {
+  const document = parseWmsDocument(source);
+
+  const themeNode = findFirst(document, 'theme');
+  if (!themeNode) {
+    throw new Error('Invalid skin manifest: no <theme> element');
   }
-  const parsed = parseInt(value, 10);
-  return isNaN(parsed) ? 0 : parsed;
+
+  const theme: SkinTheme = {
+    id: themeNode.attrs.get('id') ?? 'unknown',
+    title: themeNode.attrs.get('title'),
+    author: themeNode.attrs.get('author'),
+    copyright: themeNode.attrs.get('copyright'),
+  };
+
+  const viewNodes = collectViews(themeNode);
+  if (viewNodes.length === 0) {
+    throw new Error('Invalid skin manifest: no <view> element');
+  }
+
+  const views = viewNodes.map(parseView);
+
+  return { theme, view: views[0], views };
 }
 
-/**
- * Load and parse a skin file from a URL
- * @param skinUrl - URL to the .wms file
- * @returns Parsed skin definition
- */
-export async function loadSkin(skinUrl: string): Promise<SkinDefinition> {
-  const response = await fetch(skinUrl);
-  if (!response.ok) {
-    throw new Error(`Failed to load skin: ${response.statusText}`);
-  }
-  const xmlContent = await response.text();
-  return parseSkinXML(xmlContent);
+/** Fetch and parse a skin manifest. */
+export async function loadSkin(manifestUrl: string): Promise<SkinDefinition> {
+  return parseSkinManifest(await fetchSkinText(manifestUrl));
 }
 
-/**
- * Helper to find an element by ID in the skin definition
- * @param skinDef - The skin definition
- * @param id - The element ID to search for
- * @returns The found element or null
- */
+/** Depth-first search for an element by id. */
 export function findElementById(
   skinDef: SkinDefinition,
   id: string
 ): SkinElement | null {
   function search(elements: SkinElement[]): SkinElement | null {
     for (const element of elements) {
-      if (element.id === id) {
-        return element;
-      }
-      if (element.children && element.children.length > 0) {
-        const found = search(element.children);
-        if (found) return found;
-      }
+      if (element.id === id) return element;
+      const found = element.children ? search(element.children) : null;
+      if (found) return found;
     }
     return null;
   }
@@ -396,12 +230,7 @@ export function findElementById(
   return search(skinDef.view.elements);
 }
 
-/**
- * Get all elements of a specific type from the skin definition
- * @param skinDef - The skin definition
- * @param type - The element type to search for
- * @returns Array of matching elements
- */
+/** Every element of a given type, depth-first. */
 export function getElementsByType(
   skinDef: SkinDefinition,
   type: SkinElementType
@@ -410,15 +239,25 @@ export function getElementsByType(
 
   function search(elements: SkinElement[]): void {
     for (const element of elements) {
-      if (element.type === type) {
-        results.push(element);
-      }
-      if (element.children && element.children.length > 0) {
-        search(element.children);
-      }
+      if (element.type === type) results.push(element);
+      if (element.children) search(element.children);
     }
   }
 
   search(skinDef.view.elements);
   return results;
 }
+
+/** Walk every element in a view, depth-first. */
+export function walkElements(
+  elements: SkinElement[],
+  visit: (element: SkinElement) => void
+): void {
+  for (const element of elements) {
+    visit(element);
+    if (element.children) walkElements(element.children, visit);
+  }
+}
+
+/** Re-exported so callers do not need to know about the schema module. */
+export { ATTRIBUTE_SCHEMA };

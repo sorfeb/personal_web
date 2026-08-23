@@ -7,10 +7,12 @@
 
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
-import type { SkinDefinition, Track } from '@/types/wmp';
-import { loadSkin } from '@/lib/wmp/skinParser';
+import type { SkinAssets, SkinDefinition, Track } from '@/types/wmp';
+import { findElementById, loadSkin } from '@/lib/wmp/skinParser';
 import { loadSkinAssets } from '@/lib/wmp/assetLoader';
+import { resolveLayout } from '@/lib/wmp/layout';
 import { parseAllButtonGroups } from '@/lib/wmp/regionMapper';
+import { manifestUrlFor, skinPathFor, type SkinManifest } from '@/lib/wmp/skinRegistry';
 import { useWMPPlayer } from '@/hooks/useWMPPlayer';
 import { useAudioManager } from '@/hooks/useAudioManager';
 import { useAchievements } from '@/hooks/useAchievements';
@@ -35,7 +37,8 @@ const CLICK_HANDLER_KEYS = [
 ] as const;
 
 interface WMPPlayerProps {
-  skinPath: string; // Path to skin folder (e.g., "/assets/skins/headspace")
+  /** Which installed skin to render. See `src/lib/wmp/skinRegistry.ts`. */
+  skin: SkinManifest;
   playlist?: Track[]; // Optional playlist
   autoPlay?: boolean;
   onClose?: () => void; // Callback when close button is clicked
@@ -43,14 +46,14 @@ interface WMPPlayerProps {
 }
 
 export function WMPPlayer({
-  skinPath,
+  skin,
   playlist = [],
   autoPlay = false,
   onClose,
   onMinimize,
 }: WMPPlayerProps) {
   const [skinDef, setSkinDef] = useState<SkinDefinition | null>(null);
-  const [assets, setAssets] = useState<any>(null);
+  const [assets, setAssets] = useState<SkinAssets | null>(null);
   const [clickRegions, setClickRegions] = useState<Map<string, any>>(new Map());
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -60,28 +63,36 @@ export function WMPPlayer({
   const { navigateWithSound } = useNavigationSound();
   const player = useWMPPlayer();
 
-  // effect:audited — multi-step async skin load (XML parse + asset preload + region parse).
-  // Converting to useQuery would require decoupling the click-handler map from the
-  // skin-load pipeline; deferred. Deps [skinPath] are intentional.
+  // effect:audited — multi-step async skin load (manifest parse + asset preload
+  // + layout resolve + region parse). Converting to useQuery would require
+  // decoupling the click-handler map from the skin-load pipeline; deferred.
+  //
+  // Depending on the whole `skin` object is safe because the registry hands
+  // back a stable reference per id (see `getSkin`), so this re-runs when the
+  // selected skin actually changes rather than on every render.
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
+    let cancelled = false;
+
     async function loadSkinData() {
       try {
         setIsLoading(true);
         setError(null);
 
-        // Load and parse skin XML
-        const skinUrl = `${skinPath}/headspace.wms`;
-        const definition = await loadSkin(skinUrl);
-        setSkinDef(definition);
+        const skinPath = skinPathFor(skin);
 
-        // Load skin assets
+        // Parse the manifest named by the registry. Manifest filenames do not
+        // follow from the folder name: 9SeriesDefault ships Corona.wms.
+        const definition = await loadSkin(manifestUrlFor(skin));
+
+        // Assets first: resolving `jscript:x.width` arithmetic needs the
+        // natural dimensions of the bitmaps those elements draw.
         const skinAssets = await loadSkinAssets(skinPath, definition);
-        setAssets(skinAssets);
+        resolveLayout(definition, skinAssets);
 
         /*
          * Regions live for the skin's lifetime, but this effect runs once per
-         * skinPath — so region handlers read the current handler map through a
+         * skin — so region handlers read the current handler map through a
          * ref at click time instead of baking in this render's closures.
          */
         const liveHandlers = new Map<string, () => void>(
@@ -94,18 +105,27 @@ export function WMPPlayer({
           skinAssets.mappings,
           liveHandlers
         );
-        setClickRegions(regions);
 
+        // A skin switch mid-load must not paint the losing skin's tree.
+        if (cancelled) return;
+
+        setSkinDef(definition);
+        setAssets(skinAssets);
+        setClickRegions(regions);
         setIsLoading(false);
       } catch (err) {
-        console.error('Failed to load skin:', err);
+        if (cancelled) return;
         setError(err instanceof Error ? err.message : 'Failed to load skin');
         setIsLoading(false);
       }
     }
 
     loadSkinData();
-  }, [skinPath]);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [skin]);
 
   // effect:audited — sync incoming playlist prop into the useWMPPlayer hook's
   // internal state. Using useEffect because the hook exposes imperative setters
@@ -209,6 +229,16 @@ export function WMPPlayer({
     return handlers;
   }, [player, playSound, navigateWithSound, unlock]);
 
+  /*
+   * The playlist overlay below is positioned from headspace's own geometry.
+   * Detect the drawer it belongs to rather than checking the skin id, so a
+   * future skin that reuses the same element ids gets it too.
+   */
+  const hasHeadspaceDrawer = useMemo(
+    () => (skinDef ? findElementById(skinDef, 'sPlEar') !== null : false),
+    [skinDef]
+  );
+
   if (isLoading) {
     return (
       <div className={styles.playerShell}>
@@ -259,25 +289,31 @@ export function WMPPlayer({
        * (sPlEar.left + 13, sPlEar.top + 10). Closed sPlEar.left=277 → 290.
        * Open sPlEar.left=488 → 501. Animation duration matches the
        * sPlEar slide in WMPSubview.tsx (0.12s ease-in-out).
+       *
+       * Gated on the skin actually declaring sPlEar: these are headspace's
+       * coordinates, and painting them over a skin without that drawer would
+       * drop a playlist in the middle of unrelated art.
        */}
-      <motion.div
-        className={styles.playlistDrawerOverlay}
-        initial={false}
-        animate={{
-          left: player.state.playlistDrawerOpen ? 501 : 290,
-          opacity: player.state.playlistDrawerOpen ? 1 : 0,
-        }}
-        transition={{ duration: 0.12, ease: 'easeInOut' }}
-        style={{
-          pointerEvents: player.state.playlistDrawerOpen ? 'auto' : 'none',
-        }}
-      >
-        <WMPPlaylistDrawer
-          playlist={player.state.playlist}
-          currentIndex={player.state.playlistIndex}
-          onSelect={player.setPlaylistIndex}
-        />
-      </motion.div>
+      {hasHeadspaceDrawer && (
+        <motion.div
+          className={styles.playlistDrawerOverlay}
+          initial={false}
+          animate={{
+            left: player.state.playlistDrawerOpen ? 501 : 290,
+            opacity: player.state.playlistDrawerOpen ? 1 : 0,
+          }}
+          transition={{ duration: 0.12, ease: 'easeInOut' }}
+          style={{
+            pointerEvents: player.state.playlistDrawerOpen ? 'auto' : 'none',
+          }}
+        >
+          <WMPPlaylistDrawer
+            playlist={player.state.playlist}
+            currentIndex={player.state.playlistIndex}
+            onSelect={player.setPlaylistIndex}
+          />
+        </motion.div>
+      )}
 
       {/* Hidden audio element managed by useWMPPlayer for `source: 'audio'` tracks. */}
     </div>
