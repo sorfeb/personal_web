@@ -143,6 +143,15 @@ export const GamepadProvider: React.FC<{ children: React.ReactNode }> = ({ child
             : (document.activeElement as HTMLElement | null),
       };
       scopesRef.current.push(entry);
+    } else if (scope.restoreFocusOnPop) {
+      /*
+       * Contributions merge, so the entry's config must not depend on which
+       * contributor happened to register first. React commits child effects
+       * before parent effects, so a descendant contributing to an ancestor's
+       * scope registers first and would otherwise strip the ancestor's
+       * restoration. OR-merging keeps the strongest claim.
+       */
+      entry.restoreFocusOnPop = true;
     }
 
     entry.contributions.push(contribution);
