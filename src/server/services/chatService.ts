@@ -1,5 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import type { PrismaClient } from '@prisma/client';
+import type { PrismaClient } from '@/generated/prisma/client';
 import { CHAT_LIMITS } from '../../constants/chat';
 
 /**
