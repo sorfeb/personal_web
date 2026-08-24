@@ -59,7 +59,7 @@ navigateWithSound('/path', 'navigation');
 - **Router location**: `src/server/routers/_app.ts` combines all routers
 - **Available routers**: messages, user, spotify, blog
 - **Patterns**: Zod validation on all inputs, proper TRPCError codes, select only needed fields
-- **Database**: Prisma v6 with Neon PostgreSQL adapter (`prisma/schema.prisma`)
+- **Database**: Prisma v7 with Neon driver adapter (`prisma/schema.prisma`, `prisma.config.ts`)
 
 ### Component Patterns
 - CSS Modules (`.module.css`) for all component styles
@@ -90,13 +90,17 @@ npm run db:migrate:status                    # what is applied where
 npm run db:migrate:deploy                    # apply in CI/production
 ```
 
-The `db:*` scripts wrap `node --env-file=.env.local`, because credentials live only in
-`.env.local` and the v6 Prisma CLI cannot read it. `db:migrate:deploy` deliberately omits that
-wrapper: CI injects real env vars and `--env-file` hard-errors on a missing file.
+`prisma.config.ts` loads `.env.local` itself via `process.loadEnvFile`, guarded by an
+`existsSync` check so CI (which injects real env vars and ships no `.env.local`) does not throw.
+No script wrappers are needed.
 
-**Never invoke Prisma as bare `npx prisma`.** With nothing resolvable locally it fetches 7.x from
-the registry, which rejects this v6 schema with "The datasource property `url` is no longer
-supported" — a version mismatch that reads like a schema bug.
+### Prisma Client is generated, not installed
+
+v7 does not generate into `node_modules`. The client lands in `src/generated/prisma` (gitignored)
+and is imported as `@/generated/prisma/client`. **There is no `@prisma/client` import path any
+more** — that package exists only as the runtime the generated code depends on. Run
+`npm run db:generate` after any schema change, and after a fresh `npm ci`, or imports will not
+resolve.
 
 ### Adding a required column to a populated table
 
@@ -116,6 +120,9 @@ constants. If `DEFAULT_ROOM_SLUG` changes, that is a new migration, not an edit 
 | `DATABASE_URL` | The app, through the Neon pooler |
 | `DIRECT_URL` | Migrations; the pooled connection cannot run DDL |
 | `SHADOW_DATABASE_URL` | `migrate dev` only, for drift detection. A **separate** Neon database, because Prisma resets it on every run |
+
+All three are declared in `prisma.config.ts`, not in `schema.prisma`. v7 deprecated `url`,
+`directUrl` and `shadowDatabaseUrl` on the datasource block, which now carries only `provider`.
 
 `migrate deploy` and `migrate resolve` do not use the shadow database, so production never needs it.
 
