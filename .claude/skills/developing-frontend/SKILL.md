@@ -65,32 +65,40 @@ navigateWithSound('/path', 'navigation');
 
 ## CSS Conventions
 
+Styling rules live in the **`styling-ui` skill** — load it before writing any `.module.css`.
+The short version: declaration order is layout, dimensions, spacing, visual, motion last, and
+every color, radius, shadow, duration, easing and z-index is a `var(--*)` token from
+`src/app/design-tokens.css`.
+
 ```css
 .container {
-  /* Layout first */
+  /* layout */
   display: flex;
   position: relative;
 
-  /* Dimensions */
+  /* dimensions */
   width: 100%;
 
-  /* Spacing */
-  padding: 1rem;
+  /* spacing */
+  padding: var(--spacing-4);
 
-  /* Visual */
-  background: var(--color-primary);
+  /* visual */
+  background: var(--color-bg-panel);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
 
-  /* Transitions last - 0.3s for hover, 0.5s for major */
-  transition: all 0.3s ease;
+  /* motion */
+  transition: var(--transition-normal);
 }
 
-@media (max-width: 768px) {
-  .container { padding: 0.5rem; }
+@media (width <= 768px) {
+  .container { padding: var(--spacing-2); }
 }
 ```
 
 ## Reference Files
 
+- **Tokens, primitives, motion, focus**: load the `styling-ui` skill
 - **Component patterns**: See [PATTERNS.md](PATTERNS.md)
 - **Animation timing**: See [ANIMATIONS.md](ANIMATIONS.md)
 - **Context providers**: See [CONTEXTS.md](CONTEXTS.md)
@@ -100,7 +108,8 @@ navigateWithSound('/path', 'navigation');
 ```
 - [ ] Audio feedback on all interactive elements
 - [ ] Responsive design at 768px breakpoint
-- [ ] CSS Modules with descriptive class names
+- [ ] CSS Modules with descriptive class names, design tokens not literals
+- [ ] `npm run lint:css` warning count did not increase
 - [ ] No console.log statements
 - [ ] TypeScript compiles (`npm run compile`)
 - [ ] Storybook story (if major component)

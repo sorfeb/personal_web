@@ -14,8 +14,12 @@ Before substantial work:
 - Multiple matches: prefer the most specific local skill for the package or concern you are changing; load additional skills only when the task spans multiple packages or concerns.
 
 Project skills live in `.claude/skills/` and are the source of truth for domain guidance:
-`developing-frontend`, `developing-backend`, `scaffolding-components`, `planning-features`,
-`reviewing-code`, `no-useeffect`, `vercel-react-best-practices`.
+`developing-frontend`, `developing-backend`, `styling-ui`, `scaffolding-components`,
+`planning-features`, `reviewing-code`, `no-useeffect`, `vercel-react-best-practices`.
+
+Load `styling-ui` before editing any `.module.css` or choosing a color, radius, shadow, timing or
+z-index. It carries the exact token names and the `ui/` primitive APIs; guessing either is the
+most common source of rework.
 
 ## Build & Development Commands
 
