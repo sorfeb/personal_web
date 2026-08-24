@@ -1,0 +1,269 @@
+/*
+ * Tabs: the Xbox 360 Guide header, plus a segmented-control variant.
+ *
+ * Every value comes from src/app/design-tokens.css. The two locally scoped
+ * custom properties (--tab-count, --tab-active-index) are set inline by the
+ * component so the segmented indicator can be positioned with calc() instead
+ * of a JavaScript layout pass.
+ */
+
+.tabs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  width: 100%;
+}
+
+.list {
+  display: flex;
+  align-items: stretch;
+  gap: var(--spacing-1);
+  width: 100%;
+}
+
+/* ---------------------------------------------------------------- tab */
+
+.tab {
+  position: relative;
+  z-index: var(--z-base);
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  min-width: 0;
+  padding: var(--spacing-3) var(--spacing-4);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-tertiary);
+  text-align: left;
+  cursor: pointer;
+
+  /*
+   * Recessed: an unselected Guide tab is DARKER than the panel behind it and
+   * sits below its plane. Getting this the wrong way round reads as the wrong
+   * tab being active, which is what the first cut of this file did.
+   */
+  background: var(--color-bg-overlay);
+  border: var(--border-width-thin) solid var(--color-border-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inset-heavy);
+  transition:
+    flex-grow var(--duration-normal) var(--ease-smooth),
+    color var(--duration-normal) var(--ease-out),
+    background-color var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out);
+}
+
+.tab:hover:not(:disabled, [aria-selected='true']) {
+  color: var(--color-text-secondary);
+  background: var(--color-bg-hover);
+}
+
+.tab:disabled {
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/*
+ * html[data-input='gamepad'] :focus in globals.css already paints the
+ * controller selection ring. This covers keyboard focus in pointer mode,
+ * where :focus-visible is the right hook.
+ */
+.tab:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.tab[aria-selected='true'] {
+  flex: 1 1 auto;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+
+  /*
+   * Raised: lighter than everything around it, with the highlight at the top
+   * edge. The fill stays light all the way down, which is what separates it
+   * from the near-black unselected tabs.
+   */
+  background: var(--gradient-tab-active);
+  border-color: var(--color-border-secondary);
+  box-shadow: var(--shadow-inset-medium), var(--shadow-md);
+}
+
+.icon {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  color: inherit;
+}
+
+.icon > svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.badge {
+  flex: 0 0 auto;
+  padding: 0 var(--spacing-2);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-subtle);
+  border-radius: var(--radius-full);
+}
+
+.tab[aria-selected='true'] .badge {
+  color: var(--color-text-primary);
+}
+
+/* --------------------------------------------------------- guide variant */
+
+/*
+ * The inactive label collapses to zero width rather than unmounting, so it
+ * still contributes to the button's accessible name and the width change is
+ * animatable. Exits are faster than entrances, per the project convention.
+ */
+.guide .tab[aria-selected='false'] .label {
+  max-width: 0;
+  opacity: 0;
+  transition:
+    max-width var(--duration-fast) var(--ease-in),
+    opacity var(--duration-fast) var(--ease-in);
+}
+
+.guide .tab[aria-selected='true'] .label {
+  max-width: 24ch;
+  opacity: 1;
+  transition:
+    max-width var(--duration-normal) var(--ease-smooth),
+    opacity var(--duration-normal) var(--ease-smooth);
+}
+
+/* ----------------------------------------------------- segmented variant */
+
+.segmented .list {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--tab-count, 3), 1fr);
+  gap: 0;
+  width: fit-content;
+  padding: var(--spacing-1);
+  background: var(--color-bg-secondary);
+  border: var(--border-width-thin) solid var(--color-border-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-inset-heavy);
+}
+
+.segmented .tab {
+  z-index: var(--z-dropdown);
+  justify-content: center;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.segmented .tab[aria-selected='true'] {
+  flex: 0 0 auto;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.indicator {
+  position: absolute;
+  top: var(--spacing-1);
+  bottom: var(--spacing-1);
+  left: calc(
+    var(--spacing-1) + var(--tab-active-index, 0) *
+      ((100% - 2 * var(--spacing-1)) / var(--tab-count, 3))
+  );
+  z-index: var(--z-base);
+  width: calc((100% - 2 * var(--spacing-1)) / var(--tab-count, 3));
+  background: var(--gradient-brand);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-inset-light), var(--shadow-glow-green);
+  transition: left var(--duration-normal) var(--ease-smooth);
+}
+
+/* ---------------------------------------------------------------- panel */
+
+.panel {
+  width: 100%;
+}
+
+/*
+ * The panel is a focus target so D-pad `down` out of the tab bar always lands
+ * somewhere, but it should not paint a ring when reached by pointer.
+ */
+.panel:focus {
+  outline: none;
+}
+
+.panel:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ----------------------------------------------------------- responsive */
+
+/*
+ * Below the mobile breakpoint nothing collapses: there is no gamepad here and
+ * no room for the flex-grow trick, so every label stays readable and the bar
+ * scrolls instead.
+ */
+@media (width <= 768px) {
+  .list {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab,
+  .tab[aria-selected='true'] {
+    flex: 1 1 auto;
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: 0.875rem;
+  }
+
+  .guide .tab[aria-selected='false'] .label,
+  .guide .tab[aria-selected='true'] .label {
+    max-width: none;
+    opacity: 1;
+  }
+
+  .segmented .list {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab,
+  .indicator,
+  .guide .tab[aria-selected='false'] .label,
+  .guide .tab[aria-selected='true'] .label {
+    transition: none;
+  }
+}

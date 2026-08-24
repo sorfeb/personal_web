@@ -1,28 +1,51 @@
-'use client';
+import fs from 'node:fs';
+import path from 'node:path';
+import { parseChangelog } from '@/utils/changelog';
+import pkg from '../../../package.json';
+import AboutView from './AboutView';
+import type { StackEntry, SystemSummary } from './AboutView';
 
-import React from 'react';
-import PageLayout from '../../components/PageLayout/PageLayout';
+/**
+ * Server component: reads the version and release history at build time and
+ * hands them to the client view. Same split as src/app/changelog/page.tsx, and
+ * it keeps /about statically prerendered. Metadata lives in layout.tsx.
+ */
 
-const AboutPage = () => {
-  return (
-    <PageLayout title="About">
-      <PageLayout.Header />
-      <PageLayout.Body>
-        <p>
-        <i>The &ldquo;NXE&rdquo; update, which stands for &ldquo;New Xbox Experience,&rdquo;
-          was a major system update for the Xbox 360 that significantly 
-          redesigned the dashboard, adding features like avatar creation, 
-          the ability to install games directly to the hard drive for faster loading times, 
-          a revamped Xbox Guide, and improved multimedia capabilities, essentially providing
-          a more modern and user-friendly interface compared to previous Xbox 360 
-          dashboards; it was initially released in November 2008 and required users to 
-          have a storage device like a memory card or hard drive to install.</i>
-        </p>
-        <p>Made with Next.js, Framer Motion, jQuery, and CSS.</p>
-        <p>© 2025 Soros Febriano</p>
-      </PageLayout.Body>
-    </PageLayout>
-  );
-};
+const stripRange = (version: string): string => version.replace(/^[\^~]/, '');
 
-export default AboutPage;
+/**
+ * Curated, ordered stack list. Versions are read from package.json so the page
+ * cannot claim a version the project is not on. jQuery earns its place on the
+ * list by being genuinely surprising, so it says what it is still doing here.
+ */
+const STACK: readonly StackEntry[] = [
+  { label: 'Next.js', version: stripRange(pkg.dependencies.next), note: 'App Router' },
+  { label: 'React', version: stripRange(pkg.dependencies.react) },
+  {
+    label: 'Framer Motion',
+    version: stripRange(pkg.dependencies['framer-motion']),
+    note: 'page and card transitions',
+  },
+  { label: 'tRPC', version: stripRange(pkg.dependencies['@trpc/server']), note: 'typed API' },
+  {
+    label: 'Prisma',
+    version: stripRange(pkg.dependencies['@prisma/client']),
+    note: 'Neon PostgreSQL',
+  },
+  { label: 'CSS Modules', note: 'design tokens, no runtime CSS-in-JS' },
+  { label: 'jQuery', version: stripRange(pkg.dependencies.jquery), note: 'the ripple background' },
+];
+
+export default function AboutPage() {
+  const raw = fs.readFileSync(path.join(process.cwd(), 'CHANGELOG.md'), 'utf8');
+  const releases = parseChangelog(raw);
+
+  const system: SystemSummary = {
+    version: pkg.version,
+    latestDate: releases[0]?.date,
+    releaseCount: releases.length,
+    stack: STACK,
+  };
+
+  return <AboutView system={system} />;
+}

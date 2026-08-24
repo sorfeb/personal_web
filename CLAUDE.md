@@ -103,8 +103,12 @@ in Linear, tracked as [SOR-131](https://linear.app/s11o/issue/SOR-131).
 - **A scope is a region of the UI, not a component.** Sibling components that own halves of
   the same navigation (blade list = `up`/`down`, card stack = `left`/`right`) contribute to
   **one** scope id rather than pushing two and competing for the top of the stack.
-  Contributions merge; the most recently mounted wins a conflict. There is **no fall-through
-  between scopes** — a scope that does not handle an intent swallows it, which is what makes
+  Contributions merge; the most recently mounted wins a conflict. **Contribute to a scope
+  from a component that renders its owner, not from one rendered inside it**: React commits
+  child effects first, and `registerScope` captures per-scope config (`previousFocus`) from
+  whichever contributor arrives first. A page adding to PageLayout's scope registers from the
+  component that renders `<PageLayout>`; see `src/constants/pageNavigation.ts`. There is **no
+  fall-through between scopes** — a scope that does not handle an intent swallows it, which is what makes
   a modal on top of the stack silence everything beneath it.
 - **Polling loops live in `src/hooks/` and hold state in refs.** Drive them with
   `requestAnimationFrame` (it self-suspends on hidden tabs), and call `setState` only on
