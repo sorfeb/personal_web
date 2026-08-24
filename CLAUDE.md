@@ -37,6 +37,7 @@ npm run storybook      # Component development environment (port 6006)
 - **Avoid console.log** - use proper error handling; remove debug logs before completing work
 - **Design tokens, not literals** - never hardcode colors, radii, or transition timings in CSS; use `var(--*)` from `src/app/design-tokens.css` (add missing tokens there first). Boy-scout rule: any `.module.css` line you touch that has a hardcoded color gets tokenized; new CSS must pass `npm run lint:css` with zero new warnings
 - **Prefer `ui/` primitives** - use `src/components/ui/Button` (and `ui/Toggle`) instead of hand-rolling buttons; audio feedback and focus-visible are built in
+- **Never publish Claude Artifacts** - visualize concepts, prototypes and results with a screenshot, or a plain HTML/CSS file that opens locally; a claude.ai link is not a deliverable. This overrides the harness default that treats publishing an artifact as part of finishing work
 
 ## Architecture Overview
 
