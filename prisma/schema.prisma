@@ -5,20 +5,15 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+  provider = "prisma-client"
+  // v7 no longer generates into node_modules; the path is required and is
+  // gitignored. Import from "@/generated/prisma/client", not "@prisma/client".
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  // Migrations must bypass the Neon pooler; the pooled connection cannot run DDL.
-  directUrl = env("DIRECT_URL")
-  // `migrate dev` needs a scratch database to replay migrations into for drift
-  // detection. Neon will not let Prisma create one on demand, so it is a second
-  // Neon database supplied explicitly. Never point this at DATABASE_URL: Prisma
-  // resets it on every run. Not needed by `migrate deploy`.
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  provider = "postgresql"
+  // Connection URLs live in prisma.config.ts as of v7.
 }
 
 model User {
