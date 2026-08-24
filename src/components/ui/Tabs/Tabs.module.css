@@ -39,11 +39,15 @@
   color: var(--color-text-tertiary);
   text-align: left;
   cursor: pointer;
-  background: var(--color-bg-secondary);
+
+  /*
+   * Recessed: an unselected Guide tab is DARKER than the panel behind it and
+   * sits below its plane. Getting this the wrong way round reads as the wrong
+   * tab being active, which is what the first cut of this file did.
+   */
+  background: var(--color-bg-overlay);
   border: var(--border-width-thin) solid var(--color-border-primary);
   border-radius: var(--radius-md);
-
-  /* Recessed: an unselected Guide tab sits below the plane of the bar. */
   box-shadow: var(--shadow-inset-heavy);
   transition:
     flex-grow var(--duration-normal) var(--ease-smooth),
@@ -77,11 +81,15 @@
   flex: 1 1 auto;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
-  background: var(--gradient-metallic);
-  border-color: var(--color-border-secondary);
 
-  /* Raised: top highlight plus a drop shadow lifts it above the bar. */
-  box-shadow: var(--shadow-inset-light), var(--shadow-md);
+  /*
+   * Raised: lighter than everything around it, with the highlight at the top
+   * edge. The fill stays light all the way down, which is what separates it
+   * from the near-black unselected tabs.
+   */
+  background: var(--gradient-tab-active);
+  border-color: var(--color-border-secondary);
+  box-shadow: var(--shadow-inset-medium), var(--shadow-md);
 }
 
 .icon {

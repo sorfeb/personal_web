@@ -169,6 +169,13 @@
   --gradient-profile-card-hover: linear-gradient(145deg, hsl(0deg 0% 100% / 30%), hsl(96deg 44% 48% / 40%));
   --gradient-metallic: linear-gradient(135deg, hsl(0deg 0% 16%) 0%, hsl(0deg 0% 10%) 100%);
   --gradient-glass: linear-gradient(to top, hsl(0deg 0% 4% / 85%), hsl(0deg 0% 31% / 65%));
+
+  /*
+   * Selected tab in a Guide-style tab bar. Stays light top to bottom so it
+   * reads as raised against the near-black unselected tabs beside it; a
+   * gradient that darkens toward the bottom loses that contrast.
+   */
+  --gradient-tab-active: linear-gradient(to bottom, hsl(0deg 0% 34%) 0%, hsl(0deg 0% 23%) 100%);
   --gradient-brand: linear-gradient(135deg, var(--color-brand-primary) 0%, var(--color-brand-primary-dark) 100%);
   --gradient-np-row: linear-gradient(180deg, var(--np-row-light) 0%, var(--np-row) 100%);
   --gradient-np-row-active: linear-gradient(180deg, var(--np-row-active-light) 0%, var(--np-row-active) 100%);
