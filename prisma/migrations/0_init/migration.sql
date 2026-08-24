@@ -2,7 +2,7 @@
 CREATE SCHEMA IF NOT EXISTS "public";
 
 -- CreateTable
-CREATE TABLE "public"."User" (
+CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE "public"."User" (
 );
 
 -- CreateTable
-CREATE TABLE "public"."UserAchievement" (
+CREATE TABLE "UserAchievement" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "achievementId" TEXT NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE "public"."UserAchievement" (
 );
 
 -- CreateTable
-CREATE TABLE "public"."Session" (
+CREATE TABLE "Session" (
     "id" TEXT NOT NULL,
     "expiresAt" TIMESTAMP(3) NOT NULL,
     "token" TEXT NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE "public"."Session" (
 );
 
 -- CreateTable
-CREATE TABLE "public"."Account" (
+CREATE TABLE "Account" (
     "id" TEXT NOT NULL,
     "accountId" TEXT NOT NULL,
     "providerId" TEXT NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE "public"."Account" (
 );
 
 -- CreateTable
-CREATE TABLE "public"."Verification" (
+CREATE TABLE "Verification" (
     "id" TEXT NOT NULL,
     "identifier" TEXT NOT NULL,
     "value" TEXT NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE "public"."Verification" (
 );
 
 -- CreateTable
-CREATE TABLE "public"."Message" (
+CREATE TABLE "Message" (
     "id" TEXT NOT NULL,
     "text" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -82,7 +82,7 @@ CREATE TABLE "public"."Message" (
 );
 
 -- CreateTable
-CREATE TABLE "public"."LastfmTrack" (
+CREATE TABLE "LastfmTrack" (
     "id" TEXT NOT NULL,
     "artistKey" TEXT NOT NULL,
     "trackKey" TEXT NOT NULL,
@@ -102,32 +102,32 @@ CREATE TABLE "public"."LastfmTrack" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "public"."User"("email");
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE INDEX "UserAchievement_userId_idx" ON "public"."UserAchievement"("userId");
+CREATE INDEX "UserAchievement_userId_idx" ON "UserAchievement"("userId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "UserAchievement_userId_achievementId_key" ON "public"."UserAchievement"("userId", "achievementId");
+CREATE UNIQUE INDEX "UserAchievement_userId_achievementId_key" ON "UserAchievement"("userId", "achievementId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Session_token_key" ON "public"."Session"("token");
+CREATE UNIQUE INDEX "Session_token_key" ON "Session"("token");
 
 -- CreateIndex
-CREATE INDEX "LastfmTrack_artistKey_idx" ON "public"."LastfmTrack"("artistKey");
+CREATE INDEX "LastfmTrack_artistKey_idx" ON "LastfmTrack"("artistKey");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "LastfmTrack_artistKey_trackKey_key" ON "public"."LastfmTrack"("artistKey", "trackKey");
+CREATE UNIQUE INDEX "LastfmTrack_artistKey_trackKey_key" ON "LastfmTrack"("artistKey", "trackKey");
 
 -- AddForeignKey
-ALTER TABLE "public"."UserAchievement" ADD CONSTRAINT "UserAchievement_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "UserAchievement" ADD CONSTRAINT "UserAchievement_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "public"."Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "public"."Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "public"."Message" ADD CONSTRAINT "Message_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "public"."User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Message" ADD CONSTRAINT "Message_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
