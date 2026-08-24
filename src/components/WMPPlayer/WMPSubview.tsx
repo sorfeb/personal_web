@@ -11,6 +11,7 @@ import type {
   ClickableRegion,
   WMPPlayerState,
 } from '@/types/wmp';
+import { parseAttributeExpression, readModelPath } from '@/lib/wmp/expression';
 import { WMPButton } from './WMPButton';
 import { WMPSlider } from './WMPSlider';
 import styles from './WMPSubview.module.css';
@@ -21,6 +22,9 @@ interface WMPSubviewProps {
   clickRegions: Map<string, ClickableRegion[]>;
   topLevelHandlers: Map<string, () => void>;
   playerState: WMPPlayerState;
+  /** WMP object graph that `wmpprop:` bindings resolve against. Built once per
+   *  state change in WMPCanvas and threaded down rather than rebuilt per node. */
+  playerModel: Record<string, unknown>;
   onSeek: (time: number) => void;
   onVolumeChange: (volume: number) => void;
   onBalanceChange: (balance: number) => void;
@@ -33,14 +37,24 @@ export function WMPSubview({
   clickRegions,
   topLevelHandlers,
   playerState,
+  playerModel,
   onSeek,
   onVolumeChange,
   onBalanceChange,
   onEqGainChange,
 }: WMPSubviewProps) {
-  // Parse position (handle jscript expressions - for now, just use 0)
-  const left = typeof element.position.left === 'number' ? element.position.left : 0;
-  const top = typeof element.position.top === 'number' ? element.position.top : 0;
+  /*
+   * `resolved` is filled by `resolveLayout` after assets load, and carries
+   * jscript arithmetic (`left="jscript:balance.left+3"`) already evaluated to
+   * pixels. The literal-position fallback covers an element whose expression
+   * was cyclic or outside the arithmetic grammar.
+   */
+  const left =
+    element.resolved?.left ??
+    (typeof element.position.left === 'number' ? element.position.left : 0);
+  const top =
+    element.resolved?.top ??
+    (typeof element.position.top === 'number' ? element.position.top : 0);
 
   // Get background image if any
   const backgroundImageInfo = element.images?.background
@@ -109,35 +123,20 @@ export function WMPSubview({
   }
 
   if (element.type === 'text') {
-    // Translate WMP bindings to actual values
-    const getTextValue = () => {
-      const rawValue = element.textValue || '';
+    /*
+     * Resolve `wmpprop:` bindings against the projected object model rather
+     * than string-matching a handful of known paths, so a skin binding to
+     * something headspace never used still renders.
+     */
+    const expression = parseAttributeExpression(element.textValue || '');
 
-      // Handle WMP property bindings
-      if (rawValue.includes('wmpprop:')) {
-        if (rawValue.includes('currentmedia.durationstring')) {
-          return playerState.durationString || '0:00';
-        }
-        if (rawValue.includes('currentmedia.positionstring')) {
-          return playerState.positionString || '0:00';
-        }
-        if (rawValue.includes('currentmedia.name')) {
-          return playerState.trackName || '';
-        }
-        if (rawValue.includes('currentmedia.author') || rawValue.includes('currentmedia.artist')) {
-          return playerState.artist || '';
-        }
-        if (rawValue.includes('visEffects.currentPresetTitle')) {
-          return ''; // No visualization preset for now
-        }
-        // Unknown binding - return empty
-        return '';
-      }
-
-      return rawValue;
-    };
-
-    const textValue = getTextValue();
+    let textValue: string;
+    if (expression.kind === 'wmpprop') {
+      const bound = readModelPath(playerModel, expression.source);
+      textValue = bound === undefined || bound === null ? '' : String(bound);
+    } else {
+      textValue = expression.kind === 'literal' ? expression.source : '';
+    }
     const color = element.colors?.foregroundColor || '#FFFFFF';
     const fontSize = element.fontSize || 12;
 
@@ -196,6 +195,7 @@ export function WMPSubview({
           clickRegions={clickRegions}
           topLevelHandlers={topLevelHandlers}
           playerState={playerState}
+          playerModel={playerModel}
           onSeek={onSeek}
           onVolumeChange={onVolumeChange}
           onBalanceChange={onBalanceChange}

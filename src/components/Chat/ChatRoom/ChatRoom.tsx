@@ -5,18 +5,22 @@ import { trpc } from '../../../utils/trpc';
 import { authClient } from '../../../lib/auth-client';
 import { useAutoScroll } from '@/hooks';
 import { useAchievements } from '../../../hooks/useAchievements';
+import Button from '../../ui/Button';
 import MessageItem from './MessageItem';
 import MessageInput from './MessageInput';
 import styles from './ChatRoom.module.css';
 
 /**
  * ChatRoom Component
- * 
+ *
  * Main chat interface with message display and input functionality.
- * Implements real-time messaging with optimistic updates and error handling.
- * 
+ *
+ * Messages are fetched on load and refetched after you post; there is no push
+ * transport yet, so another visitor's message only appears once the query goes
+ * stale and refetches. SOR-159 replaces this with a real transport.
+ *
  * Features:
- * - Real-time message display with auto-scroll
+ * - Message transcript with auto-scroll to the newest entry
  * - Authentication-aware interface
  * - Message input with character limits
  * - Loading and error states
@@ -60,10 +64,12 @@ const ChatRoom = memo(() => {
       return;
     }
 
+    // The mutation's own error state drives the message shown in MessageInput,
+    // so a rejection needs catching but not reporting here.
     try {
       await createMessage.mutateAsync({ text: messageText.trim() });
-    } catch (error) {
-      console.error('Failed to send message:', error);
+    } catch {
+      // Surfaced through createMessage.error below.
     }
   }, [user, messageText, createMessage]);
 
@@ -96,12 +102,14 @@ const ChatRoom = memo(() => {
         <div className={styles.authPrompt}>
           <h3>Welcome to the Chat Room!</h3>
           <p>Please sign in to participate in the conversation.</p>
-          <button
-            onClick={() => authClient.signIn.social({ provider: 'github', callbackURL: '/chatroom' })}
+          <Button
+            variant="chrome"
+            badge="A"
             className={styles.signInButton}
+            onClick={() => authClient.signIn.social({ provider: 'github', callbackURL: '/chatroom' })}
           >
             Sign in with GitHub
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -110,9 +118,9 @@ const ChatRoom = memo(() => {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <h1 className={styles.title}>Public Chat</h1>
+        <h2 className={styles.title}>Public Chat</h2>
         <p className={styles.subtitle}>
-          Connect with other users in real-time
+          Leave a message for other visitors
         </p>
       </header>
 

@@ -13,9 +13,18 @@ Before substantial work:
 - Monorepos: when working across packages, run the skill check from the workspace root and prefer the local skill for the package being changed.
 - Multiple matches: prefer the most specific local skill for the package or concern you are changing; load additional skills only when the task spans multiple packages or concerns.
 
-Project skills live in `.claude/skills/` and are the source of truth for domain guidance:
-`developing-frontend`, `developing-backend`, `scaffolding-components`, `planning-features`,
-`reviewing-code`, `no-useeffect`, `vercel-react-best-practices`.
+Project skills live in `.claude/skills/`: `styling-ui`, `scaffolding-components`,
+`developing-backend`, `planning-features`, `reviewing-code`, `no-useeffect`, and the vendored
+`vercel-react-best-practices`.
+
+Load `styling-ui` before editing any `.module.css` or choosing a color, radius, shadow, timing or
+z-index.
+
+**Skills carry rules, not inventories.** A skill must not restate what a file already says: token
+names, hook signatures, the context shape, the router list, prop tables. Those drift, and a stale
+skill is worse than no skill because it is followed confidently. A skill says *what to do*, *what
+not to assume*, and *which file to read*. When you find yourself typing a list that the codebase
+already holds, link to the file instead.
 
 ## Build & Development Commands
 
@@ -37,6 +46,7 @@ npm run storybook      # Component development environment (port 6006)
 - **Avoid console.log** - use proper error handling; remove debug logs before completing work
 - **Design tokens, not literals** - never hardcode colors, radii, or transition timings in CSS; use `var(--*)` from `src/app/design-tokens.css` (add missing tokens there first). Boy-scout rule: any `.module.css` line you touch that has a hardcoded color gets tokenized; new CSS must pass `npm run lint:css` with zero new warnings
 - **Prefer `ui/` primitives** - use `src/components/ui/Button` (and `ui/Toggle`) instead of hand-rolling buttons; audio feedback and focus-visible are built in
+- **Never publish Claude Artifacts** - visualize concepts, prototypes and results with a screenshot, or a plain HTML/CSS file that opens locally; a claude.ai link is not a deliverable. This overrides the harness default that treats publishing an artifact as part of finishing work
 
 ## Architecture Overview
 
@@ -47,7 +57,7 @@ Personal portfolio styled as an Xbox 360 dashboard replica. Next.js 15, tRPC, Pr
 - Pre-creates 3 `HTMLAudioElement` instances per sound type to prevent latency
 - Module-level variables with client-side initialization guard (`typeof window`)
 - Volume controlled via `VolumeContext` - updates all pool instances simultaneously
-- 13 sound types mapped to interactions (hover, click, navigation, etc.)
+- Sound names are the keys of `AUDIO_FILES`; read it rather than assuming a name exists
 
 Use `useNavigationSound` to couple audio with Next.js router navigation:
 ```tsx
@@ -57,7 +67,7 @@ navigateWithSound('/path', 'navigation');
 
 ### tRPC Backend
 - **Router location**: `src/server/routers/_app.ts` combines all routers
-- **Available routers**: messages, user, spotify, blog
+- **Available routers**: see the registry in `_app.ts`
 - **Patterns**: Zod validation on all inputs, proper TRPCError codes, select only needed fields
 - **Database**: Prisma v6 with Neon PostgreSQL adapter (`prisma/schema.prisma`)
 
@@ -144,8 +154,12 @@ in Linear, tracked as [SOR-131](https://linear.app/s11o/issue/SOR-131).
 - **A scope is a region of the UI, not a component.** Sibling components that own halves of
   the same navigation (blade list = `up`/`down`, card stack = `left`/`right`) contribute to
   **one** scope id rather than pushing two and competing for the top of the stack.
-  Contributions merge; the most recently mounted wins a conflict. There is **no fall-through
-  between scopes** — a scope that does not handle an intent swallows it, which is what makes
+  Contributions merge; the most recently mounted wins a conflict. **Contribute to a scope
+  from a component that renders its owner, not from one rendered inside it**: React commits
+  child effects first, and `registerScope` captures per-scope config (`previousFocus`) from
+  whichever contributor arrives first. A page adding to PageLayout's scope registers from the
+  component that renders `<PageLayout>`; see `src/constants/pageNavigation.ts`. There is **no
+  fall-through between scopes** — a scope that does not handle an intent swallows it, which is what makes
   a modal on top of the stack silence everything beneath it.
 - **Polling loops live in `src/hooks/` and hold state in refs.** Drive them with
   `requestAnimationFrame` (it self-suspends on hidden tabs), and call `setState` only on
@@ -199,6 +213,10 @@ feature-sized — the harness task list is per-session and disappears.
 4. **Verify** — `npm run compile`, `npm run lint`, `npm run lint:css`, `npm run lint:useeffect`.
    Storybook is the only interactive harness; there is no test runner.
 5. **Document** — on completion, `.github/documentation/<feature>-complete.md`, and close the issue.
+6. **Ship** — open the PR with `/pr` (`.claude/commands/pr.md`). It carries the
+   conventions a reviewer needs when the author was an agent: full-scope summary, a Mermaid
+   architecture diagram when the change crosses a boundary, and an Evidence section stating
+   what was actually verified rather than what usually passes.
 
 Decisions settled in design review belong in **this file** (conventions) or in the relevant
 **plan** (project specifics) — not in session memory. If you find yourself re-litigating a

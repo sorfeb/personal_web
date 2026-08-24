@@ -1,9 +1,19 @@
 /**
  * Asset loader for WMP skins
- * Handles loading and processing of BMP images, transparency, and caching
+ * Handles loading images, applying colour-key transparency, and caching
  */
 
-import type { SkinAssets, SkinDefinition, ImageInfo } from '@/types/wmp';
+import type { SkinAssets, SkinDefinition, SkinElement, ImageInfo } from '@/types/wmp';
+
+/**
+ * The colour WMP skins use for "punch this out" when they say nothing else.
+ * Universal enough across the era that a BMP with no declared key is safe to
+ * treat this way, and BMP carries no alpha channel to consult instead.
+ */
+const DEFAULT_COLOR_KEY = '#FF00FF';
+
+/** Formats that carry their own alpha, so blanket colour-keying would be wrong. */
+const ALPHA_CAPABLE = /\.(png|gif)$/i;
 
 /**
  * Load all assets for a skin
@@ -18,16 +28,18 @@ export async function loadSkinAssets(
   const images = new Map<string, ImageInfo>();
   const mappings = new Map<string, ImageData>();
 
-  // Collect all unique image filenames from the skin definition
-  const imageFiles = new Set<string>();
+  // Collect all unique image filenames from every view in the skin
+  const imageKeys = new Map<string, Set<string>>();
   const mappingFiles = new Set<string>();
 
-  collectImageFiles(skinDef.view.elements, imageFiles, mappingFiles);
+  for (const view of skinDef.views) {
+    collectImageFiles(view.elements, imageKeys, mappingFiles, []);
+  }
 
   // Load all regular images
-  const imagePromises = Array.from(imageFiles).map(async (filename) => {
+  const imagePromises = Array.from(imageKeys).map(async ([filename, declared]) => {
     try {
-      const imageInfo = await loadImage(skinPath, filename);
+      const imageInfo = await loadImage(skinPath, filename, colorKeysFor(filename, declared));
       images.set(filename, imageInfo);
     } catch (error) {
       console.warn(`Failed to load image ${filename}:`, error);
@@ -50,124 +62,151 @@ export async function loadSkinAssets(
 }
 
 /**
- * Recursively collect all image filenames from skin elements
+ * Decide which colours to punch out of an image.
+ *
+ * Declared `transparencyColor` / `clippingColor` values win. With none
+ * declared, an alpha-capable format is left alone and a BMP falls back to the
+ * magenta convention.
+ *
+ * The previous implementation keyed magenta *and* pure red out of every image
+ * unconditionally. That matched headspace, whose `clippingColor="#FF0000"`
+ * subview wants exactly that, but it would punch holes in any skin whose art
+ * legitimately contains red (Halloween's PNGs, for one).
+ */
+function colorKeysFor(filename: string, declared: Set<string>): string[] {
+  if (declared.size > 0) return Array.from(declared);
+  return ALPHA_CAPABLE.test(filename) ? [] : [DEFAULT_COLOR_KEY];
+}
+
+/**
+ * Recursively collect image filenames and the colour keys that apply to them.
+ *
+ * Keys are inherited down the tree: a `<subview>` declaring a clippingColor
+ * expects it to apply to the art its children draw, not only to its own
+ * background.
  */
 function collectImageFiles(
-  elements: Array<any>,
-  imageFiles: Set<string>,
-  mappingFiles: Set<string>
+  elements: SkinElement[],
+  imageKeys: Map<string, Set<string>>,
+  mappingFiles: Set<string>,
+  inheritedKeys: string[]
 ): void {
   for (const element of elements) {
-    // Regular images
-    if (element.images) {
-      if (element.images.default) imageFiles.add(element.images.default);
-      if (element.images.hover) imageFiles.add(element.images.hover);
-      if (element.images.down) imageFiles.add(element.images.down);
-      if (element.images.disabled) imageFiles.add(element.images.disabled);
-      if (element.images.background) imageFiles.add(element.images.background);
-      if (element.images.foreground) imageFiles.add(element.images.foreground);
-      if (element.images.thumb) imageFiles.add(element.images.thumb);
-      if (element.images.thumbHover) imageFiles.add(element.images.thumbHover);
-      if (element.images.thumbDown) imageFiles.add(element.images.thumbDown);
+    const keys = [...inheritedKeys];
+    if (element.colors?.transparencyColor) keys.push(element.colors.transparencyColor);
+    if (element.colors?.clippingColor) keys.push(element.colors.clippingColor);
 
-      // Mapping images go to separate set
-      if (element.images.mapping) mappingFiles.add(element.images.mapping);
+    const images = element.images;
+    if (images) {
+      const drawn = [
+        images.default,
+        images.hover,
+        images.down,
+        images.disabled,
+        images.background,
+        images.foreground,
+        images.thumb,
+        images.thumbHover,
+        images.thumbDown,
+      ];
+
+      for (const filename of drawn) {
+        if (!filename) continue;
+        const existing = imageKeys.get(filename) ?? new Set<string>();
+        for (const key of keys) existing.add(key.toUpperCase());
+        imageKeys.set(filename, existing);
+      }
+
+      // Mapping images are read as pixel data, never colour-keyed.
+      if (images.mapping) mappingFiles.add(images.mapping);
     }
 
-    // Recurse into children
     if (element.children && element.children.length > 0) {
-      collectImageFiles(element.children, imageFiles, mappingFiles);
+      collectImageFiles(element.children, imageKeys, mappingFiles, keys);
     }
   }
 }
 
 /**
- * Load a single image and return image info with dimensions
- * Automatically applies transparency for common WMP transparency colors
+ * Load a single image and return image info with dimensions.
+ *
  * @param skinPath - Base path to skin folder
  * @param filename - Image filename
+ * @param colorKeys - Hex colours to punch to alpha 0. Empty leaves the image
+ *   untouched, which is what alpha-carrying formats want.
  * @returns Object with URL and dimensions
  */
 export async function loadImage(
   skinPath: string,
-  filename: string
+  filename: string,
+  colorKeys: string[] = [DEFAULT_COLOR_KEY]
 ): Promise<{ url: string; width: number; height: number }> {
   const fullPath = `${skinPath}/${filename}`;
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const img = new Image();
     img.crossOrigin = 'anonymous'; // Enable CORS for canvas processing
 
-    img.onload = async () => {
+    img.onload = () => {
+      const natural = { width: img.naturalWidth, height: img.naturalHeight };
+
+      // Nothing to punch out: hand back the original URL and skip the canvas
+      // round-trip entirely, which also keeps the image out of a data: URI.
+      if (colorKeys.length === 0) {
+        resolve({ url: fullPath, ...natural });
+        return;
+      }
+
       try {
-        // Process image to apply transparency for magenta (#FF00FF) and red (#FF0000)
         const canvas = document.createElement('canvas');
-        canvas.width = img.naturalWidth;
-        canvas.height = img.naturalHeight;
+        canvas.width = natural.width;
+        canvas.height = natural.height;
 
         const ctx = canvas.getContext('2d');
         if (!ctx) {
-          // Fallback to original image if canvas fails
-          resolve({
-            url: fullPath,
-            width: img.naturalWidth,
-            height: img.naturalHeight,
-          });
+          resolve({ url: fullPath, ...natural });
           return;
         }
 
-        // Draw image to canvas
         ctx.drawImage(img, 0, 0);
 
-        // Get pixel data
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const data = imageData.data;
 
-        // Make magenta (#FF00FF) and red (#FF0000) transparent
+        const targets = colorKeys
+          .map(hexToRgb)
+          .filter((rgb): rgb is { r: number; g: number; b: number } => rgb !== null);
+
         for (let i = 0; i < data.length; i += 4) {
           const r = data[i];
           const g = data[i + 1];
           const b = data[i + 2];
 
-          // Check for magenta (FF00FF) or red (FF0000) with small tolerance
-          const isMagenta = Math.abs(r - 255) <= 5 && Math.abs(g - 0) <= 5 && Math.abs(b - 255) <= 5;
-          const isRed = Math.abs(r - 255) <= 5 && Math.abs(g - 0) <= 5 && Math.abs(b - 0) <= 5;
+          // Small tolerance absorbs the rounding older encoders introduced.
+          const keyed = targets.some(
+            (target) =>
+              Math.abs(r - target.r) <= 5 &&
+              Math.abs(g - target.g) <= 5 &&
+              Math.abs(b - target.b) <= 5
+          );
 
-          if (isMagenta || isRed) {
-            data[i + 3] = 0; // Set alpha to 0 (transparent)
+          if (keyed) {
+            data[i + 3] = 0;
           }
         }
 
-        // Put processed data back
         ctx.putImageData(imageData, 0, 0);
 
-        // Convert to data URL
-        const processedUrl = canvas.toDataURL('image/png');
-
-        resolve({
-          url: processedUrl,
-          width: img.naturalWidth,
-          height: img.naturalHeight,
-        });
+        resolve({ url: canvas.toDataURL('image/png'), ...natural });
       } catch (error) {
         console.warn(`Failed to process transparency for ${filename}:`, error);
-        // Fallback to original image
-        resolve({
-          url: fullPath,
-          width: img.naturalWidth,
-          height: img.naturalHeight,
-        });
+        resolve({ url: fullPath, ...natural });
       }
     };
 
     img.onerror = () => {
       console.warn(`Failed to load image: ${fullPath}`);
-      // Fallback if image fails to load
-      resolve({
-        url: fullPath,
-        width: 0,
-        height: 0,
-      });
+      resolve({ url: fullPath, width: 0, height: 0 });
     };
 
     img.src = fullPath;

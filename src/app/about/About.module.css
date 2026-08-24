@@ -1,0 +1,268 @@
+/* About page panels. All values from src/app/design-tokens.css. */
+
+.tabs {
+  gap: var(--spacing-5);
+}
+
+/* ---------------------------------------------------------------- prose */
+
+.prose {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  max-width: 68ch;
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+}
+
+/*
+ * The NXE passage is quoted encyclopedia copy, not the site's own voice, so it
+ * is set apart rather than left as an unattributed italic paragraph.
+ */
+.quote {
+  padding-left: var(--spacing-4);
+  font-style: italic;
+  color: var(--color-text-tertiary);
+  border-left: var(--border-width-medium) solid var(--color-border-secondary);
+}
+
+.colophon {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------- system */
+
+.system {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+  align-items: flex-start;
+}
+
+.specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+  width: 100%;
+  margin: 0;
+}
+
+.spec {
+  display: flex;
+  flex: 1 1 10rem;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  padding: var(--spacing-3) var(--spacing-4);
+  background: var(--color-bg-subtle);
+  border: var(--border-width-thin) solid var(--color-border-primary);
+  border-radius: var(--radius-base);
+}
+
+.specLabel {
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.specValue {
+  margin: 0;
+  font-size: 1.25rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.sectionHeading {
+  display: flex;
+  gap: var(--spacing-2);
+  align-items: center;
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.stackRow {
+  display: flex;
+  gap: var(--spacing-3);
+  align-items: baseline;
+  padding: var(--spacing-2) 0;
+  border-bottom: var(--border-width-thin) solid var(--color-border-primary);
+}
+
+.stackRow:last-child {
+  border-bottom: none;
+}
+
+.stackLabel {
+  min-width: 9rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.stackVersion {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-secondary);
+}
+
+.stackNote {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-2) var(--spacing-4);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  background: var(--color-bg-subtle);
+  border: var(--border-width-thin) solid var(--color-border-secondary);
+  border-radius: var(--radius-base);
+  transition:
+    background-color var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out);
+}
+
+.link:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-border-focus);
+}
+
+.link:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* -------------------------------------------------------------- roadmap */
+
+.roadmap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+}
+
+.roadmapGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.groupCount {
+  padding: 0 var(--spacing-2);
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-subtle);
+  border-radius: var(--radius-full);
+}
+
+.roadmapList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.roadmapItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  padding: var(--spacing-3) var(--spacing-4);
+  background: var(--color-bg-subtle);
+
+  /* The status stripe is the only per-status styling; see the rules below. */
+  border-left: var(--border-width-thick) solid var(--color-border-strong);
+  border-radius: var(--radius-base);
+}
+
+.roadmapItem[data-status='in-progress'] {
+  border-left-color: var(--color-brand-primary);
+}
+
+.roadmapItem[data-status='next'] {
+  border-left-color: var(--color-accent-blue);
+}
+
+.roadmapItem[data-status='shipped'] {
+  border-left-color: var(--color-border-secondary);
+  opacity: 0.75;
+}
+
+.roadmapHead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  align-items: baseline;
+}
+
+.roadmapTitle {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.issueChip,
+.shippedChip,
+.targetChip {
+  padding: 0 var(--spacing-2);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  border: var(--border-width-thin) solid var(--color-border-primary);
+  border-radius: var(--radius-sm);
+}
+
+.issueChip {
+  color: var(--color-text-muted);
+}
+
+.shippedChip,
+.targetChip {
+  color: var(--color-text-secondary);
+  background: var(--color-bg-subtle);
+}
+
+.roadmapBlurb {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--color-text-tertiary);
+}
+
+/* ----------------------------------------------------------- responsive */
+
+@media (width <= 768px) {
+  .stackRow {
+    flex-wrap: wrap;
+    gap: var(--spacing-1) var(--spacing-2);
+  }
+
+  .stackLabel {
+    min-width: 0;
+    flex: 1 0 100%;
+  }
+
+  .spec {
+    flex: 1 1 100%;
+  }
+}

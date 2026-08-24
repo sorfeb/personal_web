@@ -124,16 +124,15 @@
   accent-color: var(--color-brand-primary);
 }
 
-/* Navigation Container - Sticky */
+/*
+ * Sticky tablist. Applied to the ui/Tabs tablist via listClassName, so the
+ * padding and negative margins that used to space a separate wrapper element
+ * are gone: the segmented track carries its own padding and border.
+ */
 .navigationContainer {
   position: sticky;
   top: 0;
   z-index: var(--z-sticky);
-  padding: var(--spacing-4);
-  margin-left: calc(var(--spacing-4) * -1);
-  margin-right: calc(var(--spacing-4) * -1);
-  padding-left: calc(var(--spacing-4) * 2);
-  padding-right: calc(var(--spacing-4) * 2);
 }
 
 /* Connected Content Area */

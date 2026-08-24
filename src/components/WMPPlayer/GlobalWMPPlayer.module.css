@@ -27,6 +27,25 @@
   cursor: grabbing;
 }
 
+/*
+ * Skin picker strip. Shares the window's translate so it tracks dragging, but
+ * sits outside .playerWindow so it is neither a drag surface nor inside that
+ * element's alpha-reading drop-shadow.
+ */
+.skinPickerDock {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: auto;
+  animation: fadeInScale var(--duration-normal) var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skinPickerDock {
+    animation: none;
+  }
+}
+
 /* Minimized: hide the window but keep it mounted — the audio element and the
    Spotify embed iframe live inside WMPPlayer, so unmounting would cut playback. */
 .playerWindowMinimized {

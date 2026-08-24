@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.0](https://github.com/sorfeb/personal_web/compare/v1.5.1...v1.6.0) (2026-08-22)
+
+
+### Features
+
+* **games:** ship the real box art for DOOM, Wolfenstein 3D and Commander Keen ([1fb473d](https://github.com/sorfeb/personal_web/commit/1fb473d26736dd0dd139ea6ce13969483bb4931a))
+* **ui:** contain game cover art over a blurred copy of itself ([1886806](https://github.com/sorfeb/personal_web/commit/188680665baf18bddd8dff58ec548cf1b5072653))
+
 ## [1.5.1](https://github.com/sorfeb/personal_web/compare/v1.5.0...v1.5.1) (2026-08-22)
 
 

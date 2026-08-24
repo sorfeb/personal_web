@@ -13,7 +13,6 @@ import ProfileCard from "../components/ProfileCard/ProfileCard";
 import VolumeControl from "../components/VolumeControl/VolumeControl";
 // TODO: Re-enable when tour feature is reimplemented (shepherd.js requires commercial license)
 // import HelpButton from "../components/HelpButton";
-import { ChatManager } from "../components/Chat";
 import { ShepherdTourProvider } from "../context/ShepherdTourContext";
 import ProfileModal from "../components/ProfileModal/ProfileModal";
 import { WMPGuideButton } from "../components/WMPPlayer/WMPGuideButton";
@@ -102,10 +101,6 @@ export default function Home() {
           </motion.div>
         </AnimatePresence>
         
-        {/* Chat System - Independent of main layout */}
-        {/* TODO: Re-enable when chat feature is complete */}
-        {/* <ChatManager /> */}
-
         <ProfileModal isOpen={isProfileModalOpen} onClose={handleCloseProfileModal} />
       </div>
     </ShepherdTourProvider>

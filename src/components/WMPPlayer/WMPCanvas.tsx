@@ -4,12 +4,14 @@
 
 'use client';
 
+import { useMemo } from 'react';
 import type {
   SkinDefinition,
   SkinAssets,
   ClickableRegion,
   WMPPlayerState,
 } from '@/types/wmp';
+import { buildPlayerModel } from '@/lib/wmp/playerModel';
 import { WMPSubview } from './WMPSubview';
 import styles from './WMPCanvas.module.css';
 
@@ -36,6 +38,13 @@ export function WMPCanvas({
   onBalanceChange,
   onEqGainChange,
 }: WMPCanvasProps) {
+  /*
+   * The object graph every `wmpprop:` binding in the tree reads from. Built
+   * here so a skin with dozens of bound text elements projects the state once
+   * per change rather than once per element.
+   */
+  const playerModel = useMemo(() => buildPlayerModel(playerState), [playerState]);
+
   return (
     <div
       className={styles.canvas}
@@ -61,6 +70,7 @@ export function WMPCanvas({
             clickRegions={clickRegions}
             topLevelHandlers={topLevelHandlers}
             playerState={playerState}
+            playerModel={playerModel}
             onSeek={onSeek}
             onVolumeChange={onVolumeChange}
             onBalanceChange={onBalanceChange}

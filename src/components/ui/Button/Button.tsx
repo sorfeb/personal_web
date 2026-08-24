@@ -118,7 +118,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
       {loading && <span className={styles.spinner} aria-hidden />}
       {badge && (
         <span className={`${styles.badge} ${styles[`badge${badge}`]}`} aria-hidden>
-          {badge}
+          <span className={styles.badgeLetter}>{badge}</span>
         </span>
       )}
       {icon && iconPosition === 'start' && (
