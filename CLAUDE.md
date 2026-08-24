@@ -20,6 +20,25 @@ Project skills live in `.claude/skills/`: `styling-ui`, `scaffolding-components`
 Load `styling-ui` before editing any `.module.css` or choosing a color, radius, shadow, timing or
 z-index.
 
+### Vendored skills
+
+Third-party skills live in `.agents/skills/` and are mirrored into `.claude/skills/` as real
+directories, not symlinks (`core.symlinks` is false here, and the installer writes absolute
+paths that break on clone). `skills-lock.json` records what is installed. Install with
+`npx skills add <org>/skills`, then **prune**: vendors ship every skill for every product they
+sell, most of which this project does not use.
+
+**A vendored skill describes the vendor's latest major, not your pinned one.** The Prisma skills
+document Prisma 7 (`prisma.config.ts`, `import { defineConfig, env } from 'prisma/config'`).
+This project is on **6.14** and has **no `prisma.config.ts`**; the v6 CLI cannot read
+`.env.local` on its own, so schema commands need
+`node --env-file=.env.local ./node_modules/prisma/build/index.js <cmd>`. Follow `prisma-cli`
+for command semantics, not for configuration.
+
+tRPC ships versioned skills through `npx @tanstack/intent@latest list`, resolved from the
+`@trpc/*` in `node_modules`, so those cannot drift from the installed version. Prefer them over
+anything written here about tRPC.
+
 **Skills carry rules, not inventories.** A skill must not restate what a file already says: token
 names, hook signatures, the context shape, the router list, prop tables. Those drift, and a stale
 skill is worse than no skill because it is followed confidently. A skill says *what to do*, *what
