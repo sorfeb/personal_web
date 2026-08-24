@@ -12,7 +12,13 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
+  // Migrations must bypass the Neon pooler; the pooled connection cannot run DDL.
   directUrl = env("DIRECT_URL")
+  // `migrate dev` needs a scratch database to replay migrations into for drift
+  // detection. Neon will not let Prisma create one on demand, so it is a second
+  // Neon database supplied explicitly. Never point this at DATABASE_URL: Prisma
+  // resets it on every run. Not needed by `migrate deploy`.
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {

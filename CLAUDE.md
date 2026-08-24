@@ -77,6 +77,48 @@ Use tokens, never literals: `--duration-instant|fast|normal|slow|slower`,
 - Every animated component must honor `prefers-reduced-motion: reduce`
 - Exits animate faster than entrances (`--duration-fast` out, `--duration-normal` in)
 
+## Database Migrations
+
+Schema history lives in `prisma/migrations/`. **`prisma db push` is no longer the workflow**; it
+writes schema changes with no record that they happened, which is why SOR-158 needed a hand-written
+TypeScript backfill script to do what a migration file does natively.
+
+```bash
+npm run db:migrate -- --name add_something   # create + apply in dev
+npm run db:migrate:create -- --name x        # create only, for hand-editing
+npm run db:migrate:status                    # what is applied where
+npm run db:migrate:deploy                    # apply in CI/production
+```
+
+The `db:*` scripts wrap `node --env-file=.env.local`, because credentials live only in
+`.env.local` and the v6 Prisma CLI cannot read it. `db:migrate:deploy` deliberately omits that
+wrapper: CI injects real env vars and `--env-file` hard-errors on a missing file.
+
+**Never invoke Prisma as bare `npx prisma`.** With nothing resolvable locally it fetches 7.x from
+the registry, which rejects this v6 schema with "The datasource property `url` is no longer
+supported" — a version mismatch that reads like a schema bug.
+
+### Adding a required column to a populated table
+
+`migrate diff` emits `ADD COLUMN ... NOT NULL`, which Postgres rejects when rows exist. Use the
+expand-and-contract pattern from the Prisma docs: generate with `--create-only`, then hand-edit the
+SQL into add-nullable, backfill, `SET NOT NULL`. `prisma/migrations/20260825000000_chat_rooms/`
+is the worked example.
+
+**Migration SQL is frozen history.** It must produce the same result on a fresh database as it did
+against production the day it ran, so literals get hardcoded rather than imported from application
+constants. If `DEFAULT_ROOM_SLUG` changes, that is a new migration, not an edit to the old one.
+
+### Three env vars, three jobs
+
+| Var | Used by |
+|---|---|
+| `DATABASE_URL` | The app, through the Neon pooler |
+| `DIRECT_URL` | Migrations; the pooled connection cannot run DDL |
+| `SHADOW_DATABASE_URL` | `migrate dev` only, for drift detection. A **separate** Neon database, because Prisma resets it on every run |
+
+`migrate deploy` and `migrate resolve` do not use the shadow database, so production never needs it.
+
 ## Input & Navigation Model
 
 This site is operated by mouse, touch, keyboard **and gamepad**. These rules keep those four
