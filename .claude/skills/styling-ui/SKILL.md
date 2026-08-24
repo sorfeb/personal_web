@@ -14,111 +14,78 @@ The site is an Xbox 360 dashboard replica: dark, glossy, green-accented, operate
 keyboard **and gamepad**. Visual values live in tokens. Interactive behavior lives in `ui/`
 primitives. Neither belongs inline in a feature component.
 
-## Canonical References
+## Read These First
 
-| Concern | File |
+This skill deliberately does **not** list token names or component props. Those change; the files
+do not lie.
+
+| Before you… | Read |
 |---|---|
-| Token source of truth | `src/app/design-tokens.css` |
-| Global resets, shared utilities | `src/app/globals.css` |
-| Token enforcement rules | `.stylelintrc.json` |
-| Button primitive + variants | `src/components/ui/Button/Button.tsx`, `Button.module.css` |
-| Other primitives | `src/components/ui/{Toggle,Tooltip,Clock}/` |
-| Sound names | `AUDIO_FILES` in `src/hooks/useAudioManager.ts` |
-| Input mode attribute | `src/context/GamepadContext.tsx` sets `<html data-input>` |
+| Write any CSS | `src/app/design-tokens.css` — every token, grouped, with comments on *why* each exists |
+| Add an interactive element | `src/components/ui/` — the primitives and their prop docs |
+| Attach a sound | `AUDIO_FILES` in `src/hooks/useAudioManager.ts` — the only valid names |
+| Style a selected/focused state | `src/context/GamepadContext.tsx` — sets `<html data-input>` |
 
-Read the token file before styling. It is 378 lines and heavily commented, including *why* a token
-exists (see `--gradient-art-scrim`, `--color-wmp-accent`, `--np-*`).
+```bash
+grep -n '^\s*--' src/app/design-tokens.css     # every token name, current
+```
+
+Read the token file before styling, not after a lint failure. It is short and the comments carry
+rationale you cannot infer from the values.
 
 ## The One Rule
 
 **Every color, radius, shadow, duration, easing and z-index is `var(--*)`.** If the token you need
-does not exist, add it to `src/app/design-tokens.css` first, then consume it. A literal in a
-`.module.css` file is a stylelint warning, and `npm run lint:css` warnings must not increase.
+does not exist, add it to `src/app/design-tokens.css` with a comment on why, then consume it.
 
-Current baseline: **1,296 warnings**, 751 of them raw `rgb()`/`hsl()` calls. Boy-scout rule from
-`CLAUDE.md` applies: any line you touch that has a hardcoded color gets tokenized.
+Stylelint enforces this. It reports warnings rather than errors, so it exits 0 either way: compare
+the count before and after your change, do not trust the exit code.
 
 ```bash
-npm run lint:css                     # full count, compare against baseline
-npx stylelint src/components/Foo/**  # just what you touched
+npm run lint:css                     # full count, compare against pre-change count
+npx stylelint 'src/components/Foo/**'  # fast, just what you touched
 ```
 
-## Token Map
+Boy-scout rule from `CLAUDE.md`: any line you touch that has a hardcoded color gets tokenized.
 
-Names are exact. Guessing a token name is the single most common failure: there is no
-`--color-primary`, no `--spacing-md`, no `--radius-medium`.
+## Names That Do Not Exist
 
-**Color**
-- Brand green: `--color-brand-primary`, `-dark`, `-light`, `-lighter`, `-darker`, `--color-brand-glow`
-  (all derived from `--color-brand-hue: 95` / `--color-brand-saturation: 62%`)
-- Surfaces: `--color-bg-primary|secondary|tertiary|overlay|card|card-hover|subtle|hover|panel|panel-raised|panel-hover`
-- Text: `--color-text-primary|secondary|tertiary|muted|disabled|inverse`
-- Borders: `--color-border-primary|secondary|strong|focus|error`
-- Semantic: `--color-success|error|error-bg|error-border|warning|info`
-- Deliberate non-brand hues (do **not** replace with brand green):
-  `--color-terminal-green` (CRT dots/clock), `--color-xbox-green` (official #107c10),
-  `--color-gold` (achievements, *not* warning), `--color-accent-blue`,
-  `--color-status-recording` (live dot, *not* error)
-- Skin-local ramps that are intentionally off-brand: `--color-wmp-*` (Media Player),
-  `--np-*` (Now Playing, the app's one light surface), `--tv-*` (DOS games CRT bezel)
+The dominant failure is inventing a plausible token instead of reading the file. These look right
+and are wrong:
 
-**Type** — use the composite `font` shorthand tokens, not individual size/weight:
-`--typography-display-1|2`, `-h1`..`-h6`, `-body-1|2|large`, `-subtitle-1|2`, `-button`,
-`-caption`, `-overline`, `-label`, `-code`, `-code-inline`.
+`--color-primary` · `--color-secondary` · `--color-background` · `--color-accent` ·
+`--spacing-xs|sm|md|lg|xl` · `--radius-medium` · `--radius-large` · `--font-size-normal` ·
+`--transition-default` · `--shadow-card`
 
-```css
-.title { font: var(--typography-h3); }   /* correct */
-.title { font-size: var(--font-size-xl); font-weight: 600; }  /* avoid: re-derives a token */
-```
+The real names use different axes: colors are namespaced by role (`--color-bg-*`, `--color-text-*`,
+`--color-border-*`, `--color-brand-*`), spacing is numeric on an 8px scale, and typography is
+exposed as composite `font` shorthands rather than separate size and weight. Read the file.
 
-**Space / shape** — `--spacing-0..16` (8px scale, `--spacing-2` is the base unit),
-`--radius-sm|base|md|lg|xl|full`, `--border-width-thin|medium|thick`.
+## Things the Token File Cannot Tell You
 
-**Depth** — `--shadow-xs|sm|base|md|lg|xl|2xl`, plus `--shadow-inset-light|medium|heavy`,
-`--shadow-glow-green`, `--shadow-glow-green-hover`, `--shadow-text`, `--shadow-drop`.
-
-**Motion** — `--duration-instant|fast|normal|slow|slower`,
-`--ease-linear|in|out|in-out|smooth|bounce|sharp`, and the prebuilt
-`--transition-fast|normal|smooth|color|transform|opacity`.
-
-**Layering** — `--z-base|dropdown|sticky|overlay|modal|popover|tooltip|notification|max`.
-Never write a numeric `z-index`.
-
-**Effects** — `--blur-sm|base|md|lg|xl`, `--backdrop-blur`, `--backdrop-filter-glass`.
+- **Use the composite typography shorthands.** `font: var(--typography-h3)` rather than
+  re-deriving a size and a weight. Re-deriving is how two headings drift apart.
+- **Some colors are deliberately off-brand.** The token file marks them in comments ("NOT warning",
+  "NOT error"). Achievements, CRT/terminal accents, recording indicators and the per-skin ramps for
+  Media Player, Now Playing and the DOS-games CRT bezel are intentional. Do not normalize them to
+  brand green.
+- **Never write a numeric `z-index`.** The `--z-*` scale exists so stacking stays orderable.
+- **Media queries use range syntax**, matching the token file: `@media (width <= 768px)`, not
+  `(max-width: 768px)`. The mobile breakpoint is 768px in both CSS and JS.
 
 ## Reach for a Primitive First
 
-There are **85 hand-rolled `<button>` elements** in `src/` and only 3 files import the primitive.
+`src/components/ui/` holds the shared interactive primitives. `Button` covers the full range of
+dashboard chrome through its `variant` prop, and already handles audio feedback, `:focus-visible`,
+disabled state and ARIA (`aria-pressed`, `aria-busy`, `aria-label` enforcement on icon-only). A
+hand-rolled `<button>` silently drops all four, and most buttons in this codebase are hand-rolled.
 Do not add to that number.
 
-```tsx
-import Button from '@/components/ui/Button';   // default export, NOT from '@/components/ui'
-```
+Read `Button.tsx` for the current prop list rather than guessing at variant names. Note that
+`ui/index.ts` does not barrel every primitive; check the folder for the correct import path.
 
-`ui/index.ts` only barrels `Tooltip` and `Clock`; `Button` and `Toggle` import from their folder.
-
-```tsx
-<Button variant="chrome" badge="A" onClick={onConfirm}>Confirm</Button>
-<Button variant="metallic" size="sm" icon={<Play />} iconOnly aria-label="Play" />
-<Button variant="ghost" clickSound="back" onClick={onDismiss}>Cancel</Button>
-```
-
-| Prop | Values |
-|---|---|
-| `variant` | `chrome` (controller-chrome row), `metallic` (WMP bevel), `glass`, `ghost`, `solid` (default), `danger` |
-| `size` | `sm` \| `md` \| `lg` |
-| `shape` | `rect` \| `pill` \| `circle` |
-| `badge` | `A` \| `B` \| `X` \| `Y` — always Xbox glyphs regardless of connected hardware |
-| `icon` / `iconPosition` / `iconOnly` | `iconOnly` requires `aria-label` |
-| `loading` / `active` / `glow` / `fullWidth` | `active` emits `aria-pressed`, `loading` emits `aria-busy` |
-| `hoverSound` / `clickSound` | `SoundType` or `null` to silence; `chrome` defaults hover to `owawa` |
-
-The primitive already handles audio feedback, `:focus-visible`, disabled state and ARIA. A
-hand-rolled button silently drops all four.
-
-**Valid sound names** (from `AUDIO_FILES`, nothing else exists):
-`hover`, `click`, `navigation`, `back`, `panel`, `panelLeft`, `ting`, `owawa`, `divine`,
-`unfold`, `channelUp`, `channelDown`, `swing`, `achievement`.
+Controller glyphs are always Xbox glyphs (A/B/X/Y) regardless of connected hardware. The site is an
+Xbox replica; that premise wins.
 
 ## CSS Module Conventions
 
@@ -133,7 +100,6 @@ Declaration order: layout, dimensions, spacing, visual, motion last.
 
   /* dimensions */
   width: 100%;
-  max-width: 42rem;
 
   /* spacing */
   padding: var(--spacing-4) var(--spacing-5);
@@ -141,58 +107,40 @@ Declaration order: layout, dimensions, spacing, visual, motion last.
 
   /* visual */
   background: var(--color-bg-panel);
-  border: var(--border-width-thin) solid var(--color-border-primary);
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-lg);
   color: var(--color-text-primary);
 
   /* motion */
   transition: var(--transition-smooth);
 }
-
-.panel:hover {
-  background: var(--color-bg-panel-hover);
-  transition: background var(--duration-normal) var(--ease-in-out);
-}
 ```
-
-Media queries use range syntax, matching `design-tokens.css`:
-
-```css
-@media (width <= 768px) { ... }   /* correct */
-@media (max-width: 768px) { ... } /* legacy, do not add new ones */
-```
-
-The mobile breakpoint is 768px in both CSS and JS (`window.innerWidth <= 768`).
 
 ## Motion
 
-Per `CLAUDE.md`: card transitions `--duration-slow`, hover states `--duration-normal`,
-transform origin `center` for scaling, and **exits animate faster than entrances**
-(`--duration-fast` out, `--duration-normal` in).
+Timing rules live in `CLAUDE.md` (card transitions slow, hover normal, exits faster than
+entrances, `transform-origin: center` for scaling). The durations and easings are tokens; there
+are prebuilt `--transition-*` shorthands for the common cases.
 
-**Every animated component must honor reduced motion.** Only 19 of 88 `.module.css` files
-currently do, and there are 79 hardcoded transition timings left in the codebase.
+**Every animated component must honor reduced motion.** Most currently do not, so assume the file
+you are editing needs the block added:
 
 ```css
 @media (prefers-reduced-motion: reduce) {
-  .card,
-  .card::after {
+  .card {
     transition-duration: 0.01ms;
     animation: none;
   }
 }
 ```
 
-Framer Motion is available for orchestrated sequences. Drive its `duration` from the token scale
-(`0.3` for `--duration-normal`, `0.5` for `--duration-slow`) so CSS and JS stay in step, and gate
-it on `useReducedMotion()` from `framer-motion`.
+Framer Motion is available for orchestrated sequences. Gate it on `useReducedMotion()` and keep
+its durations aligned with the token scale so CSS and JS stay in step.
 
 ## Focus and Selection
 
 DOM focus is the single source of truth for selection. Never paint a highlight from a React
-`selectedIndex`. Style selection off the input-mode attribute, because `:focus-visible` does not
-reliably fire on programmatic `.focus()`:
+`selectedIndex`. `:focus-visible` does not reliably fire on programmatic `.focus()`, so style
+gamepad selection off the input-mode attribute as well:
 
 ```css
 .item:focus-visible,
@@ -202,36 +150,27 @@ reliably fire on programmatic `.focus()`:
 }
 ```
 
-18 files use `:focus-visible` today. Anything clickable must be reachable by Tab; use `next/link`
-for routes and `<button>` for actions rather than a `tabIndex={0}` div.
+Anything clickable must be reachable by Tab: `next/link` for routes, `<button>` for actions, never
+a `tabIndex={0}` div.
 
 ## Anti-Patterns
 
-- **Do not invent token names.** `--color-primary`, `--spacing-md`, `--radius-medium` do not exist.
-  Grep `design-tokens.css` before typing a `var()`.
-- **Do not write `transition: all 0.3s ease`.** Use `var(--transition-normal)` or an explicit
-  property with `var(--duration-*) var(--ease-*)`.
-- **Do not hand-roll a button, toggle or tooltip.** Check `src/components/ui/` first.
-- **Do not swap a deliberate off-brand color for brand green.** `--color-gold`,
-  `--color-terminal-green`, `--color-status-recording` and the `--color-wmp-*` / `--np-*` / `--tv-*`
-  ramps are intentional; the token file says so in comments.
-- **Do not add a raw `hsl()`/`rgb()` to a `.module.css`.** Those functions are allowed only in
-  `design-tokens.css` and `globals.css` (stylelint `overrides`).
-- **Do not use a numeric `z-index`.** The `--z-*` scale exists so stacking stays orderable.
-- **Do not ship an animation without a `prefers-reduced-motion` block.**
-- **Do not add a `.module.css` line with a hardcoded color to a file you are already editing.**
-  Boy-scout rule: tokenize the lines you touch.
+- **Inventing a token name.** Grep the token file first.
+- **`transition: all 0.3s ease`.** Literals are the single biggest source of lint warnings here.
+- **Hand-rolling a button, toggle or tooltip.** Check `src/components/ui/` first.
+- **Normalizing a deliberate off-brand color to brand green.** The comments say which are intentional.
+- **A raw `hsl()`/`rgb()` in a `.module.css`.** Those belong only in the token file and `globals.css`.
+- **Shipping an animation without a `prefers-reduced-motion` block.**
 
 ## Checklist
 
 ```
+- [ ] Read design-tokens.css rather than guessing a var() name
 - [ ] Reused a ui/ primitive, or documented why a new one was needed
 - [ ] Every color, radius, shadow, duration, easing, z-index is var(--*)
-- [ ] New tokens (if any) added to design-tokens.css with a comment on why
-- [ ] Typography uses a --typography-* shorthand, not re-derived size + weight
+- [ ] New tokens added to design-tokens.css with a comment on why
 - [ ] Interactive elements have audio feedback and a visible focus style
-- [ ] Animations honor prefers-reduced-motion; exits faster than entrances
-- [ ] Responsive at 768px using (width <= 768px) range syntax
+- [ ] Animations honor prefers-reduced-motion
 - [ ] npm run lint:css warning count did not increase
 - [ ] npm run compile and npm run lint pass
 ```
