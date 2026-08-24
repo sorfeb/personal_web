@@ -1,20 +1,8 @@
 /**
  * Chat Feature Exports
- * 
- * Clean imports for the chat system following SOLID principles.
- * Each component has a single responsibility and is organized in its own folder.
+ *
+ * The chat room is a full page reached from the dashboard, not a floating window.
+ * The Windows-style window chrome that used to live here was removed in SOR-157.
  */
 
-export { default as ChatManager } from './ChatManager/ChatManager';
-export { default as ChatWindow } from './ChatWindow/ChatWindow';
-export { default as ChatTab } from './ChatTab/ChatTab';
 export { default as ChatRoom } from './ChatRoom/ChatRoom';
-
-// Re-export types for convenience
-export type { 
-  ChatWindowProps, 
-  ChatTabProps, 
-  ChatWindowState, 
-  ChatPosition, 
-  ChatSize 
-} from '../../types/chat';

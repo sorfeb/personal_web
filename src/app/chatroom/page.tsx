@@ -1,12 +1,16 @@
 'use client';
 
+import React from 'react';
+import PageLayout from '../../components/PageLayout/PageLayout';
 import ChatRoom from '../../components/Chat/ChatRoom/ChatRoom';
-import styles from './Chatroom.module.css';
 
 export default function ChatroomPage() {
   return (
-    <div className={styles['chatroom-page']}>
-      <ChatRoom />
-    </div>
+    <PageLayout title="Chat" size="wide">
+      <PageLayout.Header />
+      <PageLayout.Body>
+        <ChatRoom />
+      </PageLayout.Body>
+    </PageLayout>
   );
 }

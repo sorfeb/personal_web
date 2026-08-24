@@ -1,18 +1,17 @@
-import { ChatPosition } from '../types/chat';
+/**
+ * Position of a draggable window, in viewport pixels.
+ */
+export interface WindowPosition {
+  x: number;
+  y: number;
+}
 
 /**
  * Window Management Constants
  * Based on Windows OS behavior and UX best practices
  */
-export const WINDOW_CONSTANTS = {
-  MIN_WIDTH: 400,
-  MIN_HEIGHT: 300,
+const WINDOW_CONSTANTS = {
   DEFAULT_WIDTH: 600,
-  DEFAULT_HEIGHT: 500,
-  DEFAULT_X: 100,
-  DEFAULT_Y: 100,
-  MOBILE_BREAKPOINT: 768,
-  TITLE_BAR_HEIGHT: 32,
   MIN_VISIBLE_AREA: 50, // Minimum pixels of title bar that must remain visible
 } as const;
 
@@ -54,7 +53,7 @@ export const getWindowBounds = () => {
  * @param position - Desired window position
  * @returns Constrained position following Windows behavior
  */
-export const constrainPosition = (position: ChatPosition): ChatPosition => {
+export const constrainPosition = (position: WindowPosition): WindowPosition => {
   const bounds = getWindowBounds();
   
   return {
@@ -76,7 +75,7 @@ export const constrainPosition = (position: ChatPosition): ChatPosition => {
 export const calculateDragOffset = (
   mouseEvent: React.MouseEvent,
   windowRect: DOMRect
-): ChatPosition => ({
+): WindowPosition => ({
   x: mouseEvent.clientX - windowRect.left,
   y: mouseEvent.clientY - windowRect.top,
 });
@@ -91,20 +90,11 @@ export const calculateDragOffset = (
  */
 export const calculateDragPosition = (
   mouseEvent: MouseEvent,
-  dragOffset: ChatPosition
-): ChatPosition => ({
+  dragOffset: WindowPosition
+): WindowPosition => ({
   x: mouseEvent.clientX - dragOffset.x,
   y: mouseEvent.clientY - dragOffset.y,
 });
-
-/**
- * Check if device is mobile
- * Includes SSR safety check
- */
-export const isMobile = (): boolean => {
-  if (typeof window === 'undefined') return false;
-  return window.innerWidth <= WINDOW_CONSTANTS.MOBILE_BREAKPOINT;
-};
 
 /**
  * Prevent text selection during drag/resize

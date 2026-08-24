@@ -2,8 +2,11 @@ import { z } from 'zod';
 import { createTRPCRouter, publicProcedure, protectedProcedure } from '../trpc';
 
 export const messagesRouter = createTRPCRouter({
-  // Public procedure to get all messages (anyone can view)
+  // Public procedure to get the recent messages (anyone can view)
   getAll: publicProcedure.query(async ({ ctx }) => {
+    // Take the newest 100, then hand them back oldest-first. The transcript
+    // renders top-to-bottom into a container that auto-scrolls to the bottom,
+    // so ascending order is what puts the newest message where the view lands.
     const messages = await ctx.db.message.findMany({
       orderBy: { createdAt: 'desc' },
       include: {
@@ -18,7 +21,7 @@ export const messagesRouter = createTRPCRouter({
       take: 100,
     });
 
-    return messages;
+    return messages.reverse();
   }),
 
   // Only authenticated users can create messages

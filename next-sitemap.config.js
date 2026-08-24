@@ -14,6 +14,9 @@ module.exports = {
   exclude: [
     '/api/*',
     '/404',
+    // Visitor-authored content; the page is noindex, so keep it out of the
+    // sitemap too rather than advertising it for daily crawls.
+    '/chatroom',
   ],
   additionalPaths: async (config) => {
     return [
