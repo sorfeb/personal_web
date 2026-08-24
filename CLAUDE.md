@@ -112,8 +112,11 @@ supported" — a version mismatch that reads like a schema bug.
 
 `migrate diff` emits `ADD COLUMN ... NOT NULL`, which Postgres rejects when rows exist. Use the
 expand-and-contract pattern from the Prisma docs: generate with `--create-only`, then hand-edit the
-SQL into add-nullable, backfill, `SET NOT NULL`. `prisma/migrations/20260825000000_chat_rooms/`
-is the worked example.
+SQL into add-nullable, backfill, `SET NOT NULL`.
+
+**A migration and the schema change it implements ship in the same branch.** A migration whose
+models are absent from `schema.prisma` puts the database ahead of the client the moment it is
+applied, and the next `migrate status` reports drift.
 
 **Migration SQL is frozen history.** It must produce the same result on a fresh database as it did
 against production the day it ran, so literals get hardcoded rather than imported from application
