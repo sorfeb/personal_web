@@ -171,6 +171,10 @@ feature-sized — the harness task list is per-session and disappears.
 4. **Verify** — `npm run compile`, `npm run lint`, `npm run lint:css`, `npm run lint:useeffect`.
    Storybook is the only interactive harness; there is no test runner.
 5. **Document** — on completion, `.github/documentation/<feature>-complete.md`, and close the issue.
+6. **Ship** — open the PR with `/pr` (`.claude/commands/pr.md`). It carries the
+   conventions a reviewer needs when the author was an agent: full-scope summary, a Mermaid
+   architecture diagram when the change crosses a boundary, and an Evidence section stating
+   what was actually verified rather than what usually passes.
 
 Decisions settled in design review belong in **this file** (conventions) or in the relevant
 **plan** (project specifics) — not in session memory. If you find yourself re-litigating a
