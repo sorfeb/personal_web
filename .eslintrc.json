@@ -3,6 +3,9 @@
   // under .claude/worktrees/ would otherwise also resolve the parent clone's
   // copy of this file and die on a "conflicting plugin" error.
   "root": true,
+  // Generated Prisma Client (v7 emits into the source tree, not node_modules).
+  // Linting generated code is noise and slows every run.
+  "ignorePatterns": ["src/generated/**"],
   "extends": [
     "next/core-web-vitals",
     "plugin:storybook/recommended"

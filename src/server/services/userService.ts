@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma } from '@prisma/client';
+import { PrismaClient, Prisma } from '@/generated/prisma/client';
 import { GUEST_PROFILE, DEFAULT_AVATAR } from '../config/userConfig';
 import { computeGamerscore, isAchievementId } from '../../constants/achievements';
 
