@@ -2,6 +2,7 @@
 
 import React, { memo } from 'react';
 import Button from '../../ui/Button';
+import { CHAT_LIMITS } from '../../../constants/chat';
 import styles from './ChatRoom.module.css';
 
 /**
@@ -35,7 +36,9 @@ const MessageInput = memo<MessageInputProps>(({
   isLoading, 
   error 
 }) => {
-  const maxChars = 500;
+  // Same constant the server enforces, so the counter cannot drift from the
+  // limit that actually rejects a message.
+  const maxChars = CHAT_LIMITS.MAX_MESSAGE_LENGTH;
   const charCount = value.length;
   const isNearLimit = charCount > maxChars * 0.8;
 

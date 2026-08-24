@@ -5,6 +5,7 @@ import { trpc } from '../../../utils/trpc';
 import { authClient } from '../../../lib/auth-client';
 import { useAutoScroll } from '@/hooks';
 import { useAchievements } from '../../../hooks/useAchievements';
+import { DEFAULT_ROOM_SLUG } from '../../../constants/chat';
 import Button from '../../ui/Button';
 import MessageItem from './MessageItem';
 import MessageInput from './MessageInput';
@@ -26,7 +27,12 @@ import styles from './ChatRoom.module.css';
  * - Loading and error states
  * - Responsive design
  */
-const ChatRoom = memo(() => {
+interface ChatRoomProps {
+  /** Room to open. Defaults to the seeded public room. */
+  roomSlug?: string;
+}
+
+const ChatRoom = memo<ChatRoomProps>(({ roomSlug = DEFAULT_ROOM_SLUG }) => {
   const [messageText, setMessageText] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { data: session } = authClient.useSession();
@@ -35,21 +41,23 @@ const ChatRoom = memo(() => {
 
   // Fetch messages with caching for performance
   const {
-    data: messages,
+    data,
     isLoading: messagesLoading,
     error: messagesError,
     refetch: refetchMessages
-  } = trpc.messages.getAll.useQuery(undefined, {
+  } = trpc.messages.listByRoom.useQuery({ roomSlug }, {
     staleTime: 30000, // Consider data fresh for 30 seconds
     gcTime: 300000, // Keep in cache for 5 minutes
   });
 
+  const messages = data?.messages;
+
   // Create message mutation
-  const createMessage = trpc.messages.create.useMutation({
+  const createMessage = trpc.messages.send.useMutation({
     onSuccess: () => {
       setMessageText('');
       refetchMessages();
-      // Server granted it in messages.create; surface the toast locally
+      // Server granted it in messages.send; surface the toast locally
       unlock('leave-your-mark');
     },
   });
@@ -67,11 +75,11 @@ const ChatRoom = memo(() => {
     // The mutation's own error state drives the message shown in MessageInput,
     // so a rejection needs catching but not reporting here.
     try {
-      await createMessage.mutateAsync({ text: messageText.trim() });
+      await createMessage.mutateAsync({ roomSlug, text: messageText.trim() });
     } catch {
       // Surfaced through createMessage.error below.
     }
-  }, [user, messageText, createMessage]);
+  }, [user, messageText, createMessage, roomSlug]);
 
   // Loading state
   if (messagesLoading) {
