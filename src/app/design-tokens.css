@@ -141,6 +141,38 @@
   --color-accent-blue: hsl(206deg 100% 42%);         /* Xbox-era Microsoft blue #0078d4 */
   --color-status-recording: hsl(0deg 100% 50%);      /* live/recording dot, NOT error */
 
+  /* Controller Face-Button Glyphs (A/B/X/Y)
+     Each chip is shaded like a lit sphere rather than filled flat, so it needs a
+     highlight, a body, a shaded rim, and an ink for the letter. A tracks the brand
+     hue; B/X/Y are the fixed Xbox face-button colors. */
+  --color-glyph-a-light: hsl(var(--color-brand-hue) var(--color-brand-saturation) 66%);
+  --color-glyph-a-base: hsl(var(--color-brand-hue) var(--color-brand-saturation) 45%);
+  --color-glyph-a-shade: hsl(var(--color-brand-hue) 66% 26%);
+  --color-glyph-a-ink: hsl(var(--color-brand-hue) 72% 12%);
+  --color-glyph-b-light: hsl(0deg 100% 78%);
+  --color-glyph-b-base: hsl(0deg 100% 63%);
+  --color-glyph-b-shade: hsl(0deg 85% 34%);
+  --color-glyph-b-ink: hsl(0deg 90% 15%);
+  --color-glyph-x-light: hsl(206deg 100% 62%);
+  --color-glyph-x-base: hsl(206deg 100% 42%);
+  --color-glyph-x-shade: hsl(206deg 100% 22%);
+  --color-glyph-x-ink: hsl(206deg 100% 10%);
+  --color-glyph-y-light: hsl(45deg 90% 74%);
+  --color-glyph-y-base: hsl(45deg 80% 55%);
+  --color-glyph-y-shade: hsl(45deg 85% 32%);
+  --color-glyph-y-ink: hsl(45deg 90% 14%);
+
+  /* Neutral shading shared by every glyph, so the lighting stays consistent.
+     The gloss trio draws the specular cap: bright at its center, faded at its
+     edge, then cut to a fully transparent white. Cutting to `transparent`
+     instead would fade through premultiplied black and grey the highlight. */
+  --color-glyph-sheen: hsl(0deg 0% 100% / 55%);
+  --color-glyph-rim: hsl(0deg 0% 0% / 40%);
+  --color-glyph-emboss: hsl(0deg 0% 100% / 25%);
+  --color-glyph-gloss: hsl(0deg 0% 100% / 50%);
+  --color-glyph-gloss-soft: hsl(0deg 0% 100% / 12%);
+  --color-glyph-gloss-none: hsl(0deg 0% 100% / 0%);
+
   /* TV Frame (DOS games) — mid-2000s CRT plastic + screen effects */
   --tv-bezel: hsl(0deg 0% 13%);
   --tv-bezel-dark: hsl(0deg 0% 7%);

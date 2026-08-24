@@ -53,6 +53,25 @@ export const Glowing: Story = {
   args: { children: 'Achievement', variant: 'solid', glow: true },
 };
 
+export const ControllerGlyphs: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: 8, alignItems: 'center', padding: 24 }}>
+      <Button variant="chrome" badge="A">
+        Select
+      </Button>
+      <Button variant="chrome" badge="B">
+        Back
+      </Button>
+      <Button variant="chrome" badge="X">
+        Leave Party
+      </Button>
+      <Button variant="chrome" badge="Y">
+        Chat Channel
+      </Button>
+    </div>
+  ),
+};
+
 export const AllVariants: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', padding: 24 }}>
