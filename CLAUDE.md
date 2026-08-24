@@ -13,9 +13,18 @@ Before substantial work:
 - Monorepos: when working across packages, run the skill check from the workspace root and prefer the local skill for the package being changed.
 - Multiple matches: prefer the most specific local skill for the package or concern you are changing; load additional skills only when the task spans multiple packages or concerns.
 
-Project skills live in `.claude/skills/` and are the source of truth for domain guidance:
-`developing-frontend`, `developing-backend`, `scaffolding-components`, `planning-features`,
-`reviewing-code`, `no-useeffect`, `vercel-react-best-practices`.
+Project skills live in `.claude/skills/`: `styling-ui`, `scaffolding-components`,
+`developing-backend`, `planning-features`, `reviewing-code`, `no-useeffect`, and the vendored
+`vercel-react-best-practices`.
+
+Load `styling-ui` before editing any `.module.css` or choosing a color, radius, shadow, timing or
+z-index.
+
+**Skills carry rules, not inventories.** A skill must not restate what a file already says: token
+names, hook signatures, the context shape, the router list, prop tables. Those drift, and a stale
+skill is worse than no skill because it is followed confidently. A skill says *what to do*, *what
+not to assume*, and *which file to read*. When you find yourself typing a list that the codebase
+already holds, link to the file instead.
 
 ## Build & Development Commands
 
@@ -48,7 +57,7 @@ Personal portfolio styled as an Xbox 360 dashboard replica. Next.js 15, tRPC, Pr
 - Pre-creates 3 `HTMLAudioElement` instances per sound type to prevent latency
 - Module-level variables with client-side initialization guard (`typeof window`)
 - Volume controlled via `VolumeContext` - updates all pool instances simultaneously
-- 13 sound types mapped to interactions (hover, click, navigation, etc.)
+- Sound names are the keys of `AUDIO_FILES`; read it rather than assuming a name exists
 
 Use `useNavigationSound` to couple audio with Next.js router navigation:
 ```tsx
@@ -58,7 +67,7 @@ navigateWithSound('/path', 'navigation');
 
 ### tRPC Backend
 - **Router location**: `src/server/routers/_app.ts` combines all routers
-- **Available routers**: messages, user, spotify, blog
+- **Available routers**: see the registry in `_app.ts`
 - **Patterns**: Zod validation on all inputs, proper TRPCError codes, select only needed fields
 - **Database**: Prisma v6 with Neon PostgreSQL adapter (`prisma/schema.prisma`)
 

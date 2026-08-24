@@ -25,31 +25,12 @@ Direct `useEffect` calls are banned in component and page files. Most useEffect 
 
 ## Available Hooks
 
-```typescript
-// Mount-only effects
-import { useMountEffect } from '@/hooks';
-useMountEffect(() => {
-  console.log('Mounted');
-  return () => console.log('Unmounted');
-});
+Purpose-built hooks live in `src/hooks/` and are exempt from the ban. **Read `src/hooks/index.ts`
+for what currently exists** rather than assuming: the set grows, and reaching for `useEffect`
+because you did not know a hook was already there is the most common way this policy gets broken.
 
-// Client-side mount guard
-import { useIsMounted } from '@/hooks';
-const isMounted = useIsMounted();
-if (!isMounted) return null;
-
-// Declarative intervals
-import { useInterval } from '@/hooks';
-useInterval(() => setTime(Date.now()), 1000);
-
-// Declarative timeouts
-import { useTimeout } from '@/hooks';
-useTimeout(() => setVisible(false), 3000);
-
-// Declarative event listeners
-import { useEventListener } from '@/hooks';
-useEventListener(window, 'resize', handleResize);
-```
+There are declarative wrappers for the usual suspects (mount-only effects, client-mount guards,
+intervals, timeouts, event listeners). If your effect is one of those, a hook already exists.
 
 ## Smell Tests — Refactor If You See
 
@@ -79,4 +60,5 @@ Custom hooks in `src/hooks/` are exempt.
 ## Detailed References
 
 - [references/patterns.md](references/patterns.md) — Complete pattern catalog with examples
-- [references/hooks-api.md](references/hooks-api.md) — Full hook implementations
+
+For a hook's actual signature, read the hook. A copy of it here would go stale.

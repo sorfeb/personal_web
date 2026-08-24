@@ -1,6 +1,18 @@
 # Component Templates
 
+Starting points, not finished code. Two standing rules apply to everything below:
+
+1. **Do not copy a `var()` name out of this file into real CSS.** Read
+   `src/app/design-tokens.css` and use what is actually there. Token names in a template go stale;
+   the ones here are illustrative.
+2. **Never write `var(--token, #fallback)`.** A hex fallback silently paints the wrong color when
+   the token name is wrong, which is exactly when you want a visible failure.
+
 ## Basic Interactive Component
+
+If the thing you are building is a button, stop and use `src/components/ui/Button` instead. It
+already carries audio, focus-visible, disabled handling and ARIA. This template is for a composite
+surface that is not a primitive.
 
 ```tsx
 // ComponentName.tsx
@@ -19,11 +31,7 @@ interface ComponentNameProps {
   className?: string;
 }
 
-const ComponentName = memo<ComponentNameProps>(({
-  title,
-  onClick,
-  className,
-}) => {
+const ComponentName = memo<ComponentNameProps>(({ title, onClick, className }) => {
   const { playSound } = useAudioManager();
 
   const handleClick = () => {
@@ -31,20 +39,15 @@ const ComponentName = memo<ComponentNameProps>(({
     onClick?.();
   };
 
-  const handleMouseEnter = () => {
-    playSound('hover');
-  };
-
   return (
-    <div
+    <button
+      type="button"
       className={`${styles.container} ${className || ''}`}
       onClick={handleClick}
-      onMouseEnter={handleMouseEnter}
-      role="button"
-      tabIndex={0}
+      onMouseEnter={() => playSound('hover')}
     >
       <span className={styles.title}>{title}</span>
-    </div>
+    </button>
   );
 });
 
@@ -53,7 +56,13 @@ ComponentName.displayName = 'ComponentName';
 export default ComponentName;
 ```
 
+Use the native element that already means what you mean. A `<div role="button" tabIndex={0}>`
+reimplements, badly, what `<button>` gives free: Tab order, Enter and Space activation, and the
+disabled state. Routes use `next/link`, not an onClick handler.
+
 ## CSS Module Template
+
+Declaration order is layout, dimensions, spacing, visual, motion last.
 
 ```css
 /* ComponentName.module.css */
@@ -61,54 +70,55 @@ export default ComponentName;
   /* Layout */
   display: flex;
   align-items: center;
-  justify-content: center;
   position: relative;
 
   /* Dimensions */
   width: 100%;
-  min-height: 48px;
 
   /* Spacing */
-  padding: 1rem;
+  padding: var(--spacing-4);
 
   /* Visual */
-  background: var(--color-surface, #1a1a2e);
-  border-radius: 8px;
+  background: var(--color-bg-panel);
+  border: var(--border-width-thin) solid var(--color-border-primary);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
   cursor: pointer;
 
-  /* Transitions */
-  transition: all 0.3s ease;
+  /* Motion */
+  transition: var(--transition-smooth);
   transform-origin: center;
 }
 
 .container:hover {
-  transform: scale(1.02);
-  background: var(--color-surface-hover, #25253d);
+  background: var(--color-bg-panel-hover);
 }
 
-.container:focus-visible {
-  outline: 2px solid var(--color-primary, #00ff88);
-  outline-offset: 2px;
+.container:focus-visible,
+:global(html[data-input='gamepad']) .container:focus {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .title {
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--color-text, #ffffff);
+  font: var(--typography-subtitle-2);
 }
 
-/* Mobile responsive */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .container {
-    padding: 0.75rem;
-    min-height: 40px;
+    padding: var(--spacing-3);
   }
+}
 
-  .title {
-    font-size: 0.875rem;
+@media (prefers-reduced-motion: reduce) {
+  .container {
+    transition-duration: 0.01ms;
   }
 }
 ```
+
+Every value above is a token. If `npm run lint:css` reports more warnings after your component
+than before it, something in here became a literal.
 
 ## Barrel Export
 
@@ -119,6 +129,9 @@ export type { ComponentNameProps } from './ComponentName';
 ```
 
 ## Storybook Story Template
+
+Storybook is the only interactive harness in this repo; there is no test runner. Wrap in whichever
+providers the component actually consumes.
 
 ```tsx
 // ComponentName.stories.tsx
@@ -132,7 +145,7 @@ const meta: Meta<typeof ComponentName> = {
   decorators: [
     (Story) => (
       <VolumeProvider>
-        <div style={{ padding: '2rem', background: '#0f0f23' }}>
+        <div style={{ padding: 'var(--spacing-6)', background: 'var(--color-bg-primary)' }}>
           <Story />
         </div>
       </VolumeProvider>
@@ -149,26 +162,17 @@ export default meta;
 type Story = StoryObj<typeof ComponentName>;
 
 export const Default: Story = {
-  args: {
-    title: 'Default Title',
-  },
-};
-
-export const LongTitle: Story = {
-  args: {
-    title: 'This is a very long title that might wrap',
-  },
-};
-
-export const Interactive: Story = {
-  args: {
-    title: 'Click Me',
-    onClick: () => alert('Clicked!'),
-  },
+  args: { title: 'Example' },
 };
 ```
 
-## Navigation Component Template
+Providers live in `src/context/`. Read that directory for what exists rather than assuming a
+provider from another project is present here.
+
+## Navigating Component
+
+`navigateWithSound` plays the sound and routes. Do not stack a second `playSound` in front of it,
+and do not delay it behind a `setTimeout`.
 
 ```tsx
 'use client';
@@ -178,28 +182,16 @@ import { useNavigationSound } from '@/hooks/useNavigationSound';
 import { useAudioManager } from '@/hooks/useAudioManager';
 import styles from './NavComponent.module.css';
 
-interface NavComponentProps {
-  href: string;
-  label: string;
-}
-
-const NavComponent = memo<NavComponentProps>(({ href, label }) => {
+const NavComponent = memo<{ href: string; label: string }>(({ href, label }) => {
   const { navigateWithSound } = useNavigationSound();
   const { playSound } = useAudioManager();
 
-  const handleClick = () => {
-    navigateWithSound(href, 'navigation');
-  };
-
-  const handleMouseEnter = () => {
-    playSound('hover');
-  };
-
   return (
     <button
+      type="button"
       className={styles.navButton}
-      onClick={handleClick}
-      onMouseEnter={handleMouseEnter}
+      onClick={() => navigateWithSound(href, 'navigation')}
+      onMouseEnter={() => playSound('hover')}
     >
       {label}
     </button>
@@ -210,3 +202,16 @@ NavComponent.displayName = 'NavComponent';
 
 export default NavComponent;
 ```
+
+Prefer `next/link` when the destination is a plain route: it gives a crawlable internal link and
+native middle-click and modifier-click behavior that an onClick handler does not.
+
+## Modal or Dialog
+
+A modal owns the top of the gamepad scope stack. Register it with `useGamepadScope` rather than
+adding a `window.addEventListener('keydown')` handler, and do not gate behavior on
+`document.querySelector('[role="dialog"]')`. A scope that does not handle an intent swallows it,
+which is what silences the UI beneath the modal.
+
+Sound names come from `AUDIO_FILES` in `src/hooks/useAudioManager.ts`. Read it; there is no
+`'open'`, `'close'` or `'select'`.

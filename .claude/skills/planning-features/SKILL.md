@@ -57,35 +57,11 @@ Linear. Never both — they drift.
 
 See [TEMPLATE.md](TEMPLATE.md) for the section structure to use in the Linear document.
 
-## Quick Plan Structure
+## Plan Contents
 
-```markdown
-# Feature: [Name]
-**Date**: YYYY-MM-DD
-**Status**: Planning
-
-## Objective
-What problem does this solve?
-
-## Technical Approach
-- Architecture decisions
-- Components to create/modify
-- API endpoints needed
-
-## Implementation Steps
-1. [Step with file path]
-2. [Step with file path]
-
-## Testing Strategy
-- Unit tests needed
-- Manual testing checklist
-
-## Checklist
-- [ ] Audio integration considered
-- [ ] Responsive design planned
-- [ ] Error handling defined
-- [ ] No new dependencies (or approval obtained)
-```
+Use [TEMPLATE.md](TEMPLATE.md) rather than an inline skeleton, so there is one structure to keep
+current. Note that this repo has **no test runner**: a "testing strategy" section means the
+Storybook story and the manual verification steps, not unit tests.
 
 ## Architecture Considerations
 
@@ -94,11 +70,13 @@ Always address:
 | Aspect | Question |
 |--------|----------|
 | Audio | What sounds should play? |
-| Responsive | Mobile behavior at 768px? |
+| Input | Keyboard and gamepad reachable? Which scope owns it? |
+| Responsive | Mobile behavior at 768px? Gamepad is desktop-only |
+| Motion | What animates, and what does reduced-motion fall back to? |
 | State | Local state or context? |
 | Data | tRPC query or static? |
-| Auth | Protected or public? |
-| Performance | Memoization needed? |
+| Auth | Public, authenticated, or ownership-checked? |
+| Tokens | Any new design tokens needed, and why can existing ones not serve? |
 
 ## After Implementation
 
