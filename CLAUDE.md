@@ -69,7 +69,7 @@ navigateWithSound('/path', 'navigation');
 - **Router location**: `src/server/routers/_app.ts` combines all routers
 - **Available routers**: see the registry in `_app.ts`
 - **Patterns**: Zod validation on all inputs, proper TRPCError codes, select only needed fields
-- **Database**: Prisma v6 with Neon PostgreSQL adapter (`prisma/schema.prisma`)
+- **Database**: Prisma v7 with Neon driver adapter (`prisma/schema.prisma`, `prisma.config.ts`)
 
 ### Component Patterns
 - CSS Modules (`.module.css`) for all component styles
@@ -86,6 +86,58 @@ Use tokens, never literals: `--duration-instant|fast|normal|slow|slower`,
 - Transform origin: `center` for scaling animations
 - Every animated component must honor `prefers-reduced-motion: reduce`
 - Exits animate faster than entrances (`--duration-fast` out, `--duration-normal` in)
+
+## Database Migrations
+
+Schema history lives in `prisma/migrations/`. **`prisma db push` is no longer the workflow**; it
+writes schema changes with no record that they happened, which is why SOR-158 needed a hand-written
+TypeScript backfill script to do what a migration file does natively.
+
+```bash
+npm run db:migrate -- --name add_something   # create + apply in dev
+npm run db:migrate:create -- --name x        # create only, for hand-editing
+npm run db:migrate:status                    # what is applied where
+npm run db:migrate:deploy                    # apply in CI/production
+```
+
+`prisma.config.ts` loads `.env.local` itself via `process.loadEnvFile`, guarded by an
+`existsSync` check so CI (which injects real env vars and ships no `.env.local`) does not throw.
+No script wrappers are needed.
+
+### Prisma Client is generated, not installed
+
+v7 does not generate into `node_modules`. The client lands in `src/generated/prisma` (gitignored)
+and is imported as `@/generated/prisma/client`. **There is no `@prisma/client` import path any
+more** — that package exists only as the runtime the generated code depends on. Run
+`npm run db:generate` after any schema change, and after a fresh `npm ci`, or imports will not
+resolve.
+
+### Adding a required column to a populated table
+
+`migrate diff` emits `ADD COLUMN ... NOT NULL`, which Postgres rejects when rows exist. Use the
+expand-and-contract pattern from the Prisma docs: generate with `--create-only`, then hand-edit the
+SQL into add-nullable, backfill, `SET NOT NULL`.
+
+**A migration and the schema change it implements ship in the same branch.** A migration whose
+models are absent from `schema.prisma` puts the database ahead of the client the moment it is
+applied, and the next `migrate status` reports drift.
+
+**Migration SQL is frozen history.** It must produce the same result on a fresh database as it did
+against production the day it ran, so literals get hardcoded rather than imported from application
+constants. If `DEFAULT_ROOM_SLUG` changes, that is a new migration, not an edit to the old one.
+
+### Three env vars, three jobs
+
+| Var | Used by |
+|---|---|
+| `DATABASE_URL` | The app, through the Neon pooler |
+| `DIRECT_URL` | Migrations; the pooled connection cannot run DDL |
+| `SHADOW_DATABASE_URL` | `migrate dev` only, for drift detection. A **separate** Neon database, because Prisma resets it on every run |
+
+All three are declared in `prisma.config.ts`, not in `schema.prisma`. v7 deprecated `url`,
+`directUrl` and `shadowDatabaseUrl` on the datasource block, which now carries only `provider`.
+
+`migrate deploy` and `migrate resolve` do not use the shadow database, so production never needs it.
 
 ## Input & Navigation Model
 
