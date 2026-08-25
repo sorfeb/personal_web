@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.1](https://github.com/sorfeb/personal_web/compare/v1.7.0...v1.7.1) (2026-08-25)
+
+
+### Bug Fixes
+
+* **db:** stop prisma.config.ts breaking production builds ([570848a](https://github.com/sorfeb/personal_web/commit/570848ac4dd9c902261c4bcb30acfa36e6f2c82e))
+* **db:** stop prisma.config.ts breaking production builds ([e55384f](https://github.com/sorfeb/personal_web/commit/e55384fa6438195fe445686b81d51df498003e19))
+
 ## [1.7.0](https://github.com/sorfeb/personal_web/compare/v1.6.0...v1.7.0) (2026-08-25)
 
 
