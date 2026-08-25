@@ -83,13 +83,42 @@ model Verification {
   updatedAt  DateTime @updatedAt
 }
 
-model Message {
-  id        String   @id @default(cuid())
-  text      String
-  createdAt DateTime @default(now())
+model Room {
+  id          String   @id @default(cuid())
+  // URL-facing identifier. Routes and the client address rooms by slug, never
+  // by cuid, so a room can be recreated without breaking links.
+  slug        String   @unique
+  name        String
+  description String?
+  // Private rooms are hidden from `rooms.list` for everyone but the owner.
+  isPublic    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  author    User     @relation(fields: [authorId], references: [id])
+  messages    Message[]
+
+  @@index([isPublic, createdAt])
+}
+
+model Message {
+  id        String    @id @default(cuid())
+  text      String
+  createdAt DateTime  @default(now())
+  // Soft delete: moderation hides a message rather than destroying it, so
+  // `listByRoom` filters on `deletedAt: null`.
+  deletedAt DateTime?
+
+  room      Room      @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId    String
+
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  String
+
+  // Serves the transcript query and its keyset pagination.
+  @@index([roomId, createdAt])
+  // Serves rate limiting, which counts an author's messages in a trailing
+  // time window. Without the createdAt half that scan is unbounded.
+  @@index([authorId, createdAt])
 }
 
 model LastfmTrack {

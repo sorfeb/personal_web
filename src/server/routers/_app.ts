@@ -1,5 +1,6 @@
 import { createTRPCRouter } from '../trpc';
 import { messagesRouter } from './messages';
+import { roomsRouter } from './rooms';
 import { userRouter } from './user';
 import { spotifyRouter } from './spotify';
 import { blogRouter } from './blog';
@@ -14,6 +15,7 @@ import { achievementsRouter } from './achievements';
  */
 export const appRouter = createTRPCRouter({
   messages: messagesRouter,
+  rooms: roomsRouter,
   user: userRouter,
   spotify: spotifyRouter,
   blog: blogRouter,

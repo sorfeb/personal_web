@@ -83,3 +83,22 @@ export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
     },
   });
 });
+
+/**
+ * Owner-only procedure
+ *
+ * The site has exactly one operator, so moderation is gated on a single user id
+ * from the environment rather than a roles table.
+ *
+ * Fails closed: with `OWNER_USER_ID` unset nobody is the owner, so a missing or
+ * mistyped env var locks the tools rather than opening them to everyone.
+ */
+export const ownerProcedure = protectedProcedure.use(async ({ ctx, next }) => {
+  const ownerId = process.env.OWNER_USER_ID;
+
+  if (!ownerId || ctx.user.id !== ownerId) {
+    throw new TRPCError({ code: 'FORBIDDEN' });
+  }
+
+  return next({ ctx });
+});
