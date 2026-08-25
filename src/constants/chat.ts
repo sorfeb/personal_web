@@ -28,3 +28,17 @@ export const CHAT_LIMITS = {
 
 /** Slug of the room the chat page opens on when none is specified. */
 export const DEFAULT_ROOM_SLUG = 'general';
+
+/** How often the transcript refetches while someone is actually looking at it. */
+export const CHAT_POLL_INTERVAL_MS = 5_000;
+
+/**
+ * How long a tab may sit untouched before the transcript stops refetching.
+ *
+ * Matched to Neon's scale-to-zero window, which is five minutes and cannot be
+ * disabled on the free plan. Polling keeps that compute awake, so an unattended
+ * open tab is the one way this feature costs real money. TanStack Query already
+ * pauses while the tab is in the background; this covers the foreground tab
+ * nobody is reading.
+ */
+export const CHAT_IDLE_TIMEOUT_MS = 5 * 60 * 1_000;
