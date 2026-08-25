@@ -1,5 +1,6 @@
 export { useMountEffect } from './useMountEffect';
 export { useIsMounted } from './useIsMounted';
+export { useIsIdle } from './useIsIdle';
 export { useInterval } from './useInterval';
 export { useTimeout } from './useTimeout';
 export { useEventListener } from './useEventListener';

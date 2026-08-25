@@ -3,9 +3,13 @@
 import React, { memo, useState, useRef, useCallback } from 'react';
 import { trpc } from '../../../utils/trpc';
 import { authClient } from '../../../lib/auth-client';
-import { useAutoScroll } from '@/hooks';
+import { useAutoScroll, useIsIdle } from '@/hooks';
 import { useAchievements } from '../../../hooks/useAchievements';
-import { DEFAULT_ROOM_SLUG } from '../../../constants/chat';
+import {
+  CHAT_IDLE_TIMEOUT_MS,
+  CHAT_POLL_INTERVAL_MS,
+  DEFAULT_ROOM_SLUG,
+} from '../../../constants/chat';
 import Button from '../../ui/Button';
 import MessageItem from './MessageItem';
 import MessageInput from './MessageInput';
@@ -16,9 +20,9 @@ import styles from './ChatRoom.module.css';
  *
  * Main chat interface with message display and input functionality.
  *
- * Messages are fetched on load and refetched after you post; there is no push
- * transport yet, so another visitor's message only appears once the query goes
- * stale and refetches. SOR-159 replaces this with a real transport.
+ * Other visitors' messages arrive by refetching the transcript on an interval,
+ * so delivery is within a poll rather than instant. That is a deliberate trade
+ * for a room with no concurrency — see SOR-159 for the pricing behind it.
  *
  * Features:
  * - Message transcript with auto-scroll to the newest entry
@@ -38,8 +42,14 @@ const ChatRoom = memo<ChatRoomProps>(({ roomSlug = DEFAULT_ROOM_SLUG }) => {
   const { data: session } = authClient.useSession();
   const user = session?.user ?? null;
   const { unlock } = useAchievements();
+  const isIdle = useIsIdle(CHAT_IDLE_TIMEOUT_MS);
 
-  // Fetch messages with caching for performance
+  // Fetch messages, and keep refetching so other visitors' posts appear.
+  //
+  // `refetchIntervalInBackground` defaults to false, so a hidden tab already
+  // stops polling for free. The function form adds the other half: a foreground
+  // tab nobody is reading also stops, which matters because every poll keeps the
+  // Neon compute awake and it cannot be told to sleep sooner on the free plan.
   const {
     data,
     isLoading: messagesLoading,
@@ -48,6 +58,7 @@ const ChatRoom = memo<ChatRoomProps>(({ roomSlug = DEFAULT_ROOM_SLUG }) => {
   } = trpc.messages.listByRoom.useQuery({ roomSlug }, {
     staleTime: 30000, // Consider data fresh for 30 seconds
     gcTime: 300000, // Keep in cache for 5 minutes
+    refetchInterval: () => (isIdle() ? false : CHAT_POLL_INTERVAL_MS),
   });
 
   const messages = data?.messages;
