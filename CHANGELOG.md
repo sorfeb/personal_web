@@ -1,5 +1,39 @@
 # Changelog
 
+## [1.7.0](https://github.com/sorfeb/personal_web/compare/v1.6.0...v1.7.0) (2026-08-25)
+
+
+### Features
+
+* **about:** replace the static copy with Guide-style tab panels ([cf5549a](https://github.com/sorfeb/personal_web/commit/cf5549a2721bb9ce1f15f9d328918a5757354991))
+* **about:** Xbox 360 Guide-style tab panels, plus a shared Tabs primitive ([695d0f4](https://github.com/sorfeb/personal_web/commit/695d0f42b508d3f2657240e2aef80ab3060f33ec))
+* **chat:** multi-room schema, rate limiting, and moderation ([b2431de](https://github.com/sorfeb/personal_web/commit/b2431de2a80bfe14d457f88df12335ec30b6ce6b))
+* **chat:** multi-room schema, rate limiting, and moderation ([4263dfd](https://github.com/sorfeb/personal_web/commit/4263dfd525c4779ecfdc6405aadba3816023a9d9))
+* **chat:** reclaim the chat room from the dashboard ([00a6623](https://github.com/sorfeb/personal_web/commit/00a6623aa871a6dab66632472bd56602034f4f37))
+* **chat:** reclaim the chat room from the dashboard ([3a43696](https://github.com/sorfeb/personal_web/commit/3a43696d7dfc667efe81c8c10bbb66f04886af95))
+* **data:** add the public roadmap ([dee5aa7](https://github.com/sorfeb/personal_web/commit/dee5aa7c1a5e4dbebe5cfc4b90fc4da68e2fc832))
+* **ui:** add Tabs primitive with the WAI-ARIA tabs pattern ([e4c1ef3](https://github.com/sorfeb/personal_web/commit/e4c1ef34df641c3a285af6f82609fb9ce30d4094))
+* **ui:** center glyph letters on cap height and scale them to the chip ([bf97785](https://github.com/sorfeb/personal_web/commit/bf97785be3044e14a6d6aefa1dc8f5264ca53ec6))
+* **ui:** give glyph chips a hard-edged specular cap ([168e213](https://github.com/sorfeb/personal_web/commit/168e2138a42f2721839f07f66b7cd2f5cb5443fc))
+* **ui:** shade controller glyphs like lit spheres ([d04ab39](https://github.com/sorfeb/personal_web/commit/d04ab3907a184496538c6f9b342a8a3a36037d1f))
+* **ui:** shade controller glyphs like lit spheres ([e925526](https://github.com/sorfeb/personal_web/commit/e925526d2ff7d3bd39ccb734b56085bb1669d6f6))
+* **wmp:** add skin switching and install the cerulean skin ([1df836f](https://github.com/sorfeb/personal_web/commit/1df836f9498be43d30412386046216f0aa51d441))
+
+
+### Bug Fixes
+
+* **chat:** port Phase 2 to Prisma v7 ([59fc73a](https://github.com/sorfeb/personal_web/commit/59fc73a12d2ad6bbef909b8c654bc8873742c4cd))
+* **db:** drop the chat_rooms migration from the baseline branch ([fdbf699](https://github.com/sorfeb/personal_web/commit/fdbf69974f0e57526662c0d93f04abe87f7f7532))
+* **gamepad:** OR-merge restoreFocusOnPop across scope contributions ([a1e473a](https://github.com/sorfeb/personal_web/commit/a1e473a67b96b67c1ac94b3b2120b74468c36246))
+* **ui:** make the selected tab read as raised, not recessed ([63ce676](https://github.com/sorfeb/personal_web/commit/63ce676b27f7e7978e2ffa31706e4d799c038b1b))
+
+
+### Refactoring
+
+* **design-system:** migrate SegmentedControl to ui/Tabs ([fb371b3](https://github.com/sorfeb/personal_web/commit/fb371b3f1cb2d076c9d2ffd8ccc6b6bdd23ce1e4))
+* **page-layout:** export PAGE_SCOPE_ID ([7ae05e4](https://github.com/sorfeb/personal_web/commit/7ae05e45f5e573e45219abbf32933bbaf92229f6))
+* **wmp:** interpret WMS skins generically instead of parsing headspace ([86fcc6c](https://github.com/sorfeb/personal_web/commit/86fcc6cfad429e44932d40e4146d88905b9d658d))
+
 ## [1.6.0](https://github.com/sorfeb/personal_web/compare/v1.5.1...v1.6.0) (2026-08-22)
 
 
