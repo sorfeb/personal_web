@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.8.0](https://github.com/sorfeb/personal_web/compare/v1.7.1...v1.8.0) (2026-08-25)
+
+
+### Features
+
+* **chat:** refetch the transcript on an interval ([411814b](https://github.com/sorfeb/personal_web/commit/411814b1f6ddc0023c932ddef39834b345cfd7ef))
+* **chat:** refetch the transcript on an interval ([127c91e](https://github.com/sorfeb/personal_web/commit/127c91e9594099c313f5a307d02e7435fefde986))
+
 ## [1.7.1](https://github.com/sorfeb/personal_web/compare/v1.7.0...v1.7.1) (2026-08-25)
 
 
