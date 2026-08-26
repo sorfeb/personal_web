@@ -34,9 +34,18 @@ import styles from './ChatRoom.module.css';
 interface ChatRoomProps {
   /** Room to open. Defaults to the seeded public room. */
   roomSlug?: string;
+  /**
+   * Heading for this room. Passed in rather than fetched: the page already
+   * holds the room list, so looking it up again here would be a second query
+   * for something the caller knows.
+   */
+  roomName?: string;
 }
 
-const ChatRoom = memo<ChatRoomProps>(({ roomSlug = DEFAULT_ROOM_SLUG }) => {
+const ChatRoom = memo<ChatRoomProps>(({
+  roomSlug = DEFAULT_ROOM_SLUG,
+  roomName = 'Public Chat',
+}) => {
   const [messageText, setMessageText] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { data: session } = authClient.useSession();
@@ -137,7 +146,7 @@ const ChatRoom = memo<ChatRoomProps>(({ roomSlug = DEFAULT_ROOM_SLUG }) => {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <h2 className={styles.title}>Public Chat</h2>
+        <h2 className={styles.title}>{roomName}</h2>
         <p className={styles.subtitle}>
           Leave a message for other visitors
         </p>
