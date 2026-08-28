@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.9.0](https://github.com/sorfeb/personal_web/compare/v1.8.0...v1.9.0) (2026-08-28)
+
+
+### Features
+
+* **chat:** room switcher over the transcript ([563952f](https://github.com/sorfeb/personal_web/commit/563952f143f94341061f6a9387a940dd7a0b8d2f))
+* **chat:** room switcher over the transcript ([59a0006](https://github.com/sorfeb/personal_web/commit/59a0006841e5e65e3666605d34aec4305355e513))
+
+
+### Bug Fixes
+
+* **db:** keep the Neon driver chain out of the webpack bundle ([d0c88ff](https://github.com/sorfeb/personal_web/commit/d0c88ff8c83cbc6b1cece08442bb8c4413ef8da7))
+* **db:** keep the Neon driver chain out of the webpack bundle ([f5fc386](https://github.com/sorfeb/personal_web/commit/f5fc3869f4e63f532c0dee80ce4142b7496d86b7))
+
+
+### Refactoring
+
+* **db:** drive Prisma through node-postgres instead of Neon's WebSocket driver ([18d059f](https://github.com/sorfeb/personal_web/commit/18d059f8134080c9fd3189630205f43bedc77d99))
+* **db:** drive Prisma through node-postgres instead of Neon's WebSocket driver ([be6e1e9](https://github.com/sorfeb/personal_web/commit/be6e1e9c0a53f735b909e1e89ecff303adccaecb))
+
 ## [1.8.0](https://github.com/sorfeb/personal_web/compare/v1.7.1...v1.8.0) (2026-08-25)
 
 
