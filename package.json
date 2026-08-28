@@ -26,8 +26,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^1.0.1",
-    "@prisma/adapter-neon": "^7.9.1",
+    "@prisma/adapter-pg": "7.9.1",
     "@prisma/client": "^7.9.1",
     "@react-hook/media-query": "^1.1.1",
     "@spotify/web-api-ts-sdk": "1.2.0",
@@ -57,7 +56,6 @@
     "shepherd.js": "^14.4.0",
     "shiki": "^3.19.0",
     "styled-components": "^6.1.12",
-    "ws": "^8.18.3",
     "zod": "^4.0.17"
   },
   "devDependencies": {
@@ -70,7 +68,6 @@
     "@types/node": "^20",
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",
-    "@types/ws": "^8.18.1",
     "@typescript/native": "npm:typescript@7.0.2",
     "eslint": "^9.19.0",
     "eslint-config-next": "15.4.1",
