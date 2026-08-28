@@ -1,7 +1,5 @@
 import { PrismaClient } from '@/generated/prisma/client';
-import { neonConfig } from '@neondatabase/serverless';
-import { PrismaNeon } from '@prisma/adapter-neon';
-import ws from 'ws';
+import { PrismaPg } from '@prisma/adapter-pg';
 
 /**
  * Type definition for our global Prisma instance
@@ -21,12 +19,6 @@ declare global {
 
 // Initialize global object if it doesn't exist
 global.__prisma ??= {};
-
-/**
- * Configuration for Neon WebSocket connection
- * Only configure this once to avoid multiple assignments
- */
-neonConfig.webSocketConstructor ??= ws;
 
 /**
  * Validates environment variables required for database connection
@@ -66,7 +58,16 @@ function validateEnvironmentVariables(): string {
 }
 
 /**
- * Creates a new Prisma client instance with Neon serverless adapter
+ * Creates a new Prisma client instance with the node-postgres adapter
+ *
+ * Plain TCP to the Neon pooler rather than Neon's WebSocket driver. The
+ * WebSocket driver exists for runtimes that cannot open a raw socket, which is
+ * Edge and Cloudflare Workers; these functions are standard Node, so the socket
+ * is available and the WebSocket layer was pure overhead. Removing it also
+ * removes `ws`, whose bundled optional-accelerator probe took every database
+ * read down (SOR-163). Next ships `pg` in its default serverExternalPackages
+ * list, so that class of failure cannot recur here.
+ *
  * @returns {PrismaClient} Configured Prisma client
  */
 function createPrismaClient(): PrismaClient {
@@ -75,12 +76,16 @@ function createPrismaClient(): PrismaClient {
 
     const poolConfig = {
       connectionString: databaseUrl,
-      max: 10, 
+      max: 10,
       idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 10000,
+      // Must stay below the function's own ceiling. Vercel's Hobby default is
+      // 10s, so a 10s connect timeout can never fire first: the function is
+      // killed and the caller gets an opaque FUNCTION_INVOCATION_TIMEOUT rather
+      // than a connection error naming the cause.
+      connectionTimeoutMillis: 5000,
     };
 
-    const adapter = new PrismaNeon(poolConfig);
+    const adapter = new PrismaPg(poolConfig);
 
     const prismaClient = new PrismaClient({
       adapter,
