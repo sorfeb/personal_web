@@ -12,6 +12,7 @@ import {
   sanitizeMessageText,
   assertWithinRateLimit,
 } from '../services/chatService';
+import { env } from '../../env';
 
 /** Author fields the transcript renders. Nothing wider ever leaves the server. */
 const authorSelect = {
@@ -45,7 +46,7 @@ async function resolveRoomId(
     select: { id: true, isPublic: true },
   });
 
-  const ownerId = process.env.OWNER_USER_ID;
+  const ownerId = env.OWNER_USER_ID;
   const isOwner = Boolean(ownerId) && userId === ownerId;
 
   if (!room || (!room.isPublic && !isOwner)) {

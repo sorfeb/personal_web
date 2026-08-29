@@ -3,12 +3,13 @@ import { SpotifyApi } from '@spotify/web-api-ts-sdk';
 import { createTRPCRouter, publicProcedure } from '../trpc';
 import { TRPCError } from '@trpc/server';
 import type { SpotifyEmbedTrack } from '@/types/wmp';
+import { env } from '../../env';
 
 let spotifyClient: SpotifyApi | null = null;
 
 function getSpotifyClient(): SpotifyApi {
-  const clientId = process.env.SPOTIFY_CLIENT_ID;
-  const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+  const clientId = env.SPOTIFY_CLIENT_ID;
+  const clientSecret = env.SPOTIFY_CLIENT_SECRET;
 
   if (!clientId || !clientSecret) {
     throw new TRPCError({
@@ -37,7 +38,7 @@ export const spotifyRouter = createTRPCRouter({
    * `Page<SimplifiedPlaylist>` shape so consumers get full typing.
    */
   getPlaylists: publicProcedure.query(async () => {
-    const userId = process.env.SPOTIFY_USER_ID;
+    const userId = env.SPOTIFY_USER_ID;
     if (!userId) {
       throw new TRPCError({
         code: 'INTERNAL_SERVER_ERROR',

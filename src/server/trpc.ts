@@ -2,6 +2,7 @@ import { initTRPC, TRPCError } from '@trpc/server';
 import { db } from '../utils/db';
 import { auth } from '../lib/auth';
 import { UserService } from './services/userService';
+import { env } from '../env';
 
 /**
  * Context options for App Router (using Fetch API)
@@ -94,7 +95,7 @@ export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
  * mistyped env var locks the tools rather than opening them to everyone.
  */
 export const ownerProcedure = protectedProcedure.use(async ({ ctx, next }) => {
-  const ownerId = process.env.OWNER_USER_ID;
+  const ownerId = env.OWNER_USER_ID;
 
   if (!ownerId || ctx.user.id !== ownerId) {
     throw new TRPCError({ code: 'FORBIDDEN' });

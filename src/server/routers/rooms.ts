@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
 import { createTRPCRouter, publicProcedure, ownerProcedure } from '../trpc';
+import { env } from '../../env';
 
 /**
  * Slugs address rooms in URLs and realtime channel names, so the shape is
@@ -24,8 +25,7 @@ export const roomsRouter = createTRPCRouter({
    */
   list: publicProcedure.query(async ({ ctx }) => {
     const isOwner =
-      Boolean(process.env.OWNER_USER_ID) &&
-      ctx.user?.id === process.env.OWNER_USER_ID;
+      Boolean(env.OWNER_USER_ID) && ctx.user?.id === env.OWNER_USER_ID;
 
     return await ctx.db.room.findMany({
       where: isOwner ? undefined : { isPublic: true },
@@ -62,8 +62,7 @@ export const roomsRouter = createTRPCRouter({
       // A private room is invisible rather than forbidden: replying FORBIDDEN
       // would confirm the slug exists to anyone probing for it.
       const isOwner =
-        Boolean(process.env.OWNER_USER_ID) &&
-        ctx.user?.id === process.env.OWNER_USER_ID;
+        Boolean(env.OWNER_USER_ID) && ctx.user?.id === env.OWNER_USER_ID;
 
       if (!room.isPublic && !isOwner) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'Room not found' });
