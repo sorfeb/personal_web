@@ -1,10 +1,11 @@
 import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
+import { env } from '../../env';
 
 const LASTFM_BASE_URL = 'https://ws.audioscrobbler.com/2.0/';
 
 function getApiKey(): string {
-  const key = process.env.LASTFM_API_KEY;
+  const key = env.LASTFM_API_KEY;
   if (!key) {
     throw new TRPCError({
       code: 'INTERNAL_SERVER_ERROR',
