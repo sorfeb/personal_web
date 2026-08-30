@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.9.1](https://github.com/sorfeb/personal_web/compare/v1.9.0...v1.9.1) (2026-08-29)
+
+
+### Refactoring
+
+* **env:** validate every environment variable at boot ([d92b113](https://github.com/sorfeb/personal_web/commit/d92b11392d8d5a4264cb65958bb492da85bd2490))
+* **env:** validate every environment variable at boot ([21b3ea3](https://github.com/sorfeb/personal_web/commit/21b3ea304fcc324c0eb28b15b0e8951218f1a97d))
+
 ## [1.9.0](https://github.com/sorfeb/personal_web/compare/v1.8.0...v1.9.0) (2026-08-28)
 
 
