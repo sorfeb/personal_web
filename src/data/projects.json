@@ -1,5 +1,12 @@
 [
     {
+      "projectName": "greenbridge",
+      "role": "Creator and maintainer",
+      "date": "10/2026 - Present",
+      "description": "Open-source Go CLI (gbridge) that shows commits from GitLab, Bitbucket, Gitea, Forgejo, and on-prem git on your GitHub contribution graph. Reads local clones and mirrors each commit as an empty, backdated commit to a private repo: only a timestamp and an opaque HMAC ID leave the machine. Ships through GitHub releases, Scoop, Homebrew, mise, and go install. github.com/sorfeb/greenbridge",
+      "keyTechnologies": ["Go", "Git", "GitHub CLI", "GoReleaser", "GitHub Actions", "Homebrew", "Scoop"]
+    },
+    {
       "projectName": "ReadNRate",
       "role": "Developer",
       "date": "08/2023 - 11/2023",
