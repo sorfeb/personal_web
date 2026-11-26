@@ -5,6 +5,19 @@ import Parser from 'rss-parser';
 const parser = new Parser();
 
 /**
+ * Medium post IDs whose canonical copy lives on this site. The bookshelf
+ * links to the local page instead of Medium.
+ */
+const LOCAL_ARTICLES: Record<string, string> = {
+  ccd32fc7581c: '/blog/busy-at-work-empty-on-github',
+};
+
+const localLink = (link: string | undefined) => {
+  const id = link?.split('?')[0].split('-').pop();
+  return (id && LOCAL_ARTICLES[id]) ?? link;
+};
+
+/**
  * Blog router for fetching external blog content
  */
 export const blogRouter = createTRPCRouter({
@@ -24,7 +37,7 @@ export const blogRouter = createTRPCRouter({
 
         return {
           title: item.title,
-          link: item.link,
+          link: localLink(item.link),
           pubDate: item.pubDate,
           contentSnippet: item.contentSnippet,
           coverImage,
