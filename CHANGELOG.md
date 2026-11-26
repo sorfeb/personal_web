@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.0](https://github.com/sorfeb/personal_web/compare/v1.9.1...v1.10.0) (2026-11-26)
+
+
+### Features
+
+* **blog:** host the greenbridge article on the site ([#79](https://github.com/sorfeb/personal_web/issues/79)) ([334a3c6](https://github.com/sorfeb/personal_web/commit/334a3c66acb60305fd2da09c4157ce38b93d224c))
+
 ## [1.9.1](https://github.com/sorfeb/personal_web/compare/v1.9.0...v1.9.1) (2026-08-29)
 
 
