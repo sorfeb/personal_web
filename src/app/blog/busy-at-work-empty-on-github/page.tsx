@@ -82,7 +82,7 @@ export default function BusyAtWorkEmptyOnGitHubPage() {
           <figure className={styles.figure}>
             <Image
               src={`${ASSETS}/need.png`}
-              alt=""
+              alt="A signpost: code on github.com is already counted; code anywhere else points to gbridge."
               width={1360}
               height={415}
             />
@@ -117,7 +117,7 @@ export default function BusyAtWorkEmptyOnGitHubPage() {
           <figure className={styles.figure}>
             <Image
               src={`${ASSETS}/leaves.png`}
-              alt=""
+              alt="A sieve: code, diffs, messages, and names stay on top; only a timestamp and an ID fall through to the graph."
               width={1360}
               height={552}
             />
@@ -133,7 +133,7 @@ export default function BusyAtWorkEmptyOnGitHubPage() {
           <figure className={styles.figure}>
             <Image
               src={`${ASSETS}/honesty.png`}
-              alt=""
+              alt="A level balance: three commits you wrote on one side, three green squares on the same days on the other."
               width={1360}
               height={431}
             />
@@ -168,7 +168,7 @@ export default function BusyAtWorkEmptyOnGitHubPage() {
           <figure className={styles.figure}>
             <Image
               src={`${ASSETS}/install.png`}
-              alt=""
+              alt="An open box of green squares: install with scoop, brew, mise, or go install."
               width={1360}
               height={461}
             />
@@ -191,7 +191,7 @@ go install github.com/sorfeb/greenbridge/cmd/gbridge@latest`}</code>
           <figure className={styles.figure}>
             <Image
               src={`${ASSETS}/terminal.png`}
-              alt=""
+              alt="A terminal running init, plan, sync, and doctor, with a contribution graph preview."
               width={1360}
               height={461}
             />
@@ -209,7 +209,7 @@ gbridge doctor                                    # explains missing squares`}</
           <figure className={styles.figure}>
             <Image
               src={`${ASSETS}/push.png`}
-              alt=""
+              alt="A git push cart sends squares rolling into a graph: background sync on every push."
               width={1360}
               height={415}
             />
@@ -222,7 +222,7 @@ gbridge doctor                                    # explains missing squares`}</
           <figure className={styles.figure}>
             <Image
               src={`${ASSETS}/limits.png`}
-              alt=""
+              alt="Two rain gauges: the forge heatmap catches comments, PRs, pushes, and commits; gbridge catches commits only."
               width={1360}
               height={567}
             />
@@ -240,7 +240,7 @@ gbridge doctor                                    # explains missing squares`}</
           <figure className={styles.figure}>
             <Image
               src={`${ASSETS}/tryit.png`}
-              alt=""
+              alt="A magnifier over a contribution graph: gbridge plan previews and writes nothing."
               width={1360}
               height={416}
             />
