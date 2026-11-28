@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import PageLayout from '../../../components/PageLayout/PageLayout';
+import { PageLayoutBody, PageLayoutHeader } from '../../../components/PageLayout/PageLayout.parts';
 import styles from './Article.module.css';
 
 const SLUG = 'busy-at-work-empty-on-github';
@@ -55,8 +56,8 @@ export default function BusyAtWorkEmptyOnGitHubPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
-      <PageLayout.Header />
-      <PageLayout.Body>
+      <PageLayoutHeader />
+      <PageLayoutBody>
         <article className={styles.article}>
           <h1>Busy at work, empty on GitHub: show your work commits on your contribution graph</h1>
           <p className={styles.subtitle}>You code all day, but your GitHub graph is nearly blank because your work lives somewhere GitHub can’t see. I built a small CLI that mirrors your real commits there as timestamps only.</p>
@@ -247,7 +248,7 @@ gbridge doctor                                    # explains missing squares`}</
           <p>If your GitHub contribution graph hides your private work commits, run <code>gbridge plan</code> first. It writes nothing and shows what your graph is missing.</p>
           <p>The code, install options, and docs are at <a href="https://github.com/sorfeb/greenbridge">github.com/sorfeb/greenbridge</a>. If it’s useful, star the repo. If something breaks or a host behaves differently, open an issue.</p>
         </article>
-      </PageLayout.Body>
+      </PageLayoutBody>
     </PageLayout>
   );
 }
