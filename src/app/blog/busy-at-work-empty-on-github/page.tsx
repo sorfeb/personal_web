@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import PageLayout from '../../../components/PageLayout/PageLayout';
+import { PageLayoutBody, PageLayoutHeader } from '../../../components/PageLayout/PageLayout.parts';
 import styles from './Article.module.css';
 
 const SLUG = 'busy-at-work-empty-on-github';
@@ -55,8 +56,8 @@ export default function BusyAtWorkEmptyOnGitHubPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
-      <PageLayout.Header />
-      <PageLayout.Body>
+      <PageLayoutHeader />
+      <PageLayoutBody>
         <article className={styles.article}>
           <h1>Busy at work, empty on GitHub: show your work commits on your contribution graph</h1>
           <p className={styles.subtitle}>You code all day, but your GitHub graph is nearly blank because your work lives somewhere GitHub can’t see. I built a small CLI that mirrors your real commits there as timestamps only.</p>
@@ -81,7 +82,7 @@ export default function BusyAtWorkEmptyOnGitHubPage() {
           <figure className={styles.figure}>
             <Image
               src={`${ASSETS}/need.png`}
-              alt=""
+              alt="A signpost: code on github.com is already counted; code anywhere else points to gbridge."
               width={1360}
               height={415}
             />
@@ -116,7 +117,7 @@ export default function BusyAtWorkEmptyOnGitHubPage() {
           <figure className={styles.figure}>
             <Image
               src={`${ASSETS}/leaves.png`}
-              alt=""
+              alt="A sieve: code, diffs, messages, and names stay on top; only a timestamp and an ID fall through to the graph."
               width={1360}
               height={552}
             />
@@ -132,7 +133,7 @@ export default function BusyAtWorkEmptyOnGitHubPage() {
           <figure className={styles.figure}>
             <Image
               src={`${ASSETS}/honesty.png`}
-              alt=""
+              alt="A level balance: three commits you wrote on one side, three green squares on the same days on the other."
               width={1360}
               height={431}
             />
@@ -167,7 +168,7 @@ export default function BusyAtWorkEmptyOnGitHubPage() {
           <figure className={styles.figure}>
             <Image
               src={`${ASSETS}/install.png`}
-              alt=""
+              alt="An open box of green squares: install with scoop, brew, mise, or go install."
               width={1360}
               height={461}
             />
@@ -190,7 +191,7 @@ go install github.com/sorfeb/greenbridge/cmd/gbridge@latest`}</code>
           <figure className={styles.figure}>
             <Image
               src={`${ASSETS}/terminal.png`}
-              alt=""
+              alt="A terminal running init, plan, sync, and doctor, with a contribution graph preview."
               width={1360}
               height={461}
             />
@@ -208,7 +209,7 @@ gbridge doctor                                    # explains missing squares`}</
           <figure className={styles.figure}>
             <Image
               src={`${ASSETS}/push.png`}
-              alt=""
+              alt="A git push cart sends squares rolling into a graph: background sync on every push."
               width={1360}
               height={415}
             />
@@ -221,7 +222,7 @@ gbridge doctor                                    # explains missing squares`}</
           <figure className={styles.figure}>
             <Image
               src={`${ASSETS}/limits.png`}
-              alt=""
+              alt="Two rain gauges: the forge heatmap catches comments, PRs, pushes, and commits; gbridge catches commits only."
               width={1360}
               height={567}
             />
@@ -239,7 +240,7 @@ gbridge doctor                                    # explains missing squares`}</
           <figure className={styles.figure}>
             <Image
               src={`${ASSETS}/tryit.png`}
-              alt=""
+              alt="A magnifier over a contribution graph: gbridge plan previews and writes nothing."
               width={1360}
               height={416}
             />
@@ -247,7 +248,7 @@ gbridge doctor                                    # explains missing squares`}</
           <p>If your GitHub contribution graph hides your private work commits, run <code>gbridge plan</code> first. It writes nothing and shows what your graph is missing.</p>
           <p>The code, install options, and docs are at <a href="https://github.com/sorfeb/greenbridge">github.com/sorfeb/greenbridge</a>. If it’s useful, star the repo. If something breaks or a host behaves differently, open an issue.</p>
         </article>
-      </PageLayout.Body>
+      </PageLayoutBody>
     </PageLayout>
   );
 }
